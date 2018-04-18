@@ -14,11 +14,21 @@ namespace TPOT_Mobile
             SetContentView(Resource.Layout.Main);
 
             //get button from the layout resource:
-            //Button button = FindViewById<Button>(Resource.Id.MyButton);
-            //button.Click += delegate
-            //{
-            //    button.Text = $"{count++} clicks";
-            //};
+            Button button = FindViewById<Button>(Resource.Id.MyButton);
+            var label = FindViewById<TextView>(Resource.Id.textView1);
+
+            button.Click += delegate
+            {
+                label.Text = $"{count++} clicks";
+            };
+        }
+        protected override Dialog OnCreateDialog(int id)
+        {
+            return base.OnCreateDialog(id);
+        }
+        protected override void OnStop()
+        {
+            base.OnStop();
         }
     }
 }

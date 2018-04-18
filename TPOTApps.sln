@@ -5,7 +5,7 @@ VisualStudioVersion = 15.0.27130.2010
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IntellisenseDemo", "IntellisenseDemo\IntellisenseDemo.csproj", "{78FDB446-C023-4D69-AD81-68107A38CD33}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TPOT Mobile", "Mobile\TPOT\TPOT Mobile\TPOT Mobile.csproj", "{D8D6F7F9-4652-4DD4-9C55-035C32D42C1E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TPOT Mobile", "TPOT Mobile\TPOT Mobile.csproj", "{D8D6F7F9-4652-4DD4-9C55-035C32D42C1E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
