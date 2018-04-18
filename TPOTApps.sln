@@ -5,6 +5,8 @@ VisualStudioVersion = 15.0.27130.2010
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IntellisenseDemo", "IntellisenseDemo\IntellisenseDemo.csproj", "{78FDB446-C023-4D69-AD81-68107A38CD33}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TPOT Mobile", "Mobile\TPOT\TPOT Mobile\TPOT Mobile.csproj", "{D8D6F7F9-4652-4DD4-9C55-035C32D42C1E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,12 @@ Global
 		{78FDB446-C023-4D69-AD81-68107A38CD33}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{78FDB446-C023-4D69-AD81-68107A38CD33}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{78FDB446-C023-4D69-AD81-68107A38CD33}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D8D6F7F9-4652-4DD4-9C55-035C32D42C1E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D8D6F7F9-4652-4DD4-9C55-035C32D42C1E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D8D6F7F9-4652-4DD4-9C55-035C32D42C1E}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{D8D6F7F9-4652-4DD4-9C55-035C32D42C1E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D8D6F7F9-4652-4DD4-9C55-035C32D42C1E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D8D6F7F9-4652-4DD4-9C55-035C32D42C1E}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
