@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+
+    <link href="https://fonts.googleapis.com/css?family=Monda" rel="stylesheet">
+
+    <script src="https://use.fontawesome.com/releases/v5.0.10/js/all.js"></script>
+    <script type="text/javascript" src="script.js"></script>
+
+    <script src="popup.js"></script>
+
+    <style>
+      * {
+        font-family: "Trebuchet MS", "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", Tahoma, sans-serif;
+        font-weight: 400;
+        font-size: 14px;
+      }
+
+      div {
+        height: auto;
+        width: 250px;
+        outline: none;
+
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="w3-container-padding">
+      <h1><BLOCKQUOTE>TPOT Respond</h1>
+      <ul class="w3-ul w3-card-4">
+        <li class="w3-display-container"><button class="w3-button">Show</button> / <button class="w3-button">Hide</button></li>
+        <li class="w3-display-container"><input class="w3-check" type="checkbox" checked="checked">
+          <label>Launch with Chrome</label></li>
+        <li class="w3-display-container"><input class="w3-radio" type="radio" name="gender" value="male" checked>
+          <label>Float Left</label><input class="w3-radio" type="radio" name="gender" value="female">
+          <label>Float Right</label></li>
+        <li class="w3-display-container">Settings <span onclick="var x = document.createElement('div');x.id = 'app';document.body.appendChild(x);" class="w3-button w3-transparent w3-display-right">&times;</span></li>
+        <li class="w3-display-container">Quit <span onclick="create()" class="w3-button w3-transparent w3-display-right">&times;</span></li>
+      </ul>
+    </div>
+  </body>
+
+  <script>
+    function create() {
+      var x = document.createElement('div');
+      x.id = "app";
+      document.body.appendChild(x);
+    }
+  </script>
+
+</html>
