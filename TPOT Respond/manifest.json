@@ -1,0 +1,26 @@
+{
+  "name": "TPOT Respond",
+  "short_name": "Respond",
+  "description": "A Dynamic Response Builder for ThePathofTruth.",
+  "version": "1.0",
+  "manifest_version": 2,
+  "icons": {
+    "16": "tpot_ico.png",
+    "19": "tpot_ico.png",
+    "48": "tpot_ico.png",
+    "128": "tpot_ico.png"
+  },
+  "permissions": [
+    "tabs",
+    "bookmarks",
+    "http://www.blogger.com/",
+    "http://*.google.com/",
+    "https://*.google.com/",
+    "unlimitedStorage"
+  ],
+  "browser_action": {
+    "default_title": "",
+    "default_icon": "tpot_ico.png",
+    "default_popup": "popup.html"
+  }
+}
