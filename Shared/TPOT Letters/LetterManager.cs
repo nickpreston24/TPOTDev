@@ -2,7 +2,7 @@
 {
     public class LetterManager
     {
-        public static ITPOTContentReader GetReader(string path)
+        public static ILetterReader GetReader(string path)
         {
             return new RtfLetterReader(path);
         }
