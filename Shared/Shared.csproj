@@ -46,11 +46,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ILetterReader.cs" />
-    <Compile Include="LetterManager.cs" />
-    <Compile Include="LetterReader.cs" />
+    <Compile Include="TPOT Letters\ILetterReader.cs" />
+    <Compile Include="TPOT Letters\LetterManager.cs" />
+    <Compile Include="TPOT Letters\LetterReader.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SabbathChatLogReader.cs" />
+    <Compile Include="TPOT Letters\SabbathChatLogReader.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
