@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace TPOT_Letters.Properties
+namespace TPOTLetters.Properties
 {
 
 

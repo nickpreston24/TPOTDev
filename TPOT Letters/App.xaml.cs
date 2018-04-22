@@ -6,7 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 
-namespace TPOT_Letters
+namespace TPOTLetters
 {
     /// <summary>
     /// Interaction logic for App.xaml

@@ -54,12 +54,29 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Toolbar.xaml.cs">
-      <DependentUpon>Toolbar.xaml</DependentUpon>
+    <Compile Include="ViewModels\DependentPropertiesAttribute.cs" />
+    <Compile Include="ViewModels\Letter.cs" />
+    <Compile Include="ViewModels\LetterDetailsViewModel.cs" />
+    <Compile Include="ViewModels\ViewModelBase.cs" />
+    <Compile Include="Views\LettersDatabaseView.xaml.cs">
+      <DependentUpon>LettersDatabaseView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="LetterDetails.xaml.cs">
-      <DependentUpon>LetterDetails.xaml</DependentUpon>
+    <Compile Include="Views\LettersToolbar.xaml.cs">
+      <DependentUpon>LettersToolbar.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\LetterDetailsControl.xaml.cs">
+      <DependentUpon>LetterDetailsControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\MainOptionsControl.xaml.cs">
+      <DependentUpon>MainOptionsControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\RtfBoxControl.xaml.cs">
+      <DependentUpon>RtfBoxControl.xaml</DependentUpon>
+    </Compile>
+    <Page Include="Views\LettersDatabaseView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -72,11 +89,19 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="Toolbar.xaml">
+    <Page Include="Views\LettersToolbar.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="LetterDetails.xaml">
+    <Page Include="Views\LetterDetailsControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\MainOptionsControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\RtfBoxControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

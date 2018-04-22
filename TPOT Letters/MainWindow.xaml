@@ -1,13 +1,45 @@
 ﻿<Window
-    x:Class="TPOT_Letters.MainWindow"
+    x:Class="TPOTLetters.MainWindow"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:local="clr-namespace:TPOT_Letters"
+    xmlns:local="clr-namespace:TPOTLetters"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    Title="MainWindow"
-    Width="800"
-    Height="450"
+    Title="TPOT Letters"
+    Width="900"
+    Height="600"
+    FontSize="16"
     mc:Ignorable="d">
-    <Grid />
+    <Window.Resources>
+        <ResourceDictionary />
+    </Window.Resources>
+    <StackPanel Grid.Column="0" Orientation="Vertical">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="170*" />
+                <ColumnDefinition Width="50*" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="auto" />
+            </Grid.RowDefinitions>
+            <local:LetterDetailsControl x:Name="letterDetailsView" />
+            <local:LettersToolbar
+                x:Name="toolbar"
+                Grid.Row="1"
+                HorizontalAlignment="Center" />
+            <local:MainOptionsControl
+                x:Name="buttons"
+                Grid.Row="0"
+                Grid.Column="1" />
+        </Grid>
+        <local:RtfBoxControl x:Name="textEditor" HorizontalAlignment="Center" />
+        <StackPanel
+            Margin="20"
+            HorizontalAlignment="Right"
+            Orientation="Horizontal">            
+            <Button Margin="5">Save</Button>
+            <Button Margin="5">Mark Ready</Button>
+        </StackPanel>
+    </StackPanel>
 </Window>
