@@ -1,0 +1,23 @@
+.app {
+  display: block;
+  position: fixed;
+  bottom: 0px;
+  right: 0px;
+  height: 0px;
+  width: 400px;
+  /* box-shadow: -2px 3px 6px 0px rgba(0, 0, 0, 0.35); */
+  /* background-color: grey; */
+  z-index: 2030;
+}
+
+.app-close {
+  /* width: 0px; */
+  height: 0px;
+  transition: height 0.2s ease-in-out;
+}
+
+.app-open {
+  /* width: 400px; */
+  height: 100vh;
+  transition: height 0.2s ease-in-out;
+}
