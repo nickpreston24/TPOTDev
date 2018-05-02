@@ -37,7 +37,7 @@
         <StackPanel
             Margin="20"
             HorizontalAlignment="Right"
-            Orientation="Horizontal">            
+            Orientation="Horizontal">
             <Button Margin="5">Save</Button>
             <Button Margin="5">Mark Ready</Button>
         </StackPanel>

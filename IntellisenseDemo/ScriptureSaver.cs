@@ -22,7 +22,7 @@ namespace IntellisenseDemo
 
         public void Save(string text)
         {
-            var tag = Tagify("Verse", text);
+            string tag = Tagify("Verse", text);
             File.AppendAllLines(_favoriteScripturesPath, Enumerable.Repeat(tag, 1));
         }
 

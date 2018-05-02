@@ -38,7 +38,7 @@ namespace IntellisenseDemo
 
             if (key.Equals(Key.Enter))
             {
-                var text = tbScripture.Text;
+                string text = tbScripture.Text;
 
                 if (new Verse(text).IsLegit)
                 {

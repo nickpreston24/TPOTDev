@@ -63,7 +63,7 @@ namespace TPOTLetters
                 throw new ArgumentException("Invalid lambda expression", "Lambda expression return value can't be null");
             }
 
-            var propertyName = GetPropertyNameFrom(lambdaExpression);
+            string propertyName = GetPropertyNameFrom(lambdaExpression);
             var storedValue = GetValue<T>(propertyName);
 
             if (Equals(storedValue, value))
@@ -84,7 +84,7 @@ namespace TPOTLetters
                 throw new ArgumentException("Invalid lambda expression", "Lambda expression return value can't be null");
             }
 
-            var propertyName = GetPropertyNameFrom(lambdaExpression);
+            string propertyName = GetPropertyNameFrom(lambdaExpression);
             return GetValue<T>(propertyName);
         }
 
@@ -205,7 +205,7 @@ namespace TPOTLetters
 
             var dependentProperties = _dependencies[propertyName];
 
-            foreach (var dependentProperty in dependentProperties)
+            foreach (string dependentProperty in dependentProperties)
             {
                 if (!calledProperties.Contains(dependentProperty))
                 {
@@ -265,7 +265,7 @@ namespace TPOTLetters
 
             var dependentProperties = _dependencies[propertyName];
 
-            foreach (var dependentProperty in dependentProperties)
+            foreach (string dependentProperty in dependentProperties)
             {
                 if (!calledProperties.Contains(dependentProperty))
                 {

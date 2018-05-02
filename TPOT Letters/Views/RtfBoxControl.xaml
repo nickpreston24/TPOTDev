@@ -6,7 +6,6 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
     <Grid>
-        <!--<Border BorderThickness="1">-->
         <ScrollViewer
             Height="auto"
             MaxHeight="200"
@@ -28,6 +27,5 @@
                 </FlowDocument>
             </RichTextBox>
         </ScrollViewer>
-        <!--</Border>-->
     </Grid>
 </UserControl>

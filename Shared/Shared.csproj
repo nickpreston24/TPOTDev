@@ -35,6 +35,18 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Itenso.Rtf.Converter.Html">
+      <HintPath>..\..\RtfConverter_v1.7.0\Converter\Html\obj\Release\Itenso.Rtf.Converter.Html.dll</HintPath>
+    </Reference>
+    <Reference Include="Itenso.Rtf.Interpreter">
+      <HintPath>..\..\RtfConverter_v1.7.0\Interpreter\obj\Release\Itenso.Rtf.Interpreter.dll</HintPath>
+    </Reference>
+    <Reference Include="Itenso.Rtf.Parser">
+      <HintPath>..\..\RtfConverter_v1.7.0\Parser\obj\Release\Itenso.Rtf.Parser.dll</HintPath>
+    </Reference>
+    <Reference Include="Itenso.Sys">
+      <HintPath>..\..\RtfConverter_v1.7.0\bin\Release\Itenso.Sys.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Windows.Forms" />
@@ -46,11 +58,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="TPOT Letters\IHtmlFormatter.cs" />
     <Compile Include="TPOT Letters\ILetterReader.cs" />
     <Compile Include="TPOT Letters\LetterManager.cs" />
-    <Compile Include="TPOT Letters\LetterReader.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TPOT Letters\Rtf2HtmlConverter.cs" />
     <Compile Include="TPOT Letters\SabbathChatLogReader.cs" />
+    <Compile Include="TPOT Letters\TPOTHtmlFormatter.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

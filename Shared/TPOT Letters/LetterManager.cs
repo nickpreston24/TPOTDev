@@ -1,11 +1,13 @@
-﻿namespace TpotLetters
+﻿using System;
+using System.Reflection;
+
+namespace TpotLetters
 {
     public class LetterManager
     {
         public static ILetterReader GetReader(string path)
         {
-            return new RtfLetterReader(path);
+            throw new NotImplementedException(MethodBase.GetCurrentMethod().Name);
         }
     }
-
 }
