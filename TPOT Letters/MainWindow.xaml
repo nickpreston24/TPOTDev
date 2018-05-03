@@ -8,6 +8,7 @@
     Title="TPOT Letters"
     Width="900"
     Height="600"
+    DataContext="MainViewModel"
     FontSize="16"
     mc:Ignorable="d">
     <Window.Resources>
@@ -38,6 +39,7 @@
             Margin="20"
             HorizontalAlignment="Right"
             Orientation="Horizontal">
+            <Button Margin="5" Click="Button_Click">Show In Browser</Button>
             <Button Margin="5">Save</Button>
             <Button Margin="5">Mark Ready</Button>
         </StackPanel>

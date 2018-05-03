@@ -5,12 +5,32 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
-    <Grid>
+
+    <UserControl.Resources>
+        <Style TargetType="{x:Type GroupBox}">
+            <Setter Property="HeaderTemplate">
+                <Setter.Value>
+                    <DataTemplate>
+                        <TextBlock
+                            FontWeight="Bold"
+                            Foreground="SteelBlue"
+                            Text="{Binding Header, RelativeSource={RelativeSource AncestorType=GroupBox}}" />
+                    </DataTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </UserControl.Resources>
+
+    <GroupBox
+        Background="#A50BC8CE"
+        Header="RTF Content"
+        HeaderStringFormat="Default">
         <ScrollViewer
             Height="auto"
             MaxHeight="200"
             VerticalAlignment="Center">
             <RichTextBox
+                MaxHeight="150"
                 Margin="10"
                 VerticalAlignment="Center"
                 ScrollViewer.CanContentScroll="True"
@@ -27,5 +47,5 @@
                 </FlowDocument>
             </RichTextBox>
         </ScrollViewer>
-    </Grid>
+    </GroupBox>
 </UserControl>

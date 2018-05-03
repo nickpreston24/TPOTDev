@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 
 namespace TPOTLetters
 {
@@ -7,9 +8,18 @@ namespace TPOTLetters
     /// </summary>
     public partial class MainWindow : Window
     {
+        private MainViewModel _mainViewModel;
+
         public MainWindow()
         {
             InitializeComponent();
+            _mainViewModel = new MainViewModel();
+            DataContext = _mainViewModel;
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            _mainViewModel.RunConversion();
         }
     }
 }

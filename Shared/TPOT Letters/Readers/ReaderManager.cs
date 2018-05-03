@@ -3,7 +3,7 @@ using System.Reflection;
 
 namespace TpotLetters
 {
-    public class LetterManager
+    public static class ReaderManager
     {
         public static ILetterReader GetReader(string path)
         {
