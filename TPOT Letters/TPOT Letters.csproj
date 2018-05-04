@@ -57,7 +57,9 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Classes\Letter.cs" />
+    <Compile Include="ViewModels\HtmlConversionService.cs" />
     <Compile Include="ViewModels\HtmlEditorViewModel.cs" />
+    <Compile Include="ViewModels\IViewModel.cs" />
     <Compile Include="Views\MainViewModel.cs" />
     <Compile Include="MainWindow.xaml.cs" />
     <Compile Include="ViewModels\RtfEditorViewModel.cs" />
