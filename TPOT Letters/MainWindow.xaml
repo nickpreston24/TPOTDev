@@ -34,8 +34,22 @@
                 Grid.Row="0"
                 Grid.Column="1" />
         </Grid>
-        <local:RtfBoxControl x:Name="textEditor" HorizontalAlignment="Center" />
+        <TabControl>
+            <TabItem Name="rtfTab" Header="RTF">
+                <local:RtfBoxControl
+                    x:Name="rtfTextEditor"
+                    HorizontalAlignment="Center"
+                    Content="{Binding RawRtf}" />
+            </TabItem>
+            <TabItem Name="htmlTab" Header="HTML">
+                <local:HtmlBoxControl x:Name="htmlTextEditor" />
+            </TabItem>
+            <!--<TabItem Name="wordpressTab" Header="WP">
+                <TextBlock>nothing to see here!</TextBlock>
+            </TabItem>-->
+        </TabControl>
         <StackPanel
+            Name="lowerButtonPanel"
             Margin="20"
             HorizontalAlignment="Right"
             Orientation="Horizontal">
