@@ -1,8 +1,6 @@
-﻿using System;
-
-namespace Shared
+﻿namespace Shared
 {
-    public interface ILetterConverter//<T> : IObservable<T>
+    public interface ILetterConverter
     {
         string FilePath { get; set; }
         string Convert();

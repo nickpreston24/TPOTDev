@@ -18,6 +18,7 @@ namespace Shared
 
         public override string Convert()
         {
+            ReadFile();
             html = Rtf.ToHtml(lines);
             return html;
         }

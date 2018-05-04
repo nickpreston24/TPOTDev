@@ -1,4 +1,4 @@
-﻿using Itenso.Rtf;
+﻿using RtfPipe;
 using System.IO;
 
 namespace Shared
@@ -16,12 +16,15 @@ namespace Shared
 
         public Rtf2HtmlConverterBase()
         {
-
         }
 
         public Rtf2HtmlConverterBase(string filepath)
         {
             FilePath = filepath;
+        }
+
+        protected void ReadFile()
+        {
             lines = File.ReadAllText(filePath);
         }
 
