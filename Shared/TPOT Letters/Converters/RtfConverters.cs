@@ -8,8 +8,8 @@
             {
                 case ConverterType.RtfPipe:
                     return new RtfPipeConverter();
-                case ConverterType.Intenso:
-                    return new IntensoRtf2HtmlConverter();
+                //case ConverterType.Intenso:
+                //    return new IntensoRtf2HtmlConverter();
                 default:
                     return new RtfPipeConverter();
             }
@@ -21,8 +21,8 @@
             {
                 case ConverterType.RtfPipe:
                     return new RtfPipeConverter(filePath);
-                case ConverterType.Intenso:
-                    return new IntensoRtf2HtmlConverter(filePath);
+                //case ConverterType.Intenso:
+                //    return new IntensoRtf2HtmlConverter(filePath);
                 default:
                     return new RtfPipeConverter(filePath);
             }
