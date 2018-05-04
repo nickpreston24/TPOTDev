@@ -57,11 +57,12 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Classes\Letter.cs" />
+    <Compile Include="ViewModels\HtmlEditorViewModel.cs" />
     <Compile Include="Views\MainViewModel.cs" />
     <Compile Include="MainWindow.xaml.cs" />
     <Compile Include="ViewModels\RtfEditorViewModel.cs" />
     <Compile Include="Classes\DependentPropertiesAttribute.cs" />
-    <Compile Include="ViewModels\LetterContents.cs" />
+    <Compile Include="Classes\LetterContents.cs" />
     <Compile Include="ViewModels\LetterDetailsViewModel.cs" />
     <Compile Include="ViewModels\ViewModelBase.cs" />
     <Compile Include="Views\HtmlBoxControl.xaml.cs">
