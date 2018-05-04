@@ -2,10 +2,9 @@
 
 namespace TPOTLetters
 {
-    internal class HtmlEditorViewModel : ViewModelBase
+    internal class HtmlEditorViewModel : ViewModelBase, IHtmlSubscriber
     {
         private string convertedHtml;
-        private ILetterConverter converter;
 
         public string ConvertedHtml
         {
@@ -15,12 +14,11 @@ namespace TPOTLetters
 
         public HtmlEditorViewModel()
         {
-            converter = RtfConverters.GetConverter(ConverterType.RtfPipe);
         }
 
-        void Update()
+        public void Update(string html)
         {
-            convertedHtml = converter.Result;
+            convertedHtml = html;
         }
     }
 }

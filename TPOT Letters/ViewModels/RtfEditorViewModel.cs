@@ -1,6 +1,4 @@
-﻿using System.IO;
-
-namespace TPOTLetters
+﻿namespace TPOTLetters
 {
     internal class RtfEditorViewModel : ViewModelBase
     {
