@@ -10,6 +10,7 @@ namespace TPOTLetters
         public RtfBoxControl()
         {
             InitializeComponent();
+            //DataContext = new RtfEditorViewModel();
         }
     }
 }

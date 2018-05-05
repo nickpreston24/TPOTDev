@@ -14,7 +14,8 @@
             MaxHeight="200"
             VerticalAlignment="Center">
             <RichTextBox
-                MaxHeight="150"
+                MinHeight="150"
+                MaxHeight="250"
                 Margin="10"
                 VerticalAlignment="Center"
                 ScrollViewer.CanContentScroll="True"
