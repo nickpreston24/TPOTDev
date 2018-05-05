@@ -7,7 +7,7 @@ namespace TPOTLetters
 {
     public partial class MainWindow : Window
     {
-        private HtmlConversionService htmlConversionService;
+        //private HtmlConversionService htmlConversionService;
 
         private IViewModel mainViewModel;
         private IViewModel rtfViewModel;
@@ -30,27 +30,19 @@ namespace TPOTLetters
             rtfTextEditor.DataContext = rtfViewModel;
             htmlTextEditor.DataContext = htmlViewModel;
 
-            viewModels.AddRange(new IViewModel[]
-            {
-                mainViewModel,
-                rtfViewModel,
-                htmlViewModel,
-            });
+            //viewModels.AddRange(new IViewModel[]
+            //{
+            //    mainViewModel,
+            //    rtfViewModel,
+            //    htmlViewModel,
+            //});
 
-            var letters = new Letter[]
-            {
-                new Letter { FilePath = @"Sample.rtf" },
-                new Letter { FilePath = @"..\..\..\ConversionTests\Rtf\TPOTLinksSample.rtf" },
-            };
 
-            var letter = letters.First();
-            htmlConversionService = new HtmlConversionService(letter.FilePath, ConverterType.RtfPipe);
-            htmlConversionService.Register(viewModels.OfType<IHtmlSubscriber>().ToArray());
         }
 
-        private void LaunchBrowser_Click(object sender, RoutedEventArgs e)
-        {
-            htmlConversionService.RunConversion();
-        }
+        //private void LaunchBrowser_Click(object sender, RoutedEventArgs e)
+        //{
+        //    htmlConversionService.RunConversion();
+        //}
     }
 }
