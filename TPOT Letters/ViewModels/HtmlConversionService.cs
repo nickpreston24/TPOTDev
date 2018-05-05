@@ -27,8 +27,13 @@ namespace TPOTLetters
             converter = RtfConverters.GetConverter(filePath, type);
         }
 
-        public void Register(IHtmlSubscriber[] htmlSubscribers)
+        public void Register(params IHtmlSubscriber[] htmlSubscribers)
         {
+            if (htmlSubscribers.Length == 0)
+            {
+                return;
+            }
+
             subscribers.AddRange(htmlSubscribers);
         }
 
