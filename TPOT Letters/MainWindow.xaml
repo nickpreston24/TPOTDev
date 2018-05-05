@@ -38,7 +38,7 @@
             <TabItem Name="rtfTab" Header="RTF">
                 <local:RtfBoxControl
                     x:Name="rtfTextEditor"
-                    HorizontalAlignment="Center"
+                    Height="150"
                     Content="{Binding RawRtf}" />
             </TabItem>
             <TabItem Name="htmlTab" Header="HTML">
@@ -53,7 +53,7 @@
             Margin="20"
             HorizontalAlignment="Right"
             Orientation="Horizontal">
-            <Button Margin="5" Click="LaunchBrowser_Click">Show In Browser</Button>
+            <!--<Button Margin="5" Click="LaunchBrowser_Click">Show In Browser</Button>-->
             <Button Margin="5">Save</Button>
             <Button Margin="5">Mark Ready</Button>
         </StackPanel>
