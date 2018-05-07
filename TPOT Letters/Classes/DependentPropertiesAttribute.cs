@@ -8,5 +8,4 @@ namespace TPOTLetters
 
         public string[] Properties { get; }
     }
-
 }

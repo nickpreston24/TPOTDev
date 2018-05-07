@@ -1,25 +1,48 @@
-﻿using System;
+﻿using Shared;
+using System.Collections.Generic;
+using System.Linq;
 using System.Windows;
 
 namespace TPOTLetters
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
     public partial class MainWindow : Window
     {
-        private MainViewModel _mainViewModel;
+        //private HtmlConversionService htmlConversionService;
+
+        private IViewModel mainViewModel;
+        private IViewModel rtfViewModel;
+        private IViewModel htmlViewModel;
+        private List<IViewModel> viewModels = new List<IViewModel>(0);
 
         public MainWindow()
         {
             InitializeComponent();
-            _mainViewModel = new MainViewModel();
-            DataContext = _mainViewModel;
+            Setup();
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void Setup()
         {
-            _mainViewModel.RunConversion();
+            mainViewModel = new MainViewModel();
+            rtfViewModel = new RtfEditorViewModel();
+            htmlViewModel = new HtmlEditorViewModel();
+
+            DataContext = mainViewModel;
+            rtfTextEditor.DataContext = rtfViewModel;
+            htmlTextEditor.DataContext = htmlViewModel;
+
+            //viewModels.AddRange(new IViewModel[]
+            //{
+            //    mainViewModel,
+            //    rtfViewModel,
+            //    htmlViewModel,
+            //});
+
+
         }
+
+        //private void LaunchBrowser_Click(object sender, RoutedEventArgs e)
+        //{
+        //    htmlConversionService.RunConversion();
+        //}
     }
 }

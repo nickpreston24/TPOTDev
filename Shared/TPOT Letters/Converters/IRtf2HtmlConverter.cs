@@ -1,8 +1,9 @@
 ﻿namespace Shared
 {
-    public interface IRtf2HtmlConverter
+    public interface ILetterConverter
     {
         string FilePath { get; set; }
         string Convert();
+        string Result { get; }
     }
 }

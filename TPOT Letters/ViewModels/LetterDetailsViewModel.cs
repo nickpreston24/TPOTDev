@@ -4,16 +4,16 @@ namespace TPOTLetters
 {
     public class LetterDetailsViewModel : ViewModelBase
     {
-        public ObservableCollection<TPOTLetter> Letters { get; set; }
+        public ObservableCollection<LetterContents> Letters { get; set; }
 
         public LetterDetailsViewModel()
         {
-            Letters = new ObservableCollection<TPOTLetter> {
-                new TPOTLetter
+            Letters = new ObservableCollection<LetterContents> {
+                new LetterContents
                 {
                     Date = new System.DateTime(2016,11,5)
                     , Name = "Bob"
-                    , Letter= "How is one saved.rtf"
+                    , Text= "How is one saved.rtf"
                     , Subject = "How is one saved?"
                 }
             };

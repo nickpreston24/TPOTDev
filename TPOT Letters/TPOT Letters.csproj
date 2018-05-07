@@ -36,6 +36,8 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -54,13 +56,20 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Letter.cs" />
-    <Compile Include="MainViewModel.cs" />
+    <Compile Include="Classes\Letter.cs" />
+    <Compile Include="ViewModels\HtmlConversionService.cs" />
+    <Compile Include="ViewModels\HtmlEditorViewModel.cs" />
+    <Compile Include="ViewModels\IViewModel.cs" />
+    <Compile Include="Views\MainViewModel.cs" />
     <Compile Include="MainWindow.xaml.cs" />
-    <Compile Include="ViewModels\DependentPropertiesAttribute.cs" />
-    <Compile Include="ViewModels\Letter.cs" />
+    <Compile Include="ViewModels\RtfEditorViewModel.cs" />
+    <Compile Include="Classes\DependentPropertiesAttribute.cs" />
+    <Compile Include="Classes\LetterContents.cs" />
     <Compile Include="ViewModels\LetterDetailsViewModel.cs" />
     <Compile Include="ViewModels\ViewModelBase.cs" />
+    <Compile Include="Views\HtmlBoxControl.xaml.cs">
+      <DependentUpon>HtmlBoxControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\LettersDatabaseView.xaml.cs">
       <DependentUpon>LettersDatabaseView.xaml</DependentUpon>
     </Compile>
@@ -76,6 +85,14 @@
     <Compile Include="Views\RtfBoxControl.xaml.cs">
       <DependentUpon>RtfBoxControl.xaml</DependentUpon>
     </Compile>
+    <Page Include="Resources\Styles.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\HtmlBoxControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\LettersDatabaseView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

@@ -1,5 +1,4 @@
 ﻿using RtfPipe;
-using System.IO;
 
 namespace Shared
 {
@@ -9,14 +8,18 @@ namespace Shared
     /// </summary>
     internal class RtfPipeConverter : Rtf2HtmlConverterBase
     {
+        public RtfPipeConverter()
+        {
+        }
+
         public RtfPipeConverter(string filepath) : base(filepath)
         {
         }
 
         public override string Convert()
         {
-            string lines = File.ReadAllText(filePath);
-            string html = Rtf.ToHtml(lines);
+            ReadFile();
+            html = Rtf.ToHtml(lines);
             return html;
         }
     }
