@@ -34,7 +34,8 @@
                 Grid.Row="0"
                 Grid.Column="1" />
         </Grid>
-        <TabControl>
+        <local:RtfBoxControl x:Name="rtfTextEditor" Height="150" />
+        <!--<TabControl>
             <TabItem Name="rtfTab" Header="RTF">
                 <local:RtfBoxControl
                     x:Name="rtfTextEditor"
@@ -44,10 +45,7 @@
             <TabItem Name="htmlTab" Header="HTML">
                 <local:HtmlBoxControl x:Name="htmlTextEditor" />
             </TabItem>
-            <!--<TabItem Name="wordpressTab" Header="WP">
-                <TextBlock>nothing to see here!</TextBlock>
-            </TabItem>-->
-        </TabControl>
+        </TabControl>-->
         <StackPanel
             Name="lowerButtonPanel"
             Margin="20"

@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TPOT Letters", "TPOT Letter
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConversionTests", "ConversionTests\ConversionTests.csproj", "{C98D101E-844E-4A9C-8B53-105AD12A1C91}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WordpressTests", "WordpressTests\WordpressTests.csproj", "{6C38E048-810A-4A29-8992-920A3B97DE9D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -41,6 +43,10 @@ Global
 		{C98D101E-844E-4A9C-8B53-105AD12A1C91}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C98D101E-844E-4A9C-8B53-105AD12A1C91}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C98D101E-844E-4A9C-8B53-105AD12A1C91}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6C38E048-810A-4A29-8992-920A3B97DE9D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6C38E048-810A-4A29-8992-920A3B97DE9D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6C38E048-810A-4A29-8992-920A3B97DE9D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6C38E048-810A-4A29-8992-920A3B97DE9D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

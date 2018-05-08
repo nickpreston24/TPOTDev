@@ -28,7 +28,7 @@ namespace TPOTLetters
 
             DataContext = mainViewModel;
             rtfTextEditor.DataContext = rtfViewModel;
-            htmlTextEditor.DataContext = htmlViewModel;
+            //htmlTextEditor.DataContext = htmlViewModel;
 
             //viewModels.AddRange(new IViewModel[]
             //{
