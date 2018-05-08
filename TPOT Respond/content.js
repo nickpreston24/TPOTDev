@@ -14,12 +14,80 @@
 //             Variables               //
 /////////////////////////////////////////
 
+// include(chrome.extension.getURL('index.json'));
+
 var appInjected = false;
+var dataLoaded = false;
+var dataSorted = false;
+var data;
+var keywords;
+var categories;
+var filters;
+var papers;
+var verses;
+var quotes;
 
 
 /////////////////////////////////////////
 //             Start Code              //
 /////////////////////////////////////////
+
+loadData();
+
+function loadData() {
+  // var file = "http://www.thepathoftruth.com/DS6GHEH6S/data.json"; //Externally Hosted URL
+  var file = chrome.extension.getURL('data.json'); // Use if json data will be updated with extention
+  var xmlhttp = new XMLHttpRequest();
+  xmlhttp.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+      console.log("Loading JSON... ");
+      data = JSON.parse(this.responseText); // copy the parsed JSON data into variable
+      console.log("JSON Parsing... ");
+    }
+  };
+  xmlhttp.open("GET", file, true); // open the file at the url 'file'
+  console.group("[Load JSON Database]")
+  console.log("Data Loaded: ", dataLoaded);
+  console.log("Open File");
+  xmlhttp.send();
+
+  // JSON Needs Time to Load before being accessed
+  var check = function() {
+    if (data != undefined) {
+      dataLoaded = true;
+      console.log("Data Loaded: ", dataLoaded);
+      console.log("JSON Data: ", data);
+      console.groupEnd();
+      storeData(data);
+    }
+    else {
+      setTimeout(check); // check again to see if file is loaded yet
+    }
+  }
+  check();
+}
+
+function storeData(json) {
+  var store = document.createElement("span");
+  store.id = "JSON_DATA";
+  store.innerHTML = JSON.stringify(json);
+  document.body.append(store);
+}
+
+
+
+
+
+
+
+
+// currently the json which is
+
+
+
+// console.log(index.text);
+
+
 
 // Add CSS
 var style = document.createElement('link');

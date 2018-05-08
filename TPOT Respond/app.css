@@ -389,7 +389,7 @@
 //        Organic Intellisense         //
 ///////////////////////////////////////*/
 
-#uni {
+#search {
   box-sizing: content-box !important;
   background-color: #4d5166 !important;
   width: 100%;
@@ -398,7 +398,7 @@
   overflow: hidden;
 }
 
-#uni div {
+#search div {
   height: inherit !important;
   padding: 0px;
   overflow: hidden !important;

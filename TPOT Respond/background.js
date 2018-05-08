@@ -93,7 +93,7 @@ function removeApp() {
     tabs.forEach(function(tab) {
       if (isAppInjected() == true) {
         // get DOM of tab
-        // remove iframe
+        // remove iframe        
         // remove sidebar
       }
     });
