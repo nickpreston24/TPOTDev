@@ -1,0 +1,9 @@
+﻿<resources>
+  <style name="TPOTTheme">
+    <!--parent="Theme.AppCompat.Light.DarkActionBar"-->
+    <!--<item name="colorPrimary">@Colors/colorPrimary</item>
+    <item name="colorPrimaryDark">@Colors/colorPrimaryDark</item>
+    <item name="colorAccent">@Colors/colorAccent</item>
+    <item name="goldText">@Colors/tpot_foreground_text</item>-->
+  </style>
+</resources>
