@@ -7,7 +7,7 @@ namespace TPOT_Mobile
     [Activity(Label = "TPOT_Mobile", MainLauncher = true)/*, Icon = "@drawable/icon"*/]
     public class MainActivity : Activity
     {
-        int count = 0;
+        private static int clickCount;
         protected override void OnCreate(Bundle bundle)
         {
             base.OnCreate(bundle);
@@ -17,10 +17,13 @@ namespace TPOT_Mobile
             var button = FindViewById<Button>(Resource.Id.MyButton);
             var label = FindViewById<TextView>(Resource.Id.textView1);
 
+            var imageView = FindViewById<ImageView>(Resource.Id.imageView1);
+
             button.Click += delegate
             {
-                label.Text = $"{count++} clicks";
+                label.Text = $"{clickCount++} clicks";
             };
+
         }
         protected override Dialog OnCreateDialog(int id)
         {

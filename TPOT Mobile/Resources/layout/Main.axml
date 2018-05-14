@@ -5,16 +5,28 @@
     android:layout_height="match_parent"
     android:minWidth="25px"
     android:padding="8dp"
-    android:minHeight="25px">
-    <Button
-        android:id="@+id/MyButton"
+    android:minHeight="25px"
+    android:background="#660000">
+    <ImageView
+        android:src="@drawable/tpot_banner"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Hello World" />
+        android:id="@+id/imageView1"
+        android:layout_marginBottom="13.7dp"
+        android:layout_height="93.0dp" />
     <TextView
         android:text="You clicked 0 times."
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/textView1" />
+        android:id="@+id/textView1"
+        android:foreground="#FFCC00" />
+    <Button
+        android:id="@+id/MyButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="This is TPOT!"
+        android:textStyle="bold"
+        android:textColor="#FFCC00"
+        android:textColorHighlight="@android:color/holo_purple"
+        android:background="@android:color/holo_red_dark" />
 </LinearLayout>
