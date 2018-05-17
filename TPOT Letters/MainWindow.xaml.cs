@@ -1,18 +1,16 @@
 ﻿using Shared;
 using System.Collections.Generic;
-using System.Linq;
 using System.Windows;
 
 namespace TPOTLetters
 {
     public partial class MainWindow : Window
     {
-        //private HtmlConversionService htmlConversionService;
-
-        private IViewModel mainViewModel;
-        private IViewModel rtfViewModel;
-        private IViewModel htmlViewModel;
-        private List<IViewModel> viewModels = new List<IViewModel>(0);
+        private string rtfFilePath = @"C:\Users\Nick\Desktop\TPOT Dev\ConversionTests\Rtf\TPOTLinksSample.rtf";
+        private IViewSubscriber rtfViewModel;
+        private IViewSubscriber htmlViewModel;
+        private List<IViewSubscriber> viewModels = new List<IViewSubscriber>(0);
+        private IConversionService conversionService;
 
         public MainWindow()
         {
@@ -22,27 +20,22 @@ namespace TPOTLetters
 
         private void Setup()
         {
-            mainViewModel = new MainViewModel();
-            rtfViewModel = new RtfEditorViewModel();
-            htmlViewModel = new HtmlEditorViewModel();
+            DataContext = new MainViewModel();
+            conversionService = RtfConversionService.Instance;
 
-            DataContext = mainViewModel;
-            rtfTextEditor.DataContext = rtfViewModel;
+            btnConvert.Click += (s, e) =>
+            {
+                conversionService.QueueFile(rtfFilePath);
+                conversionService.RunConversions();
+            };
+
+            rtfViewModel = new RtfEditorViewModel();
+            //htmlViewModel = new HtmlEditorViewModel();
+            //rtfTextEditor.DataContext = rtfViewModel;
             //htmlTextEditor.DataContext = htmlViewModel;
 
-            //viewModels.AddRange(new IViewModel[]
-            //{
-            //    mainViewModel,
-            //    rtfViewModel,
-            //    htmlViewModel,
-            //});
-
-
+            //conversionService.Register(htmlViewModel/*, rtfViewModel*/);
+            conversionService.Register(htmlTextEditor.ViewModel);
         }
-
-        //private void LaunchBrowser_Click(object sender, RoutedEventArgs e)
-        //{
-        //    htmlConversionService.RunConversion();
-        //}
     }
 }

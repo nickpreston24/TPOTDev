@@ -3,7 +3,7 @@ using System.IO;
 
 namespace Shared
 {
-    abstract class Rtf2HtmlConverterBase : ILetterConverter
+    abstract class LetterConverterBase : ILetterConverter
     {
         protected string lines;
         protected string html;
@@ -14,11 +14,11 @@ namespace Shared
         public string Result { get { return html; } }
         public string FilePath { get => filePath; set => filePath = value; }
 
-        protected Rtf2HtmlConverterBase()
+        protected LetterConverterBase()
         {
         }
 
-        public Rtf2HtmlConverterBase(string filepath)
+        public LetterConverterBase(string filepath)
         {
             FilePath = filepath;
         }

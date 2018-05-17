@@ -6,7 +6,7 @@ namespace Shared
     /// RtfPipeConverter
     /// https://github.com/erdomke/RtfPipe
     /// </summary>
-    internal class RtfPipeConverter : Rtf2HtmlConverterBase
+    internal class RtfPipeConverter : LetterConverterBase
     {
         public RtfPipeConverter()
         {

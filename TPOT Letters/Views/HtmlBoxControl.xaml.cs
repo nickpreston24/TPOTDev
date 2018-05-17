@@ -7,9 +7,11 @@ namespace TPOTLetters
     /// </summary>
     public partial class HtmlBoxControl : UserControl
     {
+        public HtmlEditorViewModel ViewModel { get; }
         public HtmlBoxControl()
         {
             InitializeComponent();
+            DataContext = ViewModel = new HtmlEditorViewModel();
         }
     }
 }

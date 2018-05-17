@@ -9,7 +9,7 @@ using System.Runtime.CompilerServices;
 
 namespace TPOTLetters
 {
-    public abstract class ViewModelBase : INotifyPropertyChanged, IViewModel
+    public abstract class ViewModelBase : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
         private readonly Dictionary<string, List<string>> _dependencies = new Dictionary<string, List<string>>();
@@ -276,5 +276,4 @@ namespace TPOTLetters
         }
 
     }
-
 }

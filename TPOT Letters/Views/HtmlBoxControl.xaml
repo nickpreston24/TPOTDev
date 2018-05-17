@@ -13,16 +13,16 @@
             Height="auto"
             MaxHeight="200"
             VerticalAlignment="Center">
-            <RichTextBox
+            <TextBox
+                MinWidth="75"
+                MinHeight="50"
                 MaxHeight="150"
                 Margin="10"
                 VerticalAlignment="Center"
                 ScrollViewer.CanContentScroll="True"
-                ScrollViewer.VerticalScrollBarVisibility="Auto">
-                <FlowDocument>
-                    <Paragraph>Html goes here</Paragraph>
-                </FlowDocument>
-            </RichTextBox>
+                ScrollViewer.VerticalScrollBarVisibility="Auto"
+                Text="{Binding Html}"
+                TextWrapping="WrapWithOverflow" />
         </ScrollViewer>
     </GroupBox>
 

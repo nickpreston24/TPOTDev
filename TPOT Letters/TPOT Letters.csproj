@@ -37,6 +37,9 @@
     <Reference Include="CookComputing.XmlRpcV2, Version=3.0.0.0, Culture=neutral, PublicKeyToken=a7d6e17aa302004d, processorArchitecture=MSIL">
       <HintPath>..\packages\xmlrpcnet.3.0.0.266\lib\net20\CookComputing.XmlRpcV2.dll</HintPath>
     </Reference>
+    <Reference Include="DesignPatterns">
+      <HintPath>..\..\DesignPatterns\DesignPatterns\bin\Release\DesignPatterns.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Data" />
@@ -61,9 +64,10 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Classes\Letter.cs" />
-    <Compile Include="ViewModels\HtmlConversionService.cs" />
+    <Compile Include="ViewModels\HtmlAwareViewModel.cs" />
+    <Compile Include="ViewModels\IConversionService.cs" />
+    <Compile Include="ViewModels\RtfConversionService.cs" />
     <Compile Include="ViewModels\HtmlEditorViewModel.cs" />
-    <Compile Include="ViewModels\IViewModel.cs" />
     <Compile Include="Views\MainViewModel.cs" />
     <Compile Include="MainWindow.xaml.cs" />
     <Compile Include="ViewModels\RtfEditorViewModel.cs" />

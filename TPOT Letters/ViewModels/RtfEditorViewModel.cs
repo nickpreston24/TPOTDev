@@ -1,24 +1,22 @@
 ﻿using Shared;
-using System.IO;
 using System.Linq;
 
 namespace TPOTLetters
 {
-    public class RtfEditorViewModel : ViewModelBase
+    public class RtfEditorViewModel : ViewModelBase, IViewSubscriber
     {
-        HtmlConversionService htmlConversionService = new HtmlConversionService();
-        private IHtmlSubscriber subscriber;
-        public IHtmlSubscriber Subscriber { get => subscriber; set => subscriber = value; }
-
-        private string rawRtf = "I have text";
+        private string rawRtf;
         public string RawRtf
         {
             get { return rawRtf; }
             set
             {
                 SetValue(ref rawRtf, value);
-                htmlConversionService.RunConversion();
             }
+        }
+        public void Update(string rtfText)
+        {
+            RawRtf = rtfText;
         }
 
         public RtfEditorViewModel()
@@ -36,9 +34,9 @@ namespace TPOTLetters
 
             var letter = letters.First();
             //rawRtf = File.ReadAllText(letter.FilePath);
-
-            htmlConversionService = new HtmlConversionService(letter.FilePath, ConverterType.RtfPipe);
-            htmlConversionService.Register(Subscriber);
+            //htmlConversionService = new RtfConversionService(letter.FilePath, ConverterType.RtfPipe);
+            //htmlConversionService.Register(Subscriber);
         }
+
     }
 }

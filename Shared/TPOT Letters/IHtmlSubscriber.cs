@@ -1,7 +1,7 @@
 ﻿namespace Shared
 {
-    public interface IHtmlSubscriber//<T> : IObservable<T>
+    public interface IViewSubscriber
     {
-        void Update(string html);
+        void Update(string text);
     }
 }

@@ -3,7 +3,6 @@
     public enum ConverterType
     {
         RtfPipe,
-        Intenso
+        Itenso
     }
-
 }

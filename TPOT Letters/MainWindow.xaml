@@ -8,14 +8,15 @@
     Title="TPOT Letters"
     Width="900"
     Height="600"
-    DataContext="MainViewModel"
+    MinWidth="400"
+    MinHeight="300"
     FontSize="16"
     mc:Ignorable="d">
     <Window.Resources>
         <ResourceDictionary />
     </Window.Resources>
     <StackPanel Grid.Column="0" Orientation="Vertical">
-        <Grid>
+        <Grid Background="#8BC1A6">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="170*" />
                 <ColumnDefinition Width="50*" />
@@ -34,26 +35,47 @@
                 Grid.Row="0"
                 Grid.Column="1" />
         </Grid>
-        <local:RtfBoxControl x:Name="rtfTextEditor" Height="150" />
-        <!--<TabControl>
-            <TabItem Name="rtfTab" Header="RTF">
-                <local:RtfBoxControl
-                    x:Name="rtfTextEditor"
-                    Height="150"
-                    Content="{Binding RawRtf}" />
-            </TabItem>
-            <TabItem Name="htmlTab" Header="HTML">
-                <local:HtmlBoxControl x:Name="htmlTextEditor" />
-            </TabItem>
-        </TabControl>-->
-        <StackPanel
-            Name="lowerButtonPanel"
-            Margin="20"
-            HorizontalAlignment="Right"
-            Orientation="Horizontal">
-            <!--<Button Margin="5" Click="LaunchBrowser_Click">Show In Browser</Button>-->
-            <Button Margin="5">Save</Button>
-            <Button Margin="5">Mark Ready</Button>
-        </StackPanel>
+        <!--<local:RtfBoxControl
+            x:Name="rtfTextEditor"
+            Height="150"
+            Content="{Binding RawRtf}" />-->
+        <Grid Background="Red">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="2*" />
+                <RowDefinition Height="1*" />
+            </Grid.RowDefinitions>
+            <!--<TabControl Grid.Row="0">
+                <TabItem Name="rtfTab" Header="RTF">
+                    <local:RtfBoxControl x:Name="rtfTextEditor" Height="150" />
+                </TabItem>
+                <TabItem Name="htmlTab" Header="HTML">
+                    <local:HtmlBoxControl x:Name="htmlTextEditor" />
+                </TabItem>
+            </TabControl>-->
+
+            <StackPanel VerticalAlignment="Center">
+                <Expander>
+                    <local:RtfBoxControl x:Name="rtfTextEditor" Height="150" />
+
+                </Expander>
+                <Expander>
+                    <local:HtmlBoxControl x:Name="htmlTextEditor" />
+                </Expander>
+            </StackPanel>
+
+            <StackPanel
+                Name="lowerButtonPanel"
+                Grid.Row="1"
+                Margin="20"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Bottom"
+                Orientation="Horizontal">
+                <Button Name="btnConvert" Margin="5">
+                    Convert
+                </Button>
+                <Button Margin="5">Save</Button>
+                <Button Margin="5">Mark Ready</Button>
+            </StackPanel>
+        </Grid>
     </StackPanel>
 </Window>

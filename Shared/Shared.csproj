@@ -64,8 +64,8 @@
     <Compile Include="AssemblyFileSystem.cs" />
     <Compile Include="TPOT Letters\Converters\ConverterType.cs" />
     <Compile Include="TPOT Letters\IHtmlSubscriber.cs" />
-    <Compile Include="TPOT Letters\Converters\IRtf2HtmlConverter.cs" />
-    <Compile Include="TPOT Letters\Converters\Rtf2HtmlConverterBase.cs" />
+    <Compile Include="TPOT Letters\ILetterConverter.cs" />
+    <Compile Include="TPOT Letters\LetterConverterBase.cs" />
     <Compile Include="TPOT Letters\Converters\RtfConverters.cs" />
     <Compile Include="TPOT Letters\Converters\RtfPipeConverter.cs" />
     <Compile Include="TPOT Letters\Formatters\IHtmlFormatter.cs" />

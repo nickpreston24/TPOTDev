@@ -2,23 +2,30 @@
 
 namespace TPOTLetters
 {
-    internal class HtmlEditorViewModel : ViewModelBase, IHtmlSubscriber
+    public class HtmlEditorViewModel : TextAwareViewModel, IViewSubscriber
     {
-        private string convertedHtml;
-
-        public string ConvertedHtml
+        // INotifyable Property _html        
+        private string html;
+        public string Html
         {
-            get { return convertedHtml; }
-            set { SetValue(ref convertedHtml, value); }
+            get { return html; }
+            set { SetValue(ref html, value); }
         }
+        //private string convertedHtml;
+        //public string Html
+        //{
+        //    get { return GetValue(() => html); }
+        //    set { SetValue(ref convertedHtml, value); }
+        //}
 
         public HtmlEditorViewModel()
         {
+
         }
 
-        public void Update(string html)
+        public override void Update(string html)
         {
-            convertedHtml = html;
+            Html = html;
         }
     }
 }
