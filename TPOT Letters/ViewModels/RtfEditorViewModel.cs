@@ -1,42 +1,75 @@
 ﻿using Shared;
-using System.Linq;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
+using System.Windows;
+using System.Windows.Controls;
 
 namespace TPOTLetters
 {
-    public class RtfEditorViewModel : ViewModelBase, IViewSubscriber
+    public class RtfEditorViewModel : ViewModelBase,/* UserControl,*/ IRtfEditor
     {
-        private string rawRtf;
-        public string RawRtf
+        private string text;
+        private Letter letter;
+        private readonly RtfBoxControl rtfTextEditor;
+        //public RichTextFile RtfFile { get; set; } = new RichTextFile();
+
+        //public string RtfFilePath
+        //{
+        //    get { return (string)GetValue(FileProperty); }
+        //    set { SetValue(FileProperty, value); }
+        //}
+
+        //public static readonly DependencyProperty FileProperty =
+        //    DependencyProperty.Register(nameof(RtfFilePath), typeof(string), typeof(RtfEditorViewModel),
+        //    new PropertyMetadata(new PropertyChangedCallback(OnFileChanged)));
+
+        //private static void OnFileChanged(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs e)
+        //{
+        //    if (dependencyObject == null)
+        //    {
+        //        return;
+        //    }
+
+        //    //todo: I want to load new rtf content/text after this changes!
+        //    //var rtf = dependencyObject as RtfEditorViewModel;
+        //    //ReadFile(rtf.RtfFilePath, rtf.Document);
+        //}
+
+        public string Content
         {
-            get { return rawRtf; }
+            get { return text; }
             set
             {
-                SetValue(ref rawRtf, value);
+                SetValue(ref text, value);
+                Debug.WriteLine("rtf set");
             }
         }
-        public void Update(string rtfText)
-        {
-            RawRtf = rtfText;
-        }
+
+        public List<ISubscriber<string>> Subscribers { get; set; } = new List<ISubscriber<string>>(1);
 
         public RtfEditorViewModel()
         {
-            Setup();
         }
 
-        private void Setup()
+        public RtfEditorViewModel(RtfBoxControl rtfTextEditor) => this.rtfTextEditor = rtfTextEditor;
+
+        public void Load(Letter letter)
         {
-            var letters = new Letter[]
-            {
-                new Letter { FilePath = @"..\..\..\ConversionTests\Rtf\TPOTLinksSample.rtf" },
-                new Letter { FilePath = @"Sample.rtf" },
-            };
+            this.letter = letter;
 
-            var letter = letters.First();
-            //rawRtf = File.ReadAllText(letter.FilePath);
-            //htmlConversionService = new RtfConversionService(letter.FilePath, ConverterType.RtfPipe);
-            //htmlConversionService.Register(Subscriber);
+            var fileStream = new FileStream(letter.FilePath, FileMode.Open);
+            rtfTextEditor.rtfTextBox.Selection.Load(fileStream, DataFormats.Rtf);
+
+            Content = rtfTextEditor.rtfTextBox.GetRTF();
+        }
+        public void Update(string rtfText)
+        {
+            Content = rtfText;
         }
 
+        public void Register(ISubscriber<string> subscriber) => Subscribers.Add(subscriber);
+
+        public void Unregister(ISubscriber<string> subscriber) => Subscribers.Remove(subscriber);
     }
 }
