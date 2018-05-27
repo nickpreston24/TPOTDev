@@ -1,4 +1,5 @@
-﻿using System.Windows.Controls;
+﻿using System.Windows;
+using System.Windows.Controls;
 
 namespace TPOTLetters
 {
@@ -9,5 +10,10 @@ namespace TPOTLetters
             InitializeComponent();
             DataContext = new RtfEditorViewModel();
         }
-    }
+
+        private void rtfTextBox_Click(object sender, RoutedEventArgs args)
+        {
+            Hyperlink.NavigateToUrl(args);
+        }
+    }    
 }

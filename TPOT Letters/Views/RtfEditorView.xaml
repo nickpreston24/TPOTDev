@@ -1,0 +1,35 @@
+﻿<UserControl
+    x:Class="TPOTLetters.RtfBoxControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="clr-namespace:System.Windows.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+    <GroupBox Header="RTF Content">
+        <!--<ScrollViewer
+            Height="auto"
+            MaxHeight="200"
+            VerticalAlignment="Center">-->
+        <!--<RichTextBox
+            Name="rtfTextBox"
+            MinWidth="125"
+            MinHeight="150"
+            VerticalAlignment="Center"
+            Hyperlink.Click="rtfTextBox_Click"
+            IsDocumentEnabled="True"
+            IsEnabled="True"
+            IsReadOnly="False"
+            ScrollViewer.CanContentScroll="True"
+            ScrollViewer.VerticalScrollBarVisibility="Auto" />-->
+        <controls:EnhancedRichTextBox
+            x:Name="rtfTextBox"
+            MinHeight="150"
+            File="{Binding File}"
+            Hyperlink.Click="rtfTextBox_Click"
+            IsDocumentEnabled="True"
+            IsEnabled="True"
+            IsReadOnly="False" />
+        <!--</ScrollViewer>-->
+    </GroupBox>
+</UserControl>
