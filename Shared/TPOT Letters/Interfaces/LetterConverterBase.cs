@@ -28,6 +28,6 @@ namespace Shared
             lines = File.ReadAllText(filePath);
         }
 
-        public abstract string Convert();
+        public abstract string Convert(string text);
     }
 }

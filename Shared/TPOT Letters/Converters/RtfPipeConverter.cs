@@ -1,4 +1,5 @@
 ﻿using RtfPipe;
+using System.Diagnostics;
 
 namespace Shared
 {
@@ -16,10 +17,16 @@ namespace Shared
         {
         }
 
-        public override string Convert()
+        public override string Convert(string text)
         {
-            ReadFile();
-            html = Rtf.ToHtml(lines);
+            if (string.IsNullOrWhiteSpace(text))
+            {
+                return string.Empty;
+            }
+
+            Debug.WriteLine(text);
+
+            html = Rtf.ToHtml(text);
             return html;
         }
     }

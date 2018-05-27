@@ -2,8 +2,7 @@
 {
     public interface ILetterConverter
     {
-        string FilePath { get; set; }
-        string Convert();
+        string Convert(string text);
         string Result { get; }
     }
 }
