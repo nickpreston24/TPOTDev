@@ -5,25 +5,17 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
-    <GroupBox
-        Background="#A53C7A2B"
-        Header="Html Content"
-        HeaderStringFormat="Default">
-        <ScrollViewer
-            Height="auto"
-            MaxHeight="200"
-            VerticalAlignment="Center">
+    <GroupBox Header="Html Content" HeaderStringFormat="Default">
+        <ScrollViewer Height="auto" VerticalAlignment="Center">
             <TextBox
-                MinWidth="75"
-                MinHeight="50"
-                MaxHeight="150"
-                Margin="10"
+                MinWidth="160"
+                MinHeight="150"
                 VerticalAlignment="Center"
+                Foreground="Maroon"
                 ScrollViewer.CanContentScroll="True"
                 ScrollViewer.VerticalScrollBarVisibility="Auto"
-                Text="{Binding Html}"
+                Text="{Binding Content}"
                 TextWrapping="WrapWithOverflow" />
         </ScrollViewer>
     </GroupBox>
-
 </UserControl>
