@@ -4,6 +4,10 @@
 RtfConverter_v1.7.0/
 ConversionTests/
 ReactiveUI.Basics/
+RxUI.Sandbox/
+RxNet.Sandbox/
+MaterialDesign.Sandbox/
+IntellisenseDemo/
 
 # User-specific files
 *.suo
