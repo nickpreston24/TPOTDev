@@ -1,16 +1,12 @@
-﻿using Shared;
-using System.Collections.Generic;
-using System.Windows;
+﻿using System.Windows;
 
 namespace TPOTLetters
 {
     public partial class MainWindow : Window
     {
         private string rtfFilePath = @"C:\Users\Nick\Desktop\TPOT Dev\ConversionTests\Rtf\TPOTLinksSample.rtf";
-        private IViewSubscriber rtfViewModel;
-        private IViewSubscriber htmlViewModel;
-        private List<IViewSubscriber> viewModels = new List<IViewSubscriber>(0);
-        private IConversionService conversionService;
+        private IRtfEditor rtfViewModel;
+        private RtfConversionService conversionService;
 
         public MainWindow()
         {
@@ -25,17 +21,18 @@ namespace TPOTLetters
 
             btnConvert.Click += (s, e) =>
             {
-                conversionService.QueueFile(rtfFilePath);
                 conversionService.RunConversions();
             };
 
-            rtfViewModel = new RtfEditorViewModel();
+            rtfViewModel = new RtfEditorViewModel(rtfTextEditor);
+            rtfViewModel.Load(new Letter { FilePath = rtfFilePath });
+
             //htmlViewModel = new HtmlEditorViewModel();
             //rtfTextEditor.DataContext = rtfViewModel;
             //htmlTextEditor.DataContext = htmlViewModel;
 
             //conversionService.Register(htmlViewModel/*, rtfViewModel*/);
-            conversionService.Register(htmlTextEditor.ViewModel);
+            conversionService.RegisterSubscribers(rtfViewModel, htmlTextEditor.ViewModel);
         }
     }
 }

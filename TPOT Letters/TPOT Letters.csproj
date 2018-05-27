@@ -6,8 +6,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{97CFFD38-331B-4146-A4E7-F37185C3DD04}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>TPOT_Letters</RootNamespace>
-    <AssemblyName>TPOT Letters</AssemblyName>
+    <RootNamespace>TPOTLetters</RootNamespace>
+    <AssemblyName>TPOTLetters</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -40,6 +40,12 @@
     <Reference Include="DesignPatterns">
       <HintPath>..\..\DesignPatterns\DesignPatterns\bin\Release\DesignPatterns.dll</HintPath>
     </Reference>
+    <Reference Include="ICSharpCode.AvalonEdit, Version=5.0.3.0, Culture=neutral, PublicKeyToken=9cc39be672370310, processorArchitecture=MSIL">
+      <HintPath>..\packages\AvalonEdit.5.0.4\lib\Net40\ICSharpCode.AvalonEdit.dll</HintPath>
+    </Reference>
+    <Reference Include="ShowMeTheXAML, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\ShowMeTheXAML.1.0.10\lib\net45\ShowMeTheXAML.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Data" />
@@ -64,8 +70,15 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Classes\Letter.cs" />
-    <Compile Include="ViewModels\HtmlAwareViewModel.cs" />
-    <Compile Include="ViewModels\IConversionService.cs" />
+    <Compile Include="Controls\EnhancedRichTextBox.cs" />
+    <Compile Include="Controls\HyperlinkNavigation.cs" />
+    <Compile Include="Extensions\RichTextboxExtensions.cs" />
+    <Compile Include="Extensions\StringExtensions.cs" />
+    <Compile Include="Interfaces\HtmlAwareViewModel.cs" />
+    <Compile Include="Interfaces\IConversionService.cs" />
+    <Compile Include="Interfaces\IRtfEditor.cs" />
+    <Compile Include="Detection\EmailHeader.cs" />
+    <Compile Include="Detection\EmailHeaderRegex.cs" />
     <Compile Include="ViewModels\RtfConversionService.cs" />
     <Compile Include="ViewModels\HtmlEditorViewModel.cs" />
     <Compile Include="Views\MainViewModel.cs" />
@@ -75,8 +88,8 @@
     <Compile Include="Classes\LetterContents.cs" />
     <Compile Include="ViewModels\LetterDetailsViewModel.cs" />
     <Compile Include="ViewModels\ViewModelBase.cs" />
-    <Compile Include="Views\HtmlBoxControl.xaml.cs">
-      <DependentUpon>HtmlBoxControl.xaml</DependentUpon>
+    <Compile Include="Views\HtmlEditorView.xaml.cs">
+      <DependentUpon>HtmlEditorView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\LettersDatabaseView.xaml.cs">
       <DependentUpon>LettersDatabaseView.xaml</DependentUpon>
@@ -90,14 +103,14 @@
     <Compile Include="Views\MainOptionsControl.xaml.cs">
       <DependentUpon>MainOptionsControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\RtfBoxControl.xaml.cs">
-      <DependentUpon>RtfBoxControl.xaml</DependentUpon>
+    <Compile Include="Views\RtfEditorView.xaml.cs">
+      <DependentUpon>RtfEditorView.xaml</DependentUpon>
     </Compile>
     <Page Include="Resources\Styles.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\HtmlBoxControl.xaml">
+    <Page Include="Views\HtmlEditorView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -125,7 +138,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\RtfBoxControl.xaml">
+    <Page Include="Views\RtfEditorView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

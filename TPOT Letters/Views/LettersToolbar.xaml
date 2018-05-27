@@ -13,6 +13,10 @@
                 <Setter Property="FontSize" Value="76" />
                 <Setter Property="Margin" Value="15,0,0,0" />
             </Style>
+            <Style TargetType="ComboBox">
+                <Setter Property="Background" Value="#A5A6C9" />
+                <Setter Property="Foreground" Value="Maroon" />
+            </Style>
         </ResourceDictionary>
     </UserControl.Resources>
     <Grid MaxWidth="450" MaxHeight="70">
@@ -24,13 +28,11 @@
             <ComboBox
                 Name="cbxFontColor"
                 MinWidth="75"
-                MinHeight="25"
-                Background="#0a55f6" />
+                MinHeight="25" />
             <ComboBox
                 Name="cbxFontStyle"
                 MinWidth="75"
                 MinHeight="25"
-                Background="#0a55f6"
                 Text="Font Type" />
             <Button>[link icon]</Button>
         </ToolBar>
