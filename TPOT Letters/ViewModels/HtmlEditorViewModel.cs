@@ -1,31 +1,28 @@
 ﻿using Shared;
+using System.Diagnostics;
 
 namespace TPOTLetters
 {
-    public class HtmlEditorViewModel : TextAwareViewModel, IViewSubscriber
+    public class HtmlEditorViewModel : TextAwareViewModel, ISubscriber<string>
     {
-        // INotifyable Property _html        
         private string html;
-        public string Html
+        public override string Content
         {
             get { return html; }
-            set { SetValue(ref html, value); }
+            set
+            {
+                SetValue(ref html, value);
+                Debug.WriteLine("html set");
+            }
         }
-        //private string convertedHtml;
-        //public string Html
-        //{
-        //    get { return GetValue(() => html); }
-        //    set { SetValue(ref convertedHtml, value); }
-        //}
 
         public HtmlEditorViewModel()
         {
-
         }
 
         public override void Update(string html)
         {
-            Html = html;
+            Content = html;
         }
     }
 }

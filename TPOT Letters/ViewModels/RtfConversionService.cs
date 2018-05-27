@@ -1,77 +1,54 @@
 ﻿using DesignPatterns;
 using Shared;
-using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 
 namespace TPOTLetters
 {
     internal class RtfConversionService : IConversionService, ISingleton
     {
-        private ILetterConverter converter;
-        private readonly List<IViewSubscriber> subscribers = new List<IViewSubscriber>();
-        public List<string> files { get; set; } = new List<string>(0);
-        public static IConversionService Instance => Singleton<RtfConversionService>.Instance;
+        private ILetterConverter letterConverter;
+        private ISubject<string> subject;
+
+        public static RtfConversionService Instance => Singleton<RtfConversionService>.Instance;
         public ISelector Selector { get; set; }
 
         private RtfConversionService()
         {
-            converter = GetDefaultConverter();
+            letterConverter = GetDefaultConverter();
         }
 
-        public void QueueFile(string filePath)
+        public void RegisterSubscribers(ISubject<string> subject, params ISubscriber<string>[] subscribers)
         {
-            if (files.Contains(filePath))
+            this.subject = subject;
+
+            foreach (var subscriber in subscribers ?? Enumerable.Empty<ISubscriber<string>>())
             {
-                return;
+                subject.Register(subscriber);
             }
-
-            files.Add(filePath);
-        }
-
-        //public RtfConversionService(string[] filePaths)
-        //{
-        //    converter = GetDefaultConverter();
-        //}
-
-        //public RtfConversionService(ILetterConverter letterConverter)
-        //{
-        //    converter = letterConverter ?? GetDefaultConverter();
-        //}
-
-        //public RtfConversionService(string filePath, ConverterType type)
-        //{
-        //    converter = RtfConverters.GetConverter(filePath, type);
-        //}
-
-        public void Register(params IViewSubscriber[] subscribers)
-        {
-            if (subscribers.Length == 0)
-            {
-                return;
-            }
-
-            this.subscribers.AddRange(subscribers);
         }
 
         public void RunConversions()
         {
-            foreach (string file in files)
-            {
-                converter.FilePath = file;
-                converter.Convert();
-                Update();
-            }
+            //todo: listen to the RTF box control text by:
+            //Binding the RTF box control's streamed content directly to a property.
+            //Having that same text loaded to an observable.
+            //Observing that instance with this service.
+            //Updating all subscribers to this service with the newly translated html.
+
+            string text = subject.Content;
+            letterConverter.Convert(text);
+            UpdateSubscribers();
         }
 
-        public void Update()
+        public void UpdateSubscribers()
         {
-            Debug.WriteLine(converter.Result);
-            foreach (var subscriber in subscribers)
+            Debug.WriteLine(letterConverter.Result);
+            foreach (var subscriber in subject.Subscribers)
             {
-                subscriber.Update(text: converter.Result);
+                subscriber.Update(text: letterConverter.Result);
             }
         }
-
 
         private static ILetterConverter GetDefaultConverter()
         {
