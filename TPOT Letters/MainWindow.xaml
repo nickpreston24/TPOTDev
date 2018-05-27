@@ -6,76 +6,70 @@
     xmlns:local="clr-namespace:TPOTLetters"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     Title="TPOT Letters"
-    Width="900"
-    Height="600"
+    Width="800"
+    Height="800"
     MinWidth="400"
     MinHeight="300"
     FontSize="16"
     mc:Ignorable="d">
     <Window.Resources>
-        <ResourceDictionary />
+        <ResourceDictionary>
+            <Style TargetType="Expander">
+                <Setter Property="Background" Value="#08BEFF" />
+            </Style>
+        </ResourceDictionary>
     </Window.Resources>
-    <StackPanel Grid.Column="0" Orientation="Vertical">
-        <Grid Background="#8BC1A6">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="170*" />
-                <ColumnDefinition Width="50*" />
-            </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="auto" />
-                <RowDefinition Height="auto" />
-            </Grid.RowDefinitions>
-            <local:LetterDetailsControl x:Name="letterDetailsView" />
-            <local:LettersToolbar
-                x:Name="toolbar"
-                Grid.Row="1"
-                HorizontalAlignment="Center" />
-            <local:MainOptionsControl
-                x:Name="buttons"
-                Grid.Row="0"
-                Grid.Column="1" />
-        </Grid>
-        <!--<local:RtfBoxControl
-            x:Name="rtfTextEditor"
-            Height="150"
-            Content="{Binding RawRtf}" />-->
-        <Grid Background="Red">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="2*" />
-                <RowDefinition Height="1*" />
-            </Grid.RowDefinitions>
-            <!--<TabControl Grid.Row="0">
-                <TabItem Name="rtfTab" Header="RTF">
-                    <local:RtfBoxControl x:Name="rtfTextEditor" Height="150" />
-                </TabItem>
-                <TabItem Name="htmlTab" Header="HTML">
-                    <local:HtmlBoxControl x:Name="htmlTextEditor" />
-                </TabItem>
-            </TabControl>-->
-
-            <StackPanel VerticalAlignment="Center">
-                <Expander>
-                    <local:RtfBoxControl x:Name="rtfTextEditor" Height="150" />
-
-                </Expander>
-                <Expander>
-                    <local:HtmlBoxControl x:Name="htmlTextEditor" />
-                </Expander>
-            </StackPanel>
-
-            <StackPanel
-                Name="lowerButtonPanel"
-                Grid.Row="1"
-                Margin="20"
-                HorizontalAlignment="Right"
-                VerticalAlignment="Bottom"
-                Orientation="Horizontal">
-                <Button Name="btnConvert" Margin="5">
-                    Convert
-                </Button>
-                <Button Margin="5">Save</Button>
-                <Button Margin="5">Mark Ready</Button>
-            </StackPanel>
-        </Grid>
-    </StackPanel>
+    <Grid>
+        <StackPanel
+            Grid.Column="0"
+            VerticalAlignment="Center"
+            Orientation="Vertical">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="170*" />
+                    <ColumnDefinition Width="50*" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="auto" />
+                </Grid.RowDefinitions>
+                <local:LetterDetailsControl x:Name="letterDetailsView" Loaded="letterDetailsView_Loaded" />
+                <local:LettersToolbar
+                    x:Name="toolbar"
+                    Grid.Row="1"
+                    HorizontalAlignment="Center" />
+                <local:MainOptionsControl
+                    x:Name="buttons"
+                    Grid.Row="0"
+                    Grid.Column="1" />
+            </Grid>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="2*" />
+                    <RowDefinition Height="1*" />
+                </Grid.RowDefinitions>
+                <StackPanel VerticalAlignment="Center">
+                    <Expander IsExpanded="True">
+                        <local:RtfBoxControl x:Name="rtfTextEditor" />
+                    </Expander>
+                    <Expander IsExpanded="True">
+                        <local:HtmlBoxControl x:Name="htmlTextEditor" />
+                    </Expander>
+                </StackPanel>
+                <StackPanel
+                    Name="lowerButtonPanel"
+                    Grid.Row="1"
+                    Margin="20"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Bottom"
+                    Orientation="Horizontal">
+                    <Button Name="btnConvert" Margin="5">
+                        Convert
+                    </Button>
+                    <Button Margin="5">Save</Button>
+                    <Button Margin="5">Mark Ready</Button>
+                </StackPanel>
+            </Grid>
+        </StackPanel>
+    </Grid>
 </Window>
