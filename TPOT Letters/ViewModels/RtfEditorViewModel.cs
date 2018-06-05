@@ -1,8 +1,6 @@
 ﻿using Shared;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
-using System.Text.RegularExpressions;
 using System.Windows;
 
 namespace TPOTLetters
@@ -46,6 +44,11 @@ namespace TPOTLetters
         public void Load(Letter letter)
         {
             this.letter = letter;
+
+            if (!System.IO.File.Exists(letter.FilePath))
+            {
+                return;
+            }
 
             var fileStream = new FileStream(letter.FilePath, FileMode.Open);
             rtfTextEditor.rtfTextBox.Selection.Load(fileStream, DataFormats.Rtf);

@@ -33,7 +33,7 @@
                     <RowDefinition Height="auto" />
                     <RowDefinition Height="auto" />
                 </Grid.RowDefinitions>
-                <local:LetterDetailsControl x:Name="letterDetailsView" Loaded="letterDetailsView_Loaded" />
+                <local:LetterDetailsControl x:Name="letterDetailsView" />
                 <local:LettersToolbar
                     x:Name="toolbar"
                     Grid.Row="1"
