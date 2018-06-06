@@ -72,7 +72,7 @@ namespace WordpressTests
             {
                 var post = new Post
                 {
-                    PostType = "page",
+                    PostType = "post",
                     Title = ".Net to WP Test Post",
                     Content = "<p>This is the content</p>",
                     PublishDateTime = DateTime.Now,
