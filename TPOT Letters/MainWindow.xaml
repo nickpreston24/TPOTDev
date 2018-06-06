@@ -15,15 +15,20 @@
     <Window.Resources>
         <ResourceDictionary>
             <Style TargetType="Expander">
-                <Setter Property="Background" Value="#08BEFF" />
+                <!--<Setter Property="Background" Value="#08BEFF" />-->
             </Style>
         </ResourceDictionary>
     </Window.Resources>
     <Grid>
         <StackPanel
             Grid.Column="0"
-            VerticalAlignment="Center"
+            VerticalAlignment="Top"
             Orientation="Vertical">
+            <local:MainOptionsControl
+                x:Name="buttons"
+                Grid.Row="0"
+                Grid.Column="1"
+                HorizontalAlignment="Left" />
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="170*" />
@@ -31,19 +36,16 @@
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="auto" />
+                    <RowDefinition Height="*" />
                     <RowDefinition Height="auto" />
                 </Grid.RowDefinitions>
-                <local:LetterDetailsControl x:Name="letterDetailsView" />
+                <!--<local:LetterDetailsControl x:Name="letterDetailsView" Loaded="letterDetailsView_Loaded" />-->
                 <local:LettersToolbar
                     x:Name="toolbar"
                     Grid.Row="1"
                     HorizontalAlignment="Center" />
-                <local:MainOptionsControl
-                    x:Name="buttons"
-                    Grid.Row="0"
-                    Grid.Column="1" />
             </Grid>
-            <Grid>
+            <Grid Name="Editors">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="2*" />
                     <RowDefinition Height="1*" />
@@ -62,13 +64,7 @@
                     Margin="20"
                     HorizontalAlignment="Right"
                     VerticalAlignment="Bottom"
-                    Orientation="Horizontal">
-                    <Button Name="btnConvert" Margin="5">
-                        Convert
-                    </Button>
-                    <Button Margin="5">Save</Button>
-                    <Button Margin="5">Mark Ready</Button>
-                </StackPanel>
+                    Orientation="Horizontal" />
             </Grid>
         </StackPanel>
     </Grid>
