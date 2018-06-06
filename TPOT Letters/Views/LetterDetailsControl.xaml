@@ -17,7 +17,7 @@
                 <Setter Property="Height" Value="35" />
                 <Setter Property="Grid.Column" Value="1" />
                 <Setter Property="HorizontalAlignment" Value="Left" />
-                <Setter Property="Background" Value="CornflowerBlue" />
+                <!--<Setter Property="Background" Value="CornflowerBlue" />-->
             </Style>
             <Style TargetType="TextBlock">
                 <Setter Property="VerticalAlignment" Value="Center" />

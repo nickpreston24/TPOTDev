@@ -43,6 +43,12 @@
     <Reference Include="ICSharpCode.AvalonEdit, Version=5.0.3.0, Culture=neutral, PublicKeyToken=9cc39be672370310, processorArchitecture=MSIL">
       <HintPath>..\packages\AvalonEdit.5.0.4\lib\Net40\ICSharpCode.AvalonEdit.dll</HintPath>
     </Reference>
+    <Reference Include="MaterialDesignColors, Version=1.1.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MaterialDesignColors.1.1.2\lib\net45\MaterialDesignColors.dll</HintPath>
+    </Reference>
+    <Reference Include="MaterialDesignThemes.Wpf, Version=2.4.0.1044, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MaterialDesignThemes.2.4.0.1044\lib\net45\MaterialDesignThemes.Wpf.dll</HintPath>
+    </Reference>
     <Reference Include="ShowMeTheXAML, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\ShowMeTheXAML.1.0.10\lib\net45\ShowMeTheXAML.dll</HintPath>
     </Reference>
@@ -69,18 +75,24 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Classes\CapsLockControl.cs" />
     <Compile Include="Classes\Letter.cs" />
+    <Compile Include="Classes\ScriptureSaver.cs" />
+    <Compile Include="Classes\Verse.cs" />
     <Compile Include="Controls\EnhancedRichTextBox.cs" />
     <Compile Include="Controls\HyperlinkNavigation.cs" />
+    <Compile Include="Detection\Email.cs" />
     <Compile Include="Extensions\RichTextboxExtensions.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Interfaces\HtmlAwareViewModel.cs" />
     <Compile Include="Interfaces\IConversionService.cs" />
     <Compile Include="Interfaces\IRtfEditor.cs" />
-    <Compile Include="Detection\EmailHeader.cs" />
-    <Compile Include="Detection\EmailHeaderRegex.cs" />
+    <Compile Include="Interfaces\IScriptureSaver.cs" />
     <Compile Include="ViewModels\RtfConversionService.cs" />
     <Compile Include="ViewModels\HtmlEditorViewModel.cs" />
+    <Compile Include="Views\MainPage_Nav_Example.xaml.cs">
+      <DependentUpon>MainPage_Nav_Example.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\MainViewModel.cs" />
     <Compile Include="MainWindow.xaml.cs" />
     <Compile Include="ViewModels\RtfEditorViewModel.cs" />
@@ -138,6 +150,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\MainPage_Nav_Example.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\RtfEditorView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -175,6 +191,9 @@
       <Project>{F92BCA0A-D1EA-4530-BFC4-BF435963D488}</Project>
       <Name>Shared</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="repositories.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

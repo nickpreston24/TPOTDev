@@ -7,7 +7,8 @@ ReactiveUI.Basics/
 RxUI.Sandbox/
 RxNet.Sandbox/
 MaterialDesign.Sandbox/
-
+Doobry_clone/
+AutoFac.Demo/
 
 # User-specific files
 *.suo

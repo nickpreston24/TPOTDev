@@ -3,10 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27130.2010
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IntellisenseDemo", "IntellisenseDemo\IntellisenseDemo.csproj", "{78FDB446-C023-4D69-AD81-68107A38CD33}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TPOT Mobile", "TPOT Mobile\TPOT Mobile.csproj", "{D8D6F7F9-4652-4DD4-9C55-035C32D42C1E}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shared", "Shared\Shared.csproj", "{F92BCA0A-D1EA-4530-BFC4-BF435963D488}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TPOT Letters", "TPOT Letters\TPOT Letters.csproj", "{97CFFD38-331B-4146-A4E7-F37185C3DD04}"
@@ -21,22 +17,14 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RxNet.Sandbox", "RxNet.Sand
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MaterialDesign.Sandbox", "MaterialDesign.Sandbox\MaterialDesign.Sandbox.csproj", "{72942576-D035-49BC-80F9-5C0D66A38453}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutoFac.Demo", "AutoFac.Demo\AutoFac.Demo.csproj", "{91EC51B1-DCCD-4A75-A606-276E95F5DE9D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{78FDB446-C023-4D69-AD81-68107A38CD33}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{78FDB446-C023-4D69-AD81-68107A38CD33}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{78FDB446-C023-4D69-AD81-68107A38CD33}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{78FDB446-C023-4D69-AD81-68107A38CD33}.Release|Any CPU.Build.0 = Release|Any CPU
-		{D8D6F7F9-4652-4DD4-9C55-035C32D42C1E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D8D6F7F9-4652-4DD4-9C55-035C32D42C1E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{D8D6F7F9-4652-4DD4-9C55-035C32D42C1E}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
-		{D8D6F7F9-4652-4DD4-9C55-035C32D42C1E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{D8D6F7F9-4652-4DD4-9C55-035C32D42C1E}.Release|Any CPU.Build.0 = Release|Any CPU
-		{D8D6F7F9-4652-4DD4-9C55-035C32D42C1E}.Release|Any CPU.Deploy.0 = Release|Any CPU
 		{F92BCA0A-D1EA-4530-BFC4-BF435963D488}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{F92BCA0A-D1EA-4530-BFC4-BF435963D488}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F92BCA0A-D1EA-4530-BFC4-BF435963D488}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -65,6 +53,10 @@ Global
 		{72942576-D035-49BC-80F9-5C0D66A38453}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{72942576-D035-49BC-80F9-5C0D66A38453}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{72942576-D035-49BC-80F9-5C0D66A38453}.Release|Any CPU.Build.0 = Release|Any CPU
+		{91EC51B1-DCCD-4A75-A606-276E95F5DE9D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{91EC51B1-DCCD-4A75-A606-276E95F5DE9D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{91EC51B1-DCCD-4A75-A606-276E95F5DE9D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{91EC51B1-DCCD-4A75-A606-276E95F5DE9D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

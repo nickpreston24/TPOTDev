@@ -19,10 +19,7 @@ namespace TPOTLetters
             DataContext = new MainViewModel();
             conversionService = RtfConversionService.Instance;
 
-            btnConvert.Click += (s, e) =>
-            {
-                conversionService.RunConversions();
-            };
+            //btnConvert.Click += (s, e) => conversionService.RunConversions();
 
             rtfViewModel = new RtfEditorViewModel(rtfTextEditor);
             rtfViewModel.Load(new Letter { FilePath = rtfFilePath });
