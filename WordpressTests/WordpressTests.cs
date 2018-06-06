@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Reflection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using WordPressSharp;
@@ -16,10 +17,13 @@ namespace WordpressTests
         {
             siteConfiguration = new WordPressSiteConfig
             {
-                BaseUrl = "www.thepathoftruth.com",
+                BaseUrl = "https://www.thepathoftruth.com",
                 BlogId = 1, //find out
-                Username = "braden",
-                Password = "mercury10"
+                            //Username = "braden",
+                            //Password = "mercury10"
+                Username = "michael.n.preston@gmail.com",
+                Password = "Mintsharp18",
+
             };
         }
 
@@ -68,17 +72,37 @@ namespace WordpressTests
             {
                 var post = new Post
                 {
-                    PostType = "post",
-                    Title = "My Awesome Post",
+                    PostType = "page",
+                    Title = ".Net to WP Test Post",
                     Content = "<p>This is the content</p>",
                     PublishDateTime = DateTime.Now,
                     Author = "Michael Preston"
                 };
 
-                Assert.Inconclusive("not ready, get permission first!");
                 int id = Convert.ToInt32(client.NewPost(post));
             }
         }
+
+        [TestMethod]
+        public void CreatePage()
+        {
+            using (var client = new WordPressClient(siteConfiguration))
+            {
+                var post = new Post
+                {
+                    PostType = "page",
+                    Status = "pending",
+                    Title = ".Net to WP Test Page",
+                    Content = "<p>This is page content</p>",
+                    PublishDateTime = DateTime.Now,
+                    Author = "Michael Preston"
+                };
+
+                int id = Convert.ToInt32(client.NewPost(post));
+            }
+        }
+
+
 
         [TestMethod]
         public void CreatePostTag()

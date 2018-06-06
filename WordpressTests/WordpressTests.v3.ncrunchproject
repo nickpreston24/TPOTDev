@@ -1,0 +1,21 @@
+﻿<ProjectConfiguration>
+  <Settings>
+    <IgnoredTests>
+      <NamedTestSelector>
+        <TestName>WordpressTests.WordpressTests.CreateFeatureImage</TestName>
+      </NamedTestSelector>
+      <NamedTestSelector>
+        <TestName>WordpressTests.WordpressTests.CreatePostTag</TestName>
+      </NamedTestSelector>
+      <NamedTestSelector>
+        <TestName>WordpressTests.WordpressTests.PublishPostTest</TestName>
+      </NamedTestSelector>
+      <NamedTestSelector>
+        <TestName>WordpressTests.WordpressTests.CreatePost</TestName>
+      </NamedTestSelector>
+      <NamedTestSelector>
+        <TestName>WordpressTests.WordpressTests.CreatePage</TestName>
+      </NamedTestSelector>
+    </IgnoredTests>
+  </Settings>
+</ProjectConfiguration>
