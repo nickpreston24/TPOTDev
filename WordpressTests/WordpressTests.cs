@@ -20,7 +20,7 @@ namespace WordpressTests
                             //Username = "braden",
                             //Password = "mercury10"
                 Username = "michael.n.preston@gmail.com",
-                Password = "Mintsharp18",
+                Password = "",//TODO: read from encrypted user-local file (e.g. user_credentials), not hardcode!
 
             };
         }
