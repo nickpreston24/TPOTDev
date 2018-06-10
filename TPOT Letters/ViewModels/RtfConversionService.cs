@@ -1,5 +1,4 @@
-﻿using DesignPatterns;
-using Shared;
+﻿using Shared;
 using System.Diagnostics;
 using System.Linq;
 
