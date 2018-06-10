@@ -34,19 +34,16 @@
   <PropertyGroup>
     <StartupObject />
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'SharedDebug|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\SharedDebug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Itenso.Rtf.Converter.Html">
-      <HintPath>..\..\RtfConverter_v1.7.0\Converter\Html\obj\Release\Itenso.Rtf.Converter.Html.dll</HintPath>
-    </Reference>
-    <Reference Include="Itenso.Rtf.Interpreter">
-      <HintPath>..\..\RtfConverter_v1.7.0\Interpreter\obj\Release\Itenso.Rtf.Interpreter.dll</HintPath>
-    </Reference>
-    <Reference Include="Itenso.Rtf.Parser">
-      <HintPath>..\..\RtfConverter_v1.7.0\Parser\obj\Release\Itenso.Rtf.Parser.dll</HintPath>
-    </Reference>
-    <Reference Include="Itenso.Sys">
-      <HintPath>..\..\RtfConverter_v1.7.0\bin\Release\Itenso.Sys.dll</HintPath>
-    </Reference>
     <Reference Include="RtfPipe, Version=0.7.6669.2200, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\RtfPipe.0.7.0.6\lib\net40\RtfPipe.dll</HintPath>
     </Reference>
@@ -62,6 +59,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AssemblyFileSystem.cs" />
+    <Compile Include="Classes\Multiton.cs" />
+    <Compile Include="Classes\Singleton.cs" />
+    <Compile Include="Classes\SingletonException.cs" />
+    <Compile Include="Interfaces\ISelector.cs" />
+    <Compile Include="Interfaces\ISingleton.cs" />
     <Compile Include="TPOT Letters\Converters\ConverterType.cs" />
     <Compile Include="TPOT Letters\Interfaces\ISubscriber.cs" />
     <Compile Include="TPOT Letters\Interfaces\ILetterConverter.cs" />
