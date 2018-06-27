@@ -28,7 +28,7 @@ const addEventListeners = (e) => {
     $("#maximize-btn").click(()=>{if (!currentWindow.isMaximized()) {currentWindow.maximize()} else {currentWindow.unmaximize()}})
 
     // Navigation
-    $("#btn-logout").click(()=>{webview.loadURL('https://www.google.com/')})
+    // $("#btn-logout").click(()=>{webview.loadURL('https://www.google.com/')})
     $("#btn-checkout").click(()=>{setCurrentNavBtn(event);webview.loadURL('file://C:/Users/Braden/Documents/GitHub/electronTest/assets/sections/checkout/checkout.html')})
     $("#btn-sort").click(()=>{setCurrentNavBtn(event);webview.loadURL('file://C:/Users/Braden/Documents/GitHub/electronTest/assets/sections/sort/sort.html')})
     $("#btn-edit").click(()=>{setCurrentNavBtn(event);webview.loadURL('https://www.tinymce.com/')})
