@@ -1,0 +1,120 @@
+/*////////////////*/
+/*     Default    */
+/*////////////////*/
+.header {
+    box-sizing: content-box;
+    display: table;
+    height: 60px;
+    max-height: 60px;
+    width: 100%;
+    margin: none;
+    padding: none;
+    overflow: hidden;
+    background-color: var(--color-dark-m1);
+    -webkit-user-select: none;
+    -webkit-app-region: drag;
+}
+
+.header button{
+    /* Make sure buttons are clickable */
+    -webkit-app-region: no-drag;
+}
+
+/* Containers */
+.header div{
+    height: inherit;
+    display: table-cell;
+    vertical-align: middle;
+    margin: none;
+    padding: none;
+    overflow: hidden;
+}
+
+
+
+/*////////////////*/
+/*      Badge     */
+/*////////////////*/
+.header-badge {
+    overflow: hidden;
+    background-color: var(--color-dark-m1);
+}
+
+.header-badge *{
+    /* W3 Cells */
+    padding: 0px 1px;
+}
+
+.header-badge h1{
+    font-weight: 300;
+    font-size: 21px;
+    line-height: 21px;
+    color: var(--color-subtle)
+}
+
+.header-badge #app-prefix{
+    padding-left: 16px;
+}
+
+.header-badge #app-title{
+    font-weight: 400;
+    padding-right: 8px;
+    color: var(--color-badge)
+}
+
+.header-badge #app-icon{
+    transform: translateY(3px);
+    padding-right: 32px;
+    width: 36px;
+    height: 36px;
+    color: var(--color-subtle);
+}
+
+
+
+/*////////////////*/
+/*     Toolbar    */
+/*////////////////*/
+.header-treeview {
+    /* fills in the rest */
+    width: 100%;
+}
+
+.header-treeview h1{
+    font-weight: 600;
+    font-size: 21px;
+    line-height: 21px;
+}
+
+/* Window Controls */
+.header-controls {
+    /* static */
+    height: 100%;
+    float: left;
+    width: 245px;
+    /* border: 1px solid black; */
+}
+
+
+
+/*////////////////*/
+/*    Controls    */
+/*////////////////*/
+.header-controls button{
+    padding: auto;
+    display: table-cell;
+    float: left;
+    height: inherit;
+    background-color: transparent;
+    color: #bbb;
+    font-size: 20px;
+    vertical-align: middle;
+}
+
+.header-controls #exit-btn {
+    color: rgb(201, 64, 64);
+}
+
+.header-controls #maximize-btn i{
+    transform: rotateZ(45deg);
+}
