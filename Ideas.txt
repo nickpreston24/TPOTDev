@@ -1,0 +1,26 @@
+Ideas for TPOT App:
+
+**Views**
+- Dashboard (Shift-like) - seamless switching between different views.
+    + RTF editor - 
+    + Html view - allows minor edits; launches in-view xor in-browser (via Process.Start()).
+    + Wordpress view - edits/post to Wordpress
+    + 
+
+All views operate on the same dataset, which consists of the raw & edited (diffs) of RTF, Html, and wordpress.
+
+***Considerations***
+1. Use that special control you found that replaces RTFBox with something more like a full editor (starred in GitHub).
+
+
+
+
+            <Button Name="btnConvert" Margin="5">
+                        <!--  todo: delete when RTF viewmodel can be properly observed.  -->
+                        Convert
+                    </Button>
+                    <Button Margin="5">Save</Button>
+                    <Button Margin="5">Mark Ready</Button>
+
+
+                    
