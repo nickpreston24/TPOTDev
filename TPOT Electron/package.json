@@ -11,7 +11,6 @@
     },
     "dependencies": {
         "config": "^1.30.0",
-        "jQuery": "^1.7.4",
         "jquery": "^3.3.1",
         "path": "^0.12.7",
         "progressbar.js": "^1.0.1",
