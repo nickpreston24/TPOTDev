@@ -1,5 +1,7 @@
-const {app, BrowserWindow} = require('electron')
+const path = require('path')
+const {app, BrowserWindow} = require('electron') // Both app and BrowserWindow are requiring Electron
 const config = require('config');
+
 
 initialize()
 
@@ -15,7 +17,7 @@ function initialize () {
     // window.once('ready-to-show', () => {window.show()})
 
     // set the path of the browser window url
-    window.loadFile('letters.html')
+    window.loadURL(path.join('file://', __dirname, '/letters.html'))
     // window.loadFile('main.js') // text-only load
 
     // Launch fullscreen with DevTools if set in config, usage: npm run debug
