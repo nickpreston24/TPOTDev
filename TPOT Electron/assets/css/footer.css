@@ -1,12 +1,63 @@
 .footer {
+    padding: 0px;
+    padding-left: 16px;
+    margin: 0px;
     display: block;
     position: absolute;
     bottom: 0px;
-    right: 0px;
+    left: 0px;
     width: 100%;
     height: 20px;
+    overflow: hidden;
     z-index: 102;
     background: linear-gradient(to bottom, #277db6 0%,#3498db 100%);
     -webkit-user-select: none;
-    color: white;
+    border-top: 1px solid #3498db;
+    transition: all 0.2s ease-in-out;
+    -webkit-app-region: no-drag;
   }
+
+.footer.open{
+    height: 100vh;
+    border-top: 0px solid #3498db;
+    background: #282b3a;
+}
+
+.footer div{
+    display: inline-block;
+    float: left;
+    /* border: 1px solid red; */
+}
+
+.footer p{
+    font-family: Verdana,Geneva,sans-serif; 
+    margin: 0px;
+    padding: 1px;
+    color: white;
+    font-size: 12px;
+}
+
+.footer i{
+    /* font-family: Verdana,Geneva,sans-serif;  */
+    color: white;
+    font-size: 12px;
+    font-style: normal;
+}
+
+.footer i:hover{
+    color: darkgrey;
+}
+  
+.footer #btn-log {
+    position: absolute;
+    right: 4px;
+    top: 5px;
+    font-size: 12px;
+}
+
+.footer #btn-data {
+    position: absolute;
+    right: 40px;
+    top: 5px;
+    font-size: 12px;
+}

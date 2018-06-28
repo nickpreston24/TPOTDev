@@ -18,29 +18,57 @@ const setCurrentNavBtn = (event) => {
     $(event.target).closest("button").addClass("active")
 }
 
-const addEventListeners = (e) => {
+const toggleConsoleDrawer = () => {
+    // Drawer Opened
+    if ($(".footer").hasClass("open") == false) {  
+        $(".footer-log").hide().delay(200).fadeIn() // hide if not already, then fade in
+        $(".footer").addClass("open") // this guy is able to see delays before him
+        console.log('Console Drawer Opened')
+    // Drawer Closed
+    } else { 
+        $(".footer-log").show().fadeOut()
+        setTimeout(() => {
+            $(".footer").show().removeClass("open") // guy isn't able to see previous delays, so it needs timeout
+        }, 400) // wait for footer log to fade (400 mil)
+        console.log('Console Drawer Closed')
+        //TODO: Transition drawer backgrond color from slate to blue instead of sudden jump (jQueryUI?)
+    }
+}
+
+const addEventListeners = () => {
     const webview = document.querySelector('webview')
     const currentWindow = remote.getCurrentWindow()
 
-    // Window
-    $("#exit-btn").click(()=>{currentWindow.close()})
-    $("#minimize-btn").click(()=>{currentWindow.minimize()});
-    $("#maximize-btn").click(()=>{if (!currentWindow.isMaximized()) {currentWindow.maximize()} else {currentWindow.unmaximize()}})
+    try {
+        // Header
+        $("#exit-btn").click(()=>{currentWindow.close()})
+        $("#minimize-btn").click(()=>{currentWindow.minimize()});
+        $("#maximize-btn").click(()=>{if (!currentWindow.isMaximized()) {currentWindow.maximize()} else {currentWindow.unmaximize()}})
 
-    // Navigation
-    // $("#btn-logout").click(()=>{webview.loadURL('https://www.google.com/')})
-    $("#btn-checkout").click(()=>{setCurrentNavBtn(event);webview.loadURL('file://C:/Users/Braden/Documents/GitHub/electronTest/assets/sections/checkout/checkout.html')})
-    $("#btn-sort").click(()=>{setCurrentNavBtn(event);webview.loadURL('file://C:/Users/Braden/Documents/GitHub/electronTest/assets/sections/sort/sort.html')})
-    $("#btn-edit").click(()=>{setCurrentNavBtn(event);webview.loadURL('https://www.tinymce.com/')})
-    $("#btn-preview").click(()=>{setCurrentNavBtn(event);webview.loadURL('https://www.google.com/')})
-    $("#btn-publish").click(()=>{setCurrentNavBtn(event);webview.loadURL('https://wordpress.com/')})
-    $("#btn-settings").click(()=>{setCurrentNavBtn(event);webview.loadURL('https://demos.creative-tim.com/vue-material-dashboard/?_ga=2.46042212.1762759285.1529897635-552932777.1529897635#/dashboard')})
+        // Navigation
+        // $("#btn-logout").click(()=>{webview.loadURL('https://www.google.com/')})
+        $("#btn-checkout").click(()=>{setCurrentNavBtn(event);webview.loadURL('file://C:/Users/Braden/Documents/GitHub/electronTest/assets/sections/checkout/checkout.html')})
+        $("#btn-sort").click(()=>{setCurrentNavBtn(event);webview.loadURL('file://C:/Users/Braden/Documents/GitHub/electronTest/assets/sections/sort/sort.html')})
+        $("#btn-edit").click(()=>{setCurrentNavBtn(event);webview.loadURL('https://www.tinymce.com/')})
+        $("#btn-preview").click(()=>{setCurrentNavBtn(event);webview.loadURL('https://www.google.com/')})
+        $("#btn-publish").click(()=>{setCurrentNavBtn(event);webview.loadURL('https://wordpress.com/')})
+        $("#btn-settings").click(()=>{setCurrentNavBtn(event);webview.loadURL('https://demos.creative-tim.com/vue-material-dashboard/?_ga=2.46042212.1762759285.1529897635-552932777.1529897635#/dashboard')})
 
-    // Admin
-    $("#ctrl-refresh").click(()=>{location.reload()})
-    $("#ctrl-refresh-webview").click(()=>{webview.loadURL(webview.getURL())})
-    $("#ctrl-destroy").click(()=>{/* Code here */})
-    $("#ctrl-destroy-webview").click(()=>{ui.test("UI Module Loaded")})
+        // Footer
+        $("#btn-log").click(()=>{toggleConsoleDrawer()})
+        $("#btn-data").click(()=>{alert('Data Viewer Backend')})
+
+        // Admin
+        $("#ctrl-refresh").click(()=>{location.reload()})
+        $("#ctrl-refresh-webview").click(()=>{webview.loadURL(webview.getURL())})
+        $("#ctrl-destroy").click(()=>{/* Code here */})
+        $("#ctrl-destroy-webview").click(()=>{ui.test("UI Module Loaded")})
+
+        console.log('Added Event Listeners')
+    } catch (error) {
+        console.log('Failed to Add Event Listeners', error) // Doesn't work yet, but need to implement just incase.
+    }
+  
 
     // webview.addEventListener('dom-ready', () => { // be careful this guy reloads every time the dom loads, which is fast
     //     // webview.openDevTools()
@@ -65,13 +93,6 @@ const addEventListeners = (e) => {
 
     // document.getElementById("navigation-current-triangle").style.fill = '#e7e2de'
 
-
-
-
-        
-
-
-    console.log('added event listeners')
 }
 
 
@@ -146,5 +167,6 @@ module.exports = {
     updateCircle,
     destroyCircle,
     setCurrentNavBtn,
+    toggleConsoleDrawer,
     test
 }

@@ -33,7 +33,7 @@
 <body class="theme-dark">
 
 <!-- Control Panel -->
-<div style="width: auto; height: auto; position: fixed; bottom: 0px; left: 50%; transform: translateX(-50%); background-color: #bbb; z-index: 9999;">
+<div style="width: auto; height: auto; position: fixed; bottom: 0px; left: 50%; transform: translateX(-50%); z-index: 9999;">
   <button id="ctrl-refresh" class="w3-button w3-green">Refresh Letters</button>
   <button id="ctrl-refresh-webview" class="w3-button w3-blue">Refresh Section</button>
   <button id="ctrl-destroy" class="w3-button w3-red">Destroy Letters</button>
@@ -77,7 +77,25 @@
 
 
 <!-- Footer -->
-<div class="footer">Footer</div>
+<div class="footer">
+  <div class="footer-container">
+    <p>Ready</p>
+    <i id="btn-log" title="Toggle Console Drawer" class="far fa-window-maximize"></i>
+    <i id="btn-data" class="fas fa-columns"> View Backend Data</i>
+  </div>
+  <div class="footer-log">
+    <p>Electron Security Warning (experimentalFeatures) This renderer process has "experimentalFeatures" enabled. This exposes users of this app to some security risk. If you do not need this feature, you should disable it.
+      For more information and help, consult https://electronjs.org/docs/tutorial/security.
+      This warning will not show up once the app is packaged.</p>
+    <p>Electron Security Warning (experimentalFeatures) This renderer process has "experimentalFeatures" enabled. This exposes users of this app to some security risk. If you do not need this feature, you should disable it.
+      For more information and help, consult https://electronjs.org/docs/tutorial/security.
+      This warning will not show up once the app is packaged.</p>
+    <p>C:\Users\Braden\Documents\TPOT\Apps\TPOT Electron\assets\js\ui.js:13 - UI Package Loaded</p>
+    <p>C:\Users\Braden\Documents\TPOT\Apps\TPOT Electron\assets\js\wvm.js:17 - WVM Package Loaded</p>
+    <p>C:\Users\Braden\Documents\TPOT\Apps\TPOT Electron\assets\js\ui.js:59 -  Added Event Listeners</p>
+    <p>C:\Users\Braden\Documents\TPOT\Apps\TPOT Electron\assets\js\ui.js:24 - Console Drawer Opened</p>
+  </div>
+</div>
 
 <!-- Toolbar -->
 
