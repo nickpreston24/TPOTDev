@@ -4,6 +4,8 @@
 .header {
     box-sizing: content-box;
     display: table;
+    position: absolute;
+    z-index: 2;
     height: 60px;
     max-height: 60px;
     width: 100%;

@@ -1,24 +1,47 @@
-const remote = require('electron').remote;
+const remote = require('electron').remote
+const webContents = require('electron')
 const progress = require('progressbar.js')
 const config = require('config')
-// const trianglify = require('trianglify');
-const ui = require('./assets/js/updateUI.js')
+const ui = require('./assets/js/ui.js')
+const wvm = require('./assets/js/wvm.js')
 window.$ = window.jQuery = require('./assets/js/jquery.min.js') // Weird way, but works for electron. Code is directly transferrable from web.
 
+// Utilities
 let log = console.log.bind(console)
+
+// Crap that needs done away with later...
 setInterval(function(){ const webview = document.querySelector('webview'); webview.reload(); }, 5000);
-// setInterval(()=>{webview.reload()}, 2000);
 
+
+// This even fires after the BrowserWindow has loaded its WebContents, which contains the Window object. The Window loads the DOM. When it is ready, this event fires.
+// If there are any functions that access an element in the DOM, like a <button>, then they need to be initialized here. All other functions can go elsewhere.
 window.onload = function() {
-    ui.addEventListeners()
 
+    // As Trump says... "verwy emportant. verwy special."
     const webview = document.querySelector('webview')
 
+    webview.addEventListener('dom-ready', (e) => {
+        // e.target.openDevTools()
+        // setInterval(()=>{webview.reload()}, 2000);
+        console.log('Webview DOM Ready')
+    })
+    
+    // Test all packages for valid load
+    ui.test('UI Package Loaded')
+    wvm.test('WVM Package Loaded')
+
+    // Add in dom-dependant button event listeners
+    ui.addEventListeners()
+
+    // Create & Set Class-based UI Elements
     ui.createCircle(((Math.random() * 100) / 100).toFixed(2))
     // ui.createCircle()
     // ui.destroyCircle()
     // ui.updateCircle(80)
 
+    // console.log(webview.webContents)
+
+    // webview.Window.postMessage("initial message", "https://googledrive.com/host/*");
 
 }
 

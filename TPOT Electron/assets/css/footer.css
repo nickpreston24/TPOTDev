@@ -1,0 +1,12 @@
+.footer {
+    display: block;
+    position: absolute;
+    bottom: 0px;
+    right: 0px;
+    width: 100%;
+    height: 20px;
+    z-index: 102;
+    background: linear-gradient(to bottom, #277db6 0%,#3498db 100%);
+    -webkit-user-select: none;
+    color: white;
+  }

@@ -15,7 +15,7 @@ const test = (msg) => {
 
 const setCurrentNavBtn = (event) => {
     $(".navigation-btn").removeClass("active")
-    $(event.srcElement).closest("button").addClass("active")
+    $(event.target).closest("button").addClass("active")
 }
 
 const addEventListeners = (e) => {
@@ -126,10 +126,11 @@ const destroyCircle = () => {
 }
 
 const updateCircle = (percent) => {
-    var offset = $("#progress-circle svg path:last")[0]
+    var offset = $("#progress-circle svg path:last").get(0) // get(i) is better than [i], doesn't break when there is no index referenced
+    console.log(offset)
     var length = offset.style.strokeDashoffset
     var amt = length - (length / 100 * percent)    
-    var text = $("#progress-circle div")[0].textContent = percent + "%"
+    var text = $("#progress-circle div").get(0).textContent = percent + "%"
     if (percent == 0) {
         offset.style.strokeDashoffset = none
     } else{
