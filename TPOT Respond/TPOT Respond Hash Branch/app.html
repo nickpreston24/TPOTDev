@@ -1,0 +1,170 @@
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<link href="https://fonts.googleapis.com/css?family=Monda" rel="stylesheet">
+<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+<!-- <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css"> -->
+<!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"> -->
+<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script> -->
+<!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> -->
+<script src="https://use.fontawesome.com/releases/v5.0.10/js/all.js"></script>
+
+<script type="text/javascript" src="app.js"></script>
+<!-- <script type="text/javascript" src="jquery.js"></script> -->
+
+<link rel="stylesheet" href="app.css">
+
+<!-- <script>
+  function test() {
+    console.log('this is a test');
+  }
+  var js = chrome.extension.getURL('app.js');
+  alert('loaded app.js');
+  var script = document.createElement('script');
+  script.onload = function() {
+    alert('loaded app.js');
+  };
+  script.src = js;
+  document.head.appendChild(script);
+</script> -->
+
+
+
+
+
+
+<body>
+
+
+  <style scoped>
+    @import "https://www.w3schools.com/w3css/4/w3.css";
+  </style>
+
+  <div id="results" class="w3-container-padding w3-display-container">
+    <!-- <div id="ping" class="w3-container w3-display-container paper">
+      <div id="select"><input /></div>
+      <i>paper</i>
+      <p>
+        The State and Fate of Hell http://www.thepathoftruth.com/teachings/state-and-fate-of-hell.htm
+      </p>
+    </div>
+    <div id="ping" class="w3-container w3-display-container quote">
+      <div id="select"><input /></div>
+      <i>quote</i>
+      <p>
+        Certainly, a clear & simple scripture and although thought provoking, there is no way it should be misinterpreted. However, most people, due to an unhealthy favoring of family members, even bordering on idolatry don't & won't like this scripture.
+      </p>
+    </div>
+    <div id="ping" class="w3-container w3-display-container verse">
+      <div id="select"><input /></div>
+      <i>Matthew 24:5 BSB</i>
+      <p>"For many will come in my name, claiming, '𝙄 𝙖𝙢 Christ,' ["𝙅𝙚𝙨𝙪𝙨 𝐢𝐬 𝐭𝐡𝐞 𝐂𝐡𝐫𝐢𝐬𝐭"] and will deceive many."</p>
+    </div>
+    <div id="ping" class="w3-container w3-display-container quote">
+      <div id="select"><input /></div>
+      <i>quote</i>
+      <p>
+        Certainly, a clear & simple scripture and although thought provoking, there is no way it should be misinterpreted. However, most people, due to an unhealthy favoring of family members, even bordering on idolatry don't & won't like this scripture.
+      </p>
+    </div>
+    <div id="ping" class="w3-container w3-display-container paper">
+      <div id="select"><input /></div>
+      <i>paper</i>
+      <p>
+        The State and Fate of Hell http://www.thepathoftruth.com/teachings/state-and-fate-of-hell.htm
+      </p>
+    </div>
+    <div id="ping" class="w3-container w3-display-container verse">
+      <div id="select"><input /></div>
+      <i>Jude 1:14-15 MKJV</i>
+      <p>"Enoch, the seventh from Adam, also prophesied about them: “Behold, the Lord is coming with myriads of His holy ones to execute judgment on everyone, and to convict all the ungodly of every ungodly act of wickedness and every harsh word spoken against
+        Him by ungodly sinners."</p>
+    </div> -->
+
+  </div>
+
+  <div id="editor" class="w3-container-padding w3-display-container">
+
+
+    <!-- Top GUI -->
+    <div id="top" class="">
+      <button id="test_btn">Display dimensions of document and window</button>
+
+      <div id="apps" class="w3-cell-row">
+        <button id="btn_tpot" class="w3-container w3-cell w3-cell-middle"><img src="https://yt3.ggpht.com/-SAGdYL2EnRA/AAAAAAAAAAI/AAAAAAAAAAA/0j75HpXUENg/s288-mo-c-c0xffffffff-rj-k-no/photo.jpg" /></button>
+        <button id="btn_facebook" class="w3-container w3-cell w3-cell-middle active"><img src="http://icons.iconarchive.com/icons/paomedia/small-n-flat/48/social-facebook-icon.png" /></button>
+        <button id="btn_fbadmin" class="w3-container w3-cell w3-cell-middle"><img src="http://icons.iconarchive.com/icons/paomedia/small-n-flat/48/bubbles-alt-icon.png" /></button>
+        <button id="btn_youtube" class="w3-container w3-cell w3-cell-middle"><img src="https://cdn1.iconfinder.com/data/icons/logotypes/32/youtube-256.png" /></button>
+        <button id="btn_twitter" class="w3-container w3-cell w3-cell-middle"><img src="http://icons.iconarchive.com/icons/paomedia/small-n-flat/48/social-twitter-icon.png" /></button>
+        <button id="btn_settings" class="w3-container w3-cell w3-cell-middle"><img src="http://icons.iconarchive.com/icons/dtafalonso/android-l/48/Settings-L-icon.png" /></button>
+      </div>
+
+      <div class="w3-cell-row" id="search">
+        <!-- <div class="w3-container w3-cell w3-cell-middle">
+          <input id="verse" value="the state and fate of hell" />
+        </div> -->
+        <button class="w3-container w3-cell w3-cell-middle button btn-s" id="btn_verse"><input id="verse" placeholder="search for verse, paper, or quote..."/></button>
+        <button class="w3-container w3-cell w3-cell-middle button btn-s" id="btn_add"><p>Insert</p><i class="material-icons">&#xe2c4;</i></button>
+      </div>
+
+      <div class="w3-cell-row" id="rtf">
+        <button class="w3-container w3-cell w3-cell-middle button btn-s" id="btn_clear">Clear</button>
+        <button class="w3-container w3-cell w3-cell-middle button btn-l" id="btn_bold"><i class="material-icons">&#xe238;</i></button>
+        <button class="w3-container w3-cell w3-cell-middle button btn-m" id="btn_italic"><i class="material-icons">&#xe23f;</i></button>
+        <!-- <button class="w3-container w3-cell w3-cell-middle button btn-m" id="btn_underline"><i class="material-icons">&#xe249;</i></button> -->
+        <button class="w3-container w3-cell w3-cell-middle button btn-r" id="btn_caps"><i>Aa</i></button>
+        <button class="w3-container w3-cell w3-cell-middle button btn-l" id="btn_quotes"><i class="material-icons">&#xe244;</i></button>
+        <button class="w3-container w3-cell w3-cell-middle button btn-m" id="btn_parens"><i class="material-icons">( )</i></button>
+        <button class="w3-container w3-cell w3-cell-middle button btn-r" id="btn_brackets"><i class="material-icons">[ ]</i></button>
+      </div>
+
+    </div>
+
+
+    <!-- Bottom GUI -->
+    <div id="bottom" class="">
+
+      <div id="util" class="w3-cell-row">
+        <button class="w3-container w3-cell w3-cell-middle button btn-s" id="btn_copy"><p>Copy</p><i class="material-icons">&#xe3e0;</i></button>
+        <button class="w3-container w3-cell w3-cell-middle button btn-s" id="btn_capture">Capture</button>
+        <button class="w3-container w3-cell w3-cell-middle button btn-l" id="btn_font_size"><i class="material-icons">&#xe262;</i></button>
+        <button class="w3-container w3-cell w3-cell-middle button btn-m" id="btn_font_plus">+</button>
+        <button class="w3-container w3-cell w3-cell-middle button btn-r" id="btn_font_minus">-</button>
+        <button class="w3-container w3-cell w3-cell-middle button btn-s" id="btn_help">?</button>
+        <!-- <button class="w3-container w3-cell w3-cell-middle button btn-s" id="btn_minimize"><i class="material-icons">&#xe037;</i></button> -->
+      </div>
+
+    </div>
+
+
+
+
+
+    <!-- Response Area -->
+    <div id="middle" class="">
+
+      <div id="whitespace" class="w3-container">
+        <tag autocomplete="off" autocorrect="off" autocapitalize="on" spellcheck="true" />
+
+        <div id="response" contenteditable="true">
+          "For many will come in my name, claiming, '𝙄 𝙖𝙢 Christ,' ["𝙅𝙚𝙨𝙪𝙨 𝐢𝐬 𝐭𝐡𝐞 𝐂𝐡𝐫𝐢𝐬𝐭"] and will deceive many." (Matthew 24:5 BSB) "What agreement does Christ have with Belial? Or what does a believer have in common with an unbeliever?" (2
+          Corinthians 6:15) "Then the angel said to me, “The waters where you saw the prostitute seated are peoples and multitudes and nations and tongues. And the ten horns and the beast that you saw will hate the prostitute. They will leave her desolate
+          and naked, and will eat her flesh and burn her with fire. For God has put it into their hearts to carry out His purpose by uniting to give their kingdom to the beast, until the words of God are fulfilled." (Revelation 17:15-17) Catholicism [Section]
+          http://www.thepathoftruth.com/falsehood-exposed/catholicism/index.htm Islam [Section] http://www.thepathoftruth.com/falsehood-exposed/islam/index.htm</div>
+
+
+        <!-- <textarea id="response" class="" cols="43" rows="100%">
+
+</textarea> -->
+      </div>
+    </div>
+
+
+
+
+
+
+
+  </div>
+
+
+</body>

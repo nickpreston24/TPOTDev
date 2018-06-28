@@ -1,0 +1,85 @@
+{
+  "name": "TPOT Respond.v2",
+  "short_name": "Respond.v2",
+  "description": "A Dynamic Response Builder for ThePathofTruth.",
+  "version": "1.0.00",
+  "manifest_version": 2,
+  "icons": {
+    "16": "tpot_tool_icon.png",
+    "19": "tpot_tool_icon.png",
+    "48": "tpot_tool_icon.png",
+    "128": "tpot_tool_icon.png"
+  },
+
+  "background": {
+    "scripts": ["background.js"]
+  },
+
+  "browser_action": {
+    "default_popup": "popup.html",
+    "default_icon": "tpot_tool_icon.png"
+  },
+
+  "commands": {
+    "_execute_browser_action": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+Up",
+        "mac": "MacCtrl+Shift+Up"
+      },
+      "description": "popup.html"
+    }
+  },
+
+  "content_scripts": [{
+    "matches": ["<all_urls>"],
+    "css": [
+      "content.css"
+    ],
+    "js": [
+      "jquery.js",
+      "jquery-ui.js",
+      "jquery.caretposition.js",
+      "content.js"
+    ],
+    "run_at": "document_end"
+   }],
+
+  "externally_connectable": {
+    "ids": "*",
+    "matches": [
+      "https://*.google.com/*",
+      "http://*.google.com/*",
+      "*://*.chromium.org/*"
+    ]
+  },
+
+  "incognito": "spanning",
+
+  "permissions": [
+    "storage",
+    "webRequest",
+    "webRequestBlocking",
+    "<all_urls>",
+    "activeTab",
+    "tabs",
+    "bookmarks",
+    "http://*/*",
+    "https://*/*",
+    "unlimitedStorage"
+  ],
+
+  "web_accessible_resources": [
+    "w3.css",
+    "jquery.js",
+    "jquery-ui.js",
+    "content.css",
+    "tpot_tool_icon.png",
+    "tpot_toolbox_icon_clear.png",
+    "app.html",
+    "app.js",
+    "app.css",
+    "data.json",
+    "tpot_ico.png"
+    ]
+
+}
