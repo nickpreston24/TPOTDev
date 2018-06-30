@@ -47,78 +47,49 @@ class RtfConverter {
     }
 }
 
-//todo: delete when done testing
-let result = 'bunnies'
-// result.html = ''
-
-function convertSample() {
-    console.log('started conversion')
-
-    // var a
-    fs.createReadStream(letterPath).pipe(rtfToHtml((err, html) => {
-
-        // console.log(html)
-    }))
-
-    // console.log("FINAL", rtfToHtml.display())
-
-    // console.log("Exported Output variable: ", a)
-
-    // rtfToHtml.getHTML()
-    // console.log('output var : \n', output)
-    // return result
+function sampleCallback() {
+    var x = (function () {
+        return true;
+    })();
+    console.log(x)
 }
-// }
-
-//     (err, html) => {
-//         // console.log('Conversion complete')
-//         // result = html
-//         console.log("html var", html)
-//         output = html
-//         console.log("result var", output)
-
-//         // console.log('convertsample(): \n', result)
-//         // console.log('output var : \n', output)
-
-//     }
 
 
-// function convertSample (){
-//     const rtfToHtml = require('@iarna/rtf-to-html')
-
-//     fs.createReadStream(letterPath).pipe(rtfToHTML((err, html) => {
-//         console.log("from read stream", html)
-//         // …
-//     }))
-
-//     // rtfToHTML.fromStream(fs.createReadStream('example.rtf'), (err, html) => {
-//     //     // …
-//     // })
-
-//     // rtfToHTML.fromString('{\\rtf1\\ansi\\b hi there\\b0}', (err, html) => {
-//     //     // prints a document containing:
-//     //     // <p><strong>hi there</strong></p>
-//     // })
-
-// }
+function usageSample() {
+    let htmlOuter
+    fs.createReadStream('example.rtf').pipe(rtfToHTML((err, html) => {
+        console.log(html)
+        htmlOuter = html
+    }))
+    console.log(htmlOuter)
+}
 
 
+//todo: delete when done testing
+function convertSample() {
+    // console.log('started conversion')
+    let callback = function (err, html) {
+        console.log('callback-inner():\n', html)
+        // this.html = html
+        // return html
+    }
+
+    fs.createReadStream(letterPath).pipe(rtfToHtml(callback))
 
 
-// async function convertAsync() {
-//     var result;
+    console.log('callback-outer()', callback.html)
+    var x = callback();
+    console.log('x = ', x)
 
-//     console.log('started conversion')
-//     result = fs.createReadStream(letterPath).pipe(rtfToHtml((error, html) => {
-//         console.log('Conversion complete')
-//         return html
-//     }))
+}
 
-//     return result
-// }
+// foo("", function (html) {
+//     console.log(html)
+// });
+
 
 module.exports = {
     RtfConverter,
     convertSample,
-    result
+    sampleCallback,
 }
