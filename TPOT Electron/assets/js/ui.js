@@ -39,6 +39,12 @@ const addEventListeners = () => {
     const webview = document.querySelector('webview')
     const currentWindow = remote.getCurrentWindow()
 
+
+    // document.querySelector('img.my-image').addEventListener('load', function(){
+    //     // The image is ready!
+    //     $("#exit-btn").click(()=>{currentWindow.close()})
+    // });
+
     try {
         // Header
         $("#exit-btn").click(()=>{currentWindow.close()})
@@ -160,9 +166,25 @@ const updateCircle = (percent) => {
     // console.log(offset, percent, amt, text)
 }
 
+
+const createAppLaunchScreen = () => {
+    console.log('Started Application Launch Screen')
+    let launch = document.createElement("div")
+    launch.id = "application-launch-screen"
+    $("body").append(launch)
+    console.log($(document.body))
+}
+
+const destroyAppLaunchScreen = () => {
+    console.log('Stopped Application Launch Screen')
+}
+
+
 module.exports = {
     status,
     addEventListeners,
+    createAppLaunchScreen,
+    destroyAppLaunchScreen,
     createCircle,
     updateCircle,
     destroyCircle,
