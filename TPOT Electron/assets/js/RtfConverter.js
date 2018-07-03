@@ -1,13 +1,55 @@
 const letterPath = './assets/rtf/SampleLetter.rtf'
 const rtfToHtml = require('@iarna/rtf-to-html')
 var fs = require('fs')
+const pattern = /rtf/g
+const savePath = letterPath.replace(pattern, 'html')
+const ipc = require('electron').ipcRenderer
 
-function sampleCallback() {
-    var x = (function () {
-        return true;
-    })();
-    console.log(x)
+var onConversionComplete = new Event('on-convert-complete')
+
+function convert(filePath) {
+
 }
+
+window.addEventListener('on-convert-complete', (e) => {
+    // console.log('event received!')
+    fs.readFile(savePath, 'utf8', (error, data) => {
+        if (error) throw error;
+        console.log("File Red: ", savePath)
+        ipc.send('html-data', data)
+    })
+
+}, false)
+
+//todo: delete when done testing
+function convertSample() {
+    console.log('started conversion')
+    fs.createReadStream(letterPath).pipe(rtfToHtml((err, html) => {
+        ipc.send('html-data', html)
+        SaveHtml(html);
+        window.dispatchEvent(onConversionComplete, html)
+    }))
+}
+
+function SaveHtml(html) {
+    fs.writeFile(savePath, html, (error) => {
+        if (error) {
+            return console.log(error);
+        }
+        console.log('save complete for file\n', savePath);
+    });
+}
+
+function mammothSample() {}
+
+function file2HtmlSample() {}
+
+// function sampleCallback() {
+//     var x = (function () {
+//         return true;
+//     })();
+//     console.log(x)
+// }
 
 // function usageSample() {
 //     let htmlOuter
@@ -18,27 +60,6 @@ function sampleCallback() {
 //     console.log(htmlOuter)
 // }
 
-
-//todo: delete when done testing
-function convertSample() {
-    console.log('started conversion')
-    var regexp = new RegExp('rtf')
-    fs.createReadStream(letterPath).pipe(rtfToHtml((err, html) => {
-        console.log('callback-inner():\n', html)
-        savePath = letterPath.replace(regexp, 'html')
-        console.log(savePath)
-
-        //ERROR: Works, but we can't get our save path back to access it.
-        // fs.writeFile(savePath, html, (error) => {
-        //     if (error) {
-        //         return console.log(error)
-        //     }
-        //     console.log('save complete')
-        // })
-    }))
-}
-
 module.exports = {
     convertSample,
-    sampleCallback,
 }
