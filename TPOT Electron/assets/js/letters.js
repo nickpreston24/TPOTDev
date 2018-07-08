@@ -46,17 +46,24 @@ window.onload = function () {
     // })
 
     //Rtf to html conversion test:
-    var test = require('./assets/js/test-modules/RtfConverter.js')
-    test.convertIarnaSample()
+    converter = require('./assets/js/test-modules/RtfConverter.js')
+    converter.convertIarnaSample()
+    //File 2 Html test:
+    converter.file2HtmlSample()
+
+
+    //Generic convert w/ promise test:    
+    // ConvertDocument()
+
 
     //View builder test:
     // let view1 = new View.Builder('first-view') //.build()
     // console.log(view1)
 }
 
-//psuedocode (put inside a class, if possible, else just use inside editor.html)
+//[MP] - psuedocode (put inside a class, if possible, else just use inside editor.html)
 async function ConvertDocument() {
-    await converter.Convert(filename)
+    await converter.convert(filename)
         .then((response) => {
             //1.  run conversion
             //2.  fire event UI or other class can pick up via event listener 
