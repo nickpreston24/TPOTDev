@@ -4,10 +4,15 @@ const progress = require('progressbar.js')
 const config = require('config')
 const ui = require('./assets/js/ui.js')
 const wvm = require('./assets/js/wvm.js')
+<<<<<<< HEAD
 var mammoth = require("mammoth");
 
 
+=======
+const fs = require('fs')
+>>>>>>> 48222dead837a1386745d8fff3ada907ab0e9ae2
 window.$ = window.jQuery = require('./assets/js/jquery.min.js') // Weird way, but works for electron. Code is directly transferrable from web.
+var ipc = require('electron').ipcRenderer
 
 
     // .then(function(result){
@@ -61,6 +66,7 @@ async function x() {
 let log = console.log.bind(console)
 // setInterval(function(){ const webview = document.querySelector('webview'); webview.reload(); }, 5000);
 
+<<<<<<< HEAD
 // DOMContentLoaded / Ready  ==  Fired after HTML page has finished Parsing
 // window.DOMContentLoaded()
 
@@ -78,6 +84,13 @@ window.addEventListener('load', function() { // window.load() is the Window equi
 
     console.log('DOM Fully Loaded')
     // setTimeout(ui.destroyAppLaunchScreen,2000)
+=======
+// This event fires after the BrowserWindow has loaded its WebContents, which contains the Window object. 
+// The Window loads the DOM. When it is ready, this event fires.
+// If there are any functions that access an element in the DOM, like a <button>, then they need to be initialized here. 
+// All other functions can go elsewhere.
+window.onload = function () {
+>>>>>>> 48222dead837a1386745d8fff3ada907ab0e9ae2
 
     // As Trump says... "verwy emportant. verwy special."
     const webview = document.querySelector('webview')
@@ -87,7 +100,7 @@ window.addEventListener('load', function() { // window.load() is the Window equi
         // setInterval(()=>{webview.reload()}, 2000);
         console.log('Webview DOM Ready')
     })
-    
+
     // Test all packages for valid load
     ui.test('UI Package Loaded')
     wvm.test('WVM Package Loaded')
@@ -97,6 +110,7 @@ window.addEventListener('load', function() { // window.load() is the Window equi
 
     // Create & Set Class-based UI Elements
     ui.createCircle(((Math.random() * 100) / 100).toFixed(2))
+<<<<<<< HEAD
     // ui.createCircle()
     // ui.destroyCircle()
     // ui.updateCircle(80)
@@ -173,10 +187,28 @@ window.addEventListener('load', function() { // window.load() is the Window equi
 //       }
 //     }
 // }
+=======
 
+    //Sample transfer of html over IPC:
+    window.addEventListener('on-convert-complete', (e) => {
+        ipc.send('html-data', 'Ping!')
+    })
+>>>>>>> 48222dead837a1386745d8fff3ada907ab0e9ae2
 
+    // window.addEventListener('on-convert-complete', (e) => {
+    //     console.log('Letters.js heard an event!')
+    // })
 
+    //Rtf to html conversion test:
+    var test = require('./assets/js/test-modules/RtfConverter.js')
+    test.convertIarnaSample()
 
+    //View builder test:
+    // let view1 = new View.Builder('first-view') //.build()
+    // console.log(view1)
+}
+
+<<<<<<< HEAD
 
     // async function getFirstUser() {
     //     let usersPromise = path;
@@ -211,3 +243,19 @@ window.addEventListener('load', function() { // window.load() is the Window equi
 
 
 
+=======
+//psuedocode (put inside a class, if possible, else just use inside editor.html)
+async function ConvertDocument() {
+    await converter.Convert(filename)
+        .then((response) => {
+            //1.  run conversion
+            //2.  fire event UI or other class can pick up via event listener 
+            //    & pair that event listener with a handler function (outside this function and promise!)
+            //pack the event with the new file's location within this promise or this function
+            window.dispatchEvent(conversionCompleteEvent)
+
+        }).then((error) => {
+            //rethrow error to an event the UI can pick up
+        })
+}
+>>>>>>> 48222dead837a1386745d8fff3ada907ab0e9ae2
