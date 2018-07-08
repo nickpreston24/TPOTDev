@@ -1,0 +1,13 @@
+{
+    "scripts": {
+        "start": "start.js"
+    },
+    "devDependencies": {
+        "browserify": "^16.2.2",
+        "files": "^0.8.2",
+        "fs": "0.0.1-security",
+        "gulp": "^3.9.1",
+        "vinyl-source-stream": "^2.0.0",
+        "watchify": "^3.11.0"
+    }
+}

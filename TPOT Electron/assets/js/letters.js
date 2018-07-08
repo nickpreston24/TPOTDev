@@ -4,18 +4,80 @@ const progress = require('progressbar.js')
 const config = require('config')
 const ui = require('./assets/js/ui.js')
 const wvm = require('./assets/js/wvm.js')
+var mammoth = require("mammoth");
+
+
 window.$ = window.jQuery = require('./assets/js/jquery.min.js') // Weird way, but works for electron. Code is directly transferrable from web.
+
+
+    // .then(function(result){
+    //     var html = result.value; // The generated HTML
+    //     var messages = result.messages; // Any messages, such as warnings during conversion
+    // })
+    // .done();
+    // C:/Users/Braden/Desktop/docxtest.docx
+
+// Get the most popular repo asynchronously: "await" waits for it to finish!
+// var response = await mammoth.convertToHtml({path: "path/to/document.docx"})
+//                             .then(function(result){
+//                                 var html = result.value; // The generated HTML
+//                                 var messages = result.messages; // Any messages, such as warnings during conversion
+//                             })
+//                             .done()
+
+// // Grab the contributors of the most popular repo, asynchronously
+// var mostPopularRepo = response.body.items[0];
+
+// console.log(mostPopularRepo)
+
+var got = URL => require("got")(URL, { json : true });
+
+async function x() {
+
+    // ui.createAppLaunchScreen()
+
+    // Get the most popular repo asynchronously: "await" waits for it to finish!
+    var response = await mammoth.convertToHtml({path: "C:/Users/Braden/Desktop/docxtest.docx"})
+                                .then(function(result){
+                                    var html = result.value; // The generated HTML
+                                    var messages = result.messages; // Any messages, such as warnings during conversion
+                                })
+                                // .done()
+
+    // Grab the contributors of the most popular repo, asynchronously
+    var mostPopularRepo = response
+
+    return response
+    // var contributors = (await got(mostPopularRepo.contributors_url)).body;
+
+    // // and render them as html
+    // contributors.reduce((prev, user) =>
+    //     prev + `<li><img src=${user.avatar_url} width=24 /> ${user.login} </li>`
+    // , "");
+}
+
 
 // Utilities
 let log = console.log.bind(console)
+// setInterval(function(){ const webview = document.querySelector('webview'); webview.reload(); }, 5000);
 
-// Crap that needs done away with later...
-setInterval(function(){ const webview = document.querySelector('webview'); webview.reload(); }, 5000);
+// DOMContentLoaded / Ready  ==  Fired after HTML page has finished Parsing
+// window.DOMContentLoaded()
 
+window.addEventListener("DOMContentLoaded", function() { // ($( document ).ready() is the jQuery equivalent
+    console.log('DOM Content Loaded')
+    var e = x().then((result) => {
+        console.log(result)
+    })
+    
+});
 
 // This even fires after the BrowserWindow has loaded its WebContents, which contains the Window object. The Window loads the DOM. When it is ready, this event fires.
 // If there are any functions that access an element in the DOM, like a <button>, then they need to be initialized here. All other functions can go elsewhere.
-window.onload = function() {
+window.addEventListener('load', function() { // window.load() is the Window equivalent
+
+    console.log('DOM Fully Loaded')
+    // setTimeout(ui.destroyAppLaunchScreen,2000)
 
     // As Trump says... "verwy emportant. verwy special."
     const webview = document.querySelector('webview')
@@ -43,60 +105,109 @@ window.onload = function() {
 
     // webview.Window.postMessage("initial message", "https://googledrive.com/host/*");
 
-}
-
-// https://www.github.com
-
-
-// Give some time for the DOM to load then add in the Event Listeners
-
-
-// function addEventListeners() {
-//     const webview = document.querySelector('webview')
-//     const currentWindow = remote.getCurrentWindow()
-
-//     // // Window
-//     // $("#exit-btn").click(()=>{currentWindow.close()})
-//     // $("#minimize-btn").click(()=>{currentWindow.minimize()});
-//     // $("#maximize-btn").click(()=>{if (!currentWindow.isMaximized()) {currentWindow.maximize()} else {currentWindow.unmaximize()}})
-
-//     // // Navigation
-//     // $("#btn-logout").click(()=>{webview.loadURL('https://www.google.com/')})
-//     // $("#btn-checkout").click(()=>{ui.setCurrentNavBtn(event.srcElement);webview.loadURL('file://C:/Users/Braden/Documents/GitHub/electronTest/assets/sections/checkout/checkout.html')})
-//     // $("#btn-sort").click(()=>{ui.setCurrentNavBtn(event.srcElement);webview.loadURL('file://C:/Users/Braden/Documents/GitHub/electronTest/assets/sections/sort/sort.html')})
-//     // $("#btn-edit").click(()=>{ui.setCurrentNavBtn(event.srcElement);webview.loadURL('https://www.tinymce.com/')})
-//     // $("#btn-preview").click(()=>{ui.setCurrentNavBtn(event.srcElement);webview.loadURL('https://www.thepathoftruth.com/letters/am-i-eternally-lost.htm')})
-//     // $("#btn-publish").click(()=>{ui.setCurrentNavBtn(event.srcElement);webview.loadURL('https://wordpress.com/')})
-//     // $("#btn-settings").click(()=>{ui.setCurrentNavBtn(event.srcElement);webview.loadURL('https://demos.creative-tim.com/vue-material-dashboard/?_ga=2.46042212.1762759285.1529897635-552932777.1529897635#/dashboard')})
-
-//     // // Admin
-//     // $("#ctrl-refresh").click(()=>{location.reload()})
-//     // $("#ctrl-refresh-webview").click(()=>{webview.loadURL(webview.getURL())})
-//     // $("#ctrl-destroy").click(()=>{/* Code here */})
-//     // $("#ctrl-destroy-webview").click(()=>{ui.test("UI Module Loaded")})
-
-
-
-
-
+    // global variable?
+    // add event listener for window
+    // on event, set variable to html contents
+    // at end of event, reset the
     
 
-// // ui.setCurrentNavBTN()
 
-//         // document.getElementsByClassName('entry-title')[0].innerHTML
-//         // document.getElementsByClassName('entry-content')[0].innerHTML
+    // actually use the event here
+    // convertFileToHTML('C:/Users/Braden/Desktop/docxtest.docx')
+    // sleep(1000);
+    // // var x = $('#buffer').get(0).innerHTML
+    // console.log(document.getElementById("buffer"))
+    
 
-// } // End of Event Listeners
+    // C:/Users/Braden/Documents/TPOT/Apps/TPOT Electron/assets/SampleLetter.rtf
+    // C:/Users/Braden/Desktop/docxtest.docx
 
 
 
-// function setActive(element) {
-//     console.log(element.className)
-//     element.className += " active"
-//     console.log(element.className)
+})
+
+
+
+// async function convertFileToHTML(path) {
+//     console.log(path)
+
+//     // Run mammoth promise as if it was syncronous
+//     mammoth.convertToHtml({path: path})
+//         .then(createBuffer) // Create Temporary Buffer
+//         // .then(createBuffer) // Post event to window
+
+//     // Retrieve Result and store to variable
+//     // let e = result.value
+
+//     // Destroy Temporary Buffer
+//     // destroyBuffer()
+
+//     // Publish Results
+//     // console.log(html)
+    
+//     // utilities
+
+//     function createBuffer(result) {
+//         var store = document.createElement("code")
+//         store.id = "buffer"
+//         store.innerHTML = result.value
+//         $('body').append(store)
+//     }
+
+//     // function destroyBuffer() {
+//     //     $('#buffer').remove()
+//     // }
+
+//     // End of convertFileToHTML(
 // }
 
 
 
 
-// window.module.children.forEach((child) => {console.log(child) })
+
+// function sleep(milliseconds) {
+//     var start = new Date().getTime();
+//     for (var i = 0; i < 1e7; i++) {
+//       if ((new Date().getTime() - start) > milliseconds){
+//         break;
+//       }
+//     }
+// }
+
+
+
+
+
+    // async function getFirstUser() {
+    //     let usersPromise = path;
+    //     let users = await usersPromise;
+    //     let html = users.value
+    //     console.log(html)
+    //     return html;
+    // }
+
+
+
+    // // Promise.all() evaluates an array of promises, like mammoth.convertToHtml(), and returns the results in the array. Index 0 is the first promise result.
+    // Promise.all([mammoth.convertToHtml({path: "C:/Users/Braden/Desktop/docxtest.docx"})]).then(function(results) {
+    //     // console.log(results[0].value)
+    // });
+
+
+    // // Console.log() doesnt print until it has a value from the async function which is waiting on mammoth.convertToHTML()
+    // const makeRequest = async () => {
+    //     await mammoth.convertToHtml({path: "C:/Users/Braden/Desktop/docxtest.docx"}).then(function(result){
+    //         var html = result.value; // The generated HTML
+    //         var messages = result.messages; // Any messages, such as warnings during conversion
+    //         // console.log(html)
+    //     })
+    //     .done();
+    // } 
+    // console.log("Request: ", makeRequest())
+
+
+    
+
+
+
+

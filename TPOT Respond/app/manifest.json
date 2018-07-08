@@ -1,0 +1,35 @@
+{
+    "manifest_version": 2,
+    "name": "Boilerplate",
+    "description" : "Gulp + Browserify + Watchify",
+    "version": "1.0",
+    "icons": { "128": "tpot_icon.png" },
+    "background": {
+      "scripts": ["background.js"],
+      "persistent": false
+    },
+    "browser_action": {
+      "default_icon": "tpot_icon_chest.png",
+      "default_title": "TPOT Quick Settings",
+      "default_popup": "popup.html"
+    },
+    "content_scripts": [
+        {
+          "run_at": "document_start",
+          "matches": ["*://*.github.com/*", "*://*.facebook.com/*", "*://*.twitter.com/*", "*://*.youtube.com/*", "*://*.thepathoftruth.com/*"],
+          "js": ["content.js"]
+        }
+    ],
+    "permissions": [
+      "storage",
+      "tabs",
+      "unlimitedStorage"
+    ],
+    "web_accessible_resources": [
+      "*.html",
+      "*.json",
+      "*.css",
+      "*.js",
+      "*.png"
+    ]
+}
