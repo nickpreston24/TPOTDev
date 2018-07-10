@@ -1,0 +1,38 @@
+/* Default Color Variables */
+:root {
+    --color:          hsl(0, 0%, 73%);
+    --color-subtle:   #9999a1;
+    --color-strong:   #ffffff;
+    --color-link:     hsl(0,0%,22%);
+    --color-border:   hsl(0,0%,88%);
+    --color-bg:       hsl(0,0%,96%);
+  
+    --color-accent:   green; 
+
+    --color-window:   red; /* fallback */ 
+    --color-badge:    rgb(255, 161, 74);
+  }
+
+/* Light Theme Color Variables */
+:root .theme-light{
+    --color-window:   hsl(0, 0%, 84%);
+    --color-header:   hsl(0, 0%, 84%);
+}
+
+/* Light Theme Color Variables */
+:root .theme-dark{
+    --color-window:   hsl(255, 11%, 22%);
+    --color-window:   hsl(0, 0%, 84%);
+    --color-dark-l1:    rgb(49, 52, 67);
+    --color-dark-m1:   #282b3a;
+    /* --color-dark:     #282c34; */
+    --color-dark-d1:     #1e202c;
+}
+    
+/* Category Colors */
+.u-category-windows       { --color-accent: hsl(116, 30%, 36%); }
+.u-category-menu          { --color-accent: hsl(194, 60%, 36%); }
+.u-category-native-ui     { --color-accent: hsl(222, 53%, 50%); }
+.u-category-communication { --color-accent: hsl(285, 47%, 46%); }
+.u-category-system        { --color-accent: hsl(330, 65%, 48%); }
+.u-category-media         { --color-accent: hsl( 36, 77%, 34%); }

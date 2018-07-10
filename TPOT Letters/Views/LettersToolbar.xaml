@@ -3,6 +3,7 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:TPOTLetters"
     xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     Background="{DynamicResource MaterialDesignPaper}"
@@ -16,6 +17,8 @@
     mc:Ignorable="d">
     <UserControl.Resources>
         <ResourceDictionary>
+            <local:CopyCommand x:Key="Copy" />
+            <local:HelloWorldCommand x:Key="hwc" />
             <Style TargetType="Button">
                 <Setter Property="FontSize" Value="76" />
                 <Setter Property="Margin" Value="15,0,0,0" />
@@ -26,6 +29,17 @@
             </Style>
         </ResourceDictionary>
     </UserControl.Resources>
+    <UserControl.InputBindings>
+        <!--  bind across this control  -->
+        <!--<KeyBinding
+            Command="{StaticResource hwc}"
+            CommandParameter="Hello world!"
+            Gesture="Control+H" />-->
+    </UserControl.InputBindings>
+
+    <UserControl.CommandBindings>
+        <!--<CommandBinding Command="{x:Static local:LettersToolbarViewModel.HelloWorldRoutedCommand}" Executed="CommandBinding_Executed" />-->
+    </UserControl.CommandBindings>
     <ToolBarTray DockPanel.Dock="Top">
         <ToolBar Style="{DynamicResource MaterialDesignToolBar}">
             <Button Content="Set Aside" />
@@ -51,7 +65,10 @@
             <Button ToolBar.OverflowMode="AsNeeded" ToolTip="Cut">
                 <materialDesign:PackIcon Kind="ContentCut" />
             </Button>
-            <Button ToolBar.OverflowMode="AsNeeded" ToolTip="Copy">
+            <Button
+                Command="{StaticResource Copy}"
+                ToolBar.OverflowMode="AsNeeded"
+                ToolTip="Copy">
                 <materialDesign:PackIcon Kind="ContentCopy" />
             </Button>
             <Button ToolBar.OverflowMode="AsNeeded" ToolTip="Paste">

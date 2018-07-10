@@ -7,11 +7,11 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
     <GroupBox Header="RTF">
-        <!--<ScrollViewer
+        <ScrollViewer
             Height="auto"
-            MaxHeight="200"
-            VerticalAlignment="Center">-->
-        <!--<RichTextBox
+            MaxHeight="400"
+            VerticalAlignment="Center">
+            <!--<RichTextBox
             Name="rtfTextBox"
             MinWidth="125"
             MinHeight="150"
@@ -22,14 +22,14 @@
             IsReadOnly="False"
             ScrollViewer.CanContentScroll="True"
             ScrollViewer.VerticalScrollBarVisibility="Auto" />-->
-        <controls:EnhancedRichTextBox
-            x:Name="rtfTextBox"
-            MinHeight="150"
-            File="{Binding File}"
-            Hyperlink.Click="rtfTextBox_Click"
-            IsDocumentEnabled="True"
-            IsEnabled="True"
-            IsReadOnly="False" />
-        <!--</ScrollViewer>-->
+            <controls:EnhancedRichTextBox
+                x:Name="rtfTextBox"
+                MinHeight="400"
+                File="{Binding File}"
+                Hyperlink.Click="rtfTextBox_Click"
+                IsDocumentEnabled="True"
+                IsEnabled="True"
+                IsReadOnly="False" />
+        </ScrollViewer>
     </GroupBox>
 </UserControl>

@@ -4,7 +4,7 @@ namespace TPOTLetters
 {
     public partial class MainWindow : Window
     {
-        private string rtfFilePath = @"C:\Users\Nick\Desktop\TPOT Dev\ConversionTests\Rtf\TPOTLinksSample.rtf";
+        private string rtfFilePath = @"C:\Users\Nick\Desktop\TPOT Dev\ConversionTests\Rtf\Sample.rtf";
         private IRtfEditor rtfViewModel;
         private RtfConversionService conversionService;
 

@@ -1,0 +1,35 @@
+{
+
+    "status":{
+        "currentApp": "letters",
+        "currentSection": "edit"
+    },
+
+
+    "settings":{
+        "defaultProgress": 75,
+        "loaderOnLaunch": true,
+        "windowOptions": {
+            "frame": false,
+            "show": true,
+            "minWidth": 1285, 
+            "minHeight": 800, 
+            "width": 1285,
+            "height": 800,
+            "center": true,
+            "webPreferences": {
+                "experimentalFeatures": true,
+                "experimentalCanvasFeatures": true
+            },
+            "backgroundColor": "#323544", // Gets rid of annoying flashing white window
+            "title": "TPOT Electron"
+        }
+    },
+
+
+    "prefs":{
+        "accentColor": "dodgerblue"
+    }
+
+
+}

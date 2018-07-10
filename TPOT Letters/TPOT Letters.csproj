@@ -86,6 +86,7 @@
     <Compile Include="Classes\Letter.cs" />
     <Compile Include="Classes\ScriptureSaver.cs" />
     <Compile Include="Classes\Verse.cs" />
+    <Compile Include="Commands\HelloWorldCommand.cs" />
     <Compile Include="Controls\EnhancedRichTextBox.cs" />
     <Compile Include="Controls\HyperlinkNavigation.cs" />
     <Compile Include="Detection\Email.cs" />
@@ -95,6 +96,10 @@
     <Compile Include="Interfaces\IConversionService.cs" />
     <Compile Include="Interfaces\IRtfEditor.cs" />
     <Compile Include="Interfaces\IScriptureSaver.cs" />
+    <Compile Include="Commands\BackCommand.cs" />
+    <Compile Include="Commands\CopyCommand.cs" />
+    <Compile Include="Commands\ForwardCommand.cs" />
+    <Compile Include="ViewModels\LettersToolbarViewModel.cs" />
     <Compile Include="ViewModels\RtfConversionService.cs" />
     <Compile Include="ViewModels\HtmlEditorViewModel.cs" />
     <Compile Include="Views\MainPage_Nav_Example.xaml.cs">

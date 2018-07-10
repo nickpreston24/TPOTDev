@@ -1,0 +1,40 @@
+/*////////////////*/
+/*     Default    */
+/*////////////////*/
+.sort html, body{
+    height: 100%;
+    width: 100%;
+    background-color: hsl(27, 16%, 89%) !important; /* Needs to override fallback */
+    background-color: hsl(27, 0%, 95%) !important; /* Needs to override fallback */
+    background-color: transparent !important; /* Needs to override fallback */
+    font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; 
+    font-weight: 400;
+    line-height: 30.6px;
+    font-size: 16px;
+    color: black;
+    overflow: hidden;
+    overflow-y: scroll;
+    
+}
+
+/* Containers */
+.sort div{
+    box-sizing: border-box;
+    width: 40%;
+    position: relative;
+    right: 0px;
+    background: white;
+    backdrop-filter: blur(15px);
+    background-color: rgb(255, 255, 255);
+    margin: 16px;
+    padding: 16px;
+    -webkit-user-select: none;
+    cursor: -webkit-grab;
+    border-radius: 4px;
+}
+
+.sort div:active{
+    border: 2px solid dodgerblue;
+    cursor: -webkit-grabbing;
+}
+
