@@ -45,12 +45,12 @@ window.onload = function () {
     //     console.log('Letters.js heard an event!')
     // })
 
-    //Rtf to html conversion test:
-    converter = require('./assets/js/test-modules/RtfConverter.js')
-    converter.convertIarnaSample()
+    //html conversion test:
+    converter = require('./assets/js/test-modules/Converter.js')
+    // converter.convertIarnaSample()
     //File 2 Html test:
-    converter.file2HtmlSample()
-
+    // converter.file2HtmlSample()
+    converter.mammothSampleConversion()
 
     //Generic convert w/ promise test:    
     // ConvertDocument()
