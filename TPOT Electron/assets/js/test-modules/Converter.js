@@ -1,9 +1,11 @@
 // const letterPath = './assets/rtf/SampleLetter.rtf'
-const letterPath = './assets/rtf/SampleLetter.docx'
+const letterPath = './assets/docs/SampleLetter.docx'
 const rtfToHtml = require('@iarna/rtf-to-html')
 var fs = require('fs')
-const pattern = /rtf/g
+
+const pattern = /docx/g
 const savePath = letterPath.replace(pattern, 'html')
+
 const ipc = require('electron').ipcRenderer
 const file2html = require('file2html')
 const TextReader = require('file2html-text');
@@ -11,10 +13,6 @@ const OOXMLReader = require('file2html-ooxml');
 const ImageReader = require('file2html-image');
 
 var onConversionComplete = new Event('on-convert-complete')
-
-function convert() {
-
-}
 
 window.addEventListener('on-convert-complete', (e) => {
     // console.log('event received!')
@@ -31,12 +29,46 @@ function convertIarnaSample() {
     console.log('started conversion')
     fs.createReadStream(letterPath).pipe(rtfToHtml((err, html) => {
         ipc.send('html-data', html)
-        SaveHtml(html);
+        SaveHtml(html, savePath);
         window.dispatchEvent(onConversionComplete, html)
     }))
 }
 
-function mammothSample() {}
+function mammothSampleConversion() {
+    var mammoth = require("mammoth");
+    var anchorme = require('anchorme').default;
+
+    mammoth.convertToHtml({
+            path: letterPath
+        })
+        .then(function (result) {
+            var html = result.value; // The generated HTML
+            var messages = result.messages; // Any messages, such as warnings during conversion
+            // document.body.html = html;
+
+            var linkified = anchorme(html);
+            // console.log('linkified html\n', linkified);
+
+            // document.body.innerHTML = html;
+            document.body.innerHTML = linkified;
+            // result = html;
+
+            // console.log('mammoth sample:\n', html)
+            // if (messages) console.log('mammoth messages:\n', messages)
+        })
+        .done();
+}
+
+// interface FileMetaInformation
+//  {
+//      fileType: number; // optional
+//      mimeType: string; // optional
+//      name: string; // optional
+//      size: number; // optional
+//      creator: string; // optional
+//      createdAt: string; // optional
+//      modifiedAt: string; // optional
+//  }
 
 function file2HtmlSample() {
     file2html.config({
@@ -48,10 +80,13 @@ function file2HtmlSample() {
     });
 
     var fileBuffer = fs.ReadStream(letterPath)
-    // var meta = {}
+    var meta = {
+        mimeType: "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+    }
 
     file2html.read({
-        fileBuffer
+        fileBuffer,
+        meta // : FileMetaInformation
     }).then((file) => {
         const {
             styles,
@@ -62,8 +97,8 @@ function file2HtmlSample() {
     });
 }
 
-function SaveHtml(html) {
-    fs.writeFile(savePath, html, (error) => {
+function SaveHtml(html, path) {
+    fs.writeFile(path, html, (error) => {
         if (error) {
             return console.log(error);
         }
@@ -89,5 +124,6 @@ function SaveHtml(html) {
 
 module.exports = {
     convertIarnaSample,
-    file2HtmlSample
+    file2HtmlSample,
+    mammothSampleConversion
 }
