@@ -8,6 +8,8 @@ var ipc = require('electron').ipcMain
 
 initialize()
 
+let window
+
 function initialize() {
   function createWindow() {
     // Create a new browser window
