@@ -44,6 +44,9 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.11.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="RtfPipe, Version=0.7.6669.2200, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\RtfPipe.0.7.0.6\lib\net40\RtfPipe.dll</HintPath>
     </Reference>
@@ -62,10 +65,12 @@
     <Compile Include="Classes\Multiton.cs" />
     <Compile Include="Classes\Singleton.cs" />
     <Compile Include="Classes\SingletonException.cs" />
+    <Compile Include="Classes\TimeIt.cs" />
+    <Compile Include="Extensions\ObjectExtensions.cs" />
     <Compile Include="Interfaces\IRepository.cs" />
     <Compile Include="Interfaces\ISelector.cs" />
     <Compile Include="Interfaces\ISingleton.cs" />
-    <Compile Include="Interfaces\Repository.cs" />
+    <Compile Include="Classes\Repository.cs" />
     <Compile Include="TPOT Letters\Converters\ConverterType.cs" />
     <Compile Include="TPOT Letters\Interfaces\ISubscriber.cs" />
     <Compile Include="TPOT Letters\Interfaces\ILetterConverter.cs" />
@@ -83,7 +88,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <None Include="packages.config" />
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Classes\TPOTApps.vssettings" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
