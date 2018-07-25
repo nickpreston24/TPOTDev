@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 
-namespace Shared
+namespace System
 {
     public static class ObjectExtensions
     {
