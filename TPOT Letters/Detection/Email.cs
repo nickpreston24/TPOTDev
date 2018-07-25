@@ -4,29 +4,27 @@ namespace TPOTLetters
 {
     public class Email
     {
-
+        public EmailHeader Header { get; }
     }
 
-    interface IHeader //todo: represent headers or email-specific headers with this interface.
+    public class EmailHeader
     {
-    }
+        //Email regex from: 
+        //http://emailregex.com/
+        //^(?(")(".+?(?<!\\)"@)|(([0-9a-z]((\.(?!\.))|[-!#\$%&'\*\+/=\?\^`\{\}\|~\w])*)(?<=[0-9a-z])@))(?(\[)(\[(\d{1,3}\.){3}\d{1,3}\])|(([0-9a-z][-\w]*[0-9a-z]*\.)+[a-z0-9][\-a-z0-9]{0,22}[a-z0-9]))$
+        //const string emailRgx = @"^\s*To:\s*(?<Email>(?("")("".+?(?<!\\)""@)|(([0-9a-z]((\.(?!\.))|[-!#\$%&'\*\+/=\?\^`\{\}\|~\w])*)(?<=[0-9a-z])@))(?(\[)(\[(\d{1,3}\.){3}\d{1,3}\])|(([0-9a-z][-\w]*[0-9a-z]*\.)+[a-z0-9][\-a-z0-9]{0,22}[a-z0-9])))$";
+        const string toEmailRgx = @"^\s*[Tt]o:\s*(?<Email>(.*))$";
+        const string fromEmailRgx = @"^\s*From:\s*(?<Email>(.*))$";
 
-    public class EmailHeader : IHeader
-    {
-        public string FirstName { get; set; }
+        [Pattern(@"^\s*From:\s*(?<FullName>[a-zA-Z]+)")]
+        public string FullName { get; set; }
+        //[Pattern("^To:(?<Email>.*)$")] //.* will be a real email regex.
+        [Pattern(toEmailRgx)]
         public string Email { get; set; }
+        [Pattern(@"^\s*Subject:\s*(?<Subject>[\w\s,!-?]+)")]
         public string Subject { get; set; }
-        public DateTime Time { get; set; }
-
-
-    }
-
-    public class EmailHeaderRegex
-    {
-        public static string NameRegex = @"^From:\s*(?<FullName>[a-zA-Z]+)"; //wip
-        public static string EmailRegex = @"^To:(?<Email>.*)$";//.* will be a real email regex.               
-        //public static string FullHeaderRegex = @"^From:\s*(?<FullName>[a-zA-Z]+).*\r\nSent:"; //wip
-        public static string FullHeaderRegex = @"^From:\s*(?<FullName>[a-zA-Z]+).*$\n^S.*$"; //Sent:\s*(.*)\nTo:\s*'.*'.*\nCc:\s*\w+\s\w+.*\nSubject:.*
+        [Pattern(@"^\s*Sent:\s*(?<Sent>.*)")]
+        public DateTime Sent { get; set; }
     }
 
 }
