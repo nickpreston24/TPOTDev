@@ -91,7 +91,6 @@
     <Compile Include="Controls\HyperlinkNavigation.cs" />
     <Compile Include="Detection\Email.cs" />
     <Compile Include="Extensions\RichTextboxExtensions.cs" />
-    <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Interfaces\HtmlAwareViewModel.cs" />
     <Compile Include="Interfaces\IConversionService.cs" />
     <Compile Include="Interfaces\IRtfEditor.cs" />

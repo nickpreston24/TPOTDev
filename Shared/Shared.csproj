@@ -62,11 +62,16 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AssemblyFileSystem.cs" />
+    <Compile Include="Classes\Maybe.cs" />
     <Compile Include="Classes\Multiton.cs" />
+    <Compile Include="Classes\PatternAttribute.cs" />
     <Compile Include="Classes\Singleton.cs" />
     <Compile Include="Classes\SingletonException.cs" />
     <Compile Include="Classes\TimeIt.cs" />
+    <Compile Include="Extensions\DictionaryExtensions.cs" />
     <Compile Include="Extensions\ObjectExtensions.cs" />
+    <Compile Include="Classes\InstanceExtractor.cs" />
+    <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Interfaces\IRepository.cs" />
     <Compile Include="Interfaces\ISelector.cs" />
     <Compile Include="Interfaces\ISingleton.cs" />
