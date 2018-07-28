@@ -1,14 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Reflection;
-using System.Text;
-using System.Text.RegularExpressions;
-
+﻿
 namespace Shared
 {
+    using System;
+    using System.Collections.Generic;
+    using System.ComponentModel;
+    using System.Linq;
+    using System.Linq.Expressions;
+    using System.Reflection;
+    using System.Text;
+    using System.Text.RegularExpressions;
+
     /// <summary>
     /// Extracts object(s) T from given Regular Expressions
     /// </summary>
@@ -115,12 +116,16 @@ namespace Shared
             T instance = (T)Activator.CreateInstance(typeof(T));
             Match match;
 
-            foreach (var property in properties)
+            for (int p = 0; p < properties.Length; p++)
             {
+                var property = properties[p];
+
                 regex = patternsMap.GetValue(property.Name);
 
-                foreach (var line in lines)
+                for (int i = 0; i < lines.Length; i++)
                 {
+                    string line = lines[i];
+
                     try
                     {
                         if (string.IsNullOrWhiteSpace(line))
@@ -246,6 +251,13 @@ namespace Shared
             }
 
             return memberExpression.Member.Name;
+        }
+    }
+    public static class DictionaryExtensions
+    {
+        public static TV GetValue<TK, TV>(this IDictionary<TK, TV> dictionary, TK key, TV defaultValue = default(TV))
+        {
+            return dictionary.TryGetValue(key, out TV value) ? value : defaultValue;
         }
     }
 }
