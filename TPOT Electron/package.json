@@ -3,15 +3,17 @@
     "version": "0.1.0",
     "main": "main.js",
     "scripts": {
-        "start": "electron ."
+        "start": "electron .",
+        "test": "mocha"
     },
     "devDependencies": {
+        "chai": "^4.1.2",
         "electron": "^2.0.2",
         "electron-devtools-installer": "^2.2.4",
-        "file2html-text": "^0.2.0"
+        "file2html-text": "^0.2.0",
+        "mocha": "^5.2.0"
     },
     "dependencies": {
-        "@iarna/rtf-to-html": "^1.0.3",
         "anchorme": "^1.1.2",
         "config": "^1.30.0",
         "file2html": "^0.1.9",
@@ -19,11 +21,11 @@
         "file2html-ooxml": "^0.2.2",
         "html2rtf": "^0.2.1",
         "jquery": "^3.3.1",
-        "mammoth": "^1.4.6",
         "moment": "^2.22.2",
         "path": "^0.12.7",
         "progressbar.js": "^1.0.1",
         "rtf2html": "^1.0.0",
+        "sqlite3": "^4.0.2",
         "trianglify": "^1.2.0"
     }
 }
