@@ -7,11 +7,9 @@ ReactiveUI.Basics/
 RxUI.Sandbox/
 RxNet.Sandbox/
 MaterialDesign.Sandbox/
-Doobry_clone/
 AutoFac.Demo/
 WordpressTests/
 TPOTSync/
-TPOT Electron/package-lock.json
 TPOT Electron/node_modules/
 
 # User-specific files
@@ -272,3 +270,5 @@ paket-files/
 __pycache__/
 *.pyc
 TPOT Respond/Split-It
+
+TPOT Electron/package-lock.json
