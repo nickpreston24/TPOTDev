@@ -20,7 +20,7 @@ window.onload = function () {
     // As Trump says... "verwy emportant. verwy special."
     const webview = document.querySelector('webview')
 
-    webview.addEventListener('dom-ready', (e) => {
+    webview.addEventListener('dom-ready', (event) => {
         // e.target.openDevTools()
         // setInterval(()=>{webview.reload()}, 2000);
         console.log('Webview DOM Ready')
@@ -46,15 +46,13 @@ window.onload = function () {
     // })
 
     //html conversion test:
-    converter = require('./assets/js/test-modules/Converter.js')
-    // converter.convertIarnaSample()
+    converter = require('./assets/js/docxConverter.js')
+
     //File 2 Html test:
-    // converter.file2HtmlSample()
-    converter.mammothSampleConversion()
+    // converter.file2HtmlSample()    
 
-    //Generic convert w/ promise test:    
+    //Generic convert w/ promise test:
     // ConvertDocument()
-
 
     //View builder test:
     // let view1 = new View.Builder('first-view') //.build()
