@@ -6,9 +6,10 @@ const ui = require('./assets/js/ui.js')
 const wvm = require('./assets/js/wvm.js')
 const fs = require('fs')
 window.$ = window.jQuery = require('./assets/js/jquery.min.js') // Weird way, but works for electron. Code is directly transferrable from web.
-var ipc = require('electron').ipcRenderer
+let ipc = require('electron').ipcRenderer
 
 // Utilities
+const converter = require('./assets/js/docxConverter.js')
 let log = console.log.bind(console)
 
 // This event fires after the BrowserWindow has loaded its WebContents, which contains the Window object. 
@@ -40,23 +41,6 @@ window.onload = function () {
     window.addEventListener('on-convert-complete', (e) => {
         ipc.send('html-data', 'Ping!')
     })
-
-    // window.addEventListener('on-convert-complete', (e) => {
-    //     console.log('Letters.js heard an event!')
-    // })
-
-    //html conversion test:
-    converter = require('./assets/js/docxConverter.js')
-
-    //File 2 Html test:
-    // converter.file2HtmlSample()    
-
-    //Generic convert w/ promise test:
-    // ConvertDocument()
-
-    //View builder test:
-    // let view1 = new View.Builder('first-view') //.build()
-    // console.log(view1)
 }
 
 //[MP] - psuedocode (put inside a class, if possible, else just use inside editor.html)
