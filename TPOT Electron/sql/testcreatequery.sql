@@ -1,1 +1,0 @@
-create table if not exists user_info2 (info TEXT)

@@ -1,33 +1,65 @@
 {
-    "name": "TPOT-Electron",
-    "version": "0.1.0",
-    "main": "main.js",
-    "scripts": {
-        "start": "electron .",
-        "test": "mocha"
-    },
-    "devDependencies": {
-        "chai": "^4.1.2",
-        "electron": "^2.0.2",
-        "electron-devtools-installer": "^2.2.4",
-        "file2html-text": "^0.2.0",
-        "mocha": "^5.2.0"
-    },
-    "dependencies": {
-        "@types/mongodb": "^3.1.2",
-        "anchorme": "^1.1.2",
-        "config": "^1.30.0",
-        "file2html": "^0.1.9",
-        "file2html-image": "^0.1.1",
-        "file2html-ooxml": "^0.2.2",
-        "html2rtf": "^0.2.1",
-        "jquery": "^3.3.1",
-        "moment": "^2.22.2",
-        "mongodb": "^3.1.1",
-        "path": "^0.12.7",
-        "progressbar.js": "^1.0.1",
-        "rtf2html": "^1.0.0",
-        "sqlite3": "^4.0.2",
-        "trianglify": "^1.2.0"
-    }
+  "name": "tpot_letters",
+  "description": "Edit and Publish correspondance for ThePathofTruth",
+  "author": "Michael & Braden Preston",
+  "version": "0.0.1",
+  "private": true,
+  "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^1.2.0-14",
+    "@fortawesome/free-solid-svg-icons": "^5.1.0-11",
+    "@fortawesome/react-fontawesome": "0.1.0-11",
+    "@material-ui/core": "^1.4.2",
+    "@material-ui/icons": "^2.0.0",
+    "builtin-modules": "^3.0.0",
+    "cross-env": "5.1.6",
+    "devtron": "^1.4.0",
+    "electron-debug": "^2.0.0",
+    "electron-is-dev": "0.3.0",
+    "electron-log": "^2.2.6",
+    "electron-react-devtools": "^0.5.3",
+    "file2html": "^0.1.9",
+    "file2html-image": "^0.1.1",
+    "file2html-ooxml": "^0.2.2",
+    "file2html-text": "^0.2.0",
+    "jquery": "^3.3.1",
+    "random-number": "0.0.9",
+    "react": "16.4.0",
+    "react-dom": "16.4.0",
+    "react-fontawesome": "^1.6.1",
+    "typeface-roboto": "0.0.54",
+    "update-electron-app": "^1.2.0"
+  },
+  "devDependencies": {
+    "concurrently": "3.5.1",
+    "electron": "2.0.2",
+    "electron-builder": "^20.15.1",
+    "prettier": "^1.4.4",
+    "react-scripts": "1.1.4",
+    "wait-on": "2.1.0"
+  },
+  "build": {
+    "appId": "com.example.app",
+    "productName": "TPOT Letters",
+    "copyright": "Copyright ©2018 Michael & Braden Preston",
+    "asar": true,
+    "files": [
+      "package.json",
+      "build/",
+      "node_modules/",
+      "src/config/"
+    ]
+  },
+  "main": "public/electron.js",
+  "homepage": "./",
+  "scripts": {
+    "main": "electron .",
+    "react-start": "react-scripts start",
+    "react-build": "react-scripts build",
+    "react-test": "react-scripts test --env=jsdom",
+    "react-eject": "react-scripts eject",
+    "electron-build": "electron-builder",
+    "release": "yarn react-build && electron-builder --publish=always",
+    "build": "yarn react-build && yarn electron-build",
+    "start": "concurrently \"cross-env BROWSER=none yarn react-start\" \"wait-on http://localhost:3000 && electron .\""
+  }
 }
