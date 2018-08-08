@@ -1,4 +1,4 @@
-# TPOT Letters 📦📝📜📒📔📋📂📃
+# TPOT Letters📦📝📜📒📔📋📂📃
 
 
 **An example of using create-react-app, electron, and file2html**.  
