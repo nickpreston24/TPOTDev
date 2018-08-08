@@ -1,4 +1,5 @@
-# TPOT Letters 📦
+# TPOT Letters 📦📝📜📒📔📋📂📃
+
 
 **An example of using create-react-app, electron, and file2html**.  
 Original boilerplate made by [Kitze](https://twitter.com/thekitze) who works @ Medium. Read his ([article](https://medium.com/@kitze/%EF%B8%8F-from-react-to-an-electron-app-ready-for-production-a0468ecb1da3)). 
@@ -24,7 +25,7 @@ Adapted by Braden & Michael Preston to add more features like WordPress API, Goo
 
 ## ToDo List
 
-- [x] Electron
+- [✅] Electron
 - [x] React
 - [x] File2Html
 - [x] Material UI
