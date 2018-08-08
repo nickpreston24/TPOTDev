@@ -1,4 +1,5 @@
-# TPOT Letters
+# TPOT Letters 📝
+
 
 **An example of using create-react-app, electron, and file2html**.  
 Original boilerplate made by [Kitze](https://twitter.com/thekitze) who works @ Medium. Read his ([article](https://medium.com/@kitze/%EF%B8%8F-from-react-to-an-electron-app-ready-for-production-a0468ecb1da3)). 
@@ -41,7 +42,7 @@ Adapted by Braden & Michael Preston to add more features like WordPress API, Goo
 - [ ] Google OAuth2
 - [ ] WP API
 
-## Getting Started
+## Getting Started 🐫
 
 1.) Clone this repository and cd into the directory, or "Open in GitHub Desktop"
 ```node
@@ -58,18 +59,18 @@ Adapted by Braden & Michael Preston to add more features like WordPress API, Goo
 ```node
 	npm install
 ```
-4.) Start a development environment for React for live code editing! 😍
+4.) Start a development environment for React for live code editing! 😵
 ```node
 	yarn start
 ```
 
-## Developing the App
+## Developing the App 🐳
 
 Yarn starts up a dev environment that waits on the react and electron components to compile. After that is done, it pushes an injection routine that allows for hot-editing the code live. 
 
 The main render process, browser window is being hosted on `http://localhost:3000`, which allows you to dynamically update the code. Any time, you save a file, it should update the app. If it doesn't, you can always `ctrl`+`c` out of the batch process and restart the dev environment with your most recent code using `yarn start`.
 
-## Making a Build
+## Making a Build 🐣
 
 ```node
 	yarn build
@@ -82,7 +83,7 @@ Executing this yarn script starts a build, which could take anywhere from 30 sec
 
 ***
 
-## Current Features
+## Current Features 🐘
 
 Package Version: **0.0.01** (7/29/18)
 
@@ -135,7 +136,7 @@ Package Version: **0.0.01** (7/29/18)
 | [``]()             |         |                                                    |
 
 
-## Future Features
+## Future Features 🐡
 
 Looking to implement the following in the future!
 
