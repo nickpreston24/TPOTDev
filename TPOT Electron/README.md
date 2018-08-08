@@ -25,7 +25,7 @@ Adapted by Braden & Michael Preston to add more features like WordPress API, Goo
 
 ## ToDo List
 
-- [✅] Electron
+- [x] Electron
 - [x] React
 - [x] File2Html
 - [x] Material UI
@@ -59,7 +59,7 @@ Adapted by Braden & Michael Preston to add more features like WordPress API, Goo
 ```node
 	npm install
 ```
-4.) Start a development environment for React for live code editing! 😍
+4.) Start a development environment for React for live code editing! 😵
 ```node
 	yarn start
 ```
