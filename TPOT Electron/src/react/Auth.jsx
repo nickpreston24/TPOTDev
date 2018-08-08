@@ -9,7 +9,6 @@ import MenuIcon from '@material-ui/icons/Menu';
 import Button from '@material-ui/core/Button';
 import { IconButton, Divider } from '@material-ui/core';
 import CenteredTabs from './CenteredTabs'
-import Progression from './Progression'
 
 import Switch from '@material-ui/core/Switch';
 import Paper from '@material-ui/core/Paper';

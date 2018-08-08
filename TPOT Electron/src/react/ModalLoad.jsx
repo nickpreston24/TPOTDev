@@ -17,21 +17,57 @@ import PersonIcon from '@material-ui/icons/Person';
 import AddIcon from '@material-ui/icons/Add';
 import Typography from '@material-ui/core/Typography';
 import blue from '@material-ui/core/colors/blue';
+import Grid from '@material-ui/core/Grid';
+import FormControl from '@material-ui/core/FormControl';
+import FormLabel from '@material-ui/core/FormLabel';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import RadioGroup from '@material-ui/core/RadioGroup';
+import Radio from '@material-ui/core/Radio';
+import Paper from '@material-ui/core/Paper'
+import Icon from '@material-ui/core/Icon'
+import SvgIcon from '@material-ui/core/SvgIcon'
+import ClipBoard from '../media/clipboard.png'
+import HardDrive from '../media/hdd.png'
+import GoogleDrive from '../media/drive.png'
+import { CardContent } from '../../node_modules/@material-ui/core';
 
 const emails = ['username@gmail.com', 'user02@gmail.com'];
-const styles = {
+const styles = theme => ({
   root: {
-
+    display: 'flex',
+    flexWrap: 'wrap',
   },
-  content: {
-    width: 570,
-    height: 270,
+  paper: {
+    maxWidth: 800,
+    width: 600,
+    // height: ,
   },
-  avatar: {
-    backgroundColor: blue[100],
-    color: blue[600],
+  icon: {
+    display: "block",
+    position: "relative",
+    left: "50%",
+    transform: "translateX(-50%)",
+    height: 64,
+    fontSize: 80,
+    paddingTop: 64,
+    paddingBottom: 32,
   },
-};
+  grid: {
+    '& button': {
+      color: "#555",
+    },
+    '&:hover': {
+      '& button': {
+        color: theme.palette.primary.contrastText,
+        background: theme.palette.primary.main
+      }
+    }
+  },
+  textbox: {
+    marginTop: 32,
+    marginBottom: 48,
+  }
+});
 
 class ModalLoad extends React.Component {
 
@@ -47,29 +83,85 @@ class ModalLoad extends React.Component {
     this.props.onUpdate(false);
   };
 
+  handleFromDisk = () => {
+    console.log("Uploaded file from disk")
+    this.props.onUpdate(false);
+  };
+  
+  handleFromDrive = () => {
+    console.log("Opened Google Drive browser")
+    this.props.onUpdate(false);
+  };
+  
+  handleFromPaste = () => {
+    console.log("Opened paste box")
+    this.props.onUpdate(false);
+  };
+
   // handleListItemClick = value => {
   //   this.props.onClose(value);
   // };
 
   render() {
     const { classes } = this.props;
+    const cards = [
+      {
+        name: "From Disk",
+        description: "Open a file from your computer's hard drive",
+        icon: HardDrive,
+        handler: ()=>{this.handleFromDisk()}
+      },
+      {
+        name: "Google Drive",
+        description: "Open a file from your linked Google Drive folder",
+        icon: GoogleDrive,
+        handler: ()=>{this.handleFromDrive()}
+      },
+      {
+        name: "Clipboard",
+        description: "Opens a window where you can paste in the content of a word document",
+        icon: ClipBoard,
+        handler: ()=>{this.handleFromPaste()}
+      }
+    ]
+
+    console.log(cards, cards[0])
+    //     'Original',
+    //     'Edited',
+    //     'Code'
+    // ]
+    // const icons = [
+    //     <FileIcon/>,
+    //     <EditIcon/>,
+    //     <CodeIcon/>
+    // ]
 
     return (
-      <Dialog open={this.props.open} onClose={this.handleClose} aria-labelledby="simple-dialog-title">
-        <DialogContent className={classes.content}>
-          <DialogContentText>
-            To subscribe to this website, please enter your email address here. We will send
-            updates occasionally.
-          </DialogContentText>
-          <TextField
-            autoFocus
-            margin="dense"
-            id="name"
-            label="Email Address"
-            type="email"
-            // fullWidth
-          />
-        </DialogContent>
+      <Dialog
+        classes={{
+          root: classes.root,
+          paper: classes.paper,
+        }}
+        open={this.props.open}
+        onClose={this.handleClose}
+      >
+        <Grid
+          container 
+          className={classes.demo} 
+          justify="space-evenly" 
+          alignItems="center"  
+        >
+          {cards.map((card)=>{
+            return (
+              <Grid key={card.name.toLocaleLowerCase()} item className={classes.grid} onClick={card.handler}>
+                <img src={card.icon} className={classes.icon} />
+                <Button variant="contained" color="inherit">{card.name}</Button>
+              </Grid>
+            );
+          })}
+
+        </Grid>
+        <DialogContentText align="center" className={classes.textbox}>select a file from your computer to edit</DialogContentText>
       </Dialog>
     );
   }

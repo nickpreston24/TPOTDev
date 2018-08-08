@@ -131,7 +131,7 @@ const styles = theme => ({
 
 });
 
-class Progression extends React.Component {
+class EditMode extends React.Component {
   constructor(props) {
     super(props)
 
@@ -203,8 +203,8 @@ class Progression extends React.Component {
   }
 }
 
-Progression.propTypes = {
+EditMode.propTypes = {
   classes: PropTypes.object,
 };
 
-export default withStyles(styles)(Progression);
+export default withStyles(styles)(EditMode);

@@ -8,7 +8,7 @@ import MenuIcon from '@material-ui/icons/Menu';
 import Button from '@material-ui/core/Button';
 import { IconButton } from '@material-ui/core';
 import CenteredTabs from './CenteredTabs'
-import Progression from './Progression'
+import EditMode from './EditMode'
 import Auth from './Auth'
 
 
@@ -63,7 +63,7 @@ class SimpleAppBar extends React.Component{
             <IconButton onClick={this.toggleMenu} className={classes.menuButton} color="inherit" aria-label="DrawerToggle">
               <MenuIcon/>
             </IconButton>
-            <Progression/>
+            <EditMode/>
             <Auth authorized={true} className={classes.authButton}/>
           </Toolbar>
         </AppBar>
