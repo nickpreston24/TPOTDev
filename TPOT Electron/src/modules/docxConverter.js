@@ -29,9 +29,9 @@ window.addEventListener('on-convert-complete', (e) => {
         if (error) throw error;
         console.log("File red: ", letterPath)
 
-        console.groupCollapsed("Data")
-        console.log(data)
-        console.groupEnd
+        // console.groupCollapsed("Data")
+        // console.log(data)
+        // console.groupEnd
         // ipc.send('html-data', data) // EDITED
     })
 

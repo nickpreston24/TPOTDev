@@ -22,6 +22,7 @@ import ColorLens from '@material-ui/icons/ColorLens';
 // import Settings from '@material-ui/icons/Tune';
 import SettingsIcon from '@material-ui/icons/SettingsRounded'
 import ModalLoad from './ModalLoad'
+import ModalSettings from './ModalSettings'
 
 
 const styles = theme => ({
@@ -41,6 +42,7 @@ class DrawerMenuList extends React.Component {
 
     this.state = {
       loadModalOpen: false,
+      settingsModalOpen: false,
     }
   }
   
@@ -48,13 +50,21 @@ class DrawerMenuList extends React.Component {
     this.setState({ loadModalOpen: true })
   }
 
-  updateLoadModal = (b)=> {
-    this.setState({ loadModalOpen: b })
+  updateLoadModal = (bool)=> {
+    this.setState({ loadModalOpen: bool })
+  }
+
+  openSettingsModal = ()=> {
+    this.setState({ settingsModalOpen: true })
+  }
+
+  updateSettingsModal = (bool)=> {
+    this.setState({ settingsModalOpen: bool })
   }
 
   render() {
     const { classes } = this.props;
-
+    
     return (
       <div className={classes.root}>
         <ListItem button onClick={this.openLoadModal}>
@@ -81,13 +91,14 @@ class DrawerMenuList extends React.Component {
           </ListItemIcon>
           <ListItemText primary="Publish" />
         </ListItem>
-        <ListItem button className={classes.settings}>
+        <ListItem button onClick={this.openSettingsModal} className={classes.settings}>
           <ListItemIcon>
             <SettingsIcon />
           </ListItemIcon>
           <ListItemText primary="Settings" />
         </ListItem>
         <ModalLoad open={this.state.loadModalOpen} onUpdate={this.updateLoadModal}/>
+        <ModalSettings open={this.state.settingsModalOpen} onUpdate={this.updateSettingsModal} value={1}/>
       </div>
     );
   }

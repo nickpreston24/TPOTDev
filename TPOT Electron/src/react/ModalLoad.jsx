@@ -30,10 +30,12 @@ import ClipBoard from '../media/clipboard.png'
 import HardDrive from '../media/hdd.png'
 import GoogleDrive from '../media/drive.png'
 import { CardContent } from '../../node_modules/@material-ui/core';
+import Slider from '@material-ui/lab/Slider';
 
 const emails = ['username@gmail.com', 'user02@gmail.com'];
 const styles = theme => ({
   root: {
+    paddingTop: 64,
     display: 'flex',
     flexWrap: 'wrap',
   },
@@ -55,13 +57,20 @@ const styles = theme => ({
   grid: {
     '& button': {
       color: "#555",
+      transition: "all 0s linear 0s !important",
+      position: "relative",
+      left: "50%",
+      transform: "translateX(-50%)",
     },
     '&:hover': {
       '& button': {
         color: theme.palette.primary.contrastText,
-        background: theme.palette.primary.main
-      }
-    }
+        background: theme.palette.primary.main,
+        transition: "all 0s linear 0s !important",
+      },
+    },
+    // border: "1px solid blue",
+    width: "32.9999%"
   },
   textbox: {
     marginTop: 32,
@@ -76,11 +85,13 @@ class ModalLoad extends React.Component {
 
     this.state = {
       open: false,
+      description: "select a file from your computer to edit",
     }
   }
 
   handleClose = () => {
-    this.props.onUpdate(false);
+    this.setState({ open: false })
+    this.props.onUpdate(false)
   };
 
   handleFromDisk = () => {
@@ -125,17 +136,6 @@ class ModalLoad extends React.Component {
       }
     ]
 
-    console.log(cards, cards[0])
-    //     'Original',
-    //     'Edited',
-    //     'Code'
-    // ]
-    // const icons = [
-    //     <FileIcon/>,
-    //     <EditIcon/>,
-    //     <CodeIcon/>
-    // ]
-
     return (
       <Dialog
         classes={{
@@ -144,10 +144,12 @@ class ModalLoad extends React.Component {
         }}
         open={this.props.open}
         onClose={this.handleClose}
+        onBackdropClick={this.handleClose}
       >
         <Grid
           container 
           className={classes.demo} 
+          spacing={0}
           justify="space-evenly" 
           alignItems="center"  
         >
@@ -161,7 +163,7 @@ class ModalLoad extends React.Component {
           })}
 
         </Grid>
-        <DialogContentText align="center" className={classes.textbox}>select a file from your computer to edit</DialogContentText>
+        <DialogContentText align="center" className={classes.textbox}>{this.state.description}</DialogContentText>
       </Dialog>
     );
   }
@@ -169,8 +171,6 @@ class ModalLoad extends React.Component {
 
 ModalLoad.propTypes = {
   classes: PropTypes.object.isRequired,
-//   onClose: PropTypes.func,
-//   selectedValue: PropTypes.string,
 };
 
 export default withStyles(styles)(ModalLoad)

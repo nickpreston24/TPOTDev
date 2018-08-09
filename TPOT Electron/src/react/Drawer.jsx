@@ -157,7 +157,7 @@ class MiniDrawer extends React.Component {
           <div className={classes.contentFrame}>
             <Paper className={classes.contentPaper}>
               <Typography color="inherit" varient="display4">
-                You think water moves fast? You should see ice.
+                {/* You think water moves fast? You should see ice. */}
               </Typography>
             </Paper>
           </div>
