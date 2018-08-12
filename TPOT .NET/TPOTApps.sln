@@ -19,8 +19,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MaterialDesign.Sandbox", "M
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutoFac.Demo", "AutoFac.Demo\AutoFac.Demo.csproj", "{91EC51B1-DCCD-4A75-A606-276E95F5DE9D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TPOTSync", "TPOTSync\TPOTSync.csproj", "{0FBECABB-4D07-4F1E-8320-C543B5429D29}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -70,12 +68,6 @@ Global
 		{91EC51B1-DCCD-4A75-A606-276E95F5DE9D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{91EC51B1-DCCD-4A75-A606-276E95F5DE9D}.Release|Any CPU.Build.0 = Release|Any CPU
 		{91EC51B1-DCCD-4A75-A606-276E95F5DE9D}.SharedDebug|Any CPU.ActiveCfg = SharedDebug|Any CPU
-		{0FBECABB-4D07-4F1E-8320-C543B5429D29}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{0FBECABB-4D07-4F1E-8320-C543B5429D29}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{0FBECABB-4D07-4F1E-8320-C543B5429D29}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{0FBECABB-4D07-4F1E-8320-C543B5429D29}.Release|Any CPU.Build.0 = Release|Any CPU
-		{0FBECABB-4D07-4F1E-8320-C543B5429D29}.SharedDebug|Any CPU.ActiveCfg = Debug|Any CPU
-		{0FBECABB-4D07-4F1E-8320-C543B5429D29}.SharedDebug|Any CPU.Build.0 = Debug|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

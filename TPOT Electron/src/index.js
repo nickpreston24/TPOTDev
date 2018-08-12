@@ -24,7 +24,7 @@ const fs = remote.require('fs')
 const path = remote.require('path') 
 
 // Custom/Community
-const cat = require('./modules/cat')
+const cat = require('./modules/cat') //Test module; not needed.
 const rn = require('random-number');
 const wvm = require('./modules/wvm')
 const converter = require('./modules/docxConverter')
