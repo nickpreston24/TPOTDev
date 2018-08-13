@@ -1,4 +1,3 @@
-const Box = require('./Box.ts');
 
 const {
     IFileLoader
