@@ -1,5 +1,5 @@
 import { RepositoryBase } from './repositoryBase';
-import { MongoClient, Db, Collection, InsertOneWriteOpResult } from 'mongodb';
+import { MongoClient, Db, Collection, InsertOneWriteOpResult } from 'mongodb'; //todo: install mongodb
 import { isPrimitive } from 'util';
 
 // export interface IMongoRepository { ... init()... }
