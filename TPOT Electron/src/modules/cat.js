@@ -1,4 +1,4 @@
-const test = ()=> {
+const test = () => {
     console.log("Meow! I am a cat!")
 }
 
