@@ -42,7 +42,6 @@ import { get } from 'https';
 // import { Loaders } from '../modules/docxLoaders/Loaders.ts'
 
 import DiskFileLoader from '../modules/docxLoaders_js/DiskFileLoader'
-import FluentDiskFileLoader from '../modules/docxLoaders_js/FluentDiskFileLoader'
 
 const emails = ['username@gmail.com', 'user02@gmail.com'];
 const styles = theme => ({
@@ -113,17 +112,19 @@ class ModalLoad extends React.Component {
     // let loader = Loaders.getLoader(type)
 
     let loader = new DiskFileLoader();
-    // let fluentLoader = new FluentDiskFileLoader();
-
     if (!loader) throw Error('disk file loader not initialized!');
 
+    //Good:
     loader.load()
       .then((result) => {
         console.log('result:\n', result);
       });
 
-    console.log('test'); //runs async   
+    //Also good:
+    // loader.getFilePath()
+    //   .then(result => console.log(result));
 
+    console.log('test'); //runs async
   }
 
   // handleListItemClick = value => {
