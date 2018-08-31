@@ -1,5 +1,5 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+import PropTypes, { func } from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import Avatar from '@material-ui/core/Avatar';
@@ -29,8 +29,20 @@ import SvgIcon from '@material-ui/core/SvgIcon'
 import ClipBoard from '../media/clipboard.png'
 import HardDrive from '../media/hdd.png'
 import GoogleDrive from '../media/drive.png'
-import { CardContent } from '../../node_modules/@material-ui/core';
+import { CardContent, CircularProgress } from '@material-ui/core';
 import Slider from '@material-ui/lab/Slider';
+import { get } from 'https';
+
+///File Import Strategies:
+// import { DiskFileLoader } from '../modules/docxLoaders/DiskFileLoader.ts'
+// import { GoogleFileLoader } from '../modules/docxLoaders/GoogleFileLoader.ts'
+// import { Clipboard } from '../modules/docxLoaders/Clipboard.ts'
+
+// import * as Loaders from '../modules/docxLoaders/Loaders.ts'
+// import { Loaders } from '../modules/docxLoaders/Loaders.ts'
+
+import DiskFileLoader from '../modules/docxLoaders_js/DiskFileLoader'
+import FluentDiskFileLoader from '../modules/docxLoaders_js/FluentDiskFileLoader'
 
 const emails = ['username@gmail.com', 'user02@gmail.com'];
 const styles = theme => ({
@@ -94,20 +106,25 @@ class ModalLoad extends React.Component {
     this.props.onUpdate(false)
   };
 
-  handleFromDisk = () => {
-    console.log("Uploaded file from disk")
-    this.props.onUpdate(false);
-  };
-  
-  handleFromDrive = () => {
-    console.log("Opened Google Drive browser")
-    this.props.onUpdate(false);
-  };
-  
-  handleFromPaste = () => {
-    console.log("Opened paste box")
-    this.props.onUpdate(false);
-  };
+  handleSelection = (type) => {
+    console.log(type)
+
+    //todo: Have the type-selected Loader retrive the file, regardless of its implementation
+    // let loader = Loaders.getLoader(type)
+
+    let loader = new DiskFileLoader();
+    // let fluentLoader = new FluentDiskFileLoader();
+
+    if (!loader) throw Error('disk file loader not initialized!');
+
+    loader.load()
+      .then((result) => {
+        console.log('result:\n', result);
+      });
+
+    console.log('test'); //runs async   
+
+  }
 
   // handleListItemClick = value => {
   //   this.props.onClose(value);
@@ -120,19 +137,19 @@ class ModalLoad extends React.Component {
         name: "From Disk",
         description: "Open a file from your computer's hard drive",
         icon: HardDrive,
-        handler: ()=>{this.handleFromDisk()}
+        handler: () => { this.handleSelection('disk') }
       },
       {
         name: "Google Drive",
         description: "Open a file from your linked Google Drive folder",
         icon: GoogleDrive,
-        handler: ()=>{this.handleFromDrive()}
+        handler: () => { this.handleSelection('google') }
       },
       {
         name: "Clipboard",
         description: "Opens a window where you can paste in the content of a word document",
         icon: ClipBoard,
-        handler: ()=>{this.handleFromPaste()}
+        handler: () => { this.handleSelection('clipboard') }
       }
     ]
 
@@ -147,13 +164,13 @@ class ModalLoad extends React.Component {
         onBackdropClick={this.handleClose}
       >
         <Grid
-          container 
-          className={classes.demo} 
+          container
+          className={classes.demo}
           spacing={0}
-          justify="space-evenly" 
-          alignItems="center"  
+          justify="space-evenly"
+          alignItems="center"
         >
-          {cards.map((card)=>{
+          {cards.map((card) => {
             return (
               <Grid key={card.name.toLocaleLowerCase()} item className={classes.grid} onClick={card.handler}>
                 <img src={card.icon} className={classes.icon} />

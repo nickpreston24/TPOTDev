@@ -6,10 +6,10 @@ const ipc = electron.ipcRenderer;
 
 // Node built-in
 const fs = remote.require('fs')
-const path = remote.require('path') 
+const path = remote.require('path')
 
 // Custom/Community
-    // Code Here
+// Code Here
 
 // File2Html
 const file2html = require('file2html')
@@ -59,17 +59,17 @@ function lookupMimeType(filename) {
                 if (extentsionSlice == extension) {
                     console.log("GOOD!: ", extension, mimeTypes[extension])
                     return mimeTypes[extension]
-                } 
+                }
             }
         }
     }
 }
 
-function convertFile(name) {
+function convertFile(path) {
 
-    console.group("CONVERT FILE " + name)
-    let filePath = getConfigPath(name)
-    let mime = lookupMimeType(name)
+    console.group("CONVERT FILE " + path)
+    let filePath = getConfigPath(path)
+    let mime = lookupMimeType(path)
 
     file2html.config({
         readers: [
@@ -79,32 +79,38 @@ function convertFile(name) {
         ]
     });
 
-    fs.readFile(filePath, function (err, data) {
-        if (err) {
-            // throw err
-        } else {
-            console.log('Buffer: ', data);
-            let fileBuffer = data // this declaration is needed
-            file2html.read({
-                fileBuffer,
-                meta: {
-                    mimeType: mime
-                }
-            }).then((file) => {
-                const {styles, content} = file.getData()		
-                const meta = file.getMeta()
-                console.groupEnd()
-                saveFile({ css: styles, html: content, meta: meta })
-                
-            });
-        }
+    fs.readFile(filePath, (err, data) => {
+        if (err) throw err;
+
+        console.log('Buffer: ', data);
+        let fileBuffer = data // this declaration is needed
+        file2html.read({
+            fileBuffer,
+            meta: {
+                mimeType: mime
+            }
+        }).then((file) => {
+            const {
+                styles,
+                content
+            } = file.getData()
+            const meta = file.getMeta()
+            console.groupEnd()
+            saveFile({
+                css: styles,
+                html: content,
+                meta: meta
+            })
+
+        });
+
     });
 }
 
 function saveFile(json) {
     let fileContents = JSON.stringify(json)
     console.log(json)
-    fs.writeFile(path.join(getConfigPath(), "post.json"), fileContents, (err)=>{
+    fs.writeFile(path.join(getConfigPath(), "post.json"), fileContents, (err) => {
         if (err) {
             throw err
         } else {
@@ -120,23 +126,21 @@ function getConfigPath(file) {
 }
 
 function printConfigDir() {
-    fs.readdir(getConfigPath(), (err, files)=>{
+    fs.readdir(getConfigPath(), (err, files) => {
         if (err) throw err;
         console.group("Directory [" + getConfigPath() + "]")
-        files.forEach(file => { console.log(file) }); 
+        files.forEach(file => {
+            console.log(file)
+        });
         console.groupEnd()
     })
 }
 
-const test = ()=> {
+const test = () => {
     console.log("%c Document Converter Module Loaded!", "color: hsl(199, 76%, 59%);")
 };
 
-
-
-// EXPORTS
-
-module.exports = {  
+module.exports = {
     convertFile,
     test
 }

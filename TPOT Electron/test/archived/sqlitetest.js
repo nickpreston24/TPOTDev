@@ -18,7 +18,7 @@ describe('sqlite test', () => {
             if (error) return console.error(error.message);
             console.log('Closed the db connection.');
         });
-    })
+    });
 });
 
 //Create database local to this project:
