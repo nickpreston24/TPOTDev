@@ -51,12 +51,14 @@ function lookupMimeType(filename) {
     };
 
     if (filename) {
-        console.log(filename)
-        let filenameSimple = filename.toLowerCase()
+        console.log('input - fileName: ', filename)
+        let fileNameSimple = filename.toLowerCase()
         for (var extension in mimeTypes) {
             if (mimeTypes.hasOwnProperty(extension)) {
-                let extentsionSlice = filenameSimple.slice(filenameSimple.length - extension.length, filenameSimple.length)
-                if (extentsionSlice == extension) {
+                let extensionSlice = fileNameSimple.slice(fileNameSimple.length - extension.length, fileNameSimple.length)
+                // console.log('Extension: ', extensionSlice);
+                // console.log('File Name: ', fileNameSimple);
+                if (extensionSlice == extension) {
                     console.log("GOOD!: ", extension, mimeTypes[extension])
                     return mimeTypes[extension]
                 }
@@ -68,7 +70,8 @@ function lookupMimeType(filename) {
 function convertFile(path) {
 
     console.group("CONVERT FILE " + path)
-    let filePath = getConfigPath(path)
+    // let filePath = getConfigPath(path)
+    let filePath = path;
     let mime = lookupMimeType(path)
 
     file2html.config({
@@ -121,17 +124,23 @@ function saveFile(json) {
 }
 
 function getConfigPath(file) {
-    if (file) return path.join(app.getAppPath(), './src/config/', file)
-    else return path.join(app.getAppPath(), './src/config/')
+    const applicationPath = app.getAppPath();
+    const configDir = './src/config';
+
+    return file ?
+        path.join(applicationPath, configDir, file) :
+        path.join(applicationPath, configDir)
+
+    //Old, delete if above passes ^. :-)
+    // if (file) return path.join(app.getAppPath(), './src/config/', file)
+    // else return path.join(app.getAppPath(), './src/config/')
 }
 
 function printConfigDir() {
     fs.readdir(getConfigPath(), (err, files) => {
         if (err) throw err;
         console.group("Directory [" + getConfigPath() + "]")
-        files.forEach(file => {
-            console.log(file)
-        });
+        files.forEach(file => console.log(file));
         console.groupEnd()
     })
 }
