@@ -19,31 +19,33 @@ let options = {
     }]
 }
 
-var readData = ''
-var streamData = ''
+// export var readData
+// export var streamData
 
 export default class DiskFileLoader {
 
     async load() {
         await this.getFilePath()
             .then(filePath => {
-                this.streamFile(filePath)
+                // this.streamFile(filePath)
+                this.readFile(filePath)
+                this.path = filePath
                 // .then(data => {
                 //     console.log('data', data)
                 // })
+            }).catch((err) => {
+                console.log('error: ', err);
             })
     }
 
     getFilePath() {
         return new Promise((result, reject) => {
             dialog.showOpenDialog(options, (fileNames) => {
-                result(fileNames[0]);
+                const filePath = fileNames[0];
+                result(filePath);
             });
         });
     }
-
-
-
 
     readFile(filePath) {
         console.log('filepath: ', filePath);
@@ -52,23 +54,23 @@ export default class DiskFileLoader {
             if (error) {
                 throw new Error(`An error ocurred reading the file : ${error.message}`);
             }
-            console.log("The file content is : \n" + data);
-            readData = data;
+            // console.log("The file content is : \n" + data);
+            console.log('read successful!');
+            this.readData = data;
         });
     };
 
-    streamFile(filePath) {
-        console.log('in streamfile()');
-        // return new Promise((result, reject) => {
-        var readStream = fs.createReadStream(filePath, 'utf8');
-        readStream.on('data', (chunk) => {
-            streamData += chunk;
-        }).on('end', () => {
-            console.log(streamData);
-            // result(streamData);
-        });
-        // });
-    }
+    // streamFile(filePath) {
+    //     console.log('in streamfile()');
+    //     // return new Promise((result, reject) => {
+    //     var readStream = fs.createReadStream(filePath, 'utf8');
+    //     readStream.on('data', (chunk) => {
+    //         streamData += chunk;
+    //     }).on('end', () => {
+    //         console.log(streamData);
+    //     });
+    //     // });
+    // }
 
     deleteFile(filePath) {
 
