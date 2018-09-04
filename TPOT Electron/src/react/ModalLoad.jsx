@@ -42,6 +42,7 @@ import { get } from 'https';
 // import { Loaders } from '../modules/docxLoaders/Loaders.ts'
 
 import DiskFileLoader from '../modules/docxLoaders_js/DiskFileLoader'
+import converter from '../modules/converter'
 
 const emails = ['username@gmail.com', 'user02@gmail.com'];
 const styles = theme => ({
@@ -117,7 +118,9 @@ class ModalLoad extends React.Component {
     //Good:
     loader.load()
       .then((result) => {
-        console.log('result:\n', result);
+        // console.log('result:\n', result);
+        console.log('file loaded: ', loader.path);
+        converter.convertFile(loader.path);
       });
 
     //Also good:
