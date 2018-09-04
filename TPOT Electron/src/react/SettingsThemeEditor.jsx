@@ -33,62 +33,38 @@ import { CardContent } from '../../node_modules/@material-ui/core';
 import Slider from '@material-ui/lab/Slider';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
-import PreferencesIcon from 'mdi-material-ui/Tune'
-import AccountIcon from '@material-ui/icons/AccountBoxOutlined'
-import ThemeIcon from 'mdi-material-ui/InvertColors'
-import SettingsAccount from './SettingsAccount'
-import SettingsPreferences from './SettingsPreferences'
-import SettingsTheme from './SettingsTheme'
+import Tune from 'mdi-material-ui/Tune'
+import Palette from 'mdi-material-ui/Palette'
+import ProfilePic from '../media/avatar.jpg'
 // import TabContainer from '@material-ui/core/'
 
 const emails = ['username@gmail.com', 'user02@gmail.com'];
 const styles = theme => ({
   root: {
-    paddingTop: 64,
     display: 'flex',
     flexWrap: 'wrap',
     flexGrow: 1,
   },
-  paper: {
-    // maxWidth: 600,
-    width: 325,
-    height: 500,
-  },
-  tabsRoot: {
-    // maxwidth: 300,
-    // background: "#eee",
-    boxShadow: "0px 1px 5px 0px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 3px 1px -2px rgba(0, 0, 0, 0.12)",
-  },
-  tabsIndicator: {
-    background: theme.palette.primary.main
-  },
-  tabRoot: {
-    color: "#555",
-    textTransform: 'initial',
-    minWidth: "33%",
-    '&:hover': {
-      color: theme.palette.primary.main,
-      opacity: 1,
-    },
-    '&$tabSelected': {
-      color: theme.palette.primary.main,
-      fontWeight: theme.typography.fontWeightMedium,
-      background: '#fff',
-    },
-    '&:focus': {
-      color: theme.palette.primary.main,
-    },
-  },
-  tabSelected: {},
+  avatar: {
+    height: 80,
+    width: 80,
+    display: "block",
+    position: "relative",
+    left: "50%",
+    transform: "translateX(-50%)",
+    marginTop: 32,
+    marginBottom: 32,
+  }
+
 });
 
-class ModalSettings extends React.Component {
+class ThemeEditor extends React.Component {
 
   constructor(props) {
     super(props);
 
     this.state = {
-      value: 1,
+      value: 0,
     }
   }
 
@@ -103,49 +79,34 @@ class ModalSettings extends React.Component {
   render() {
     const { classes } = this.props;
     
-    const tabs = [
-      {
-        name: "Account",
-        icon: <AccountIcon/>,
-      },
-      {
-        name: "Prefrences",
-        icon: <PreferencesIcon/>,
-      },
-      {
-        name: "Theme",
-        icon: <ThemeIcon/>,
-      }
-    ]
+    // const tabs = [
+    //   {
+    //     name: "Account",
+    //     icon: <Account/>,
+    //   },
+    //   {
+    //     name: "Prefrences",
+    //     icon: <Tune/>,
+    //   },
+    //   {
+    //     name: "Theme",
+    //     icon: <Palette/>,
+    //   }
+    // ]
 
     return (
-      <Dialog
-        classes={{
-          root: classes.root,
-          paper: classes.paper,
-        }}
-        open={this.props.open}
-        onClose={this.handleClose}
-      >
-        <div>
-          <Tabs value={this.state.value} onChange={this.handleChange} fullWidth classes={{ root: classes.tabsRoot, indicator: classes.tabsIndicator }}>
-            {tabs.map((tab)=>{
-              return (
-                <Tab key={tab.name} icon={tab.icon} classes={{ root: classes.tabRoot, selected: classes.tabSelected }}/>
-              );
-            })}
-          </Tabs>
-        </div>
-        {this.state.value === 0 && <SettingsAccount/>}
-        {this.state.value === 1 && <SettingsPreferences/>}
-        {this.state.value === 2 && <SettingsTheme/>}
-      </Dialog>
+      <div className={classes.root}>
+        <Avatar src={ProfilePic} className={classes.avatar}/>
+        <Typography align="center">Victor Hafichuk</Typography>
+        
+        {/* {this.state.value === 0 && <div>Item One</div>} */}
+      </div>
     );
   }
 }
 
-ModalSettings.propTypes = {
+ThemeEditor.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(ModalSettings)
+export default withStyles(styles)(ThemeEditor)

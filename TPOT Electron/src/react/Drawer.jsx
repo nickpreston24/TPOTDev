@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { withStyles } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
+import WYSIWYG from './WYSIWYG'
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import List from '@material-ui/core/List';
@@ -27,157 +28,159 @@ const convert = require('../modules/converter')
 const drawerWidth = 200;
 
 const styles = theme => ({
-  root: {
-    flexGrow: 1,
-    height: "100%",
-    zIndex: 1,
-    overflow: 'hidden',
-    position: 'relative',
-    display: 'flex',
-  },
-  preview: {
-    position: "fixed",
-    right: 20,
-    bottom: 20
-  },
-  appBar: {
-    zIndex: theme.zIndex.drawer + 1,
-    transition: theme.transitions.create(['width', 'margin'], {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.leavingScreen,
-    }),
-  },
-  appBarShift: {
-    marginLeft: drawerWidth,
-    width: `calc(100% - ${drawerWidth}px)`,
-    transition: theme.transitions.create(['width', 'margin'], {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.enteringScreen,
-    }),
-  },
-  menuButton: {
-    marginLeft: 12,
-    marginRight: 36,
-  },
-  hide: {
-    display: 'none',
-  },
-  drawerPaper: {
-    overflowX: 'hidden',
-    position: 'relative',
-    whiteSpace: 'nowrap',
-    width: drawerWidth,
-    transition: theme.transitions.create('width', {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.enteringScreen,
-    }),
-  },
-  drawerPaperClose: {
-    overflowX: 'hidden',
-    transition: theme.transitions.create('width', {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.leavingScreen,
-    }),
-    width: theme.spacing.unit * 7,
-    [theme.breakpoints.up('sm')]: {
-      width: theme.spacing.unit * 9,
-    },
-  },
-  toolbar: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'flex-end',
-    padding: '0 8px',
-    ...theme.mixins.toolbar,
-  },
-  content: {
-    flexGrow: 1,
-    backgroundColor: theme.palette.background.default,
-    padding: theme.spacing.unit * 3,
-  },
-  contentFrame: {
-    padding: 16,
-    boxSizing: 'border-box',
-    overflow: 'hidden',
-    position: "absolute",
-    top: (64),
-    left: "50%",
-    transform: "translateX(-50%)",
-    width: 800,
-    height: "calc(100vh - 48px)",
-  },
-  contentPaper: {
-    overflowY: 'scroll',
-    marginTop: 32,
-    marginBottom: 128,
-    // minHeight: 500,
-    minHeight: 500,
-    WebkitScrollbarClass: {
-      width: "1em"
-    },
-    WebkitScrollbarTrackClass: {
-      WebkitBoxShadow: "inset 0 0 6px rgba(0,0,0,0.3)"
-    },
-    WebkitScrollbarThumbClass: {
-      backgroundColor: "darkgrey",
-      outline: "1px solid slategrey"
-    }
-  },
+        root: {
+                flexGrow: 1,
+                height: "100%",
+                zIndex: 1,
+                overflow: 'hidden',
+                position: 'relative',
+                display: 'flex',
+        },
+        preview: {
+                position: "fixed",
+                right: 20,
+                bottom: 20
+        },
+        appBar: {
+                zIndex: theme.zIndex.drawer + 1,
+                transition: theme.transitions.create(['width', 'margin'], {
+                        easing: theme.transitions.easing.sharp,
+                        duration: theme.transitions.duration.leavingScreen,
+                }),
+        },
+        appBarShift: {
+                marginLeft: drawerWidth,
+                width: `calc(100% - ${drawerWidth}px)`,
+                transition: theme.transitions.create(['width', 'margin'], {
+                        easing: theme.transitions.easing.sharp,
+                        duration: theme.transitions.duration.enteringScreen,
+                }),
+        },
+        menuButton: {
+                marginLeft: 12,
+                marginRight: 36,
+        },
+        hide: {
+                display: 'none',
+        },
+        drawerPaper: {
+                overflowX: 'hidden',
+                position: 'relative',
+                whiteSpace: 'nowrap',
+                width: drawerWidth,
+                transition: theme.transitions.create('width', {
+                        easing: theme.transitions.easing.sharp,
+                        duration: theme.transitions.duration.enteringScreen,
+                }),
+        },
+        drawerPaperClose: {
+                overflowX: 'hidden',
+                transition: theme.transitions.create('width', {
+                        easing: theme.transitions.easing.sharp,
+                        duration: theme.transitions.duration.leavingScreen,
+                }),
+                width: theme.spacing.unit * 7,
+                [theme.breakpoints.up('sm')]: {
+                        width: theme.spacing.unit * 9,
+                },
+        },
+        toolbar: {
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'flex-end',
+                padding: '0 8px',
+                ...theme.mixins.toolbar,
+        },
+        content: {
+                flexGrow: 1,
+                backgroundColor: theme.palette.background.default,
+                padding: theme.spacing.unit * 3,
+        },
+        contentFrame: {
+                padding: 16,
+                boxSizing: 'border-box',
+                overflow: 'scroll',
+                position: "absolute",
+                top: (64),
+                left: "50%",
+                transform: "translateX(-50%)",
+                width: 800,
+                height: "calc(100vh - 48px)",
+        },
+        contentPaper: {
+                overflowY: 'hidden',
+                marginTop: 32,
+                marginBottom: 128,
+                // minHeight: 500,
+                minHeight: 500,
+                WebkitScrollbarClass: {
+                        width: "1em"
+                },
+                WebkitScrollbarTrackClass: {
+                        WebkitBoxShadow: "inset 0 0 6px rgba(0,0,0,0.3)"
+                },
+                WebkitScrollbarThumbClass: {
+                        backgroundColor: "darkgrey",
+                        outline: "1px solid slategrey"
+                }
+        },
 });
 
 class MiniDrawer extends React.Component {
-  constructor(props) {
-    super(props);
+        constructor(props) {
+                super(props);
 
-    this.state = {
+                this.state = {
 
-    }
-  } 
+                }
+        }
 
-  render() {
-    const { classes, theme } = this.props;
+        render() {
+                const { classes, theme } = this.props;
 
-    return (
-      <div className={classes.root}>
-        {/* MENU DRAWER */}
-        <Drawer variant="permanent" open={true}
-          classes={{
-            paper: classNames(classes.drawerPaper, !this.props.open && classes.drawerPaperClose),
-          }}
-        >
-          <div className={classes.toolbar}/>
-          <DrawerMenuList/>
-        </Drawer>
+                return (
+                        <div className={classes.root}>
+                                {/* MENU DRAWER */}
+                                <Drawer variant="permanent" open={true}
+                                        classes={{
+                                                paper: classNames(classes.drawerPaper, !this.props.open && classes.drawerPaperClose),
+                                        }}
+                                >
+                                        <div className={classes.toolbar} />
+                                        <DrawerMenuList />
+                                </Drawer>
 
-        {/* DOCUMENT */}
-        <main className={classes.content}>
-          <div className={classes.toolbar}/> 
+                                {/* DOCUMENT */}
+                                <main className={classes.content}>
+                                        <div className={classes.toolbar} />
 
-          {/* Main Content */}
-          <div className={classes.contentFrame}>
-            <Paper className={classes.contentPaper}>
-              <Typography color="inherit" varient="display4">
-                {/* You think water moves fast? You should see ice. */}
-              </Typography>
-            </Paper>
-          </div>
+                                        {/* Main Content */}
+                                        <div className={classes.contentFrame}>
+                                                <Paper className={classes.contentPaper}>
+                                                        {/* Editor */}
+                                                        <WYSIWYG htmlContent={"<h1>Test</h1>"} />
+                                                        {/* <Typography color="inherit" varient="display4"> */}
+                                                        {/* You think water moves fast? You should see ice. */}
+                                                        {/* </Typography> */}
+                                                </Paper>
+                                        </div>
 
-          {/* Preview Button */}
-          <Tooltip title="Preview Page" TransitionComponent={Zoom}>
-            <Button variant="fab" color="primary" aria-label="Preview" className={classes.preview}>
-              <PreviewIcon />
-            </Button>
-          </Tooltip>
-        </main>
+                                        {/* Preview Button */}
+                                        <Tooltip title="Preview Page" TransitionComponent={Zoom}>
+                                                <Button variant="fab" color="primary" aria-label="Preview" className={classes.preview}>
+                                                        <PreviewIcon />
+                                                </Button>
+                                        </Tooltip>
+                                </main>
 
-      </div>
-    )
-  }
+                        </div>
+                )
+        }
 }
 
 MiniDrawer.propTypes = {
-  classes: PropTypes.object.isRequired,
-  theme: PropTypes.object.isRequired,
+        classes: PropTypes.object.isRequired,
+        theme: PropTypes.object.isRequired,
 };
 
 export default withStyles(styles, { withTheme: true })(MiniDrawer);
