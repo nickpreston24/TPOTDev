@@ -7,7 +7,6 @@ import Header from './Header'
 import './App.css'
 import 'typeface-roboto'
 
-
 // Electron
 const electron = window.require('electron')
 const remote = electron.remote
@@ -72,34 +71,26 @@ class App extends React.Component {
         constructor(props) {
                 super(props);
 
-                this.state = {
-                        menuToggled: false // set default toggle state
+                this.state = { // set default state for App (single source of truth)
+                        menuToggled: false, 
+                        editMode: "edited"
                 }
         }
 
-        componentDidMount() {
-                console.log("app mounted")
-                window.postMessage("This is  a Message", "*")
-                //         ipc.send('cat', 'ping')
-        }
-
-        toggleMenu = () => {
-                this.setState(prevState => ({
-                        menuToggled: !prevState.menuToggled // toggle between states
-                }))
-        }
-
-        btnConvert = (e) => {
-                e.preventDefault()
-                alert('sample.docx')
+        onUpdateHeader = async (headerState) => {
+                await this.setState({
+                        menuToggled: headerState.menuToggled,
+                        editMode: headerState.editMode
+                })
+                // console.log(this.state)
         }
 
         render() {
                 return (
                         <div className="App">
                                 <MuiThemeProvider theme={theme}>
-                                        <Header color="primary" onUpdate={this.toggleMenu} /> {/* TOP BAR WITH BURGER, TABS, & AUTH */}
-                                        <Drawer color="primary" open={this.state.menuToggled} /> {/* MAIN SECTION WITH MENU AND DOCUMENT AREA */}
+                                        <Header color="primary" onUpdate={this.onUpdateHeader} editMode={this.state.editMode}/> {/* TOP BAR WITH BURGER, TABS, & AUTH */}
+                                        <Drawer color="primary" drawerOpen={this.state.menuToggled} editMode={this.state.editMode}/> {/* MAIN SECTION WITH MENU AND DOCUMENT AREA */}
                                 </MuiThemeProvider>
                         </div>
                 )

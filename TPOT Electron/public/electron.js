@@ -22,6 +22,10 @@ function createWindow(offset) {
 
   const windowOptions = {
     // width: 1100,
+          webPreferences: {
+                  webSecurity: false,
+                  allowRunningInsecureContent: true
+          },
     x: offset.x,
     y: offset.y,
     width: 1700,

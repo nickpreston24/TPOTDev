@@ -16,195 +16,115 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 
 const styles = theme => ({
-  root: {
-    position: "absolute",
-    left: "50%",
-    top: -2,
-    transform: "translateX(-50%)",
-    width: '50%',
-    '& div:nth-first-child(0)': {
-      // color: "yellow !important",
-      // height: "12px !important",
-      background: "yellow !important",
-      backgroundColor: "yellow !important",
-    }
-  },
-  button: {
-    margin: 0,
-    padding: 0,
-    // marginRight: theme.spacing.unit,
-  },
-  completed: {
-    display: 'inline-block',
-  },
-  tabs: {
-    // height: "40px !important",
-    // '& span': {
-    //   color: "yellow !important",
-    //   height: "12px !important",
-    //   background: "yellow !important",
-    //   backgroundColor: "yellow !important",
-    // }
-  },
-  indicator: {
-    top: 64,
-    background: theme.palette.primary.contrastText
-  },
-  tab: {
-    height: "40px !important",
-    color: theme.palette.primary.dark,
-    '&[aria-selected="true"]': {
-      color: theme.palette.primary.contrastText,
-      // background: "grey !important",
-    },
-    '& span': {
-      // textAlign: "center",
-      // display: "inline !important",
-      marginLeft: "3vw",
-      display: "table",
-    },
-    '& span span, & span svg': {
-      textAlign: "center",
-      display: "table-cell",
-      verticalAlign: "middle",
-      // margin: "0px !important",
-    },
-    '& span span': {
-      fontSize: 14,
-    },
+        root: {
+                position: "absolute",
+                left: "50%",
+                top: -2,
+                transform: "translateX(-50%)",
+                width: '50%',
+                '& div:nth-first-child(0)': {
+                        background: "yellow !important",
+                        backgroundColor: "yellow !important",
+                }
+        },
+        button: {
+                margin: 0,
+                padding: 0,
+        },
+        completed: {
+                display: 'inline-block',
+        },
 
-
-
-    // '& span:first-child': {
-    //   color: "grey",
-    //   // display: "inline-flex !important",
-    // },
-    // '& span:first-child *': {
-    //   margin: 0,
-    //   left: 0,
-    // },
-    // '& span:first-child svg': {
-    //   margin: "auto",
-    //   // margin: 0,
-    //   // left: 0,
-    //   // top: "50%",
-    //   // left: "50%",
-    //   // transform: "translate(-50%, -50%)",
-    //   // display: "inline !important",
-    //   // position: "relative",
-    //   // display: "inline !important",
-    //   position: "relative !important",
-    //   // float: "left !important",
-    //   color: "green !important",
-    //   // background: "green !important",
-    // },
-    // '& span:first-child span': {
-    //   margin: "auto",
-    //   // margin: 0,
-    //   // left: 0,
-    //   // top: "50%",
-    //   // left: "50%",
-    //   // transform: "translate(-50%, -50%)",
-    //   // display: "inline !important",
-    //   // position: "relative",
-    //   display: "inline !important",
-    //   // display: "inline !important",
-    //   position: "relative !important",
-    //   float: "left !important",
-    //   color: "green !important",
-    //   zIndex: 1,
-    // },
-  },
-  selectedTab: {
-
-  }
-    // background: "grey",
-
-  // stepper: {
-  //   maxHeight: 64,
-  //   // background: theme.palette.primary.main,
-  //   overflow: "hidden"
-  // },
-  // stepperButton: {
-  //   // color: theme.palette.primary.dark,
-  // },
-
+        indicator: {
+                top: 64,
+                background: theme.palette.primary.contrastText
+        },
+        tab: {
+                height: "40px !important",
+                color: theme.palette.primary.dark,
+                '&[aria-selected="true"]': {
+                        color: theme.palette.primary.contrastText,
+                },
+                '& span': {
+                        marginLeft: "3vw",
+                        display: "table",
+                },
+                '& span span, & span svg': {
+                        textAlign: "center",
+                        display: "table-cell",
+                        verticalAlign: "middle",
+                },
+                '& span span': {
+                        fontSize: 14,
+                },
+        }
 });
 
 class EditMode extends React.Component {
-  constructor(props) {
-    super(props)
+        constructor(props) {
+                super(props)
 
-    this.state = {
-      activeStep: 1,
-      value: 1,
-    }
-  } 
+                this.state = {
+                        currentTab: 1
+                }
 
-  handleStep = step => () => {
-    console.log(step)
-    this.setState({
-      activeStep: step,
-    });
-  };
+                this.tabs = [
+                        { name: 'Original', icon: <FileIcon /> },
+                        { name: 'Edited', icon: <EditIcon /> },
+                        { name: 'Code', icon: <CodeIcon /> },
+                ]
+        }
 
-  handleChange = (event, value) => {
-    this.setState({ value });
-  };
+        getValueFromTab = (currentTab) => {
+                console.log(currentTab)
+        }
 
-  render() {
-    const { classes } = this.props;
-    const { activeStep } = this.state;
-    const { value } = this.state;
+        handleChange = (e, tab) => {
+                this.setState({ currentTab: tab }); // update self
+                let editMode
+                switch (tab) {
+                        case 0:
+                                editMode = "original"
+                                break;
+                        case 1:
+                                editMode = "edited"
+                                break;
+                        case 2:
+                                editMode = "code"
+                                break;
+                        default:
+                                editMode = "edited"
+                                break;
+                }
+                this.props.onUpdate(editMode) // update parent
+        };
 
-    const steps = [
-        'Original',
-        'Edited',
-        'Code'
-    ]
-    const icons = [
-        <FileIcon/>,
-        <EditIcon/>,
-        <CodeIcon/>
-    ]
+        render() {
+                const { classes } = this.props;
 
-    return (
-      <div className={classes.root}>
-        <Tabs
-          classes={{root: classes.tabs, indicator: classes.indicator}}
-          value={this.state.value}
-          onChange={this.handleChange}
-          fullWidth
-          indicatorColor="primary"
-          textColor="inherit"
-        >
-          <Tab className={classes.tab} icon={<FileIcon />} label="Original" />
-          <Tab className={classes.tab} icon={<EditIcon />} label="Edited" />
-          <Tab className={classes.tab} icon={<CodeIcon />} label="Code" />
-        </Tabs>
-        {/* <Stepper className={classes.stepper} nonLinear activeStep={activeStep}>
-          {steps.map((label, index) => {
-            return (
-              <Step key={label}>
-                <StepButton
-                  // className={classes.stepperButton}
-                  onClick={this.handleStep(index)}
-                  icon={icons[index]}
-                //   completed={this.state.completed[index]}
-                >
-                  {label}
-                </StepButton>
-              </Step>
-            );
-          })}
-        </Stepper> */}
-      </div>
-    );
-  }
+                return (
+                        <div className={classes.root}>
+                                <Tabs
+                                        classes={{ root: classes.tabs, indicator: classes.indicator }}
+                                        value={this.state.currentTab}
+                                        onChange={this.handleChange}
+                                        fullWidth
+                                        indicatorColor="primary"
+                                        textColor="inherit"
+                                >
+                                        {this.tabs.map((tab) => {
+                                                return (
+                                                        <Tab className={classes.tab} icon={tab.icon} label={tab.name} key={Math.random(tab.name)}/>
+                                                );
+                                        })}
+                                </Tabs>
+                        </div>
+                );
+        }
 }
 
 EditMode.propTypes = {
-  classes: PropTypes.object,
+        classes: PropTypes.object,
 };
 
 export default withStyles(styles)(EditMode);

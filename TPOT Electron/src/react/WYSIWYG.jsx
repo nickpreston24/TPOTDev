@@ -27,7 +27,7 @@ import EmojiIcon from 'mdi-material-ui/EmoticonExcited'
 
 // Draft JS
 import Editor, { createEditorStateWithText } from 'draft-js-plugins-editor';
-import { EditorState, RichUtils, ContentState, convertFromHTML } from 'draft-js';
+import { EditorState, RichUtils, ContentState, Modifier, convertFromHTML } from 'draft-js';
 import htmlToDraft from 'html-to-draftjs';
 import Immutable from 'immutable'
 import { convertToHTML } from 'draft-convert'
@@ -36,13 +36,22 @@ import './Editor.css'
 
 // load sample data string from disk, convert to html tags (virtualize) as blocks and create a new state
 import html from '../modules/html_sample.json'
-
+import htmlNew from '../modules/html_sample_new.json'
 
 // Electron (change to import method later)
 const electron = window.require('electron')
 const remote = electron.remote
 const app = remote.app
 const ipc = electron.ipcRenderer
+
+// RESTfull APIs
+var WPAPI = require('wpapi');
+// var wp = new WPAPI({
+//         endpoint: 'http://www.thepathoftruth.com/wp-json',
+//         // This assumes you are using basic auth, as described further below
+//         username: 'Braden',
+//         password: 'Mercury18'
+// });
 
 // PLUGINS
 ///////////////////////////////////////////////////////////////////////////////////////////////////
@@ -56,9 +65,10 @@ const plugins = [
 // INITIAL STATE
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
-const blocksFromHtml = htmlToDraft(html)
+const blocksFromHtml = convertFromHTML(htmlNew)
+// console.log(htmlNew, blocksFromHtml)
 // const blocksFromHtml = htmlToDraft(html, (nodeName, node) => {
-//         if (nodeName === 'hr') {
+//         if (nodeName === 'br') {
 //                 return {
 //                         type: 'HORIZONTAL_RULE',
 //                         mutability: 'MUTABLE',
@@ -66,7 +76,7 @@ const blocksFromHtml = htmlToDraft(html)
 //                 };
 //         }
 // })
-const htmlContent = ContentState.createFromBlockArray(blocksFromHtml.contentBlocks, blocksFromHtml.entityMap);
+const htmlContent2 = ContentState.createFromBlockArray(blocksFromHtml.contentBlocks, blocksFromHtml.entityMap);
 
 
 // DATA TRANSFORMATION
@@ -87,7 +97,7 @@ const styleMap = {
 function myBlockStyleFn(contentBlock) {
         const type = contentBlock.getType();
         if (type === 'blockquote') {
-                return 'superFancyBlockquote';
+                return '.superFancyBlockquote {color: red !important;}';
         }
 }
 
@@ -103,6 +113,29 @@ const blockRenderMap = Immutable.Map({
         'codeblock': { element: 'blockquote' },
 });
 
+// function myBlockRenderer(contentBlock, editorState) {
+//         // console.log(contentBlock, editorState)
+//         const type = contentBlock.getType();
+//         if (!contentBlock.getText()) {
+//                 // let EditorState = editorState
+//                 // console.log(EditorState.getCurrentContent())
+//                 // Modifier.removeRange(EditorState.getCurrentContent())
+//                 // console.log(contentBlock, editorState)
+
+//                 // console.log(editorState.getCurrentContent().getBlockForKey(editorState.getSelection().getAnchorKey()).getText().slice(editorState.getSelection().getStartOffset(), editorState.getSelection().getEndOffset()))
+//                 // console.log("Type", contentBlock.getType(), "Key", contentBlock.getKey(), "Text", contentBlock.getText(), "Chars", contentBlock.getCharacterList(), "Length", contentBlock.getLength(), "Data", contentBlock.getData())
+//         }
+//         if (type === 'atomic') {
+//                 return {
+//                         component: 'paragraph',
+//                         editable: false,
+//                         props: {
+//                                 foo: 'bar',
+//                         },
+//                 };
+//         }
+// }
+
 // THEMING AND CSS 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -115,7 +148,7 @@ const styles = theme => ({
                 // '& span, h1, div': {
                 //         lineHeight: "30.6px",
                 //         fontFamily: "Helvetica",
-                //         // fontSize: "18px",
+                //         fontSize: "18px",
                 //         marginBottom: "21.6px"
                 // },
         },
@@ -137,29 +170,73 @@ class Wysiwyg extends React.Component {
         // This raw HTML should be saved periodically local directory (code.html). This final code is what is sent to the Wordpress API
         // Either the (code.html) or (edited.html) can be sent via the Wordpress API. Edited has to be run through a utility though to clean up the code.
         // Eventually the Preview button in the bottom right will want to request a new preview environment. It could prompt the Editor to get its current code.
-        
+
         constructor(props) {
                 super(props);
                 this.state = {
-                        // for now load the generated state from disk here (created above)
-                        // editorState: EditorState.createWithContent(htmlContent),
+                        // editorState: EditorState.createWithContent(htmlContent2),
                         editorState: EditorState.createEmpty(),
-                        // load the current data from parent or single source of truth (App.jsx fits both criteria).
-                        htmlContent: this.props.htmlContent, // Get data from Drawer.jsx, who could get it from App.jsx. I prefer IPC or Window.PostMessage instead.
+                        editMode: this.props.editMode
                 };
                 this.focus = () => this.refs.editor.focus();
                 this.blur = () => this.refs.editor.blur()
                 this.onChange = (editorState) => this.setState({ editorState });
                 this.toggleStyle = this._toggleStyle.bind(this);
+                this.myBlockRenderer = this._myBlockRenderer.bind(this);
         }
 
         componentDidMount() {
+                console.log(this.state.editMode)
+                // var wp = new WPAPI({
+                //         endpoint: 'http://www.thepathoftruth.com/wp-json',
+                //         username: 'Braden',
+                //         password: 'Mercury18',
+                //         auth: true
+                // });
+                // // Get the 35 Most Recent pages
+                // wp.pages().perPage(35).then(function (data) {
+                //         console.log(data)
+                //         // do something with the returned posts
+                // }).catch(function (err) {
+                //         // handle error
+                // });
+
+                // Make a Page
+                // wp.pages().auth({ username: 'Braden', password: 'Mercury18' }).create({
+                //         // "title" and "content" are the only required properties
+                //         title: 'False Teacher: Greg Laurie 2',
+                //         content: '<h4>Title</h4>This is some text\nNewText<p>Paragraph</p>',
+                //         // author: 3,
+                //         // status: "publish"
+                //         // Post will be created as a draft by default if a specific "status" is not specified
+                //         // publish, future, draft, pending, private
+                // }).then(function (response) {
+                //         console.log("Made Post", response)
+                // }).catch(function (err) {
+                //         // handle error
+                //         console.log(err)
+                // });
+
+
+
+
+
+
+
+
+
+
                 // Getting Converted Data Using Browser Window, Update State
                 window.addEventListener("message", (msg) => {
                         if (msg.data.channel === "editor") {
+                                let cleanHtml = msg.data.html
+                                        .toString()
+                                        .replace(/<br\s*[\/]?>/gi, "</p><p>")
+                                        .trim()
                                 let blocksFromHtml = htmlToDraft(msg.data.html)
                                 let htmlContent = ContentState.createFromBlockArray(blocksFromHtml.contentBlocks, blocksFromHtml.entityMap);
                                 this.setState({ editorState: EditorState.createWithContent(htmlContent) })
+                                // console.log(blocksFromHtml.contentBlocks, blocksFromHtml.entityMap)
                         }
                 })
         }
@@ -174,37 +251,75 @@ class Wysiwyg extends React.Component {
                 // console.log(this.state.editorState.getCurrentContent().getBlockForKey(this.state.editorState.getSelection().getAnchorKey()).getText().slice(this.state.editorState.getSelection().getStartOffset(), this.state.editorState.getSelection().getEndOffset()))
         }
 
+        _myBlockRenderer(contentBlock, editorState) {
+                // console.log(contentBlock, editorState)
+                const type = contentBlock.getType();
+                if (!contentBlock.getText()) {
+                        // let EditorState = editorState
+                        // console.log()
+                        // console.log(EditorState.getCurrentContent())
+                        Modifier.removeRange(this.state.editorState.getCurrentContent(), this.state.editorState.getSelection(), "backward")
+                        // console.log(contentBlock, editorState)
+                        // console.log(this.state.editorState)
+                        // console.log("Type", contentBlock.getType(), "Key", contentBlock.getKey(), "Text", contentBlock.getText(), "Chars", contentBlock.getCharacterList(), "Length", contentBlock.getLength(), "Data", contentBlock.getData())
+                }
+                // if (type === 'atomic') {
+                //         return {
+                //                 component: 'paragraph',
+                //                 editable: false,
+                //                 props: {
+                //                         foo: 'bar',
+                //                 },
+                //         };
+                // }
+        }
+
         render() {
                 const { classes } = this.props
-                
+                const editMode = this.props.editMode
+
                 return (
                         <div id="WYSIWYG" className={classes.root} onClick={this.focus}>
-                                <div
-                                        id={'Toolbar'}
-                                        className="RichEditor-controls">
-                                                {BUTTONS.map((button) =>
-                                                        <StyleButton
-                                                                key={button.label}
-                                                                // active={currentStyle.has(type.style)}
-                                                                label={button.label}
-                                                                onToggle={this.toggleStyle}
-                                                                type={button.type}
-                                                                style={button.style}
-                                                                icon={button.icon}
-                                                        />
-                                                )}
-                                </div>
-                                <Editor
-                                        id={'Editor'}
-                                        ref="editor"
-                                        placeholder="The editor is empty."
-                                        editorState={this.state.editorState}
-                                        onChange={this.onChange.bind(this)}
-                                        customStyleMap={styleMap}
-                                        blockStyleFn={myBlockStyleFn}
-                                        blockRenderMap={blockRenderMap}
-                                        spellCheck={true}
-                                />
+                                {/* Original */}
+                                {editMode == "original" &&
+                                        <p>Original</p>
+                                }
+                                {/* Edited */}
+                                {editMode == "edited"  &&
+                                        <React.Fragment>
+                                                <div
+                                                        id={'Toolbar'}
+                                                        className="RichEditor-controls">
+                                                        {BUTTONS.map((button) =>
+                                                                <StyleButton
+                                                                        key={button.label}
+                                                                        // active={currentStyle.has(type.style)}
+                                                                        label={button.label}
+                                                                        onToggle={this.toggleStyle}
+                                                                        type={button.type}
+                                                                        style={button.style}
+                                                                        icon={button.icon}
+                                                                />
+                                                        )}
+                                                </div>
+                                                <Editor
+                                                        id={'Editor'}
+                                                        ref="editor"
+                                                        placeholder="The editor is empty."
+                                                        editorState={this.state.editorState}
+                                                        onChange={this.onChange.bind(this)}
+                                                        customStyleMap={styleMap}
+                                                        blockStyleFn={myBlockStyleFn}
+                                                        blockRenderMap={blockRenderMap}
+                                                        blockRendererFn={this.myBlockRenderer}
+                                                        spellCheck={true}
+                                                />
+                                        </React.Fragment>
+                                }
+                                {/* Code */}
+                                {editMode == "code"  &&
+                                        <p>Code</p>
+                                }
                         </div>
                 );
         }

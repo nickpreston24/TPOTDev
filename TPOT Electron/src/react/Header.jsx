@@ -13,68 +13,66 @@ import Auth from './Auth'
 
 
 const styles = {
-  root: {
-    flexGrow: 1,
-    zIndex: 1201,
-    position: "fixed"
-  },
-  flex: {
-    flexGrow: 1,
-    border: "1px solid blue"
-  },
-  menuButton: {
-    marginLeft: -12,
-    marginRight: 20,
-  },
-  authButton: {
-    position: 'absolute',
-    right: 0,
-    top: 0,
-    // marginLeft: +20,
-    // marginRight: -12,
-    border: "1px solid blue"
-  },
+        root: {
+                flexGrow: 1,
+                zIndex: 1201,
+                position: "fixed"
+        },
+        flex: {
+                flexGrow: 1,
+                border: "1px solid blue"
+        },
+        menuButton: {
+                marginLeft: -12,
+                marginRight: 20,
+        },
+        authButton: {
+                position: 'absolute',
+                right: 0,
+                top: 0,
+                border: "1px solid blue"
+        },
 };
 
-class SimpleAppBar extends React.Component{
-  constructor(props) {
-    super(props)
+class SimpleAppBar extends React.Component {
+        constructor(props) {
+                super(props)
 
-    // this.state = {
-    //   open: false, // Set the initial state with value passed by parent
-    //   // menuToggled: "child",
-    // }
-  } 
+                this.state = {
+                        menuToggled: false,
+                        editMode: this.props.editMode, // Set the initial state with value passed by parent
+                }
+        }
 
-  toggleMenu = (e) => {
-    let booleanVariable = !booleanVariable
-    this.props.onUpdate(true); // update parent
-    // this.setState({menuToggled: booleanVariable}); // update self
-  };
+        toggleMenu = () => {
+                let menuToggled = !this.state.menuToggled // toggle opposite of previous state
+                this.setState({ menuToggled: menuToggled }) // update self
+                this.props.onUpdate({ menuToggled: menuToggled, editMode: this.state.editMode }) // update parent
+        }
 
-  render() {
+        updateEditMode = (mode) => {
+                this.setState({ editMode: mode }); // update self
+                this.props.onUpdate({ menuToggled: this.state.menuToggled, editMode: mode }) // update parent
+        };
 
-    const { classes } = this.props // don't know that I can keep this here forever
-
-    return (
-      <div className={classes.root}>
-        <AppBar className={classes.root}position="static" color="primary" aria-label="AppBar">
-          <Toolbar>
-            <IconButton onClick={this.toggleMenu} className={classes.menuButton} color="inherit" aria-label="DrawerToggle">
-              <MenuIcon/>
-            </IconButton>
-            <EditMode/>
-            <Auth authorized={true} className={classes.authButton}/>
-          </Toolbar>
-        </AppBar>
-      </div>
-    )
-  }
-} 
-
+        render() {
+                const { classes } = this.props
+                return (
+                        <div className={classes.root}>
+                                <AppBar className={classes.root} position="static" color="primary" aria-label="AppBar">
+                                        <Toolbar>
+                                                <IconButton onClick={this.toggleMenu} className={classes.menuButton} color="inherit" aria-label="DrawerToggle"><MenuIcon /> </IconButton>
+                                                <EditMode currentTab={this.state.editMode} onUpdate={this.updateEditMode} editMode={this.state.editMode} />
+                                                <Auth authorized={true} className={classes.authButton} />
+                                        </Toolbar>
+                                </AppBar>
+                        </div>
+                )
+        }
+}
 
 SimpleAppBar.propTypes = {
-  classes: PropTypes.object.isRequired,
+        classes: PropTypes.object.isRequired,
 };
 
 export default withStyles(styles)(SimpleAppBar);

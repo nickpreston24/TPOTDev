@@ -37,6 +37,8 @@
                 "immutable": "^3.8.2",
                 "jquery": "^3.3.1",
                 "last-draft-js-toolbar-plugin": "^1.2.0",
+                "mammoth": "^1.4.6",
+                "mammoth-colors": "^1.0.2",
                 "mdi-material-ui": "^5.2.0",
                 "random-number": "0.0.9",
                 "react": "16.4.0",
@@ -44,7 +46,8 @@
                 "react-fontawesome": "^1.6.1",
                 "typeface-roboto": "0.0.54",
                 "update-electron-app": "^1.2.0",
-                "wordpress": "^1.4.1"
+                "wordpress": "^1.4.1",
+                "wpapi": "^1.1.2"
         },
         "devDependencies": {
                 "concurrently": "3.5.1",

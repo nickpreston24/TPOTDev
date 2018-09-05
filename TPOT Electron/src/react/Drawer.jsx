@@ -129,10 +129,6 @@ const styles = theme => ({
 class MiniDrawer extends React.Component {
         constructor(props) {
                 super(props);
-
-                this.state = {
-
-                }
         }
 
         render() {
@@ -141,27 +137,19 @@ class MiniDrawer extends React.Component {
                 return (
                         <div className={classes.root}>
                                 {/* MENU DRAWER */}
-                                <Drawer variant="permanent" open={true}
-                                        classes={{
-                                                paper: classNames(classes.drawerPaper, !this.props.open && classes.drawerPaperClose),
-                                        }}
-                                >
+                                <Drawer variant="permanent" open={!this.props.drawerOpen} classes={{ paper: classNames(classes.drawerPaper, !this.props.drawerOpen && classes.drawerPaperClose),  }} >
                                         <div className={classes.toolbar} />
                                         <DrawerMenuList />
                                 </Drawer>
 
-                                {/* DOCUMENT */}
+                                {/* DOCUMENT AREA */}
                                 <main className={classes.content}>
                                         <div className={classes.toolbar} />
 
                                         {/* Main Content */}
                                         <div className={classes.contentFrame}>
                                                 <Paper className={classes.contentPaper}>
-                                                        {/* Editor */}
-                                                        <WYSIWYG htmlContent={"<h1>Test</h1>"} />
-                                                        {/* <Typography color="inherit" varient="display4"> */}
-                                                        {/* You think water moves fast? You should see ice. */}
-                                                        {/* </Typography> */}
+                                                        <WYSIWYG editMode={this.props.editMode}/>
                                                 </Paper>
                                         </div>
 
