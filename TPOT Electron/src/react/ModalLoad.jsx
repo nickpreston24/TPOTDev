@@ -48,9 +48,8 @@ const electron = window.require('electron')
 const remote = electron.remote;
 const fs = remote.require('fs')
 const dialog = remote.dialog
-// const {dialog} = require('electron').remote
 
-dialog
+// const {dialog} = require('electron').remote
 
 const emails = ['username@gmail.com', 'user02@gmail.com'];
 const styles = theme => ({
@@ -144,7 +143,7 @@ class ModalLoad extends React.Component {
 
   render() {
     const { classes } = this.props;
-    
+
     const cards = [
       {
         name: "From Disk",
