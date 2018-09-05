@@ -33,6 +33,7 @@
                 "file2html-ooxml": "^0.2.2",
                 "file2html-text": "^0.2.0",
                 "flow-bin": "^0.80.0",
+                "googleapis": "^27.0.0",
                 "html-to-draftjs": "^1.4.0",
                 "immutable": "^3.8.2",
                 "jquery": "^3.3.1",
