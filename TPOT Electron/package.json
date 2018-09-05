@@ -44,6 +44,7 @@
                 "react": "16.4.0",
                 "react-dom": "16.4.0",
                 "react-fontawesome": "^1.6.1",
+                "react-frame-component": "^4.0.1",
                 "typeface-roboto": "0.0.54",
                 "update-electron-app": "^1.2.0",
                 "wordpress": "^1.4.1",
