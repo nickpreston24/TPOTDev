@@ -11,7 +11,7 @@ const {
 // const SCOPES = ['https://www.googleapis.com/auth/drive.metadata.readonly'];
 // const TOKEN_PATH = 'token.json';
 
-describe('Connect to Google Drive', () => {
+describe.skip('Connect to Google Drive', () => {
     it('should connect to google drive', () => {
         // Load client secrets from a local file.
         fs.readFile('credentials.json', (err, content) => {
