@@ -42,7 +42,7 @@ import { get } from 'https';
 // import { Loaders } from '../modules/docxLoaders/Loaders.ts'
 
 import DiskFileLoader from '../modules/docxLoaders_js/DiskFileLoader'
-import converter from '../modules/converter'
+import { convertFile } from '../modules/converter'
 
 const electron = window.require('electron')
 const remote = electron.remote;
@@ -53,153 +53,153 @@ const dialog = remote.dialog
 
 const emails = ['username@gmail.com', 'user02@gmail.com'];
 const styles = theme => ({
-  root: {
-    paddingTop: 64,
-    display: 'flex',
-    flexWrap: 'wrap',
-  },
-  paper: {
-    maxWidth: 800,
-    width: 600,
-    // height: ,
-  },
-  icon: {
-    display: "block",
-    position: "relative",
-    left: "50%",
-    transform: "translateX(-50%)",
-    height: 64,
-    fontSize: 80,
-    paddingTop: 64,
-    paddingBottom: 32,
-  },
-  grid: {
-    '& button': {
-      color: "#555",
-      transition: "all 0s linear 0s !important",
-      position: "relative",
-      left: "50%",
-      transform: "translateX(-50%)",
+    root: {
+        paddingTop: 64,
+        display: 'flex',
+        flexWrap: 'wrap',
     },
-    '&:hover': {
-      '& button': {
-        color: theme.palette.primary.contrastText,
-        background: theme.palette.primary.main,
-        transition: "all 0s linear 0s !important",
-      },
+    paper: {
+        maxWidth: 800,
+        width: 600,
+        // height: ,
     },
-    // border: "1px solid blue",
-    width: "32.9999%"
-  },
-  textbox: {
-    marginTop: 32,
-    marginBottom: 48,
-  }
+    icon: {
+        display: "block",
+        position: "relative",
+        left: "50%",
+        transform: "translateX(-50%)",
+        height: 64,
+        fontSize: 80,
+        paddingTop: 64,
+        paddingBottom: 32,
+    },
+    grid: {
+        '& button': {
+            color: "#555",
+            transition: "all 0s linear 0s !important",
+            position: "relative",
+            left: "50%",
+            transform: "translateX(-50%)",
+        },
+        '&:hover': {
+            '& button': {
+                color: theme.palette.primary.contrastText,
+                background: theme.palette.primary.main,
+                transition: "all 0s linear 0s !important",
+            },
+        },
+        // border: "1px solid blue",
+        width: "32.9999%"
+    },
+    textbox: {
+        marginTop: 32,
+        marginBottom: 48,
+    }
 });
 
 class ModalLoad extends React.Component {
 
-  constructor(props) {
-    super(props);
+    constructor(props) {
+        super(props);
 
-    this.state = {
-      open: false,
-      description: "select a file from your computer to edit",
+        this.state = {
+            open: false,
+            description: "select a file from your computer to edit",
+        }
     }
-  }
 
-  handleClose = () => {
-    this.setState({ open: false })
-    this.props.onUpdate(false)
-  };
+    handleClose = () => {
+        this.setState({ open: false })
+        this.props.onUpdate(false)
+    };
 
-  handleSelection = (type) => {
-    console.log(type)
+    handleSelection = (type) => {
+        console.log(type)
 
-    //todo: Have the type-selected Loader retrive the file, regardless of its implementation
-    // let loader = Loaders.getLoader(type)
+        //todo: Have the type-selected Loader retrive the file, regardless of its implementation
+        // let loader = Loaders.getLoader(type)
 
-    let loader = new DiskFileLoader();
-    if (!loader) throw Error('disk file loader not initialized!');
+        let loader = new DiskFileLoader();
+        if (!loader) throw Error('disk file loader not initialized!');
 
-    //Good:
-    loader.load()
-      .then((result) => {
-        // console.log('result:\n', result);
-        console.log('file loaded: ', loader.path);
-        converter.convertFile(loader.path);
-      });
+        //Good:
+        loader.load()
+            .then((result) => {
+                // console.log('result:\n', result);
+                console.log('file loaded: ', loader.path);
+                convertFile(loader.path);
+            });
 
-    //Also good:
-    // loader.getFilePath()
-    //   .then(result => console.log(result));
+        //Also good:
+        // loader.getFilePath()
+        //   .then(result => console.log(result));
 
-    console.log('test'); //runs async
-  }
+        console.log('test'); //runs async
+    }
 
-  // handleListItemClick = value => {
-  //   this.props.onClose(value);
-  // };
+    // handleListItemClick = value => {
+    //   this.props.onClose(value);
+    // };
 
-  render() {
-    const { classes } = this.props;
+    render() {
+        const { classes } = this.props;
 
-    const cards = [
-      {
-        name: "From Disk",
-        description: "Open a file from your computer's hard drive",
-        icon: HardDrive,
-        handler: () => { this.handleSelection('disk') }
-      },
-      {
-        name: "Google Drive",
-        description: "Open a file from your linked Google Drive folder",
-        icon: GoogleDrive,
-        handler: () => { this.handleSelection('google') }
-      },
-      {
-        name: "Clipboard",
-        description: "Opens a window where you can paste in the content of a word document",
-        icon: ClipBoard,
-        handler: () => { this.handleSelection('clipboard') }
-      }
-    ]
+        const cards = [
+            {
+                name: "From Disk",
+                description: "Open a file from your computer's hard drive",
+                icon: HardDrive,
+                handler: () => { this.handleSelection('disk') }
+            },
+            {
+                name: "Google Drive",
+                description: "Open a file from your linked Google Drive folder",
+                icon: GoogleDrive,
+                handler: () => { this.handleSelection('google') }
+            },
+            {
+                name: "Clipboard",
+                description: "Opens a window where you can paste in the content of a word document",
+                icon: ClipBoard,
+                handler: () => { this.handleSelection('clipboard') }
+            }
+        ]
 
-    return (
-      <Dialog
-        classes={{
-          root: classes.root,
-          paper: classes.paper,
-        }}
-        open={this.props.open}
-        onClose={this.handleClose}
-        onBackdropClick={this.handleClose}
-      >
-        <Grid
-          container
-          className={classes.demo}
-          spacing={0}
-          justify="space-evenly"
-          alignItems="center"
-        >
-          {cards.map((card) => {
-            return (
-              <Grid key={card.name.toLocaleLowerCase()} item className={classes.grid} onClick={card.handler}>
-                <img src={card.icon} className={classes.icon} />
-                <Button variant="contained" color="inherit">{card.name}</Button>
-              </Grid>
-            );
-          })}
+        return (
+            <Dialog
+                classes={{
+                    root: classes.root,
+                    paper: classes.paper,
+                }}
+                open={this.props.open}
+                onClose={this.handleClose}
+                onBackdropClick={this.handleClose}
+            >
+                <Grid
+                    container
+                    className={classes.demo}
+                    spacing={0}
+                    justify="space-evenly"
+                    alignItems="center"
+                >
+                    {cards.map((card) => {
+                        return (
+                            <Grid key={card.name.toLocaleLowerCase()} item className={classes.grid} onClick={card.handler}>
+                                <img src={card.icon} className={classes.icon} />
+                                <Button variant="contained" color="inherit">{card.name}</Button>
+                            </Grid>
+                        );
+                    })}
 
-        </Grid>
-        <DialogContentText align="center" className={classes.textbox}>{this.state.description}</DialogContentText>
-      </Dialog>
-    );
-  }
+                </Grid>
+                <DialogContentText align="center" className={classes.textbox}>{this.state.description}</DialogContentText>
+            </Dialog>
+        );
+    }
 }
 
 ModalLoad.propTypes = {
-  classes: PropTypes.object.isRequired,
+    classes: PropTypes.object.isRequired,
 };
 
 export default withStyles(styles)(ModalLoad)

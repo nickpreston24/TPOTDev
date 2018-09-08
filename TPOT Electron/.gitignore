@@ -5,6 +5,9 @@
 node_modules/*
 !node_modules/_custom/
 src/config/post.json
+src/config/stateOriginal.json
+src/config/stateEdited.json
+src/config/stateCode.json
 package-lock.json
 
 # testing

@@ -13,7 +13,7 @@ const ImageReader = require('file2html-image');
 
 const pattern = /docx/g
 // const savePath = letterPath.replace(pattern, 'html') // refactored, see NOTES:
-const letterPath = path.join(app.getAppPath(), './src/config/', 'SampleLetter.docx')
+const letterPath = path.join(app.getAppPath(), './src/config/', 'MasterSample.docx')
 const savePath = path.join(app.getAppPath(), './src/config/') 
 // NOTES: Usually a filepath that is prefixed with  ./ or ../ works, because it is local to the directory, and electron
 // automatically gets the full C:// filepath when bundling the modules. Trying to acccess a file, even from the root
