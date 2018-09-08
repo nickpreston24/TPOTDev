@@ -24,7 +24,8 @@ function createWindow(offset) {
     // width: 1100,
           webPreferences: {
                   webSecurity: false,
-                  allowRunningInsecureContent: true
+                  allowRunningInsecureContent: true,
+                  devTools: true
           },
     x: offset.x,
     y: offset.y,

@@ -61,6 +61,7 @@ const styles = theme => ({
                 flexGrow: 1,
                 height: '100%',
                 textAlign: 'left',
+                display: 'initial'
                 // padding: "32px",
                 // '& span, h1, div': {
                 //         lineHeight: "30.6px",
@@ -161,12 +162,35 @@ class Wysiwyg extends React.Component {
         }
 
         async reloadEditor(content) {
-                await this.rest(300)
-                await this.loadOriginalState(content)
-                await this.loadEditedState(content)
-                await this.loadCodeState(content)
-                console.log("Editor Reloaded with Content")
-                await this.saveEditorStateToFile()
+                // await this.rest(300)
+                // await this.loadOriginalState(content)
+                // await this.loadEditedState(content)
+                // await this.loadCodeState(content)
+                // console.log("Editor Reloaded with Content")
+                // await this.saveEditorStateToFile()
+
+                // NEW
+                const blocksFromHtml = htmlToDraft(content, (nodeName, node) => {
+                        // console.log(node.className)
+                        if (node.style !== undefined) {
+                                if (node.style.cssText !== undefined) {
+                                        console.log(node.style.cssText)
+                                }
+                        }
+                        if (nodeName === 'br') {
+                                return {
+                                        type: 'HORIZONTAL_RULE',
+                                        mutability: 'MUTABLE',
+                                        data: {}
+                                };
+                        }
+                        if (nodeName === 'font') {
+                                console.log(node.color)
+                        }
+                })
+                const htmlContent = ContentState.createFromBlockArray(blocksFromHtml.contentBlocks, blocksFromHtml.entityMap);
+                const newState = EditorState.createWithContent(htmlContent)
+                this.setState({ editorState: newState })
         }
 
         async saveEditorStateToFile() {
@@ -357,18 +381,18 @@ const BUTTONS = [
 const VCLASS = `.Heading2 .r,.Heading2Char,.element-38,.element-45 .r,.element-46,.element-47 .r,.element-48{font-style:italic}.Hyperlink,.element-10,.element-13,.element-2,.element-21,.element-22 .r,.element-23,.element-26 .r,.element-40,.element-41 .r,.element-42,.element-45 .r,.element-46,.element-47 .r,.element-48,.element-8{text-decoration:underline}.tbl{border-collapse:collapse}.r{font-family:Calibri}.Heading1 .r,.Heading1Char,.Heading2 .r,.Heading2Char{font-family:Calibri Light;font-weight:700}.Normal{line-height:1.0791666666666666;margin-bottom:10px}.Heading1,.Heading2{margin-top:16px;margin-bottom:4px}.Normal .r{font-size:14px}.Heading1 .r{font-size:21px}.element-0,.element-1,.element-12,.element-14,.element-15,.element-17,.element-18,.element-20,.element-3,.element-4,.element-6,.element-7{line-height:1;margin-bottom:0}.Heading2 .r{font-size:18px}.TableNormal{margin-left:0}.Hyperlink{color:#0563C1}.UnresolvedMention{color:#605E5C;background-color:#E1DFDD}.element-1 .r,.element-2{color:#00F}.Heading1Char{font-size:21px}.Heading2Char{font-size:18px}.element-0 .r,.element-1 .r,.element-2,.element-3 .r{font-size:16px;font-family:Trebuchet MS}.element-4 .r,.element-5{font-family:Trebuchet MS;color:red;font-size:16px}.element-10,.element-11,.element-12 .r,.element-13,.element-7 .r,.element-8,.element-9 .r{color:#00F;font-size:16px;font-family:Trebuchet MS}.element-6 .r{font-family:Trebuchet MS;font-size:16px}.element-7 .r{font-weight:700}.element-9{line-height:1;margin-bottom:0}.element-10,.element-11,.element-9 .r{font-weight:700}.element-12 .r{font-weight:700}.element-14 .r{font-family:Trebuchet MS;font-size:16px}.element-15 .r,.element-16{font-family:Trebuchet MS;color:#00B050;font-size:16px}.element-18 .r,.element-19,.element-20 .r,.element-21,.element-22 .r,.element-23,.element-26 .r{font-family:Trebuchet MS;color:#00F;font-size:16px}.element-17 .r{font-family:Trebuchet MS;font-size:16px}.element-18 .r{font-weight:700}.element-19{text-decoration:underline}.element-20 .r{font-weight:700}.element-24 .r,.element-25{font-family:Trebuchet MS;font-size:16px}.element-35{font-weight:700}.element-41 .r,.element-42{font-weight:700}.element-43 .r,.element-44{font-weight:700;font-style:italic}.element-47 .r,.element-48{font-weight:700}`
 const VHTML = <div> <p class="p element-0"></p><p class="p element-1"><span class="r element-2">The Case for Coming Out &lt;http://www.thepathoftruth.com/teachings/case-for-coming-out-church-system-churches.htm&gt;</span></p><p class="p element-3"></p><p class="p element-4"><span class="r element-5">Also read the following:</span></p><p class="p element-6"></p><p class="p element-7"><span class="r element-8">The Origin and Identity of Satan &lt;http://www.thepathoftruth.com/teachings/origin-identity-satan.htm&gt;</span></p><p class="p element-9"><span class="r element-10">'</span><span class="r element-11">Satans Redemption &lt;http://www.thepathoftruth.com/false-teachers/derek-prince.htm&gt;</span></p><p class="p element-12"><span class="r element-13">Giants Who Bring Humanity Down &lt;http://www.thepathoftruth.com/false-teachers/douglas-hamp.htm&gt;</span></p><p class="p element-14"></p><p class="p element-15"><span class="r element-16">And more about our salvation and living the life of faith in Christ:</span></p><p class="p element-17"></p><p class="p element-18"><span class="r element-19">Obedience &lt;http://www.thepathoftruth.com/teachings/obedience.htm&gt;</span></p><p class="p element-20"><span class="r element-21">How One Is Saved &lt;http://www.thepathoftruth.com/teachings/how-one-is-saved.htm&gt;</span></p><p class="p element-22"><span class="r element-23">The Cross - Only the Death Sentence Will Avail &lt;http://www.thepathoftruth.com/teachings/the-cross-only-death-sentence-will-avail.htm&gt;</span></p><p class="p element-24"><a><span class="r element-25 Hyperlink">The Cross</span></a></p><p class="p element-26"><a name="_GoBack"></a></p><p class="p element-27"></p><p class="p element-28"></p><p class="p element-29"><span class="r element-30"></span></p><p class="p element-31"></p><p class="p element-32"><span class="r element-33">Styles:</span></p><p class="p element-34"><span class="r element-35">Bold</span><span class="r element-36">,</span></p><p class="p element-37"><span class="r element-38">Italic</span></p><p class="p element-39"><span class="r element-40">Underline</span></p><p class="p element-41"><span class="r element-42">Bold underline</span></p><p class="p element-43"><span class="r element-44">Bold italic</span></p><p class="p element-45"><span class="r element-46">Italic underlined</span></p><p class="p element-47"><span class="r element-48">Bold italic underlined</span></p><p class="p element-49 Heading1"><span class="r element-50">Heading1</span></p><p class="p element-51 Heading2"><span class="r element-52">Heading2</span></p><p class="p element-53"></p></div>
 
-const blocksFromHtml = convertFromHTML(htmlNew)
-// console.log(htmlNew, blocksFromHtml)
-// const blocksFromHtml = htmlToDraft(html, (nodeName, node) => {
-//         if (nodeName === 'br') {
-//                 return {
-//                         type: 'HORIZONTAL_RULE',
-//                         mutability: 'MUTABLE',
-//                         data: {}
-//                 };
-//         }
-// })
-const htmlContent2 = ContentState.createFromBlockArray(blocksFromHtml.contentBlocks, blocksFromHtml.entityMap);
+// const blocksFromHtml = convertFromHTML(htmlNew)
+// // console.log(htmlNew, blocksFromHtml)
+// // const blocksFromHtml = htmlToDraft(html, (nodeName, node) => {
+// //         if (nodeName === 'br') {
+// //                 return {
+// //                         type: 'HORIZONTAL_RULE',
+// //                         mutability: 'MUTABLE',
+// //                         data: {}
+// //                 };
+// //         }
+// // })
+// const htmlContent2 = ContentState.createFromBlockArray(blocksFromHtml.contentBlocks, blocksFromHtml.entityMap);
 
 
 

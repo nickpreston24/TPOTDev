@@ -8,8 +8,8 @@ import purple from '@material-ui/core/colors/purple';
 import green from '@material-ui/core/colors/green';
 
 // Electron
-window.require('electron-react-devtools').install() // Works, but resets
-window.require('devtron').install() // Not Working ATM
+// window.require('electron-react-devtools').install() // Works, but resets
+// window.require('devtron').install() // Not Working ATM
 const electron = window.require('electron')
 const remote = electron.remote;
 const app = remote.app
