@@ -9,7 +9,7 @@ var {
 } = initializeTests();
 
 //Creation (Pages):
-describe('Create WP Pages', () => {
+describe.skip('Create WP Pages', () => {
     it('should create a page', () => {
 
         wpapi.pages().create({
