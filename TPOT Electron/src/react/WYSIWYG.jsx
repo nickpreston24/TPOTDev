@@ -83,8 +83,8 @@ class Wysiwyg extends React.Component {
         // Once it is saved down, clear the memory, then reinitialize this.state(editorState) with the contents from the local backup file (original.html)
         // During the editing process, this.state.editorState frequently changes. On save or autosave, save down a dirty file to local directory (edited.html)
         // Concurrently, whenever the tab is switched to edit, the current this.state.editorState content is converted with a utility to view it as raw HTML
-        // This raw HTML should be saved periodically to a local directory (in code.html). This final code is what is sent to the Wordpress API
-        // Either the (code.html) or (edited.html) can be sent via the Wordpress API. Edited has to be run through a utility to clean up the code.
+        // This raw HTML should be saved periodically local directory (code.html). This final code is what is sent to the Wordpress API
+        // Either the (code.html) or (edited.html) can be sent via the Wordpress API. Edited has to be run through a utility though to clean up the code.
         // Eventually the Preview button in the bottom right will want to request a new preview environment. It could prompt the Editor to get its current code.
 
         constructor(props) {
@@ -268,8 +268,10 @@ class Wysiwyg extends React.Component {
         // RENDER INSTANCE ELEMENTS //
         // After the class is constructed and its data is mounted to the React DOM, render() is fired, which takes displays the elements with data from the instance's current state.
         render() {
-                const { classes } = this.props
+                const classes = this.props.classes
+                const state = this.state
                 const editMode = this.props.editMode
+                console.log(state)
 
                 return (
                         <div id="WYSIWYG" className={classes.root} onClick={this.focus}>
