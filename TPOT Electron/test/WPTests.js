@@ -97,33 +97,3 @@ function initializeTests() {
         wpapi
     };
 }
-
-// /**
-//  * Node-Wordpress'
-//  * (Not working! - Doesn't have Pages support from what I can tell :{ })
-//  */
-
-// var wordpress = require('wordpress');
-// var client = wordpress.createClient({
-//     url: `https://www.thepathoftruth.com/wp-json`,
-//     username: "michael.n.preston@gmail.com",
-//     password: "MercuryMedium10!",
-// })
-
-// describe('Create new Post()', () => {
-//     // client.newPost({
-//     //     title: "Raw Html Post 1",
-//     //     content: html,
-//     //     type: "page"
-//     // }, (error, data) => {
-//     //     if (data) console.log('data: ', data);
-//     //     if (error) console.log('Error: ', error);
-//     // })
-
-//     client.newPost({
-//         title: "Hello from NodeJS! (2)",
-//         content: "This is a test message from the new Letters program!"
-//     }, (error, data) => {
-//         if (error) console.log('error: ', error)
-//     });
-// })
