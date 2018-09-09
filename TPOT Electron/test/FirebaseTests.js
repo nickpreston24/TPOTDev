@@ -19,23 +19,17 @@ var config = {
 
 app = firebase.initializeApp(config)
 
-
 describe('Sign In', () => {
     var email = 'michael.n.preston@gmail.com'
-    var password = ""
-    var email = 'bpfilmsinc@gmail.com'
+    var password = "Mercury10"
+    // var email = 'bpfilmsinc@gmail.com'
     app.auth()
         .signInWithEmailAndPassword(email, password)
-        .then((resolve) => {
-            if (resolve) console.log('resolved: ', resolve);
-            if (resolve) console.log('Sign-in Successful!', );
+        .then((result) => {
+            const user = result.user;
+            console.log('Hello \n', user);
         })
-        .catch(function (error) {
-            var errorCode = error.code;
-            var errorMessage = error.message;
-            if (errorCode) console.log('error: ', errorCode);
-            if (errorMessage) console.log('message: ', errorMessage);
-        });
+        .catch(console.log);
 })
 
 //Create a user:
