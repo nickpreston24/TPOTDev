@@ -1,12 +1,14 @@
 var expect = require('chai').expect;
 
-function sum(x, y) {
+function sum(x, y)
+{
     return x + y;
 }
 
-describe('SUM()', () => {
-    it('should add two numbers', () => {
-
+describe('SUM()', () =>
+{
+    it('should add two numbers', () =>
+    {
         // 1. ARRANGE
         var x = 5;
         var y = 1;

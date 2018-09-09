@@ -19,13 +19,15 @@ var config = {
 
 app = firebase.initializeApp(config)
 
-describe('Sign In', () => {
+describe('Sign In', () =>
+{
     var email = 'michael.n.preston@gmail.com'
     var password = "Mercury10"
     // var email = 'bpfilmsinc@gmail.com'
     app.auth()
         .signInWithEmailAndPassword(email, password)
-        .then((result) => {
+        .then((result) =>
+        {
             const user = result.user;
             console.log('Hello \n', user);
         })

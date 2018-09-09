@@ -1,10 +1,12 @@
 var expect = require('chai').expect;
 
-function multiply(x, y, callback) {
+function multiply(x, y, callback)
+{
 
     const func = this
 
-    if (callback === undefined) {
+    if (callback === undefined)
+    {
         return new Promise((resolve, reject) =>
             func(x, y, (err, result) =>
                 err ? reject(err) : resolve(result)))
@@ -23,12 +25,16 @@ function multiply(x, y, callback) {
 }
 
 
-function doublePositiveOnly(x, callback) {
+function doublePositiveOnly(x, callback)
+{
     const func = this.doublePositiveOnly
 
-    if (callback === undefined) {
-        return new Promise((resolve, reject) => {
-            func(x, (err, result) => {
+    if (callback === undefined)
+    {
+        return new Promise((resolve, reject) =>
+        {
+            func(x, (err, result) =>
+            {
                 err ? reject(err) : resolve(result)
             })
         })
@@ -47,11 +53,14 @@ function doublePositiveOnly(x, callback) {
     return callback(error, double)
 }
 
-describe('double()', () => {
-    it('should double a number', () => {
+describe('double()', () =>
+{
+    it('should double a number', () =>
+    {
         var x = 3;
         console.log(doublePositiveOnly(x)
-            .then(() => {
+            .then(() =>
+            {
                 console.log('done');
             }));
     });

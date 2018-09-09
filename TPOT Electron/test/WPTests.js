@@ -62,7 +62,7 @@ describe.skip('Discover WP site', () => {
             // site is now configured to use authentication
             if (site) console.log('Site promise: ', site);
             // if (resolve) console.log('\n\nResolve: ', resolve);
-        })
+        })        
     })
 })
 
