@@ -1,5 +1,5 @@
-var firebase = require('firebase/app');
-require('firebase/auth')
+var firebase = require("firebase/app");
+require("firebase/auth");
 
 // var config = {
 //     apiKey: "AIzaSyB2h-LkhuHOnSmRU8V8BN4_gH_ddaiFU0c",
@@ -17,22 +17,27 @@ var config = {
     messagingSenderId: "971065099433"
 };
 
-app = firebase.initializeApp(config)
+app = firebase.initializeApp(config);
 
-describe('Sign In', () =>
-{
-    var email = 'michael.n.preston@gmail.com'
-    var password = "Mercury10"
+describe("Sign In", () => {
+    var email = "michael.n.preston@gmail.com";
+    var password = "Mercury10";
     // var email = 'bpfilmsinc@gmail.com'
-    app.auth()
+    app
+        .auth()
         .signInWithEmailAndPassword(email, password)
-        .then((result) =>
-        {
+        .then(result => {
             const user = result.user;
-            console.log('Hello \n', user);
+            // console.log("Hello \n", user);
+            if (user) console.log("user signed in!")
+        }).then((result) => {
+            firebase.auth().currentUser.getIdToken(true).then((id) => {
+                console.log('idToken: \n', id);
+                // console.log('User: ', firebase.auth().currentUser).name;
+            }).catch(console.log)
         })
         .catch(console.log);
-})
+});
 
 //Create a user:
 
