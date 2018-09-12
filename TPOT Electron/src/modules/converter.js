@@ -74,7 +74,7 @@ export async function convertFile(path) {
 
 /////////////////////////////////////////////////////////////////////////////////////
 //                                                                                                                                                                 //
-//                                                   FILE 2 HMTL CONVERSION                                                       //
+//                                                    FILE 2 HMTL CONVERSION                                                      //
 //                                                                                                                                                                 //
 /////////////////////////////////////////////////////////////////////////////////////
 
@@ -271,8 +271,8 @@ const mapCssClassesToInlineStyles = async (dom, cssClasses) => {
 
 /////////////////////////////////////////////////////////////////////////////////////
 //                                                                                                                                                                 //
-//                           MERGE FILE2HTML STYLES ONTO MAMMOTH DOM                                 //
-//                                                                                                                                                                 //
+//                           MERGE FILE2HTML STYLES ONTO MAMMOTH DOM                                //
+//                                                                                                                                                                //
 /////////////////////////////////////////////////////////////////////////////////////
 
 // Lets Decorate the Cake!
@@ -452,8 +452,8 @@ const flattenStylesFromTwoDoms = async (baseDom, augDom) => {
 }
 
 /////////////////////////////////////////////////////////////////////////////////////
-//                                                                                                                                                                 //
-//                                           EXTRA UTILITIES AND FUNCTIONS                                              //
+//                                                                                                                                                                  //
+//                                           EXTRA UTILITIES AND FUNCTIONS                                               //
 //                                                                                                                                                                 //
 /////////////////////////////////////////////////////////////////////////////////////
 
