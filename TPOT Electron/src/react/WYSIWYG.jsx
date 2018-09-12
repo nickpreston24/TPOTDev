@@ -112,25 +112,25 @@ class Wysiwyg extends React.Component {
                 // Start Autosave Service
                 // startEditorAutosave()
 
-                // Listen For Save Commands
-                window.addEventListener("message", (msg) => {
-                        if (msg.data.event === "draftjs-editor-save") {
-                                this.saveEditorStateToFile()
-                                        .catch(err => {
-                                                alert(err);
-                                        })
-                        }
-                })
+                // // Listen For Save Commands
+                // window.addEventListener("message", (msg) => {
+                //         if (msg.data.event === "draftjs-editor-save") {
+                //                 this.saveEditorStateToFile()
+                //                         .catch(err => {
+                //                                 alert(err);
+                //                         })
+                //         }
+                // })
 
-                // Listen for Editor Reload Data
-                window.addEventListener("message", (msg) => {
-                        if (msg.data.event === "draftjs-editor-reload") {
-                                this.reloadEditor(msg.data.html)
-                                        .catch(err => {
-                                                alert(err);
-                                        })
-                        }
-                })
+                // // Listen for Editor Reload Data
+                // window.addEventListener("message", (msg) => {
+                //         if (msg.data.event === "draftjs-editor-reload") {
+                //                 this.reloadEditor(msg.data.html)
+                //                         .catch(err => {
+                //                                 alert(err);
+                //                         })
+                //         }
+                // })
 
         }
 
@@ -174,7 +174,7 @@ class Wysiwyg extends React.Component {
                         // console.log(node.className)
                         if (node.style !== undefined) {
                                 if (node.style.cssText !== undefined) {
-                                        console.log(node.style.cssText)
+                                        // console.log(node.style.cssText)
                                 }
                         }
                         if (nodeName === 'br') {
