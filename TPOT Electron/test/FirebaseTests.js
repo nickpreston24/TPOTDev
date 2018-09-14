@@ -3,7 +3,6 @@ require("firebase/auth");
 const FirebaseAuthenticator = require('../src/modules/firebaseAuth').FirebaseAuthenticator
 // const FirebaseAuthenticator = require('../src/modules/firebaseAuth.js').FirebaseAuthenticator
 
-
 describe("Sign In", () => {
 
     // it('should take less than 500ms', function (done) {
@@ -17,12 +16,3 @@ describe("Sign In", () => {
     });
 
 });
-
-// var config = {
-//     apiKey: "AIzaSyCrRjT-eZQAxfPkDemOe0WiebiWVZju97w",
-//     authDomain: "tpot-toolbox.firebaseapp.com",
-//     databaseURL: "https://tpot-toolbox.firebaseio.com",
-//     projectId: "tpot-toolbox",
-//     storageBucket: "tpot-toolbox.appspot.com",
-//     messagingSenderId: "971065099433"
-// };
