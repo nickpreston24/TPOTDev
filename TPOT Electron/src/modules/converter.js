@@ -419,8 +419,8 @@ const flattenStylesFromTwoDoms = async (baseDom, augDom) => {
         }
 
         // Clean Up Table Results
-        let tables = ['TABLE', 'TD']
-        if (tables.includes(cakeNode.tagName)) {
+        let tableTags = ['TABLE', 'TD']
+        if (tableTags.includes(cakeNode.tagName)) {
             if (cakeNode.tagName == 'TABLE') {
                 cakeNode.style = "width: 80%; max-width: 100%; position: relative; left: 50%; transform: translateX(-50%); border: 1px solid black; border-collapse: collapse;"
             }
