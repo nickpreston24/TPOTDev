@@ -1,4 +1,4 @@
-export const environment = {
+const environment = {
   production: false,
   firebaseConfig: {
     apiKey: "AIzaSyCrRjT-eZQAxfPkDemOe0WiebiWVZju97w",
@@ -8,4 +8,8 @@ export const environment = {
     storageBucket: "tpot-toolbox.appspot.com",
     messagingSenderId: "971065099433"
   }
+};
+
+module.exports = {
+  environment
 };

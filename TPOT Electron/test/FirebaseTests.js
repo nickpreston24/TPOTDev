@@ -1,12 +1,22 @@
 var firebase = require("firebase/app");
 require("firebase/auth");
+const FirebaseAuthenticator = require('../src/modules/firebaseAuth').FirebaseAuthenticator
+// const FirebaseAuthenticator = require('../src/modules/firebaseAuth.js').FirebaseAuthenticator
 
-// var config = {
-//     apiKey: "AIzaSyB2h-LkhuHOnSmRU8V8BN4_gH_ddaiFU0c",
-//     authDomain: "<PROJECT_ID>.firebaseapp.com",
-//     databaseURL: "https://<DATABASE_NAME>.firebaseio.com",
-//     storageBucket: "<BUCKET>.appspot.com",
-// };
+
+describe("Sign In", () => {
+
+    // it('should take less than 500ms', function (done) {
+    var email = "michael.n.preston@gmail.com";
+    var password = "Mercury10";
+
+    var authenticator = new FirebaseAuthenticator(email, password);
+    authenticator.login().then((result) => {
+        // result.logout();
+        console.log('result: ', result);
+    });
+
+});
 
 // var config = {
 //     apiKey: "AIzaSyCrRjT-eZQAxfPkDemOe0WiebiWVZju97w",
@@ -16,39 +26,3 @@ require("firebase/auth");
 //     storageBucket: "tpot-toolbox.appspot.com",
 //     messagingSenderId: "971065099433"
 // };
-
-var config = require('/src/config/environment.ts').firebaseConfig;
-
-app = firebase.initializeApp(config);
-
-describe("Sign In", () => {
-    var email = "michael.n.preston@gmail.com";
-    var password = "Mercury10";
-    // var email = 'bpfilmsinc@gmail.com'
-    app
-        .auth()
-        .signInWithEmailAndPassword(email, password)
-        .then(result => {
-            const user = result.user;
-            // console.log("Hello \n", user);
-            if (user) console.log("user signed in!")
-        }).then((result) => {
-            firebase.auth().currentUser.getIdToken(true).then((id) => {
-                console.log('idToken: \n', id);
-                // console.log('User: ', firebase.auth().currentUser).name;
-            }).catch(console.log)
-        })
-        .catch(console.log);
-});
-
-//Create a user:
-
-// firebase.auth()
-//     .createUserWithEmailAndPassword(email, password)
-//     .catch((error) => {
-//         // Handle Errors here.
-//         var errorCode = error.code;
-//         var errorMessage = error.message;
-//         if (errorCode) console.log('error: ', errorCode);
-//         if (errorMessage) console.log('message: ', errorMessage);
-//     });
