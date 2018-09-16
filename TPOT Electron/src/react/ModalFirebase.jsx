@@ -1,20 +1,25 @@
-import React from 'react';
-import classNames from 'classnames';
-import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
-import Button from '@material-ui/core/Button';
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import DialogTitle from '@material-ui/core/DialogTitle';
-import Slide from '@material-ui/core/Slide';
-import TextField from '@material-ui/core/TextField';
-import Card from '@material-ui/core/Card';
-import CardMedia from '@material-ui/core/CardMedia';
-import FireBaseLogo from '../media/firebase.png'
-import Divider from '@material-ui/core/Divider';
-import ClickAwayListener from '@material-ui/core/ClickAwayListener';
+import React from "react";
+import classNames from "classnames";
+import PropTypes from "prop-types";
+import { withStyles } from "@material-ui/core/styles";
+import Button from "@material-ui/core/Button";
+import Dialog from "@material-ui/core/Dialog";
+import DialogActions from "@material-ui/core/DialogActions";
+import DialogContent from "@material-ui/core/DialogContent";
+import DialogContentText from "@material-ui/core/DialogContentText";
+import DialogTitle from "@material-ui/core/DialogTitle";
+import Slide from "@material-ui/core/Slide";
+import TextField from "@material-ui/core/TextField";
+import Card from "@material-ui/core/Card";
+import CardMedia from "@material-ui/core/CardMedia";
+import FireBaseLogo from "../media/firebase.png";
+import Divider from "@material-ui/core/Divider";
+import ClickAwayListener from "@material-ui/core/ClickAwayListener";
+
+var firebase = require("firebase/app");
+require("firebase/auth");
+const config = require("../config/environment").config;
+let app = firebase.initializeApp(config);
 
 function Transition(props) {
   return <Slide direction="up" {...props} />;
@@ -22,12 +27,12 @@ function Transition(props) {
 
 const styles = theme => ({
   root: {
-    display: 'flex',
-    flexWrap: 'wrap',
+    display: "flex",
+    flexWrap: "wrap"
   },
   paper: {
     width: 300,
-    height: 450,
+    height: 450
   },
   logo: {
     marginTop: 32,
@@ -35,25 +40,23 @@ const styles = theme => ({
     position: "relative",
     left: "50%",
     transform: "translateX(-50%)",
-    display: "block",
+    display: "block"
     // width: 2,
   },
   margin: {
-    margin: theme.spacing.unit,
+    margin: theme.spacing.unit
   },
   withoutLabel: {
-    marginTop: theme.spacing.unit * 3,
+    marginTop: theme.spacing.unit * 3
   },
   textField: {
     // position: "relative",
     // left: "50%",
     // transform: "translateX(-50%)",
     // display: "block",
-    flexBasis: 200,
-  },
+    flexBasis: 200
+  }
 });
-
-// THIS IS GOODstestS
 
 class SignIn extends React.Component {
   state = {
@@ -68,24 +71,60 @@ class SignIn extends React.Component {
   //   this.setState({ open: false });
   // };
 
-  openModal = (e) => {
-    this.props.onUpdate(false)
-  };
+  //   openModal = e => {
+  //     console.log("opened modal");
+  //     this.props.onUpdate(false);
+  //   };
 
-  closeModal = (e) => {
-    if (e.target.innerHTML == "Login") {
-      this.props.onUpdate(true)
-    } else {
-      this.props.onUpdate(false)
-    }
-  };
+  async login() {
+    let success = false;
+    let email = "michael.n.preston@gmail.com"; //todo: from form
+    let password = "Mercury10"; //todo: from form
 
-  clickAwayModal = (e) => {
-    console.log(e.srcElement, e.target, e)
+    let result = await app
+      .auth()
+      .signInWithEmailAndPassword(email, password)
+      .then(result => {
+        const user = result.user;
+        // console.log("Hello \n", user);
+        if (user) console.log("user signed in!");
+      })
+      .then(result => {
+        firebase
+          .auth()
+          .currentUser.getIdToken(true)
+          .then(id => {
+            console.log("idToken: \n", id);
+            // console.log('User: ', firebase.auth().currentUser).name;
+            success = true;
+            // return success;
+          })
+          .catch(console.log);
+      });
+
+    console.log(success, result);
+
+    // let authenticator = new FirebaseAuth(email, password);
+    //   if (success) closeModal(this);
+    // else, display warning text above user/password fields
   }
 
+  closeModal = e => {
+    if (e.target.innerHTML == "Login") {
+      this.props.onUpdate(true);
+    } else {
+      this.props.onUpdate(false);
+    }
+
+    console.log("captured data login");
+  };
+
+  clickAwayModal = e => {
+    console.log(e.srcElement, e.target, e);
+  };
+
   render() {
-    const { classes } = this.props
+    const { classes } = this.props;
 
     return (
       <Dialog
@@ -99,10 +138,7 @@ class SignIn extends React.Component {
         aria-describedby="alert-dialog-slide-description"
       >
         {/* <DialogTitle id="alert-dialog-slide-title">Sign In</DialogTitle> */}
-        <DialogContent
-          color="primary"
-          className={classes.paper}
-        >
+        <DialogContent color="primary" className={classes.paper}>
           {/* <Card className={classes.card}>
             <CardMedia
               className={classes.media}
@@ -110,38 +146,37 @@ class SignIn extends React.Component {
               title="Contemplative Reptile"
             />
           </Card> */}
-          <img className={classes.logo} src={FireBaseLogo}/>
+          <img className={classes.logo} src={FireBaseLogo} />
           <TextField
-          id="username-input"
-          label="Username"
-          className={classes.textField}
-          type="text"
-          autoComplete="current-password"
-          margin="normal"
-          fullWidth
+            id="username-input"
+            label="Username"
+            className={classes.textField}
+            type="text"
+            autoComplete="current-password"
+            margin="normal"
+            fullWidth
           />
           <TextField
-          id="password-input"
-          label="Password"
-          className={classes.textField}
-          type="password"
-          autoComplete="current-password"
-          margin="normal"
-          fullWidth
+            id="password-input"
+            label="Password"
+            className={classes.textField}
+            type="password"
+            autoComplete="current-password"
+            margin="normal"
+            fullWidth
           />
           {/* <Divider/> */}
 
-
           <DialogContentText id="alert-dialog-slide-description">
-            Let Google help apps determine location. This means sending anonymous location data to
-            Google, even when no apps are running.
+            Let Google help apps determine location. This means sending
+            anonymous location data to Google, even when no apps are running.
           </DialogContentText>
         </DialogContent>
         <DialogActions>
           <Button onClick={this.closeModal} color="primary">
             Exit
           </Button>
-          <Button onClick={this.closeModal} color="primary">
+          <Button onClick={this.login} color="primary">
             Login
           </Button>
         </DialogActions>
@@ -151,7 +186,7 @@ class SignIn extends React.Component {
 }
 
 SignIn.propTypes = {
-  classes: PropTypes.object.isRequired,
+  classes: PropTypes.object.isRequired
 };
 
 export default withStyles(styles)(SignIn);
