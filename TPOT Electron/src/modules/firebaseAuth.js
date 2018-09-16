@@ -1,11 +1,17 @@
 var firebase = require("firebase/app");
 require("firebase/auth");
 
-// var config = require('../config/environment.js').environment;
-const config = require('../config/environment.ts').environment;
-
+const config = require('../config/environment.ts').config;
 app = firebase.initializeApp(config);
-// var config = require('/src/config/environment.ts').firebaseConfig;
+
+class FirebaseDb {
+    //Takes a json, identifies what collections or documents it matches from the db, then adds them
+    //Throws error if collection or document cannot be found.
+    //OR, just store as a new collection (might be volatile)
+    async add(json) {
+        //todo: figure out how to parse json objects.        
+    }
+}
 
 /// Fluent Wrapper class for firebase functions & temporary db store.
 class FirebaseAuthenticator {
@@ -13,6 +19,7 @@ class FirebaseAuthenticator {
     constructor(email, password) {
         this.email = email;
         this.password = password;
+        this.app = app;
     }
 
     async login() {
@@ -35,6 +42,7 @@ class FirebaseAuthenticator {
         return this;
     }
 
+    //BROKEN
     async logout() {
         firebase.auth().signout() //does not recognize the signout or logout functions!
             // app.auth()
@@ -60,5 +68,6 @@ class FirebaseAuthenticator {
 }
 
 module.exports = {
-    FirebaseAuthenticator
+    FirebaseAuthenticator,
+    FirebaseDb
 }

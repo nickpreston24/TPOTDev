@@ -1,8 +1,18 @@
+const os = require('os')
+
 /////////////////////////////////////////////////////////////////////////////////////
 //
 //                                           EXTRA UTILITIES AND FUNCTIONS
 //
 /////////////////////////////////////////////////////////////////////////////////////
+
+function getVersion() {
+    return os.getVersion();
+}
+
+function getHomeDir() {
+    return os.homedir();
+}
 
 function getConfigPath(file) {
     const applicationPath = app.getAppPath();
