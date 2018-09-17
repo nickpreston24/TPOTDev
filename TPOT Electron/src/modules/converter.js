@@ -68,8 +68,8 @@ export async function convertFile(path) {
                 event: "draftjs-editor-reload",
                 html: conversionString
         }
-        // window.postMessage(message, "*") // sends to DraftJS WYSIWYG Editor
-        document.getElementById("WYSIWYG").innerHTML = conversionString // temporary
+        window.postMessage(message, "*") // sends to DraftJS WYSIWYG Editor
+        // document.getElementById("WYSIWYG").innerHTML = conversionString // temporary
 }
 
 /////////////////////////////////////////////////////////////////////////////////////

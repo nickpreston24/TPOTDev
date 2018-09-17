@@ -9,3 +9,18 @@ h2 {
 h4 {
         font-size: 20px;
 } */
+
+
+.blockquote {
+        color: red;
+        font-family: 'Hoefler Text', Georgia, serif;
+        font-style: italic;
+        text-align: center;
+}
+
+.blockquote-intense {
+        color: blue;
+        font-family: 'Hoefler Text', Georgia, serif;
+        font-style: italic;
+        text-align: center;
+}

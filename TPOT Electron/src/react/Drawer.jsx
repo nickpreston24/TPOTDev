@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { withStyles } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
-import WYSIWYG from './WYSIWYG'
+import DraftJS from './DraftJS'
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import List from '@material-ui/core/List';
@@ -149,7 +149,7 @@ class MiniDrawer extends React.Component {
                                         {/* Main Content */}
                                         <div className={classes.contentFrame}>
                                                 <Paper className={classes.contentPaper}>
-                                                        <WYSIWYG editMode={this.props.editMode}/>
+                                                        <DraftJS editMode={this.props.editMode}/>
                                                 </Paper>
                                         </div>
 

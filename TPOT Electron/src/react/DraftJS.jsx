@@ -28,8 +28,23 @@ import EmojiIcon from 'mdi-material-ui/EmoticonExcited'
 // Draft JS
 import Editor, { createEditorStateWithText } from 'draft-js-plugins-editor';
 import { EditorState, RichUtils, ContentState, Modifier, convertFromHTML } from 'draft-js';
+import { stateFromElement, customBlockFn, customInlineFn, customStyleMap } from 'draft-js-import-element'
 import htmlToDraft from 'html-to-draftjs';
 import Immutable from 'immutable'
+import {
+        getSelectedBlocksMap,
+        getSelectedBlocksList,
+        getSelectedBlock,
+        getSelectedBlocksType,
+        getSelectionText,
+        getSelectionInlineStyle,
+        clearEditorContent,
+        setBlockData,
+        handleNewLine,
+        getSelectionCustomInlineStyle,
+        toggleCustomInlineStyle,
+        removeAllInlineStyles
+} from 'draftjs-utils'
 import { convertToHTML } from 'draft-convert'
 import 'draft-js/dist/Draft.css'
 import './Editor.css'
@@ -48,8 +63,9 @@ const remote = electron.remote
 const app = remote.app
 const ipc = electron.ipcRenderer
 const fs = remote.require('fs')
-const path = remote.require('path') 
+const path = remote.require('path')
 
+const createNode = require('create-node')
 
 // THEMING AND CSS 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
@@ -70,6 +86,9 @@ const styles = theme => ({
                 //         marginBottom: "21.6px"
                 // },
         },
+        styleControls: {
+                // maxWidth: '96px',
+        }
 });
 
 
@@ -122,15 +141,15 @@ class Wysiwyg extends React.Component {
                 //         }
                 // })
 
-                // // Listen for Editor Reload Data
-                // window.addEventListener("message", (msg) => {
-                //         if (msg.data.event === "draftjs-editor-reload") {
-                //                 this.reloadEditor(msg.data.html)
-                //                         .catch(err => {
-                //                                 alert(err);
-                //                         })
-                //         }
-                // })
+                // Listen for Editor Reload Data
+                window.addEventListener("message", (msg) => {
+                        if (msg.data.event === "draftjs-editor-reload") {
+                                this.reloadEditor(msg.data.html)
+                                        .catch(err => {
+                                                alert(err);
+                                        })
+                        }
+                })
 
         }
 
@@ -161,36 +180,99 @@ class Wysiwyg extends React.Component {
                 console.log("Empty Editor Loaded")
         }
 
-        async reloadEditor(content) {
+        async reloadEditor(html) {
+
+                let options = {
+                        // Should return a Style() or Entity() or null/undefined
+                        customInlineFn: (element, { Style, Entity }) => {
+                                if (element.tagName === 'SPAN' && element.className === 'emphasis') {
+                                        return Style('ITALIC');
+                                } else if (element.tagName === 'IMG') {
+                                        console.log(element)
+                                        return Entity('IMAGE', { src: element.getAttribute('src') });
+                                }
+                                else if (element.tagName === 'FONT') {
+                                        // console.log(element)
+                                        // return Entity('FONT', { color: element.getAttribute('color') });
+                                        return Style('COLOR');
+                                }
+
+                                
+                        },
+                        // Should return null/undefined or an object with optional: type (string); data (plain object)
+                        customBlockFn: (element) => {
+                                console.log(element.tagName)
+                                if (element.className === 'quote') {
+                                        return {type: 'blockquote'};
+                                }
+                                if (element.className === 'intense-quote') {
+                                        return {type: 'blockquote-intense'  };
+                                }
+                                if (element.tagName === 'center') {
+                                        return { data: { align: 'center' } };
+                                }
+                        },
+                        elementStyles: {
+                                // 'font': 'HIGHLIGHT',
+                        },
+                };
+
+                const newContentState = stateFromElement(createNode("<div>" + html + "</div>"), options)
                 // await this.rest(300)
                 // await this.loadOriginalState(content)
                 // await this.loadEditedState(content)
                 // await this.loadCodeState(content)
                 // console.log("Editor Reloaded with Content")
                 // await this.saveEditorStateToFile()
+                console.log(newContentState)
+                const newEditorState = EditorState.createWithContent(newContentState)
+                this.setState({
+                        editorState: newEditorState,
+                        originalState: html
+                })
 
                 // NEW
-                const blocksFromHtml = htmlToDraft(content, (nodeName, node) => {
-                        // console.log(node.className)
-                        if (node.style !== undefined) {
-                                if (node.style.cssText !== undefined) {
-                                        // console.log(node.style.cssText)
-                                }
-                        }
-                        if (nodeName === 'br') {
-                                return {
-                                        type: 'HORIZONTAL_RULE',
-                                        mutability: 'MUTABLE',
-                                        data: {}
-                                };
-                        }
-                        if (nodeName === 'font') {
-                                console.log(node.color)
-                        }
-                })
-                const htmlContent = ContentState.createFromBlockArray(blocksFromHtml.contentBlocks, blocksFromHtml.entityMap);
-                const newState = EditorState.createWithContent(htmlContent)
-                this.setState({ editorState: newState })
+                // const blocksFromHtml = htmlToDraft(content, (nodeName, node) => {
+                //         // console.log(node.nodeName)
+                //         // console.log(node.data)
+                //         if (node.style !== undefined) {
+                //                 if (node.style.cssText !== undefined) {
+                //                         // console.log(node.style.cssText)
+                //                 }
+                //         }
+                //         if (node.className == "FONT") {
+                //                 // console.log(node.style.cssText)
+                //                 return {
+                //                         type: 'header-four',
+                //                         mutability: 'MUTABLE',
+                //                         data: node.data
+                //                 };
+                //         }
+                //         if (node.className == "block") {
+                //                 // console.log(node.style.cssText)
+                //                 return {
+                //                         type: 'header-four',
+                //                         mutability: 'MUTABLE',
+                //                         data: {}
+                //                 };
+                //         }
+                //         if (nodeName === 'br') {
+                //                 return {
+                //                         type: 'HORIZONTAL_RULE',
+                //                         mutability: 'MUTABLE',
+                //                         data: {}
+                //                 };
+                //         }
+                //         if (nodeName === 'font') {
+                //                 // console.log(node.color)
+                //         }
+                // })
+                // const newContentState = ContentState.createFromBlockArray(blocksFromHtml.contentBlocks, blocksFromHtml.entityMap);
+                // const newEditorState = EditorState.createWithContent(newContentState)
+                // this.setState({
+                //         editorState: newEditorState,
+                //         originalState: content.toString()
+                // })
         }
 
         async saveEditorStateToFile() {
@@ -245,7 +327,7 @@ class Wysiwyg extends React.Component {
                         if (err) throw err
                 })
         }
-        
+
 
         //  EDITOR STYLING AND DATA TRANSFORMATION FUNCTIONS  //
 
@@ -317,7 +399,7 @@ class Wysiwyg extends React.Component {
                                 {/* Edited */}
                                 {editMode == "edited" &&
                                         <React.Fragment>
-                                                <div id={'Toolbar'} className="RichEditor-controls">
+                                                <div id={'Toolbar'} className={classes.styleControls}>
                                                         {BUTTONS.map((button) =>
                                                                 <StyleButton
                                                                         key={button.label}
@@ -339,7 +421,7 @@ class Wysiwyg extends React.Component {
                                                         customStyleMap={styleMap}
                                                         blockStyleFn={myBlockStyleFn}
                                                         blockRenderMap={blockRenderMap}
-                                                        blockRendererFn={this.myBlockRenderer}
+                                                        // blockRendererFn={this.myBlockRenderer}
                                                         spellCheck={true}
                                                 />
                                         </React.Fragment>
@@ -373,9 +455,9 @@ const BUTTONS = [
         { type: 'inline', label: 'Color', style: 'COLOR', icon: <TextColorIcon /> },
         { type: 'block', label: 'Quote', style: 'blockquote', icon: <BlockQuoteIcon /> },
         { type: 'inline', label: 'More Options', style: null, icon: <MoreMenuIcon /> },
-        // { type: 'inline', label: 'Indent', style: 'INDENT', icon: <IndentIcon /> },
-        // { type: 'inline', label: 'Highlight', style: 'HIGHLIGHT', icon: <HighlightIcon /> },
-        // { type: 'inline', label: 'Emoji', style: 'EMOJI', icon: <EmojiIcon /> },
+        { type: 'inline', label: 'Indent', style: 'INDENT', icon: <IndentIcon /> },
+        { type: 'inline', label: 'Highlight', style: 'HIGHLIGHT', icon: <HighlightIcon /> },
+        { type: 'inline', label: 'Emoji', style: 'EMOJI', icon: <EmojiIcon /> },
 ]
 
 const VCLASS = `.Heading2 .r,.Heading2Char,.element-38,.element-45 .r,.element-46,.element-47 .r,.element-48{font-style:italic}.Hyperlink,.element-10,.element-13,.element-2,.element-21,.element-22 .r,.element-23,.element-26 .r,.element-40,.element-41 .r,.element-42,.element-45 .r,.element-46,.element-47 .r,.element-48,.element-8{text-decoration:underline}.tbl{border-collapse:collapse}.r{font-family:Calibri}.Heading1 .r,.Heading1Char,.Heading2 .r,.Heading2Char{font-family:Calibri Light;font-weight:700}.Normal{line-height:1.0791666666666666;margin-bottom:10px}.Heading1,.Heading2{margin-top:16px;margin-bottom:4px}.Normal .r{font-size:14px}.Heading1 .r{font-size:21px}.element-0,.element-1,.element-12,.element-14,.element-15,.element-17,.element-18,.element-20,.element-3,.element-4,.element-6,.element-7{line-height:1;margin-bottom:0}.Heading2 .r{font-size:18px}.TableNormal{margin-left:0}.Hyperlink{color:#0563C1}.UnresolvedMention{color:#605E5C;background-color:#E1DFDD}.element-1 .r,.element-2{color:#00F}.Heading1Char{font-size:21px}.Heading2Char{font-size:18px}.element-0 .r,.element-1 .r,.element-2,.element-3 .r{font-size:16px;font-family:Trebuchet MS}.element-4 .r,.element-5{font-family:Trebuchet MS;color:red;font-size:16px}.element-10,.element-11,.element-12 .r,.element-13,.element-7 .r,.element-8,.element-9 .r{color:#00F;font-size:16px;font-family:Trebuchet MS}.element-6 .r{font-family:Trebuchet MS;font-size:16px}.element-7 .r{font-weight:700}.element-9{line-height:1;margin-bottom:0}.element-10,.element-11,.element-9 .r{font-weight:700}.element-12 .r{font-weight:700}.element-14 .r{font-family:Trebuchet MS;font-size:16px}.element-15 .r,.element-16{font-family:Trebuchet MS;color:#00B050;font-size:16px}.element-18 .r,.element-19,.element-20 .r,.element-21,.element-22 .r,.element-23,.element-26 .r{font-family:Trebuchet MS;color:#00F;font-size:16px}.element-17 .r{font-family:Trebuchet MS;font-size:16px}.element-18 .r{font-weight:700}.element-19{text-decoration:underline}.element-20 .r{font-weight:700}.element-24 .r,.element-25{font-family:Trebuchet MS;font-size:16px}.element-35{font-weight:700}.element-41 .r,.element-42{font-weight:700}.element-43 .r,.element-44{font-weight:700;font-style:italic}.element-47 .r,.element-48{font-weight:700}`
@@ -410,35 +492,35 @@ const plugins = [
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
 const styleMap = {
-        'HIGHLIGHT': {
-                background: 'rgba(255, 0, 10, 0.25)',
-        },
-        'INDENT': {
-                marginLeft: "30px",
-        },
-        'superFancyBlockquote': {
-                textDecoration: 'line-through',
-        }
+        'HIGHLIGHT': { background: 'rgba(255, 0, 10, 0.25)', },
+        'INDENT': { marginLeft: "30px", },
+        'COLOR': { background: 'rgba(0, 100, 200, 0.25)', }
 };
+
+const blockRenderMap = Immutable.Map({
+        // 'unstyled': { element: 'p' },
+        'header-one': { element: 'h1' },
+        'header-two': { element: 'h2' },
+        'header-three': { element: 'h3' },
+        'header-four': { element: 'h4' },
+        'header-five': { element: 'h5' },
+        'header-six': { element: 'h6' },
+        'codeblock': { element: 'blockquote' },
+        'blockquote': { element: 'h6' },
+        'blockquote-intense': { element: 'h6' },
+});
 
 function myBlockStyleFn(contentBlock) {
         const type = contentBlock.getType();
+        console.log(contentBlock)
         if (type === 'blockquote') {
-                return '.superFancyBlockquote {color: red !important;}';
+                return 'blockqoute';
         }
-}
+        if (type === 'blockquote-intense') {
+                return 'blockquote-intense';
+        }
 
-const blockRenderMap = Immutable.Map({
-        'unstyled': { element: 'p' },
-        'header-one': { element: 'h1' },
-        'header-two': { element: 'h1' },
-        'header-three': { element: 'h4' },
-        'header-four': { element: 'h4' },
-        'header-five': { element: 'h4' },
-        'header-six': { element: 'h4' },
-        'blockquote': { element: 'blockquote' },
-        'codeblock': { element: 'blockquote' },
-});
+}
 
 // function myBlockRenderer(contentBlock, editorState) {
 //         // console.log(contentBlock, editorState)
