@@ -1,52 +1,62 @@
-var firebase = require("firebase/app");
-require("firebase/auth");
+/*
+ * Firestore
+ */
 
-// var config = {
-//     apiKey: "AIzaSyB2h-LkhuHOnSmRU8V8BN4_gH_ddaiFU0c",
-//     authDomain: "<PROJECT_ID>.firebaseapp.com",
-//     databaseURL: "https://<DATABASE_NAME>.firebaseio.com",
-//     storageBucket: "<BUCKET>.appspot.com",
-// };
+// var db = require('firebase/database');
+// require("firebase/auth");
+// const FirebaseAuthenticator = require('../src/modules/firebaseAuth').FirebaseAuthenticator
+// const admin = require('firebase-admin');
 
-var config = {
-    apiKey: "AIzaSyCrRjT-eZQAxfPkDemOe0WiebiWVZju97w",
-    authDomain: "tpot-toolbox.firebaseapp.com",
-    databaseURL: "https://tpot-toolbox.firebaseio.com",
-    projectId: "tpot-toolbox",
-    storageBucket: "tpot-toolbox.appspot.com",
-    messagingSenderId: "971065099433"
-};
+// admin.initializeApp({
+//     credential: admin.credential.applicationDefault()
+// });
+// var db = admin.firestore();
 
-app = firebase.initializeApp(config);
+/**
+ * Real-time Firebase
+ */
+var firebase = require('firebase');
 
-describe("Sign In", () => {
-    var email = "michael.n.preston@gmail.com";
-    var password = "Mercury10";
-    // var email = 'bpfilmsinc@gmail.com'
-    app
-        .auth()
-        .signInWithEmailAndPassword(email, password)
-        .then(result => {
-            const user = result.user;
-            // console.log("Hello \n", user);
-            if (user) console.log("user signed in!")
-        }).then((result) => {
-            firebase.auth().currentUser.getIdToken(true).then((id) => {
-                console.log('idToken: \n', id);
-                // console.log('User: ', firebase.auth().currentUser).name;
-            }).catch(console.log)
-        })
-        .catch(console.log);
+firebase.initializeApp({
+    serviceAccount: '../src/config/service-account.json',
+    databaseUrl: 'https://tpot-toolbox.firebaseio.com/',
 });
 
-//Create a user:
+/**
+ * constants
+ */
+const email = "michael.n.preston@gmail.com";
+const password = "Mercury10";
 
-// firebase.auth()
-//     .createUserWithEmailAndPassword(email, password)
-//     .catch((error) => {
-//         // Handle Errors here.
-//         var errorCode = error.code;
-//         var errorMessage = error.message;
-//         if (errorCode) console.log('error: ', errorCode);
-//         if (errorMessage) console.log('message: ', errorMessage);
-//     });
+
+describe.skip("Sign In", () => {
+    it('should sign in with no error', () => {
+        var authenticator = new FirebaseAuthenticator(email, password);
+        authenticator.login().then((result) => {
+            // console.log('result: ', result);
+        }).catch(console.log);
+    })
+});
+
+describe.skip("Add Data", () => {
+
+    var ref = firebase.app().database().ref();
+
+    // var users = db.collection('users').doc('Michael');
+
+    // var setMichael = users.set({
+    //     FirstName: 'Michael',
+    //     LastName: 'Preston',
+    //     Email: 'michael.n.preston@gmail.com',
+    //     password: 'Mintsharp18!',
+    // }).catch(console.log)
+
+
+    // var app = authenticator.app;
+    // var db = app.db;
+
+    //  console.log('retrived\n', authenticator.app);
+    // var users = db.collection('users');
+
+    // console.log('users:\n', users);
+})

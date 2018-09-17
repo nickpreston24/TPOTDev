@@ -19,9 +19,6 @@ let options = {
     }]
 }
 
-// export var readData
-// export var streamData
-
 export default class DiskFileLoader {
 
     async load() {
@@ -41,6 +38,8 @@ export default class DiskFileLoader {
     getFilePath() {
         return new Promise((result, reject) => {
             dialog.showOpenDialog(options, (fileNames) => {
+                if (!fileNames)
+                    alert('Filename cannot be empty!')
                 const filePath = fileNames[0];
                 result(filePath);
             });
