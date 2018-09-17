@@ -56,24 +56,24 @@ class Auth extends React.Component {
 
     this.state = {
       authorized: false,
-      anchorElement: null,
+      anchorEl: null,
       username: null,
       modalVisible: false
     };
   }
 
   openLogoutMenu = event => {
-    this.setState({ anchorElement: event.currentTarget });
+    this.setState({ anchorEl: event.currentTarget });
   };
 
   closeLogoutMenu = () => {
-    this.setState({ anchorElement: null });
+    this.setState({ anchorEl: null });
   };
 
   handleLogout = () => {
     this.setState({
       authorized: false,
-      anchorElement: null
+      anchorEl: null
     });
   };
 
@@ -91,11 +91,11 @@ class Auth extends React.Component {
     );
   };
 
-  //   handleLogin = () => {
-  //     this.setState({
-  //       authorized: true
-  //     });
-  //   };
+//   handleLogin = () => {
+//     this.setState({
+//       authorized: true
+//     });
+//   };
 
   auth = e => {
     let booleanVariable = !booleanVariable;
@@ -111,7 +111,7 @@ class Auth extends React.Component {
 
   render() {
     const { classes } = this.props;
-    const { anchorElement } = this.state;
+    const { anchorEl } = this.state;
 
     // console.log(this.state.authorized)
 
@@ -124,7 +124,7 @@ class Auth extends React.Component {
             <Slide direction="left" in={true} timeout={{ enter: 700 }}>
               <Button
                 className={classes.button}
-                aria-owns={anchorElement ? "logout-menu" : null}
+                aria-owns={anchorEl ? "logout-menu" : null}
                 aria-haspopup="true"
                 onClick={this.openLogoutMenu}
                 color="inherit"
@@ -137,8 +137,8 @@ class Auth extends React.Component {
             </Slide>
             <Menu
               id="logout-menu"
-              anchorElement={anchorElement}
-              open={Boolean(anchorElement)}
+              anchorEl={anchorEl}
+              open={Boolean(anchorEl)}
               onClose={this.closeLogoutMenu}
               anchorOrigin={{ vertical: "top", horizontal: "right" }}
               transformOrigin={{ vertical: "top", horizontal: "right" }}

@@ -16,19 +16,10 @@ import FireBaseLogo from "../media/firebase.png";
 import Divider from "@material-ui/core/Divider";
 import ClickAwayListener from "@material-ui/core/ClickAwayListener";
 
-/**
- * Firebase imports
- */
 var firebase = require("firebase/app");
 require("firebase/auth");
 const config = require("../config/environment").config;
 let app = firebase.initializeApp(config);
-
-/**
- * Toasts
- */
-
-const { toastify, YeahToast } = require("../modules/toasts/toastify");
 
 function Transition(props) {
   return <Slide direction="up" {...props} />;
@@ -107,10 +98,6 @@ class SignIn extends React.Component {
             // console.log('User: ', firebase.auth().currentUser).name;
             success = true;
             // return success;
-            // new YeahToast().notify("User signed in!");
-            // YeahToast.notify("User signed in!");
-            // toastify.notify();
-            // YeahToast.notify();
           })
           .catch(console.log);
       });
