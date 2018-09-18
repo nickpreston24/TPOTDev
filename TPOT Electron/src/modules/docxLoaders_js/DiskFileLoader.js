@@ -1,6 +1,6 @@
-import {
-    resolve
-} from "url";
+// import {
+//     resolve
+// } from "url";
 
 //Electron
 const electron = window.require('electron')
@@ -9,7 +9,7 @@ const dialog = remote.dialog
 
 // Node built-in
 const fs = remote.require('fs')
-const path = remote.require('path')
+// const path = remote.require('path')
 
 let options = {
     properties: ['openFile'],

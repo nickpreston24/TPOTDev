@@ -23,16 +23,12 @@
 // Electron
 const electron = window.require('electron')
 const remote = electron.remote
-const app = remote.app
-const ipc = electron.ipcRenderer;
-
 // Node built-in
 // const fs = remote.require( 'fs' )
-const path = remote.require('path')
 const fs = remote.require('promise-fs')
 
 // Custom/Community
-const _ = require('underscore')
+// const _ = require('underscore')
 const createNode = require('create-node')
 const walk = require('domwalk')
 
@@ -53,25 +49,8 @@ const mammoth = require('mammoth-colors')
 /////////////////////////////////////////////////////////////////////////////////////
 
 export async function convertFile(path) {
-<<<<<<< HEAD
-        // Convert Data
-        let dataFile2Html = await convertFile2Html(path)
-        let dataMammoth = await convertMammoth(path)
+    console.log(path)
 
-        // Bake Down CSS to File2Html Tag Data
-        dataFile2Html = await bakeCssToInlineStyles(dataFile2Html.css, dataFile2Html.html)
-
-        // Flatten Data
-        let conversionString = await flattenStylesFromTwoDoms(dataMammoth, dataFile2Html)
-
-        // Send Data
-        let message = {
-                event: "draftjs-editor-reload",
-                html: conversionString
-        }
-        window.postMessage(message, "*") // sends to DraftJS WYSIWYG Editor
-        // document.getElementById("WYSIWYG").innerHTML = conversionString // temporary
-=======
     // Convert Data
     let dataFile2Html = await convertFile2Html(path)
     let dataMammoth = await convertMammoth(path)
@@ -87,10 +66,8 @@ export async function convertFile(path) {
         event: "draftjs-editor-reload",
         html: conversionString
     }
-    // window.postMessage(message, "*") // sends to DraftJS WYSIWYG Editor
-    document.getElementById("WYSIWYG").innerHTML = conversionString // temporary
-    // this.html = conversionString; //Make this a class, then assign, then the instantiator of that class can get the html without IPC.
->>>>>>> fa1b7779ce1f75d99ffdc850bd668c83d2445d10
+    window.postMessage(message, "*") // sends to DraftJS WYSIWYG Editor
+    // document.getElementById("WYSIWYG").innerHTML = conversionString // temporary
 }
 
 /////////////////////////////////////////////////////////////////////////////////////
@@ -117,51 +94,6 @@ const convertFile2Html = async (path) => {
     return {
         css: data.data.styles,
         html: data.data.content
-    }
-}
-
-function lookupMimeType(filename) {
-    const mimeTypes = {
-        png: 'image/png',
-        gif: 'image/gif',
-        jpg: 'image/jpg',
-        jpeg: 'image/jpeg',
-        pjpeg: 'image/pjpeg',
-        svg: 'image/svg+xml',
-        ico: 'image/x-icon',
-        txt: 'text/plain',
-        doc: 'application/msword',
-        docx: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-        fb: 'application/x-fictionbook+xml',
-        fb2: 'application/x-fictionbook+xml',
-        'fb2.zip': 'application/x-zip-compressed-fb2',
-        odt: 'application/vnd.oasis.opendocument.text',
-        sxw: 'application/vnd.sun.xml.writer',
-        epub: 'application/epub+zip',
-        woff: 'application/font-woff',
-        woff2: 'application/font-woff2',
-        csv: 'text/csv',
-        tsv: 'text/tab-separated-values',
-        tab: 'text/tab-separated-values',
-        djvu: 'image/vnd.djvu',
-        djv: 'image/vnd.djvu',
-        zip: 'application/zip',
-        rtf: 'application/rtf'
-    };
-
-    if (filename) {
-        console.log('input - fileName: ', filename)
-        let fileNameSimple = filename.toLowerCase()
-        for (var extension in mimeTypes) {
-            if (mimeTypes.hasOwnProperty(extension)) {
-                let extensionSlice = fileNameSimple.slice(fileNameSimple.length - extension.length, fileNameSimple.length)
-                // console.log('Extension: ', extensionSlice);
-                // console.log('File Name: ', fileNameSimple);
-                if (extensionSlice == extension) {
-                    return mimeTypes[extension]
-                }
-            }
-        }
     }
 }
 
@@ -381,7 +313,7 @@ const flattenStylesFromTwoDoms = async (baseDom, augDom) => {
             if (badFlavors.includes(flavor)) {
                 return false
             } else {
-                if (flavor == "font-size") {
+                if (flavor === "font-size") {
                     if (icingNode.style[flavor] < "16px") {
                         return false
                     } else {
@@ -421,7 +353,7 @@ const flattenStylesFromTwoDoms = async (baseDom, augDom) => {
         }
 
         // Made Blockquotes more readable
-        if (cakeNode.tagName == "BLOCKQUOTE") {
+        if (cakeNode.tagName === "BLOCKQUOTE") {
             cakeNode.style.fontStyle = "italic"
             cakeNode.style.paddingTop = "15px"
             cakeNode.style.paddingBottom = "15px"
@@ -429,7 +361,7 @@ const flattenStylesFromTwoDoms = async (baseDom, augDom) => {
         }
 
         // Identify Indented Paragraphs
-        if (cakeNode.tagName == "P") {
+        if (cakeNode.tagName === "P") {
             if (cakeNode.style.textIndent) {
                 cakeNode.className += "indent"
             }
@@ -441,10 +373,10 @@ const flattenStylesFromTwoDoms = async (baseDom, augDom) => {
         // Clean Up Table Results
         let tableTags = ['TABLE', 'TD']
         if (tableTags.includes(cakeNode.tagName)) {
-            if (cakeNode.tagName == 'TABLE') {
+            if (cakeNode.tagName === 'TABLE') {
                 cakeNode.style = "width: 80%; max-width: 100%; position: relative; left: 50%; transform: translateX(-50%); border: 1px solid black; border-collapse: collapse;"
             }
-            if (cakeNode.tagName == 'TD') {
+            if (cakeNode.tagName === 'TD') {
                 cakeNode.style.border = "1px solid black"
                 cakeNode.style.paddingLeft = "12px"
                 cakeNode.style.paddingRight = "12px"
@@ -479,3 +411,8 @@ export const test = () => {
 // module.exports = {
 //         test
 // }
+
+/// DIRTY HACK!
+if (true) {
+    convertFile('C:\\Users\\Braden\\Documents\\GitHub\\TPOTDev\\TPOT Electron\\src\\config\\MasterSample.docx')
+}

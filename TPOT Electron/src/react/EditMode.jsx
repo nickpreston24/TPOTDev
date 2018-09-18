@@ -1,14 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
-import Stepper from '@material-ui/core/Stepper';
-import Step from '@material-ui/core/Step';
-import StepButton from '@material-ui/core/StepButton';
-import StepLabel from '@material-ui/core/StepLabel';
-import StepIcon from '@material-ui/core/StepIcon';
-import StepContent from '@material-ui/core/StepContent'
-import Button from '@material-ui/core/Button';
-import Typography from '@material-ui/core/Typography';
+
 import CodeIcon from '@material-ui/icons/Code'
 import FileIcon from '@material-ui/icons/InsertDriveFileOutlined'
 import EditIcon from '@material-ui/icons/Edit'

@@ -1,26 +1,25 @@
-/* h1 {
-        font-size: 40px;
+.title {
+    /**/
 }
 
-h2 {
-        font-size: 30px;
+.subtitle {
+    /* font-style: italic; */
+    color: rgb(64, 64, 64);
 }
-
-h4 {
-        font-size: 20px;
-} */
-
 
 .blockquote {
         color: red;
-        font-family: 'Hoefler Text', Georgia, serif;
-        font-style: italic;
-        text-align: center;
 }
 
 .blockquote-intense {
-        color: blue;
-        font-family: 'Hoefler Text', Georgia, serif;
-        font-style: italic;
-        text-align: center;
+    font-weight: bold;
+    font-style: italic;
+}
+
+.indent {
+    text-indent: 48px;
+}
+
+.block {
+    margin-left: 48px;
 }

@@ -2,28 +2,16 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { withStyles } from '@material-ui/core/styles';
+
 import Drawer from '@material-ui/core/Drawer';
 import DraftJS from './DraftJS'
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import List from '@material-ui/core/List';
-import Typography from '@material-ui/core/Typography';
-import Divider from '@material-ui/core/Divider';
-import IconButton from '@material-ui/core/IconButton';
-import MenuIcon from '@material-ui/icons/Menu';
-import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
-import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import DrawerMenuList from './DrawerMenuList';
-import Header from './Header'
 import Button from '@material-ui/core/Button';
 import PreviewIcon from '@material-ui/icons/LaptopMacTwoTone';
 import Tooltip from '@material-ui/core/Tooltip';
 import Zoom from '@material-ui/core/Zoom';
 import Paper from '@material-ui/core/Paper'
-
 import 'typeface-roboto'
-
-const convert = require('../modules/converter')
 
 const drawerWidth = 200;
 
@@ -111,7 +99,6 @@ const styles = theme => ({
                 overflowY: 'hidden',
                 marginTop: 32,
                 marginBottom: 128,
-                // minHeight: 500,
                 minHeight: 500,
                 WebkitScrollbarClass: {
                         width: "1em"
@@ -127,12 +114,12 @@ const styles = theme => ({
 });
 
 class MiniDrawer extends React.Component {
-        constructor(props) {
-                super(props);
-        }
+        // constructor(props) {
+        //         super(props);
+        // }
 
         render() {
-                const { classes, theme } = this.props;
+                const { classes } = this.props;
 
                 return (
                         <div className={classes.root}>

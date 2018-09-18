@@ -1,31 +1,31 @@
 // React
 import React from 'react'
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
-import Button from '@material-ui/core/Button';
 import Drawer from './Drawer'
 import Header from './Header'
 import './App.css'
 import 'typeface-roboto'
 
 // Electron
-const electron = window.require('electron')
-const remote = electron.remote
-const app = remote.app
-const ipc = electron.ipcRenderer
 
 // Node Built-In
-// Code Here
 
 // Custom/Community
-// Code Here
 
 const theme = createMuiTheme({
-        palette: {
+    palette: {
+        // primary: {
+        //     light: '#ff867c',
+        //     main: '#ef5350',
+        //     // dark: '#CC3333',
+        //     dark: '#b61827',
+        //     contrastText: '#fff',
+        // },
                 primary: {
-                        light: '#ff867c',
-                        main: '#ef5350',
+                    light: '#df78ef',
+                    main: '#ab47bc',
                         // dark: '#CC3333',
-                        dark: '#b61827',
+                    dark: '#790e8b',
                         contrastText: '#fff',
                 },
                 secondary: {
@@ -61,11 +61,6 @@ const theme = createMuiTheme({
         // },
 });
 
-const config = {
-        headerTitle: 'This is Header Title 🐫',
-        headerName: 'Braden'
-}
-
 class App extends React.Component {
 
         constructor(props) {
@@ -82,7 +77,6 @@ class App extends React.Component {
                         menuToggled: headerState.menuToggled,
                         editMode: headerState.editMode
                 })
-                // console.log(this.state)
         }
 
         render() {
