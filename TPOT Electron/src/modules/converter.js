@@ -1,3 +1,6 @@
+import zIndex from '@material-ui/core/styles/zIndex';
+const $ = window.jQuery = require('jquery')
+
 //  TESTING RESULTS
 
 // Master Sample - 220 ms avg - 0.22 SECONDS (Yay!)
@@ -387,16 +390,55 @@ const flattenStylesFromTwoDoms = async (baseDom, augDom) => {
 
     function createHighlights(highlights) {
         highlights.forEach(icingNode => {
+
+            // Get Target Element and Index
+            let blockChildren = $(icingNode.parentElement).parentsUntil("div").prevObject[0].children
+            let parentChildren = []
+            for (let index = 0; index < blockChildren.length; index++) {
+                parentChildren.push({
+                    element: icingNode.parentElement.children[index],
+                    index: index
+                })
+            }
+            let targetElements = parentChildren.filter(child => {
+                return icingNode.textContent === child.element.textContent
+            })
+            let targetElementIndex = targetElements[0].index
+            let targetElement = icingNode.parentElement.children[targetElementIndex]
+            let targetElementText = targetElement.textContent
+
+            // Get Previous Context
+            let previousChildren = parentChildren.slice(0, targetElementIndex)
+            let previousContext = ''
+            previousChildren.forEach(child => {
+                previousContext += child.element.textContent
+            })
+            previousContext = previousContext.slice(previousContext.length - 10, previousContext.length)
+
+            // Get Next Context
+            let nextChildren = parentChildren.slice(targetElementIndex + 1)
+            let nextContext = ''
+            nextChildren.forEach(child => {
+                nextContext += child.element.textContent
+            })
+            nextContext = nextContext.slice(0,10)
+            
+            // Combine Context
+            let icingContext = previousContext  + targetElementText +  nextContext
+
+            // Find Cake Blocks with Icing Context
             let blocks = []
             for (let index = 0; index < cake.children.length; index++) {
                 blocks.push(cake.children[index])
             }
             blocks = blocks.filter(block => {
-                return block.textContent.includes(icingNode.textContent)
+                return block.textContent.includes(icingContext)
             })
+
             blocks.forEach(block => {
                 block.innerHTML = block.innerHTML.replace(icingNode.textContent, "<span class='highlight'  style='background-color: " + icingNode.style.backgroundColor + ";'>" + icingNode.textContent + "</span>")
             })
+
         })
     }
 

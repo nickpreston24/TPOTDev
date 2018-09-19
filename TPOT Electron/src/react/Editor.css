@@ -1,14 +1,12 @@
-.title {
-    /**/
+.cat {
+    color: red;
 }
 
 .subtitle {
-    /* font-style: italic; */
     color: rgb(64, 64, 64);
 }
 
 .blockquote {
-        color: red;
 }
 
 .blockquote-intense {

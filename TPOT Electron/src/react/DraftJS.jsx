@@ -44,7 +44,7 @@ import Immutable from 'immutable'
 // } from 'draftjs-utils'
 import createImagePlugin from 'draft-js-image-plugin';
 import createStyles from 'draft-js-custom-styles';
-// import { convertToHTML } from 'draft-convert'
+import { convertToHTML } from 'draft-convert'
 import 'draft-js/dist/Draft.css'
 import './Editor.css'
 
@@ -135,7 +135,7 @@ class Wysiwyg extends React.Component {
         window.addEventListener("message", (msg) => {
             if (msg.data.event === "draftjs-editor-reload") {
                 this.reloadEditor(msg.data.html)
-                    .then(e =>{
+                    .then(e => {
                         this.saveEditorStateToFile()
                     })
                     .catch(err => {
@@ -148,7 +148,7 @@ class Wysiwyg extends React.Component {
 
     getData() {
         let block = this.state.editorState.getCurrentContent().getFirstBlock()
-        console.log(block.key + '\n', block.text + '\n', block.type + '\n', block.depth + '\n', block.data)
+        // console.log(block.key + '\n', block.text + '\n', block.type + '\n', block.depth + '\n', block.data)
     }
 
     //   EDITOR STATE MANAGEMENT FUNCTIONS   //
@@ -304,6 +304,16 @@ class Wysiwyg extends React.Component {
         // console.log(this.state.editorState.getCurrentContent().getBlockForKey(this.state.editorState.getSelection().getAnchorKey()).getText().slice(this.state.editorState.getSelection().getStartOffset(), this.state.editorState.getSelection().getEndOffset()))
     }
 
+    toggleColor = color => {
+        const newEditorState = styles.color.toggle(this.state.editorState, color);
+        this.setState({ editorState: newEditorState })
+    };
+
+    toggleFontSize = fontSize => {
+        const newEditorState = styles.fontSize.toggle(this.state.editorState, fontSize);
+        this.setState({ editorState: newEditorState })
+    };
+
     myBlockRenderer(contentBlock, editorState) {
         // console.log(contentBlock, editorState)
         // const type = contentBlock.getType();
@@ -342,6 +352,13 @@ class Wysiwyg extends React.Component {
         const editMode = this.props.editMode
         // console.log(state)
 
+        // console.log("STATE", this.state.editorState)
+
+        const options = x => x.map(fontSize => {
+            return <option key={fontSize} value={fontSize}>{fontSize}</option>;
+        });
+
+
         return (
             <div id="WYSIWYG" className={classes.root} onClick={this.focus}>
                 {/* Original */}
@@ -373,8 +390,14 @@ class Wysiwyg extends React.Component {
                                     style={button.style}
                                     icon={button.icon}
                                 />
-                        )}
-                        <button onClick={this.getData()}>GET DATA</button>
+                            )}
+                            <button onClick={this.getData()}>GET DATA</button>
+                            <select onChange={e => this.toggleFontSize(e.target.value)}>
+                                {options(['12px', '24px', '36px', '50px', '72px'])}
+                            </select>
+                            <select onChange={e => this.toggleColor(e.target.value)}>
+                                {options(['green', 'blue', 'red', 'purple', 'orange', '#FF0099'])}
+                            </select>
                         </div>
                         <Editor
                             id={'Editor'}
@@ -382,7 +405,7 @@ class Wysiwyg extends React.Component {
                             placeholder="The editor is empty."
                             editorState={this.state.editorState}
                             onChange={this.onChange.bind(this)}
-                            customStyleMap={styleMap}
+                            customStyleMap={baseStyleMap}
                             customStyleFn={customStyleFn}
                             blockStyleFn={myBlockStyleFn}
                             blockRenderMap={blockRenderMap}
@@ -463,23 +486,118 @@ const plugins = [
 let OPTIONS = {
     // Should return a Style() or Entity() or null/undefined
     customInlineFn: (element, { Style, Entity }) => {
-        if (element.tagName === 'SPAN' && element.className === 'emphasis') {
-            return Style('ITALIC');
-        }
-        // if (element.style.fontStyle === 'italic') {
-        //     console.log(element)
-        //     return Style('ITALIC');
+        // let elementStyles = []
+        // let validStyles = ["text-align", "font-weight", "color", "font-size", "text-decoration-line", "text-decoration-style", "background-color", "text-decoration-color"]
+
+        // // Gather Parent Styles
+        // for (let index = 0; index < element.parentElement.style.length; index++) {
+        //     if (validStyles.includes(element.parentElement.style[index])) {
+        //         elementStyles.push({ name: element.parentElement.style[index], data: element.parentElement.style[element.parentElement.style[index]] })
+        //     }
         // }
-        if (element.tagName === 'FONT') {
-            console.log(element.style.color)
-            // return Entity('FONT', { color: element.getAttribute('color') });
-            return Style('COLOR');
+
+        // // Gather Child Styles
+        // for (let index = 0; index < element.style.length; index++) {
+        //     let passes = elementStyles.filter(elementStyle => {
+        //         return elementStyle === element.style[index]
+        //     })
+        //     if (passes.length === 0) {
+        //         elementStyles.push({ name: element.style[index], data: element.style[element.style[index]] })
+        //     }
+        // }
+
+        // // console.log(elementStyles.length)
+        // // Style Application
+        // if (elementStyles.length == 1) {
+        //     // Single Style Application
+        //     switch (elementStyles[0].name) {
+        //         case "background-color":
+        //             return Style('HIGHLIGHT')
+        //         case "color":
+        //             return Style('CUSTOM_COLOR_' + rgb2hex(elementStyles[0].data));
+        //         case "font-size":
+        //             console.log("FONT_SIZE")
+        //             return Style('CUSTOM_FONT_SIZE_' + elementStyles[0].data);
+        //         default:
+        //             break;
+        //     }
+        // } else if (elementStyles.length > 1) {
+        //     // Compound Style Application
+        // }
+
+        // console.log(elementStyles)
+
+        // NEW  
+
+        // console.log(element.parentElement.style.cssText)
+        // console.log(element.parentElement)
+        // if (element.style || element.parentElement.tagName === "FONT") {
+        //     console.log(element.style.length)
+        //     console.log(element.parentElement.style.length)
+        // }
+        // let numberOfStyles = element.style.length
+        // if (numberOfStyles == 1) {
+
+
+        // } else if (numberOfStyles > 1) {
+
+        // } else {
+        //     console.log(element)
+        // }
+
+        let elementStyles = []
+
+        // Generic Styles
+        if (element.className === 'highlight') {
+            elementStyles.push({ name: 'backgroundColor', data: element.style.backgroundColor })
         }
+        if (element.parentElement.tagName === "STRONG") {
+            elementStyles.push({ name: 'fontWeight', data: 'bold' })
+        }
+        if (element.parentElement.tagName === "EM") {
+            elementStyles.push({ name: 'fontStyle', data: 'italic' })
+        }
+        if (element.parentElement.tagName === "INS") {
+            elementStyles.push({ name: 'textDecoration', data: 'underline' })
+        }
+
+        // Color 
+        if (element.parentElement.style.color) { // Parent Inline
+            elementStyles.push({ name: 'color', data: rgb2hex(element.parentElement.style.color) })
+        }
+        if (element.parentElement.color) { // Parent Font Tag
+            elementStyles.push({ name: 'color', data: '#' + element.parentElement.color })
+        }
+        if (element.style.color) { // Normal Inline
+            elementStyles.push({ name: 'color', data: rgb2hex(element.style.color) })
+        }
+
+        // FontSize
+        if (element.parentElement.style.fontSize) { // Parent Font-Size
+            elementStyles.push({ name: 'fontSize', data: element.parentElement.style.fontSize })
+        }
+        if (element.style.fontSize) { // Normal Font-Size
+            elementStyles.push({ name: 'fontSize', data: element.style.fontSize })
+        }
+
+        // console.log("STYLES: ", elementStyles)
+        // Build Compound Style
+        let styleName = 'CUSTOM_'
+        let styleData = {}
+        elementStyles.forEach(style => {
+            styleName += style.name.toUpperCase() + '[' + style.data.toUpperCase() + ']_'
+            styleData[style.name] = style.data
+        })
+        // Final Inline Style
+        baseStyleMap[styleName] = styleData
+        return Style(styleName);
+
     },
+
     // Should return null/undefined or an object with optional: type (string); data (plain object)
     customBlockFn: (element) => {
-        if (element.tagName === 'P') {
-            return { type: 'paragraph', data: { color: "rgb(192, 0, 0)" } };
+        if (element.tagName === 'P' && !element.className) {
+            return { type: 'paragraph', data: { style: "color: rgb(192, 0, 0);" } };
         }
         if (element.className === 'title') {
             return { type: 'title' };
@@ -499,25 +617,23 @@ let OPTIONS = {
         if (element.className === 'block') {
             return { type: 'block' };
         }
-        if (element.style.textAlign === 'center') {
+        if (element.style.textAlign) {
             console.log(element)
-            console.log(element.key)
-            return { data: { textAlignment: 'center' } };
+            return { data: { style: 'text-align: center;' } };
         }
     },
     elementStyles: {
-        // 'font': 'HIGHLIGHT',
+        'strong': 'BOLD',
     },
 };
 
-const { styles, customStyleFn, exporter } = createStyles(['font-size', 'color'], 'PREFIX', styleMap);
+const { styles, customStyleFn, exporter } = createStyles(['font-size', 'color', 'background'], 'CUSTOM', baseStyleMap);
 
 // Native Draft
-const styleMap = {
-    'HIGHLIGHT': { background: 'rgba(255, 0, 10, 0.25)', },
-    'INDENT': { marginLeft: "30px", },
-    'CENTER': { textAlign: "center", },
-    'COLOR': { background: 'rgba(0, 100, 200, 0.25)', }
+const baseStyleMap = {
+    'HIGHLIGHT': { background: 'yellow' },
+    'INDENT': { marginLeft: "30px" },
+    'CENTER': { textAlign: "center" },
 };
 
 // Native Draft
@@ -532,34 +648,24 @@ const blockRenderMap = Immutable.Map({
     'codeblock': { element: 'code' },
     'title': { element: 'h1' },
     'subtitle': { element: 'h4' },
-    'blockquote-intense': { element: 'blockquote' },
     'blockquote': { element: 'blockquote' },
+    'blockquote-intense': { element: 'blockquote' },
     'indent': { element: 'p' },
     'block': { element: 'p' },
 });
 
 // Native Draft
 function myBlockStyleFn(contentBlock) {
-    console.log("CONTENT BLOCK", contentBlock)
-    const type = contentBlock.getType();
-    if (type === 'title') {
-        return 'title';
-    }
-    if (type === 'subtitle') {
-        return 'subtitle';
-    }
-    if (type === 'blockquote') {
-        return 'blockqoute';
-    }
-    if (type === 'blockquote-intense') {
-        return 'blockquote-intense';
-    }
-    if (type === 'indent') {
-        return 'indent';
-    }
-    if (type === 'block') {
-        return 'block';
-    }
+    // console.log("CONTENT BLOCK", contentBlock) 
+    // const type = contentBlock.getType();
+    // Gets Block type and Maps to a CSS Class name to style the block.
+    return contentBlock.getType()
+    // if (type === 'title') { return 'title'; }
+    // if (type === 'subtitle') { return 'subtitle'; }
+    // if (type === 'blockquote') { return 'blockqoute'; }
+    // if (type === 'blockquote-intense') { return 'blockquote-intense'; }
+    // if (type === 'indent') { return 'indent'; }
+    // if (type === 'block') { return 'block'; }
 }
 
 // function myBlockRenderer(contentBlock, editorState) {
@@ -585,6 +691,13 @@ function myBlockStyleFn(contentBlock) {
 //         }
 // }
 
+function rgb2hex(rgb) {
+    rgb = rgb.match(/^rgba?[\s+]?\([\s+]?(\d+)[\s+]?,[\s+]?(\d+)[\s+]?,[\s+]?(\d+)[\s+]?/i);
+    return (rgb && rgb.length === 4) ? "#" +
+        ("0" + parseInt(rgb[1], 10).toString(16)).slice(-2) +
+        ("0" + parseInt(rgb[2], 10).toString(16)).slice(-2) +
+        ("0" + parseInt(rgb[3], 10).toString(16)).slice(-2) : '';
+}
 
 
 // EDITOR SUBTOOL CLASSES
