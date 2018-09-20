@@ -4,7 +4,7 @@ import classNames from 'classnames';
 import { withStyles } from '@material-ui/core/styles';
 
 import Drawer from '@material-ui/core/Drawer';
-import DraftJS from './DraftJS'
+import Draft from './Editor/Draft'
 import DrawerMenuList from './DrawerMenuList';
 import Button from '@material-ui/core/Button';
 import PreviewIcon from '@material-ui/icons/LaptopMacTwoTone';
@@ -138,7 +138,7 @@ class MiniDrawer extends React.Component {
 
                     {/* Main Content */}
                     <div className={classes.contentFrame}>
-                        <DraftJS editMode={this.props.editMode} />
+                        <Draft editMode={this.props.editMode} />
                         {/* <Paper className={classes.contentPaper}>
                             <DraftJS editMode={this.props.editMode} />
                         </Paper> */}
