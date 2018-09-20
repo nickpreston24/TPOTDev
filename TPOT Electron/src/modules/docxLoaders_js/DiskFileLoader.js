@@ -1,15 +1,10 @@
-// import {
-//     resolve
-// } from "url";
-
-//Electron
+/* Electron */
 const electron = window.require('electron')
 const remote = electron.remote
 const dialog = remote.dialog
 
-// Node built-in
+/* Node */
 const fs = remote.require('fs')
-// const path = remote.require('path')
 
 let options = {
     properties: ['openFile'],
@@ -24,24 +19,18 @@ export default class DiskFileLoader {
     async load() {
         await this.getFilePath()
             .then(filePath => {
-                // this.streamFile(filePath)
-                this.readFile(filePath)
                 this.path = filePath
-                // .then(data => {
-                //     console.log('data', data)
-                // })
-            }).catch((err) => {
-                console.log('error: ', err);
-            })
+                this.readFile(filePath)
+            }).catch(console.log);
     }
 
     getFilePath() {
         return new Promise((result, reject) => {
             dialog.showOpenDialog(options, (fileNames) => {
-                if (!fileNames)
+                if (!fileNames || fileNames.length == 0)
                     alert('Filename cannot be empty!')
-                const filePath = fileNames[0];
-                result(filePath);
+                this.path = fileNames[0];
+                result(this.path);
             });
         });
     }
@@ -53,11 +42,23 @@ export default class DiskFileLoader {
             if (error) {
                 throw new Error(`An error ocurred reading the file : ${error.message}`);
             }
-            // console.log("The file content is : \n" + data);
             console.log('read successful!');
             this.readData = data;
         });
     };
+
+
+    deleteFile(filePath) {
+        if (!fs.existsSync(filePath)) {
+            throw new Error(`The file ${filePath} doesn't exist, cannot delete it!`);
+        }
+        fs.unlink(filePath, (error) => {
+            if (error) {
+                throw new Error(`An error ocurred deleting the file: ${error.message}`);
+            }
+            console.log("File succesfully deleted");
+        });
+    }
 
     // streamFile(filePath) {
     //     console.log('in streamfile()');
@@ -70,19 +71,4 @@ export default class DiskFileLoader {
     //     });
     //     // });
     // }
-
-    deleteFile(filePath) {
-
-        if (!fs.existsSync(filePath)) {
-            throw new Error(`The file ${filePath} doesn't exist, cannot delete it!`);
-        }
-
-        fs.unlink(filePath, (error) => {
-            if (error) {
-                throw new Error(`An error ocurred updating the file: ${error.message}`);
-            }
-            console.log("File succesfully deleted");
-        });
-    }
-
 }
