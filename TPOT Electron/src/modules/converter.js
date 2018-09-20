@@ -6,7 +6,7 @@ const $ = window.jQuery = require('jquery')
 // Master Sample - 220 ms avg - 0.22 SECONDS (Yay!)
 // Brochure Sample - 140 ms avg- 0.14 SECONDS (Yay!)
 
-// Stress test results
+// Performance test results
 // Master Sample (51 Pages images and text) - 17.7 SECONDS / 17745 ms (100% successful)
 // Master Sample (51 Pages with duplicates of text) - 3.47 MINUTES / 208601 ms (100% successful)
 
@@ -46,9 +46,9 @@ const mammoth = require('mammoth-colors')
 
 
 /////////////////////////////////////////////////////////////////////////////////////
-//                                                                                                                                                                 //
-//                                                            MAIN FUNCTION                                                                  //
-//                                                                                                                                                                 //
+//                                                                                                                                                                 
+//                                                            MAIN FUNCTION                                                                  
+//                                                                                                                                                                 
 /////////////////////////////////////////////////////////////////////////////////////
 
 export async function convertFile(path) {
@@ -62,7 +62,7 @@ export async function convertFile(path) {
     dataFile2Html = await bakeCssToInlineStyles(dataFile2Html.css, dataFile2Html.html)
 
     // Flatten Data
-    let conversionString = await flattenStylesFromTwoDoms(dataMammoth, dataFile2Html)
+    let conversionString = await flattenStyles(dataMammoth, dataFile2Html)
 
     // Send Data
     let message = {
@@ -70,13 +70,12 @@ export async function convertFile(path) {
         html: conversionString
     }
     window.postMessage(message, "*") // sends to DraftJS WYSIWYG Editor
-    // document.getElementById("WYSIWYG").innerHTML = conversionString // temporary
 }
 
 /////////////////////////////////////////////////////////////////////////////////////
-//                                                                                                                                                                 //
-//                                                    FILE 2 HMTL CONVERSION                                                      //
-//                                                                                                                                                                 //
+//                                                                                                                                                                 
+//                                                    FILE 2 HMTL CONVERSION                                                      
+//                                                                                                                                                                 
 /////////////////////////////////////////////////////////////////////////////////////
 
 const convertFile2Html = async (path) => {
@@ -101,9 +100,9 @@ const convertFile2Html = async (path) => {
 }
 
 /////////////////////////////////////////////////////////////////////////////////////
-//                                                                                                                                                                 //
-//                                                     MAMMOTH CONVERSION                                                        //
-//                                                                                                                                                                 //
+//                                                                                                                                                                 
+//                                                     MAMMOTH CONVERSION                                                        
+//                                                                                                                                                                 
 /////////////////////////////////////////////////////////////////////////////////////
 
 const convertMammoth = async (path) => {
@@ -143,9 +142,9 @@ const mammothOptions = {
 };
 
 /////////////////////////////////////////////////////////////////////////////////////
-//                                                                                                                                                                 //
-//                                           BAKE INLINE STYLES TO FILE2HTML                                            //
-//                                                                                                                                                                 //
+//                                                                                                                                                                 
+//                                           BAKE INLINE STYLES TO FILE2HTML                                            
+//                                                                                                                                                                 
 /////////////////////////////////////////////////////////////////////////////////////
 
 const bakeCssToInlineStyles = async (css, html) => {
@@ -165,8 +164,8 @@ const mapCssStylesheetToObject = async (css) => {
     let blocks = stylesheet.match(/[^{]*\{([^}]*)*}/g)
     let cssClasses = {}
     blocks.forEach(block => {
-        let regex = /\.([a-zA-Z-\d+]*)\s*\.?([a-zA-Z-\d+]*)?\{(.*)\}/g
-        let groups = regex.exec(block)
+        let cssRegex = /\.([a-zA-Z-\d+]*)\s*\.?([a-zA-Z-\d+]*)?\{(.*)\}/g //for separating css selectors from their attributes and storing them in groups.
+        let groups = cssRegex.exec(block)
         let classNamePrimary = groups[1]
         let classNameSecondary = groups[2]
         let attributes = groups[3]
@@ -207,6 +206,7 @@ const mapCssClassesToInlineStyles = async (dom, cssClasses) => {
         if (node.className) {
             let nodeClasses = node.classList
             nodeClasses.forEach(nodeClass => {
+                //todo: refactor cssClasses[..] and cssClasses[..][..] into named vars reflecting their purpose, e.g. firstElement, secondElement...
                 if (cssClasses[nodeClass]) { // If there is a matching classname entry
                     if (cssClasses[nodeClass].styles) { // If there is no substyles
                         node.style.cssText += cssClasses[nodeClass].styles
@@ -225,13 +225,13 @@ const mapCssClassesToInlineStyles = async (dom, cssClasses) => {
 }
 
 /////////////////////////////////////////////////////////////////////////////////////
-//                                                                                                                                                                 //
-//                           MERGE FILE2HTML STYLES ONTO MAMMOTH DOM                                //
-//                                                                                                                                                                //
+//                                                                                                                                                                 
+//                           MERGE FILE2HTML STYLES ONTO MAMMOTH DOM                                
+//                                                                                                                                                                
 /////////////////////////////////////////////////////////////////////////////////////
 
 // Lets Decorate the Cake!
-const flattenStylesFromTwoDoms = async (baseDom, augDom) => {
+const flattenStyles = async (baseDom, augDom) => {
 
     // Gather Ingredients for Cake
     const cake = createNode(wrapInDiv(baseDom))
@@ -275,7 +275,7 @@ const flattenStylesFromTwoDoms = async (baseDom, augDom) => {
     let highlights = []
     icingArray.forEach(icingNode => {
 
-        // Get Good Icling Flavors
+        // Get Good Icing Flavors
         let flavors = getGoodFlavors(icingNode, highlights) // pushes highlights as well
 
         // Locate Good / Bad Cakes and Store References
@@ -297,7 +297,7 @@ const flattenStylesFromTwoDoms = async (baseDom, augDom) => {
     return cake.innerHTML
 
     /////////////////////////////////////////////////////////////
-    //            Sub Functions for  flattenStylesFromTwoDoms             //
+    //            Sub Functions for  flattenStyles             //
     /////////////////////////////////////////////////////////////
 
     function wrapInDiv(string) {
@@ -421,10 +421,10 @@ const flattenStylesFromTwoDoms = async (baseDom, augDom) => {
             nextChildren.forEach(child => {
                 nextContext += child.element.textContent
             })
-            nextContext = nextContext.slice(0,10)
-            
+            nextContext = nextContext.slice(0, 10)
+
             // Combine Context
-            let icingContext = previousContext  + targetElementText +  nextContext
+            let icingContext = previousContext + targetElementText + nextContext
 
             // Find Cake Blocks with Icing Context
             let blocks = []
@@ -442,17 +442,11 @@ const flattenStylesFromTwoDoms = async (baseDom, augDom) => {
         })
     }
 
-    // End of flattenStylesFromTwoDoms
 }
-
 
 export const test = () => {
     console.log("%c Document Converter Module Loaded!", "color: hsl(199, 76%, 59%);")
 };
-
-// module.exports = {
-//         test
-// }
 
 /// DIRTY HACK!
 if (true) {
