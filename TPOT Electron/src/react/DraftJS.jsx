@@ -4,9 +4,55 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 
-import IconButton from '@material-ui/core/IconButton';
+// Draft JS Vanilla
+import { EditorState, RichUtils, Modifier, convertToRaw, } from 'draft-js';
+import Immutable from 'immutable'
 
-// Menu Button Icons
+// Draft JS Plugins
+import Editor, { createEditorStateWithText } from 'draft-js-plugins-editor';
+import createInlineToolbarPlugin, { Separator } from 'draft-js-inline-toolbar-plugin';
+import createSideToolbarPlugin from 'draft-js-side-toolbar-plugin';
+import createImagePlugin from 'draft-js-image-plugin';
+import 'draft-js-inline-toolbar-plugin/lib/plugin.css';
+import 'draft-js-side-toolbar-plugin/lib/plugin.css';
+import {
+    ItalicButton,
+    BoldButton,
+    UnderlineButton,
+    CodeButton,
+    HeadlineOneButton,
+    HeadlineTwoButton,
+    HeadlineThreeButton,
+    UnorderedListButton,
+    OrderedListButton,
+    BlockquoteButton,
+    CodeBlockButton,
+} from 'draft-js-buttons';
+
+// Draft JS Utiliites
+import { stateFromElement } from 'draft-js-import-element'
+import createStyles from 'draft-js-custom-styles';
+import {
+    getSelectedBlocksMap,
+    getSelectedBlocksList,
+    getSelectedBlock,
+    getSelectedBlocksType,
+    getSelectionText,
+    getSelectionInlineStyle,
+    clearEditorContent,
+    setBlockData,
+    handleNewLine,
+    getSelectionCustomInlineStyle,
+    toggleCustomInlineStyle,
+    removeAllInlineStyles
+} from 'draftjs-utils'
+
+// Draft JS Configuration
+import 'draft-js/dist/Draft.css'
+import './Editor.css'
+
+// Draft JS Icons
+import IconButton from '@material-ui/core/IconButton';
 import BoldIcon from 'mdi-material-ui/FormatBold'
 import ItalicIcon from 'mdi-material-ui/FormatItalic'
 import UnderlineIcon from 'mdi-material-ui/FormatUnderline'
@@ -23,32 +69,6 @@ import IndentIcon from 'mdi-material-ui/FormatIndentIncrease'
 import HighlightIcon from 'mdi-material-ui/Marker'
 import EmojiIcon from 'mdi-material-ui/EmoticonExcited'
 
-// Draft JS
-import Editor from 'draft-js-plugins-editor';
-import { EditorState, RichUtils, Modifier } from 'draft-js';
-import { stateFromElement } from 'draft-js-import-element'
-import Immutable from 'immutable'
-// import {
-//     getSelectedBlocksMap,
-//     getSelectedBlocksList,
-//     getSelectedBlock,
-//     getSelectedBlocksType,
-//     getSelectionText,
-//     getSelectionInlineStyle,
-//     clearEditorContent,
-//     setBlockData,
-//     handleNewLine,
-//     getSelectionCustomInlineStyle,
-//     toggleCustomInlineStyle,
-//     removeAllInlineStyles
-// } from 'draftjs-utils'
-import createImagePlugin from 'draft-js-image-plugin';
-import createStyles from 'draft-js-custom-styles';
-import { convertToHTML } from 'draft-convert'
-import 'draft-js/dist/Draft.css'
-import './Editor.css'
-
-
 // Electron (change to import method later)
 const electron = window.require('electron')
 const remote = electron.remote
@@ -56,7 +76,49 @@ const app = remote.app
 const fs = remote.require('fs')
 const path = remote.require('path')
 
+// Custom/Community
 const createNode = require('create-node')
+
+
+// PLUGINS
+///////////////////////////////////////////////////////////////////////////////////////////////////
+
+// Toolbar
+const inlineToolbarPlugin = createInlineToolbarPlugin({
+    structure: [
+        BoldButton,
+        ItalicButton,
+        UnderlineButton,
+        CodeButton,
+        Separator,
+        HeadlineOneButton,
+        HeadlineTwoButton,
+        HeadlineThreeButton,
+        UnorderedListButton,
+        OrderedListButton,
+        BlockquoteButton,
+        CodeBlockButton
+    ]
+});
+const { InlineToolbar } = inlineToolbarPlugin;
+
+// Sidebar
+const sideToolbarPlugin = createSideToolbarPlugin({
+    structure: [
+        BoldButton,
+        ItalicButton,
+        UnderlineButton,
+        CodeButton,
+    ]
+});
+const { SideToolbar } = sideToolbarPlugin;
+
+// const imagePlugin = createImagePlugin();
+
+const plugins = [
+    inlineToolbarPlugin,
+    sideToolbarPlugin
+];
 
 // THEMING AND CSS 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
@@ -68,6 +130,11 @@ const MUIstyles = theme => ({
         flexGrow: 1,
         height: '100%',
         textAlign: 'left',
+        border: '1px solid blue',
+        paddingLeft: '64px',
+        paddingRight: '64px',
+        boxShadow: '0px',
+        overflow: 'visible',
         // padding: "32px",
         // '& span, h1, div': {
         //         lineHeight: "30.6px",
@@ -97,19 +164,37 @@ class Wysiwyg extends React.Component {
     // Either the (code.html) or (edited.html) can be sent via the Wordpress API. Edited has to be run through a utility though to clean up the code.
     // Eventually the Preview button in the bottom right will want to request a new preview environment. It could prompt the Editor to get its current code.
 
-    constructor(props) {
-        super(props);
-        this.state = {
-            editMode: this.props.editMode,
-            // editorState: EditorState.createWithContent(htmlContent2),
-            editorState: EditorState.createEmpty(),
-        };
-        this.focus = () => this.refs.editor.focus();
-        this.blur = () => this.refs.editor.blur()
-        this.onChange = (editorState) => this.setState({ editorState });
-        this.toggleStyle = this.toggleStyle.bind(this);
-        this.myBlockRenderer = this.myBlockRenderer.bind(this);
-    }
+    // constructor(props) {
+    //     super(props);
+
+    //     this.state = {
+    //         editMode: this.props.editMode,
+    //         // editorState: EditorState.createWithContent(htmlContent2),
+    //         editorState: EditorState.createEmpty(),
+    //     };
+
+    //     this.focus = () => this.refs.editor.focus();
+    //     this.blur = () => this.refs.editor.blur()
+    //     this.onChange = (editorState) => this.setState({ editorState });
+
+    //     this.toggleStyle = this.toggleStyle.bind(this);
+    //     this.getData = this.getData.bind(this)
+    //     this.myBlockRenderer = this.myBlockRenderer.bind(this);
+    // }
+
+    state = {
+        editorState: createEditorStateWithText("This is some starter text. Start typing!"),
+    };
+
+    focus = () => {
+        this.editor.focus();
+    };
+
+    onChange = (editorState) => {
+        this.setState({
+            editorState,
+        });
+    };
 
     // ComponentDidMount is an event that is fired off as soon as this react component is added to the dom (but not rendered immediately)
     // This is the best place to attach listeners, load an initial configuration for the class, and start timed services.
@@ -146,8 +231,13 @@ class Wysiwyg extends React.Component {
 
     }
 
-    getData() {
-        let block = this.state.editorState.getCurrentContent().getFirstBlock()
+    getData(e) {
+        // console.log(JSON.stringify(convertToRaw(this.state.editorState.getCurrentContent())))
+        console.group("DATA")
+        console.log("Editor State", this.state.editorState)
+        console.log("Block Map", convertToRaw(this.state.editorState.getCurrentContent()).blocks)
+        console.log("Entity Map", convertToRaw(this.state.editorState.getCurrentContent()).entityMap)
+        console.groupEnd()
         // console.log(block.key + '\n', block.text + '\n', block.type + '\n', block.depth + '\n', block.data)
     }
 
@@ -180,7 +270,6 @@ class Wysiwyg extends React.Component {
 
     async reloadEditor(html) {
 
-        const newContentState = stateFromElement(createNode("<div>" + html + "</div>"), OPTIONS)
         // await this.rest(300)
         // await this.loadOriginalState(content)
         // await this.loadEditedState(content)
@@ -188,6 +277,7 @@ class Wysiwyg extends React.Component {
         // console.log("Editor Reloaded with Content")
         // await this.saveEditorStateToFile()
         // console.log(newContentState)
+        const newContentState = stateFromElement(createNode("<div>" + html + "</div>"), OPTIONS)
         const newEditorState = EditorState.createWithContent(newContentState)
         this.setState({
             editorState: newEditorState,
@@ -391,7 +481,7 @@ class Wysiwyg extends React.Component {
                                     icon={button.icon}
                                 />
                             )}
-                            <button onClick={this.getData()}>GET DATA</button>
+                            <button onClick={this.getData}>GET DATA</button>
                             <select onChange={e => this.toggleFontSize(e.target.value)}>
                                 {options(['12px', '24px', '36px', '50px', '72px'])}
                             </select>
@@ -401,10 +491,10 @@ class Wysiwyg extends React.Component {
                         </div>
                         <Editor
                             id={'Editor'}
-                            ref="editor"
+                            ref={(element) => { this.editor = element; }}
                             placeholder="The editor is empty."
                             editorState={this.state.editorState}
-                            onChange={this.onChange.bind(this)}
+                            onChange={this.onChange}
                             customStyleMap={baseStyleMap}
                             customStyleFn={customStyleFn}
                             blockStyleFn={myBlockStyleFn}
@@ -412,6 +502,8 @@ class Wysiwyg extends React.Component {
                             plugins={plugins}
                             spellCheck={true}
                         />
+                        <InlineToolbar />
+                        <SideToolbar />
                     </React.Fragment>
                 }
             </div>
@@ -465,17 +557,6 @@ const BUTTONS = [
 // const htmlContent2 = ContentState.createFromBlockArray(blocksFromHtml.contentBlocks, blocksFromHtml.entityMap);
 
 
-
-// PLUGINS
-///////////////////////////////////////////////////////////////////////////////////////////////////
-
-const imagePlugin = createImagePlugin();
-
-const plugins = [
-    imagePlugin
-    // staticToolbarPlugin,
-    // inlineToolbarPlugin
-];
 
 
 
@@ -580,7 +661,6 @@ let OPTIONS = {
             elementStyles.push({ name: 'fontSize', data: element.style.fontSize })
         }
 
-        // console.log("STYLES: ", elementStyles)
         // Build Compound Style
         let styleName = 'CUSTOM_'
         let styleData = {}

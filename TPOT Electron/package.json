@@ -34,6 +34,7 @@
                 "draft-js-inline-toolbar-plugin": "^2.0.3",
                 "draft-js-link-plugin": "^1.2.2",
                 "draft-js-plugins-editor": "^2.1.1",
+                "draft-js-side-toolbar-plugin": "^3.0.0",
                 "draft-js-static-toolbar-plugin": "^2.0.2",
                 "draftjs-utils": "^0.9.4",
                 "electron-debug": "^2.0.0",

@@ -16,146 +16,150 @@ import 'typeface-roboto'
 const drawerWidth = 200;
 
 const styles = theme => ({
-        root: {
-                flexGrow: 1,
-                height: "100%",
-                zIndex: 1,
-                overflow: 'hidden',
-                position: 'relative',
-                display: 'flex',
+    root: {
+        flexGrow: 1,
+        height: "100%",
+        zIndex: 1,
+        overflow: 'hidden',
+        position: 'relative',
+        display: 'flex',
+    },
+    preview: {
+        position: "fixed",
+        right: 20,
+        bottom: 20
+    },
+    appBar: {
+        zIndex: theme.zIndex.drawer + 1,
+        transition: theme.transitions.create(['width', 'margin'], {
+            easing: theme.transitions.easing.sharp,
+            duration: theme.transitions.duration.leavingScreen,
+        }),
+    },
+    appBarShift: {
+        marginLeft: drawerWidth,
+        width: `calc(100% - ${drawerWidth}px)`,
+        transition: theme.transitions.create(['width', 'margin'], {
+            easing: theme.transitions.easing.sharp,
+            duration: theme.transitions.duration.enteringScreen,
+        }),
+    },
+    menuButton: {
+        marginLeft: 12,
+        marginRight: 36,
+    },
+    hide: {
+        display: 'none',
+    },
+    drawerPaper: {
+        overflowX: 'hidden',
+        position: 'relative',
+        whiteSpace: 'nowrap',
+        width: drawerWidth,
+        transition: theme.transitions.create('width', {
+            easing: theme.transitions.easing.sharp,
+            duration: theme.transitions.duration.enteringScreen,
+        }),
+    },
+    drawerPaperClose: {
+        overflowX: 'hidden',
+        transition: theme.transitions.create('width', {
+            easing: theme.transitions.easing.sharp,
+            duration: theme.transitions.duration.leavingScreen,
+        }),
+        width: theme.spacing.unit * 7,
+        [theme.breakpoints.up('sm')]: {
+            width: theme.spacing.unit * 9,
         },
-        preview: {
-                position: "fixed",
-                right: 20,
-                bottom: 20
+    },
+    toolbar: {
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'flex-end',
+        padding: '0 8px',
+        ...theme.mixins.toolbar,
+    },
+    content: {
+        flexGrow: 1,
+        backgroundColor: theme.palette.background.default,
+        padding: theme.spacing.unit * 3,
+    },
+    contentFrame: {
+        padding: 16,
+        boxSizing: 'border-box',
+        overflowX: 'visible',
+        overflowY: 'scroll',
+        position: "absolute",
+        top: (64),
+        left: "50%",
+        transform: "translateX(-50%)",
+        width: 800,
+        height: "calc(100vh - 48px)",
+    },
+    contentPaper: {
+        overflowY: 'hidden',
+        marginTop: 32,
+        boxShadow: "0px",
+        // border: '1px solid red',
+        marginBottom: 128,
+        minHeight: 500,
+        WebkitScrollbarClass: {
+            width: "1em"
         },
-        appBar: {
-                zIndex: theme.zIndex.drawer + 1,
-                transition: theme.transitions.create(['width', 'margin'], {
-                        easing: theme.transitions.easing.sharp,
-                        duration: theme.transitions.duration.leavingScreen,
-                }),
+        WebkitScrollbarTrackClass: {
+            WebkitBoxShadow: "inset 0 0 6px rgba(0,0,0,0.3)"
         },
-        appBarShift: {
-                marginLeft: drawerWidth,
-                width: `calc(100% - ${drawerWidth}px)`,
-                transition: theme.transitions.create(['width', 'margin'], {
-                        easing: theme.transitions.easing.sharp,
-                        duration: theme.transitions.duration.enteringScreen,
-                }),
-        },
-        menuButton: {
-                marginLeft: 12,
-                marginRight: 36,
-        },
-        hide: {
-                display: 'none',
-        },
-        drawerPaper: {
-                overflowX: 'hidden',
-                position: 'relative',
-                whiteSpace: 'nowrap',
-                width: drawerWidth,
-                transition: theme.transitions.create('width', {
-                        easing: theme.transitions.easing.sharp,
-                        duration: theme.transitions.duration.enteringScreen,
-                }),
-        },
-        drawerPaperClose: {
-                overflowX: 'hidden',
-                transition: theme.transitions.create('width', {
-                        easing: theme.transitions.easing.sharp,
-                        duration: theme.transitions.duration.leavingScreen,
-                }),
-                width: theme.spacing.unit * 7,
-                [theme.breakpoints.up('sm')]: {
-                        width: theme.spacing.unit * 9,
-                },
-        },
-        toolbar: {
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'flex-end',
-                padding: '0 8px',
-                ...theme.mixins.toolbar,
-        },
-        content: {
-                flexGrow: 1,
-                backgroundColor: theme.palette.background.default,
-                padding: theme.spacing.unit * 3,
-        },
-        contentFrame: {
-                padding: 16,
-                boxSizing: 'border-box',
-                overflow: 'scroll',
-                position: "absolute",
-                top: (64),
-                left: "50%",
-                transform: "translateX(-50%)",
-                width: 800,
-                height: "calc(100vh - 48px)",
-        },
-        contentPaper: {
-                overflowY: 'hidden',
-                marginTop: 32,
-                marginBottom: 128,
-                minHeight: 500,
-                WebkitScrollbarClass: {
-                        width: "1em"
-                },
-                WebkitScrollbarTrackClass: {
-                        WebkitBoxShadow: "inset 0 0 6px rgba(0,0,0,0.3)"
-                },
-                WebkitScrollbarThumbClass: {
-                        backgroundColor: "darkgrey",
-                        outline: "1px solid slategrey"
-                }
-        },
+        WebkitScrollbarThumbClass: {
+            backgroundColor: "darkgrey",
+            outline: "1px solid slategrey"
+        }
+    },
 });
 
 class MiniDrawer extends React.Component {
-        // constructor(props) {
-        //         super(props);
-        // }
+    // constructor(props) {
+    //         super(props);
+    // }
 
-        render() {
-                const { classes } = this.props;
+    render() {
+        const { classes } = this.props;
 
-                return (
-                        <div className={classes.root}>
-                                {/* MENU DRAWER */}
-                                <Drawer variant="permanent" open={!this.props.drawerOpen} classes={{ paper: classNames(classes.drawerPaper, !this.props.drawerOpen && classes.drawerPaperClose),  }} >
-                                        <div className={classes.toolbar} />
-                                        <DrawerMenuList />
-                                </Drawer>
+        return (
+            <div className={classes.root}>
+                {/* MENU DRAWER */}
+                <Drawer variant="permanent" open={!this.props.drawerOpen} classes={{ paper: classNames(classes.drawerPaper, !this.props.drawerOpen && classes.drawerPaperClose), }} >
+                    <div className={classes.toolbar} />
+                    <DrawerMenuList />
+                </Drawer>
 
-                                {/* DOCUMENT AREA */}
-                                <main className={classes.content}>
-                                        <div className={classes.toolbar} />
+                {/* DOCUMENT AREA */}
+                <main className={classes.content}>
+                    <div className={classes.toolbar} />
 
-                                        {/* Main Content */}
-                                        <div className={classes.contentFrame}>
-                                                <Paper className={classes.contentPaper}>
-                                                        <DraftJS editMode={this.props.editMode}/>
-                                                </Paper>
-                                        </div>
+                    {/* Main Content */}
+                    <div className={classes.contentFrame}>
+                        <DraftJS editMode={this.props.editMode} />
+                        {/* <Paper className={classes.contentPaper}>
+                            <DraftJS editMode={this.props.editMode} />
+                        </Paper> */}
+                    </div>
 
-                                        {/* Preview Button */}
-                                        <Tooltip title="Preview Page" TransitionComponent={Zoom}>
-                                                <Button variant="fab" color="primary" aria-label="Preview" className={classes.preview}>
-                                                        <PreviewIcon />
-                                                </Button>
-                                        </Tooltip>
-                                </main>
+                    {/* Preview Button */}
+                    <Tooltip title="Preview Page" TransitionComponent={Zoom}>
+                        <Button variant="fab" color="primary" aria-label="Preview" className={classes.preview}>
+                            <PreviewIcon />
+                        </Button>
+                    </Tooltip>
+                </main>
 
-                        </div>
-                )
-        }
+            </div>
+        )
+    }
 }
 
 MiniDrawer.propTypes = {
-        classes: PropTypes.object.isRequired,
-        theme: PropTypes.object.isRequired,
+    classes: PropTypes.object.isRequired,
+    theme: PropTypes.object.isRequired,
 };
 
 export default withStyles(styles, { withTheme: true })(MiniDrawer);
