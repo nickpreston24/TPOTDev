@@ -64,6 +64,8 @@
                 "react-dom": "16.4.0",
                 "react-fontawesome": "^1.6.1",
                 "react-frame-component": "^4.0.1",
+                "react-json-pretty": "^1.7.9",
+                "snake-case": "^2.1.0",
                 "to-virtual-dom": "^1.0.0",
                 "typeface-roboto": "0.0.54",
                 "underscore": "^1.9.1",

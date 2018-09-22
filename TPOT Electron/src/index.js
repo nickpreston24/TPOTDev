@@ -21,17 +21,16 @@ import './index.css';
 // const path = remote.require('path') 
 
 // Custom/Community
-const cat = require('./modules/cat') //Test module; not needed.
 
 
-// Set up Initial State & Load Default Configuration from File
+// Set up Store Here (if needed)
     // Code Here
 
 // Initialization of React App
 ReactDOM.render(<App />, document.getElementById('root'));
 
 // Initialize other tasks that aren't immediately important
-cat.test();
+
 
 // //[MP] - psuedocode (put inside a class, if possible, else just use inside editor.html)
 // async function ConvertDocument(filename) {

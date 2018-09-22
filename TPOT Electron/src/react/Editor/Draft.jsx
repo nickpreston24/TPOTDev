@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 
 // Draft JS Vanilla
-import { EditorState, RichUtils, Modifier, convertToRaw, } from 'draft-js';
+import { EditorState, RichUtils, Modifier, convertToRaw, DraftInlineStyleType} from 'draft-js';
 import 'draft-js/dist/Draft.css'
 import './config/Draft.css'
 
@@ -18,8 +18,10 @@ import { getSelectedBlocksMap, getSelectedBlocksList, getSelectedBlock, getBlock
 // Custom DraftJS Architecture
 import Editor, { createEditorStateWithText } from 'draft-js-plugins-editor';
 import { plugins, InlineToolbar, SideToolbar } from './plugins/plugins'
-import { OPTIONS, styles, exporter, customStyleFn, baseStyleMap, myBlockStyleFn, blockRenderMap } from './utilities/transforms'
+import { stateFromElementConfig, styles, exporter, customStyleFn, baseStyleMap, myBlockStyleFn, blockRenderMap, draftContentFromHtml } from './utilities/transforms'
 import MuiToolbar from './components/MuiToolbar'
+
+import JSONPretty from 'react-json-pretty';
 
 // Electron (change to import method later)
 const electron = window.require('electron')
@@ -84,7 +86,9 @@ class Wysiwyg extends React.Component {
     // }
 
     state = {
+        originalState: "I am Original",
         editorState: createEditorStateWithText("This is some starter text. Start typing!"),
+        codeState: "I am Code",
     };
 
     focus = () => {
@@ -169,17 +173,19 @@ class Wysiwyg extends React.Component {
         // console.log("Editor Reloaded with Content")
         // await this.saveEditorStateToFile()
         // console.log(newContentState)
-        const newContentState = stateFromElement(createNode("<div>" + html + "</div>"), OPTIONS)
+        const newContentState = draftContentFromHtml(html, stateFromElementConfig, baseStyleMap)
         const newEditorState = EditorState.createWithContent(newContentState)
+        const rawStateAsText = convertToRaw(newContentState).blocks
         this.setState({
+            originalState: html,
             editorState: newEditorState,
-            originalState: html
+            codeState: rawStateAsText,
         })
 
     }
 
     async saveEditorStateToFile() {
-        await rest(800)
+        await rest(0)
         await this.saveOriginalState()
         await this.saveEditedState()
         await this.saveCodeState()
@@ -260,6 +266,9 @@ class Wysiwyg extends React.Component {
     //   UTILITY FUNCTIONS   //
 
     getData = () => {
+        const editorState = this.state.editorState
+        console.log("BLOCKS", convertToRaw(editorState.getCurrentContent()).blocks)
+
         let blockKey = this.state.editorState.getSelection().getFocusKey()
         let block = this.state.editorState.getCurrentContent().getBlockForKey(blockKey)
         let style = block.getInlineStyleAt(57)
@@ -277,17 +286,11 @@ class Wysiwyg extends React.Component {
 
     // RENDER
     ///////////////////////////////////////////////////////////////////////////////////////////////////
-    
+
     // After the class is constructed and its data is mounted to the React DOM, render() is fired, which takes displays the elements with data from the instance's current state.
     render() {
-        const classes = this.props.classes
-        // const state = this.state
-        const editMode = this.props.editMode
-        // console.log(state)
-
-        // console.log("STATE", this.state.editorState)
-
-
+        const { classes, editMode } = this.props
+        const editorState = this.state.editorState
 
         return (
             <div id="Editor" className={classes.root} onClick={this.focus}>
@@ -296,30 +299,32 @@ class Wysiwyg extends React.Component {
                     <React.Fragment>
                         {this.state.originalState}
                     </React.Fragment>
-                    // <Frame style={{ border: '0px', width: '100%', height: '100%', border: '0px solid red' }} head={<React.Fragment><style>{'html{height: 100%}'}</style><style>{VCLASS}</style></React.Fragment>}>
-                    //         {this.state.originalState}
-                    // </Frame>
                 }
                 {/* Code */}
                 {editMode === "code" &&
                     <React.Fragment>
-                        {this.state.codeState}
+                        <JSONPretty id="json-pretty" json={this.state.codeState}></JSONPretty>
                     </React.Fragment>
                 }
                 {/* Edited */}
                 {editMode === "edited" &&
                     <React.Fragment>
-                        <MuiToolbar />
+                    <MuiToolbar getData={this.getData}/>
                         <Editor
                             id={'Editor'}
                             ref={(element) => { this.editor = element; }}
                             placeholder="The editor is empty."
                             editorState={this.state.editorState}
                             onChange={this.onChange}
-                            customStyleMap={baseStyleMap}
-                            customStyleFn={customStyleFn}
-                            blockStyleFn={myBlockStyleFn}
-                            blockRenderMap={blockRenderMap}
+                        
+                            customStyleMap={baseStyleMap} // STYLE MAP TO TYPE
+                            blockRenderMap={blockRenderMap} // BLOCK MAP MAP TO TYPE
+                            
+                            // customStyleFn={customStyleFn} // STYLE & ENTITY CLASS FUNCTION
+                            // blockStyleFn={CustomBlock} // BLOCK & ATOMIC CLASS FUNCTION
+                            
+                            // blockRendererFn={} // BLOCK ?/& ATOMIC PROPS=>COMP RENDERER
+
                             plugins={plugins}
                             spellCheck={true}
                         />
@@ -337,3 +342,19 @@ Wysiwyg.propTypes = {
 };
 
 export default withStyles(MUIstyles)(Wysiwyg)
+
+
+const CustomInline = (draftInlineStyle, contentBlock, editor) => {
+    console.group()
+    console.log(draftInlineStyle)
+    console.log(contentBlock.text)
+    console.log(editor.getProps())
+    console.groupEnd()
+}
+
+const CustomBlock = (contentBlock, editor) => {
+    console.group()
+    console.log(contentBlock)
+    console.log(editor)
+    console.groupEnd()
+}

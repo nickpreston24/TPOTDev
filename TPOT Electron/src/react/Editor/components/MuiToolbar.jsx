@@ -69,7 +69,7 @@ class MuiToolbar extends React.Component {
                     />
                 )}
                 <button onClick={(e) => this.toggleColor()}>TOGGLE</button>
-                <button onClick={this.getData}>DATA</button>
+                <button onClick={this.props.getData}>DATA</button>
                 <select onChange={e => this.toggleFontSize(e.target.value)}>
                     {options(['12px', '24px', '36px', '50px', '72px'])}
                 </select>
