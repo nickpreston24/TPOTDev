@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 
 // Draft JS Vanilla
-import { EditorState, RichUtils, Modifier, convertToRaw, DraftInlineStyleType} from 'draft-js';
+import { EditorState, RichUtils, Modifier, convertToRaw, DraftInlineStyleType } from 'draft-js';
 import 'draft-js/dist/Draft.css'
 import './config/Draft.css'
 
@@ -309,20 +309,20 @@ class Wysiwyg extends React.Component {
                 {/* Edited */}
                 {editMode === "edited" &&
                     <React.Fragment>
-                    <MuiToolbar getData={this.getData}/>
+                        <MuiToolbar getData={this.getData} />
                         <Editor
                             id={'Editor'}
                             ref={(element) => { this.editor = element; }}
                             placeholder="The editor is empty."
                             editorState={this.state.editorState}
                             onChange={this.onChange}
-                        
+
                             customStyleMap={baseStyleMap} // STYLE MAP TO TYPE
                             blockRenderMap={blockRenderMap} // BLOCK MAP MAP TO TYPE
-                            
+
                             // customStyleFn={customStyleFn} // STYLE & ENTITY CLASS FUNCTION
                             // blockStyleFn={CustomBlock} // BLOCK & ATOMIC CLASS FUNCTION
-                            
+
                             // blockRendererFn={} // BLOCK ?/& ATOMIC PROPS=>COMP RENDERER
 
                             plugins={plugins}
