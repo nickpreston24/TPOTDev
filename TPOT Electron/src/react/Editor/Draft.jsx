@@ -6,8 +6,8 @@ import { withStyles } from '@material-ui/core/styles';
 
 // Draft JS Vanilla
 import { EditorState, RichUtils, Modifier, convertToRaw, DraftInlineStyleType } from 'draft-js';
-import 'draft-js/dist/Draft.css'
-import './config/Draft.css'
+// import 'draft-js/dist/Draft.css'
+// import './config/Draft.css'
 
 // Draft JS Utiliites
 import { stateFromElement } from 'draft-js-import-element'
@@ -31,7 +31,6 @@ const fs = remote.require('fs')
 const path = remote.require('path')
 
 // Custom/Community
-const createNode = require('create-node')
 
 
 
@@ -43,21 +42,25 @@ const MUIstyles = theme => ({
         display: 'flex',
         flexWrap: 'wrap',
         flexGrow: 1,
-        height: '100%',
-        textAlign: 'left',
-        // border: '1px solid blue',
-        paddingLeft: '64px',
-        paddingRight: '64px',
+        background: "white",
+        height: 'calc(100vh - 64px)',
         boxShadow: '0px',
-        overflow: 'visible',
-        // padding: "32px",
-        // '& span, h1, div': {
-        //         lineHeight: "30.6px",
-        //         fontFamily: "Helvetica",
-        //         fontSize: "18px",
-        //         marginBottom: "21.6px"
-        // },
+        overflow: 'hidden',
+        // border: '4px solid red',
     },
+    editorFrame: {
+        padding: 80,
+        position: 'relative',
+        left: '50%',
+        transform: 'translateX(-50%)',
+        minWidth: 700,
+        width: "70vw",
+        maxWidth: 1000,
+        overflowX: 'hidden',
+        overflowY: 'scroll',
+        // backgroundColor: '#f0f0f0',
+        // border: '4px solid blue !important',
+    }
 });
 
 
@@ -309,8 +312,8 @@ class Wysiwyg extends React.Component {
                 }
                 {/* Edited */}
                 {editMode === "edited" &&
-                    <React.Fragment>
-                        <MuiToolbar getData={this.getData} />
+                    <div className={classes.editorFrame}>
+                        {/* <MuiToolbar getData={this.getData} /> */}
                         <Editor
                             id={'Editor'}
                             ref={(element) => { this.editor = element; }}
@@ -331,7 +334,7 @@ class Wysiwyg extends React.Component {
                         />
                         <InlineToolbar />
                         <SideToolbar />
-                    </React.Fragment>
+                    </div>
                 }
             </div>
         );
