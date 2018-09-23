@@ -1,5 +1,8 @@
 body {
   margin: 0;
   padding: 0;
+  position: relative;
+  overflow: hidden;
+  /* border: 4px solid cyan; */
   font-family: sans-serif;
 }

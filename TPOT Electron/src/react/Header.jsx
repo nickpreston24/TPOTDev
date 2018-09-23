@@ -11,9 +11,9 @@ import Auth from "./Auth";
 
 const styles = {
     root: {
+        display: 'flex',
         flexGrow: 1,
-        zIndex: 1201,
-        position: "fixed"
+        position: "relative",
     },
     flex: {
         flexGrow: 1,

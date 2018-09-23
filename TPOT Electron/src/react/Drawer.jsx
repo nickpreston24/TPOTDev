@@ -16,44 +16,12 @@ import 'typeface-roboto'
 const drawerWidth = 200;
 
 const styles = theme => ({
-    root: {
-        flexGrow: 1,
-        height: "100%",
-        zIndex: 1,
+    drawerPaper: {
+        // border: '4px solid yellow',
         overflow: 'hidden',
         position: 'relative',
-        display: 'flex',
-    },
-    preview: {
-        position: "fixed",
-        right: 20,
-        bottom: 20
-    },
-    appBar: {
-        zIndex: theme.zIndex.drawer + 1,
-        transition: theme.transitions.create(['width', 'margin'], {
-            easing: theme.transitions.easing.sharp,
-            duration: theme.transitions.duration.leavingScreen,
-        }),
-    },
-    appBarShift: {
-        marginLeft: drawerWidth,
-        width: `calc(100% - ${drawerWidth}px)`,
-        transition: theme.transitions.create(['width', 'margin'], {
-            easing: theme.transitions.easing.sharp,
-            duration: theme.transitions.duration.enteringScreen,
-        }),
-    },
-    menuButton: {
-        marginLeft: 12,
-        marginRight: 36,
-    },
-    hide: {
-        display: 'none',
-    },
-    drawerPaper: {
-        overflowX: 'hidden',
-        position: 'relative',
+        float: 'left',
+        height: 'calc(100vh - 64px)',
         whiteSpace: 'nowrap',
         width: drawerWidth,
         transition: theme.transitions.create('width', {
@@ -62,57 +30,21 @@ const styles = theme => ({
         }),
     },
     drawerPaperClose: {
-        overflowX: 'hidden',
+        overflow: 'hidden',
         transition: theme.transitions.create('width', {
             easing: theme.transitions.easing.sharp,
             duration: theme.transitions.duration.leavingScreen,
         }),
-        width: theme.spacing.unit * 7,
-        [theme.breakpoints.up('sm')]: {
-            width: theme.spacing.unit * 9,
-        },
+        width: 0,
+        // width: theme.spacing.unit * 7,
+        // [theme.breakpoints.up('sm')]: {
+        //     width: theme.spacing.unit * 9,
+        // },
     },
-    toolbar: {
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'flex-end',
-        padding: '0 8px',
-        ...theme.mixins.toolbar,
-    },
-    content: {
-        flexGrow: 1,
-        backgroundColor: theme.palette.background.default,
-        padding: theme.spacing.unit * 3,
-    },
-    contentFrame: {
-        padding: 16,
-        boxSizing: 'border-box',
-        overflowX: 'visible',
-        overflowY: 'scroll',
-        position: "absolute",
-        top: (64),
-        left: "50%",
-        transform: "translateX(-50%)",
-        width: 800,
-        height: "calc(100vh - 48px)",
-    },
-    contentPaper: {
-        overflowY: 'hidden',
-        marginTop: 32,
-        boxShadow: "0px",
-        // border: '1px solid red',
-        marginBottom: 128,
-        minHeight: 500,
-        WebkitScrollbarClass: {
-            width: "1em"
-        },
-        WebkitScrollbarTrackClass: {
-            WebkitBoxShadow: "inset 0 0 6px rgba(0,0,0,0.3)"
-        },
-        WebkitScrollbarThumbClass: {
-            backgroundColor: "darkgrey",
-            outline: "1px solid slategrey"
-        }
+    preview: {
+        position: "fixed",
+        right: 20,
+        bottom: 20
     },
 });
 
@@ -120,39 +52,39 @@ class MiniDrawer extends React.Component {
     // constructor(props) {
     //         super(props);
     // }
+    handleDrawerClose = () => {
+        this.props.drawerOpen = false
+        console.log("clicked!")
+    }
 
     render() {
         const { classes } = this.props;
 
         return (
-            <div className={classes.root}>
+            <React.Fragment>
+
                 {/* MENU DRAWER */}
                 <Drawer variant="permanent" open={!this.props.drawerOpen} classes={{ paper: classNames(classes.drawerPaper, !this.props.drawerOpen && classes.drawerPaperClose), }} >
-                    <div className={classes.toolbar} />
-                    <DrawerMenuList />
+                    {/* <div className={classes.toolbar} /> */}
+                    <DrawerMenuList onClick={this.handleDrawerClose}/>
                 </Drawer>
 
                 {/* DOCUMENT AREA */}
-                <main className={classes.content}>
-                    <div className={classes.toolbar} />
 
-                    {/* Main Content */}
-                    <div className={classes.contentFrame}>
-                        <Draft editMode={this.props.editMode} />
-                        {/* <Paper className={classes.contentPaper}>
-                            <DraftJS editMode={this.props.editMode} />
-                        </Paper> */}
-                    </div>
+                {/* <div className={classes.toolbar} /> */}
 
-                    {/* Preview Button */}
-                    <Tooltip title="Preview Page" TransitionComponent={Zoom}>
-                        <Button variant="fab" color="primary" aria-label="Preview" className={classes.preview}>
-                            <PreviewIcon />
-                        </Button>
-                    </Tooltip>
-                </main>
+                {/* Main Content */}
+                <Draft editMode={this.props.editMode} />
 
-            </div>
+                {/* Preview Button */}
+                <Tooltip title="Preview Page" TransitionComponent={Zoom}>
+                    <Button variant="fab" color="primary" aria-label="Preview" className={classes.preview}>
+                        <PreviewIcon />
+                    </Button>
+                </Tooltip>
+
+
+            </React.Fragment>
         )
     }
 }
