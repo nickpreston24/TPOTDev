@@ -5,7 +5,7 @@ const config = require('../../config/environment.js').config;
 var app = firebase.initializeApp(config);
 
 
-/// Wrapper class for firebase functions
+// Wrapper class for firebase functions
 export default class FirebaseCredentials {
 
     constructor(email, password) {
