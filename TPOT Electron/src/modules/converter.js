@@ -449,6 +449,6 @@ export const test = () => {
 };
 
 /// DIRTY HACK!
-if (true) {
-    convertFile('C:\\Users\\Braden\\Documents\\GitHub\\TPOTDev\\TPOT Electron\\src\\config\\MasterSample.docx')
-}
+// if (true) {
+//     convertFile('C:\\Users\\Braden\\Documents\\GitHub\\TPOTDev\\TPOT Electron\\src\\config\\MasterSample.docx')
+// }
