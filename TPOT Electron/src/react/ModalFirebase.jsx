@@ -10,11 +10,8 @@ import DialogContentText from "@material-ui/core/DialogContentText";
 import Slide from "@material-ui/core/Slide";
 import TextField from "@material-ui/core/TextField";
 import FireBaseLogo from "../media/firebase.png";
-
-// var firebase = require("firebase/app");
-// require("firebase/auth");
-// const config = require("../config/environment").config;
-// let app = firebase.initializeApp(config);
+import FirebaseCredentials from "../modules/firebase/FirebaseAuth";
+import { AppInfo } from "app-builder-lib";
 
 function Transition(props) {
   return <Slide direction="up" {...props} />;
@@ -71,31 +68,15 @@ class SignIn extends React.Component {
     let email = "michael.n.preston@gmail.com";
     let password = "Mercury10";
 
-// let result = await app
-//   .auth()
-//   .signInWithEmailAndPassword(email, password)
-//   .then(result => {
-//     const user = result.user;
-//     if (user) console.log("user signed in!");
-//   })
-//   .then(result => {
-//     firebase
-//       .auth()
-//       .currentUser.getIdToken(true)
-//       .then(id => {
-//         console.log("idToken: \n", id);
-//         // console.log('User: ', firebase.auth().currentUser).name;
-//         success = true;
-//         // return success;
-//       })
-//       .catch(console.log);
-//   });
+    var x = 1;
+    var y = 2;
 
-// console.log(success, result);
-
-    // let authenticator = new FirebaseAuth(email, password);
-    //   if (success) closeModal(this);
-    // else, display warning text above user/password fields
+    var fb = new FirebaseCredentials(email, password);
+    // console.log(await fb.login());
+    // console.log(fb);
+    // console.log(fb.token);
+    await fb.login();
+    console.log(x);
   }
 
   closeModal = e => {
@@ -105,7 +86,7 @@ class SignIn extends React.Component {
       this.props.onUpdate(false);
     }
 
-    console.log("captured data login");
+    // console.log("captured data login");
   };
 
   clickAwayModal = e => {

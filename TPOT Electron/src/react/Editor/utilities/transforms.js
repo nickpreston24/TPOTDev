@@ -127,7 +127,7 @@ function myBlockStyleFn(contentBlock) {
 
 // make ContentState from HTML String
 const draftContentFromHtml = (html, stateFromElementConfig, baseStyleMap) => {
-    let contentState = stateFromElement(createNode("<div>" + html + "</div>"), stateFromElementConfig)
+    let contentState = stateFromElement(createNode(`<div>${html}</div>`), stateFromElementConfig)
     let newContentState = flattenInlineStyleRanges(contentState, baseStyleMap)
     return newContentState
 }
@@ -269,9 +269,9 @@ const stateFromElementConfig = {
         })
 
         // Final Inline Style
-            styleName = prefix + styleName
-            baseStyleMap[styleName] = styleData
-            return Style(styleName);
+        styleName = prefix + styleName
+        baseStyleMap[styleName] = styleData
+        return Style(styleName);
 
     },
 

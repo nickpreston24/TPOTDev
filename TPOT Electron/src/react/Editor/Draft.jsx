@@ -91,8 +91,9 @@ class Wysiwyg extends React.Component {
         codeState: "I am Code",
     };
 
-    focus = () => {
-        this.editor.focus();
+    focus = () => {        
+        if(this.editor)
+         this.editor.focus();
     };
 
     onChange = (editorState) => {
