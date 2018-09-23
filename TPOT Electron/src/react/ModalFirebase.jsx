@@ -10,8 +10,7 @@ import DialogContentText from "@material-ui/core/DialogContentText";
 import Slide from "@material-ui/core/Slide";
 import TextField from "@material-ui/core/TextField";
 import FireBaseLogo from "../media/firebase.png";
-import FirebaseCredentials from "../modules/firebase/FirebaseAuth.js";
-import { AppInfo } from "app-builder-lib";
+import FirebaseCredentials from "../modules/firebase/firebaseAuth"
 
 function Transition(props) {
   return <Slide direction="up" {...props} />;
