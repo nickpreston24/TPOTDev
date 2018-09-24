@@ -1,13 +1,9 @@
 var firebase = require("firebase/app");
 require("firebase/auth");
-
 const config = require('../../config/environment.js').config;
 var app = firebase.initializeApp(config);
-
-
 // Wrapper class for firebase functions
 export default class FirebaseCredentials {
-
     constructor(email, password) {
         this.email = email;
         this.password = password;
@@ -15,20 +11,9 @@ export default class FirebaseCredentials {
     }
 
     async login() {
+        console.log('inside login()');
         return app.auth()
             .signInWithEmailAndPassword(this.email, this.password)
-            .then(result => {
-                const user = result.user;
-                // console.log("Hello \n", user);
-                if (user) console.log("user signed in!")
-            }).then((result) => {
-                firebase.auth().currentUser.getIdToken(true)
-                    .then((id) => {
-                        console.log('idToken: \n', id);
-                        this.token = id;
-                        // console.log('User: ', firebase.auth().currentUser).name;
-                    }).catch(console.log)
-            })
             .catch(console.log);
     }
 

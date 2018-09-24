@@ -67,15 +67,17 @@ class SignIn extends React.Component {
     let email = "michael.n.preston@gmail.com";
     let password = "Mercury10";
 
-    var x = 1;
-    var y = 2;
-
+    console.log("before login");
     var fb = new FirebaseCredentials(email, password);
-    // console.log(await fb.login());
-    // console.log(fb);
-    // console.log(fb.token);
-    await fb.login();
-    console.log(x);
+    var r = await fb.login();
+    console.log("after login");
+
+    //todo: get the user.idtoken
+    // r.user.getTokenId(true).then(console.log);
+    console.log(r);
+    var user = r.user;
+    console.log("user\t", user);
+    console.log("userid=\t", r.user.id);
   }
 
   closeModal = e => {
