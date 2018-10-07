@@ -9,7 +9,7 @@ import { IconButton } from "@material-ui/core";
 import EditMode from "./EditMode";
 import Auth from "./Auth";
 
-const styles = {
+const styles = theme => ({
     root: {
         display: 'flex',
         flexGrow: 1,
@@ -18,6 +18,10 @@ const styles = {
     flex: {
         flexGrow: 1,
         border: "1px solid blue"
+    },
+    contrastBar: {
+        minHeight: 16,
+        background: theme.palette.primary.medium
     },
     menuButton: {
         marginLeft: -12,
@@ -29,7 +33,7 @@ const styles = {
         top: 0,
         border: "1px solid blue"
     }
-};
+});
 
 class SimpleAppBar extends React.Component {
     constructor(props) {
@@ -60,15 +64,25 @@ class SimpleAppBar extends React.Component {
 
     render() {
         const { classes } = this.props;
+
         return (
-            <div className={classes.root}>
+            <div id="Header" className={classes.root}>
                 <AppBar
                     className={classes.root}
                     position="static"
                     color="primary"
                     aria-label="AppBar"
                 >
-                    <Toolbar>
+                    <Toolbar
+                        variant="dense"
+                        classes={{ root: classes.contrastBar, dense: classes.contrastBar }}
+                    // className={classes.contrastBar}
+                    >
+                    {/* <span>Test</span> */}
+                    </Toolbar>
+                    <Toolbar
+                        // variant="dense"
+                    >
                         <IconButton
                             onClick={this.toggleMenu}
                             className={classes.menuButton}

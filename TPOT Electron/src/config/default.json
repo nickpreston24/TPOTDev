@@ -21,7 +21,7 @@
                 "experimentalFeatures": true,
                 "experimentalCanvasFeatures": true
             },
-            "backgroundColor": "#323544", // Gets rid of annoying flashing white window
+            "backgroundColor": "#ff0099", // Gets rid of annoying flashing white window
             "title": "TPOT Electron"
         }
     },

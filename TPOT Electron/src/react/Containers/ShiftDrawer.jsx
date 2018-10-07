@@ -4,32 +4,32 @@ import classNames from 'classnames';
 import { withStyles } from '@material-ui/core/styles';
 
 import Drawer from '@material-ui/core/Drawer';
-import Draft from './Editor/Draft'
-import DrawerMenuList from './DrawerMenuList';
+import Draft from '../Editor/Draft'
+import DrawerMenuList from '../DrawerMenuList';
 import Button from '@material-ui/core/Button';
 import PreviewIcon from '@material-ui/icons/LaptopMacTwoTone';
 import Tooltip from '@material-ui/core/Tooltip';
 import Zoom from '@material-ui/core/Zoom';
-import Paper from '@material-ui/core/Paper'
 import 'typeface-roboto'
 
-const drawerWidth = 200;
+const drawerWidth = 250;
 
 const styles = theme => ({
-    drawerPaper: {
+    drawer: {
         // border: '4px solid yellow',
         overflow: 'hidden',
         position: 'relative',
         float: 'left',
-        height: 'calc(100vh - 64px)',
+        height: '100vh',
         whiteSpace: 'nowrap',
         width: drawerWidth,
+        background: theme.palette.secondary.main,
         transition: theme.transitions.create('width', {
             easing: theme.transitions.easing.sharp,
             duration: theme.transitions.duration.enteringScreen,
         }),
     },
-    drawerPaperClose: {
+    drawerClose: {
         overflow: 'hidden',
         transition: theme.transitions.create('width', {
             easing: theme.transitions.easing.sharp,
@@ -41,14 +41,14 @@ const styles = theme => ({
         //     width: theme.spacing.unit * 9,
         // },
     },
-    preview: {
-        position: "fixed",
-        right: 20,
-        bottom: 20
-    },
+    // preview: {
+    //     position: "fixed",
+    //     right: 20,
+    //     bottom: 20
+    // },
 });
 
-class MiniDrawer extends React.Component {
+class ShiftDrawer extends React.Component {
     // constructor(props) {
     //         super(props);
     // }
@@ -62,39 +62,31 @@ class MiniDrawer extends React.Component {
 
         return (
             <React.Fragment>
-
-                {/* MENU DRAWER */}
-                <Drawer variant="permanent" open={!this.props.drawerOpen} classes={{ paper: classNames(classes.drawerPaper, !this.props.drawerOpen && classes.drawerPaperClose), }} >
-                    {/* <div className={classes.toolbar} /> */}
-                    <DrawerMenuList onClick={this.handleDrawerClose}/>
+                <Drawer variant="permanent" open={!this.props.compact} id="Drawer" classes={{ paper: classNames(classes.drawer, !this.props.compact && classes.drawerClose), }} >
+                    {/* <DrawerMenuList onClick={this.handleDrawerClose}/> */}
                 </Drawer>
+                {this.props.currentApp && (
+                    this.props.currentApp
+                )}
 
-                {/* DOCUMENT AREA */}
+                {/* <Draft editMode={this.props.editMode} /> */}
 
-                {/* <div className={classes.toolbar} /> */}
-
-                {/* Main Content */}
-                <Draft editMode={this.props.editMode} />
-
-                {/* Preview Button */}
-                <Tooltip title="Preview Page" TransitionComponent={Zoom}>
+                {/* <Tooltip title="Preview Page" TransitionComponent={Zoom}>
                     <Button variant="fab" color="primary" aria-label="Preview" className={classes.preview}>
                         <PreviewIcon />
                     </Button>
-                </Tooltip>
-
-
+                </Tooltip> */}
             </React.Fragment>
         )
     }
 }
 
-MiniDrawer.propTypes = {
-    classes: PropTypes.object.isRequired,
-    theme: PropTypes.object.isRequired,
-};
+// MiniDrawer.propTypes = {
+//     classes: PropTypes.object.isRequired,
+//     theme: PropTypes.object.isRequired,
+// };
 
-export default withStyles(styles, { withTheme: true })(MiniDrawer);
+export default withStyles(styles)(ShiftDrawer);
 
 
 
