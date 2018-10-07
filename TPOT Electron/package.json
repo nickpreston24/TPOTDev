@@ -1,5 +1,5 @@
 {
-        "name": "tpot_letters",
+        "name": "tpot_toolbox",
         "description": "Edit and Publish correspondance for ThePathofTruth",
         "author": "Michael & Braden Preston",
         "version": "0.0.2",
@@ -84,7 +84,7 @@
         },
         "build": {
                 "appId": "com.example.app",
-                "productName": "TPOT Letters",
+                "productName": "TPOT Toolbox",
                 "copyright": "Copyright ©2018 Michael & Braden Preston",
                 "asar": true,
                 "files": [

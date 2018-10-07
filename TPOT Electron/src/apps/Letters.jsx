@@ -1,8 +1,8 @@
 // React
 import React from 'react'
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
-import Drawer from './Drawer'
-import Header from './Header'
+import Drawer from '../react/Drawer'
+import Header from '../react/Header'
 import 'typeface-roboto'
 
 // Electron

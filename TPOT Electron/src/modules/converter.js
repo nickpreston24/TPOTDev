@@ -1,4 +1,3 @@
-import zIndex from '@material-ui/core/styles/zIndex';
 const $ = window.jQuery = require('jquery')
 
 //  TESTING RESULTS
@@ -26,9 +25,11 @@ const $ = window.jQuery = require('jquery')
 // Electron
 const electron = window.require('electron')
 const remote = electron.remote
+const app = remote.app
+
 // Node built-in
-// const fs = remote.require( 'fs' )
 const fs = remote.require('promise-fs')
+const path = remote.require('path')
 
 // Custom/Community
 // const _ = require('underscore')
@@ -449,6 +450,9 @@ export const test = () => {
 };
 
 /// DIRTY HACK!
-// if (true) {
-//     convertFile('C:\\Users\\Braden\\Documents\\GitHub\\TPOTDev\\TPOT Electron\\src\\config\\MasterSample.docx')
-// }
+if (true) {
+    const applicationPath = app.getAppPath();
+    const configDir = './src/config';
+    const file = 'MasterSample.docx';
+    convertFile(path.join(applicationPath, configDir, file))
+}

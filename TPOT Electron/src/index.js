@@ -1,7 +1,7 @@
 // React
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from './react/App';
+import Letters from './apps/Letters';
 import './index.css';
 
 // Electron
@@ -27,7 +27,7 @@ import './index.css';
     // Code Here
 
 // Initialization of React App
-ReactDOM.render(<App />, document.getElementById('root'));
+ReactDOM.render(<Letters />, document.getElementById('root'));
 
 // Initialize other tasks that aren't immediately important
 
