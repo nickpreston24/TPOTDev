@@ -245,7 +245,7 @@ class Wysiwyg extends React.Component {
         })
     }
 
-
+    
     //  EDITOR STYLING AND DATA TRANSFORMATION FUNCTIONS  //
 
     toggleStyle(type, style) {
