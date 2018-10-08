@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 
 import ListItem from '@material-ui/core/ListItem';
+import SvgIcon from '@material-ui/core/SvgIcon';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import CloudDownload from '@material-ui/icons/CloudDownload';
@@ -21,10 +22,13 @@ import IconButton from '@material-ui/core/IconButton';
 import DeleteIcon from '@material-ui/icons/Delete';
 import DriveIcon from '../../media/drive.png'
 import FirebaseIcon from '../../media/firebase_icon.png'
+import LettersIcon from '../../media/letters_icon.png'
 
 
 const styles = theme => ({
     root: {
+        paddingTop: 8,
+        borderTop: `1px solid ${theme.palette.secondary.light}`,
     },
     settings: {
         position: "absolute",
@@ -33,6 +37,7 @@ const styles = theme => ({
     avatar: {
         width: 32,
         height: 32,
+        borderRadius: 0,
     },
     primaryText: {
         color: theme.palette.secondary.textLight,
@@ -40,8 +45,11 @@ const styles = theme => ({
     secondaryText: {
         color: theme.palette.secondary.textDark,
     },
+    letter: {
+        fontSize: 32,
+        color: theme.palette.secondary.textMain,
+    },
     active: {
-        background: theme.palette.primary.darkS
     }
 });
 
@@ -76,50 +84,18 @@ class DrawerMenuList extends React.Component {
     render() {
         const { classes } = this.props;
 
-        const accounts = [
-            {
-                primary: "TPOT Cloud",
-                secondary: "braden.t.preston@gmail.com",
-                icon: FirebaseIcon,
-                active: true,
-                handler: () => {
-                    this.handleSelection("disk");
-                }
-            },
-            {
-                primary: "Google Drive",
-                secondary: "bpfilmsinc@gmail.com",
-                icon: DriveIcon,
-                handler: () => {
-                    this.handleSelection("google");
-                }
-            }
-        ]
-
         return (
             <div className={classes.root}>
-                {accounts.map(account => {
-                    return (
-                        <ListItem button className={account.active ? classes.active : null} onClick={this.openLoadModal}>
-                            <ListItemAvatar>
-                                <Avatar src={account.icon} className={classes.avatar} />
-                            </ListItemAvatar>
-                            <ListItemText
-                                indent={false}
-                                primary={account.primary}
-                                secondary={account.secondary ? account.secondary : null}
-                                classes={{ primary: classes.primaryText, secondary: classes.secondaryText }}
-                                primaryTypographyProps={{ noWrap: true }}
-                                secondaryTypographyProps={{ noWrap: true }}
-                            />
-                            {/* <ListItemSecondaryAction>
-                                <IconButton aria-label="Delete">
-                                    <DeleteIcon />
-                                </IconButton>
-                            </ListItemSecondaryAction> */}
-                        </ListItem>
-                    );
-                })}
+                <ListItem button className={classes.active} onClick={this.openSettingsModal}>
+                    <ListItemAvatar>
+                        <SvgIcon component={SettingsIcon} className={classes.letter} />
+                    </ListItemAvatar>
+                    <ListItemText
+                        primary="Settings"
+                        classes={{ primary: classes.secondaryText, secondary: classes.secondaryText }}
+                        primaryTypographyProps={{ noWrap: true }}
+                    />
+                </ListItem>
                 <ModalLoad open={this.state.loadModalOpen} onUpdate={this.updateLoadModal} />
                 <ModalSettings open={this.state.settingsModalOpen} onUpdate={this.updateSettingsModal} value={1} />
             </div>

@@ -23,12 +23,12 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import DriveIcon from '../../media/drive.png'
 import FirebaseIcon from '../../media/firebase_icon.png'
 import LettersIcon from '../../media/letters_icon.png'
+import ReorderIcon from '../../media/reorder_icon.png'
 
 
 const styles = theme => ({
     root: {
-        paddingTop: 8,
-        borderRight: '4px solid #1E90FF'
+        // borderRight: '4px solid #1E90FF'
     },
     settings: {
         position: "absolute",
@@ -50,6 +50,8 @@ const styles = theme => ({
         color: "#91ce34",
     },
     active: {
+        background: theme.palette.secondary.dark,
+        borderRight: '4px solid #1E90FF'
     }
 });
 
@@ -86,10 +88,19 @@ class DrawerMenuList extends React.Component {
 
         const accounts = [
             {
-                primary: "Letters",
+                primary: "Ember",
                 secondary: "edit letters & translations",
                 icon: LettersIcon,
                 active: true,
+                handler: () => {
+                    this.handleSelection("disk");
+                }
+            },
+            {
+                primary: "Pidgeon",
+                secondary: "reorder emails by date",
+                icon: ReorderIcon,
+                active: false,
                 handler: () => {
                     this.handleSelection("disk");
                 }
@@ -100,7 +111,7 @@ class DrawerMenuList extends React.Component {
             <div className={classes.root}>
                 {accounts.map(account => {
                     return (
-                        <ListItem button className={classes.active} onClick={this.openLoadModal}>
+                        <ListItem button className={account.active ? classes.active : null} onClick={this.openLoadModal}>
                             <ListItemAvatar>
                                 {/* <SvgIcon component={account.icon} className={classes.letter} /> */}
                                 <Avatar src={account.icon} className={classes.avatar} />

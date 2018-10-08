@@ -87,6 +87,7 @@ class SimpleAppBar extends React.Component {
                             className={classes.menuButton}
                             color="inherit"
                             aria-label="DrawerToggle"
+                            text="test"
                         >
                             <MenuIcon />{" "}
                         </IconButton>

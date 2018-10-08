@@ -168,7 +168,8 @@ class Auth extends React.Component {
                 {!this.state.authorized && (
                     <Grow in={true} timeout={{ enter: 400 }}>
                         <Button color="inherit" onClick={this.openModal}>
-                            Log In
+                            Preview
+                            {/* Log In */}
             </Button>
                     </Grow>
                 )}

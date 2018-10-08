@@ -4,6 +4,7 @@ import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import ShiftDrawer from '../react/Containers/ShiftDrawer'
 import AccountItems from '../react/Components/AccountItems'
 import AppItems from '../react/Components/AppItems'
+import SettingsItems from '../react/Components/SettingsItems'
 import Letters from './Letters'
 import 'typeface-roboto'
 
@@ -56,7 +57,7 @@ const theme = createMuiTheme({
         secondary: {
             light: '#484b5b',
             main: '#343745',
-            dark: '#b61827',
+            dark: '#272934',
             contrastText: '#fff',
             textLight: '#FFFFFF',
             textMain: '#A7AAB8',
@@ -103,7 +104,7 @@ class Toolbox extends React.Component {
                             compact={this.state.compactDrawer}
                             accountItems={<AccountItems/>}
                             appItems={<AppItems />}
-                            settingsFooter={''}
+                            settingsItems={<SettingsItems />}
                             settingsPage={''}
                             currentApp={this.state.currentApp}
                         >

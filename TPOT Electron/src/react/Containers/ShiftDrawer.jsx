@@ -61,14 +61,14 @@ const styles = theme => ({
     apps: {
         width: "100%",
         position: "absolute",
-        bottom: 48,
+        bottom: 64,
         // background: "navy",
     },
     settings: {
         width: "100%",
         position: "absolute",
         bottom: 0,
-        height: 48,
+        height: 64,
         // background: "lightgrey",
     },
     primaryText: {
@@ -83,11 +83,6 @@ const styles = theme => ({
     icon: {
         color: theme.palette.secondary.textMain,
     },
-    // preview: {
-    //     position: "fixed",
-    //     right: 20,
-    //     bottom: 20
-    // },
 });
 
 class ShiftDrawer extends React.Component {
@@ -139,7 +134,9 @@ class ShiftDrawer extends React.Component {
                         </ListItem>
                     </div>
                     <div id="Settings" className={classes.settings}>
-                        Settings
+                        {this.props.settingsItems && (
+                            this.props.settingsItems
+                        )}
                     </div>
                 </Drawer>
                 <Toolbar className={classes.toolbar} variant="dense">

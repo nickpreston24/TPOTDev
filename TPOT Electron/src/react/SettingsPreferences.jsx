@@ -173,8 +173,8 @@ class Preferences extends React.Component {
                                 <CardContent className={classes.updatesarea}>
                                         <img src={PackageIcon} className={classes.icon} alt="TpotLettersLogo" />
                                         <Typography variant="title" component="h2" align="center">
-                                                TPOT Letters
-              </Typography>
+                                                TPOT Toolbox
+                                        </Typography>
                                         <Typography gutterBottom variant="body2" component="h6" align="center">
                                                 Version <Chip label={app.getVersion()} className={classes.chip} />
                                         </Typography>
@@ -200,7 +200,7 @@ class Preferences extends React.Component {
                                                                                         <ListItemText primary={option.description} />
                                                                                         <ListItemSecondaryAction>
                                                                                                 {/* <Switch onChange={this.handleToggle('wifi')} checked={this.state.checked.indexOf('wifi') !== -1} /> */}
-                                                                                                <Switch onChange={this.handleToggle('wifi')} checked={option.type} />
+                                                                                                <Switch color ="primary" onChange={this.handleToggle('wifi')} checked={option.type} />
                                                                                         </ListItemSecondaryAction>
                                                                                 </ListItem>
                                                                         );
