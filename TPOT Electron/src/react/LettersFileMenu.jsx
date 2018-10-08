@@ -93,7 +93,9 @@ class MiniDrawer extends React.Component {
         console.log("clicked!")
     }
 
-
+    saveEditorStateToDisk = () => {
+        window.postMessage({ event: "draftjs-editor-reload" }, "*") // sends to DraftJS WYSIWYG Editor
+    }
 
     render() {
         const { classes } = this.props;
@@ -102,7 +104,7 @@ class MiniDrawer extends React.Component {
             {
                 name: "Load",
                 secondary: "braden.t.preston@gmail.com",
-                icon: <CloudDownload/>,
+                icon: <CloudDownload />,
                 active: true,
                 handler: () => {
                     this.openLoadModal();
@@ -112,10 +114,10 @@ class MiniDrawer extends React.Component {
             {
                 name: "Save",
                 secondary: "braden.t.preston@gmail.com",
-                icon: <Save/>,
+                icon: <Save />,
                 active: true,
                 handler: () => {
-                    // this.openLoadModal();
+                    this.saveEditorStateToDisk()
                     this.props.onUpdate(false)
                 }
             },

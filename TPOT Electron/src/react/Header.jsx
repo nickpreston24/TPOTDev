@@ -52,7 +52,6 @@ class SimpleAppBar extends React.Component {
     };
 
     openFileMenu = event => {
-        console.log(event.currentTarget)
         this.setState({
             anchorEl: event.currentTarget,
             fileMenuOpened: true

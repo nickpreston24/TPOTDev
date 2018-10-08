@@ -43,7 +43,7 @@ const MUIstyles = theme => ({
         flexWrap: 'wrap',
         flexGrow: 1,
         background: "white",
-        height: 'calc(100vh - 64px)',
+        height: 'calc(100vh - 104px)',
         boxShadow: '0px',
         overflow: 'hidden',
         // border: '4px solid red',
@@ -94,9 +94,9 @@ class Wysiwyg extends React.Component {
         codeState: "I am Code",
     };
 
-    focus = () => {        
-        if(this.editor)
-         this.editor.focus();
+    focus = () => {
+        if (this.editor)
+            this.editor.focus();
     };
 
     onChange = (editorState) => {
@@ -126,6 +126,9 @@ class Wysiwyg extends React.Component {
                     .catch(err => {
                         alert(err);
                     })
+            }
+            if (msg.data.event === "draftjs-editor-save") {
+                this.saveEditorStateToFile()
             }
         })
 
@@ -236,7 +239,8 @@ class Wysiwyg extends React.Component {
     }
 
     saveStateToFile(state, stateName) {
-        fs.writeFile(path.join(path.join(app.getAppPath(), './src/config'), "state" + stateName + ".json"), JSON.stringify(state), (err) => {
+        fs.writeFile(`${app.getAppPath()}/src/config/state${stateName}.json`, JSON.stringify(state), (err) => {
+        // fs.writeFile(path.join(path.join(app.getAppPath(), './src/config'), "state" + stateName + ".json"), JSON.stringify(state), (err) => {
             if (err) throw err
         })
     }
@@ -298,44 +302,42 @@ class Wysiwyg extends React.Component {
 
         return (
             <div id="Editor" className={classes.root} onClick={this.focus}>
-                {/* Original */}
-                {editMode === "original" &&
-                    <React.Fragment>
-                        {this.state.originalState}
-                    </React.Fragment>
-                }
-                {/* Code */}
-                {editMode === "code" &&
-                    <React.Fragment>
-                        <JSONPretty id="json-pretty" json={this.state.codeState}></JSONPretty>
-                    </React.Fragment>
-                }
-                {/* Edited */}
-                {editMode === "edited" &&
-                    <div className={classes.editorFrame}>
-                        {/* <MuiToolbar getData={this.getData} /> */}
-                        <Editor
-                            id={'Editor'}
-                            ref={(element) => { this.editor = element; }}
-                            placeholder="The editor is empty."
-                            editorState={this.state.editorState}
-                            onChange={this.onChange}
+                <div id="Frame" className={classes.editorFrame}>
+                    {editMode === "original" &&
+                        <React.Fragment>
+                            {this.state.originalState}
+                        </React.Fragment>
+                    }
+                    {editMode === "code" &&
+                        <React.Fragment>
+                            <JSONPretty id="json-pretty" json={this.state.codeState}></JSONPretty>
+                        </React.Fragment>
+                    }
+                    {editMode === "edited" &&
+                        <React.Fragment>
+                            <Editor
+                                id={'Editor'}
+                                ref={(element) => { this.editor = element; }}
+                                placeholder="The editor is empty."
+                                editorState={this.state.editorState}
+                                onChange={this.onChange}
 
-                            customStyleMap={baseStyleMap} // STYLE MAP TO TYPE
-                            blockRenderMap={blockRenderMap} // BLOCK MAP MAP TO TYPE
+                                customStyleMap={baseStyleMap} // STYLE MAP TO TYPE
+                                blockRenderMap={blockRenderMap} // BLOCK MAP MAP TO TYPE
 
-                            // customStyleFn={customStyleFn} // STYLE & ENTITY CLASS FUNCTION
-                            // blockStyleFn={CustomBlock} // BLOCK & ATOMIC CLASS FUNCTION
+                                // customStyleFn={customStyleFn} // STYLE & ENTITY CLASS FUNCTION
+                                // blockStyleFn={CustomBlock} // BLOCK & ATOMIC CLASS FUNCTION
 
-                            // blockRendererFn={} // BLOCK ?/& ATOMIC PROPS=>COMP RENDERER
+                                // blockRendererFn={} // BLOCK ?/& ATOMIC PROPS=>COMP RENDERER
 
-                            plugins={plugins}
-                            spellCheck={true}
-                        />
-                        <InlineToolbar />
-                        <SideToolbar />
-                    </div>
-                }
+                                plugins={plugins}
+                                spellCheck={true}
+                            />
+                            <InlineToolbar />
+                            <SideToolbar />
+                        </React.Fragment>
+                    }
+                </div>
             </div>
         );
     }
