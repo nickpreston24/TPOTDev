@@ -47,15 +47,21 @@ const styles = theme => ({
 
 
 class DrawerMenuList extends React.Component {
-    constructor(props) {
-        super(props);
+    // constructor(props) {
+    //     super(props);
 
-        this.state = {
-            loadModalOpen: false,
-            settingsModalOpen: false,
-            secondary: true,
-        }
+    //     this.state = {
+    //         loadModalOpen: false,
+    //         settingsModalOpen: false,
+    //         secondary: true,
+    //     }
+    // }
+    state = {
+        loadModalOpen: false,
+        settingsModalOpen: false,
+        secondary: true,
     }
+
 
     openLoadModal = () => {
         this.setState({ loadModalOpen: true })

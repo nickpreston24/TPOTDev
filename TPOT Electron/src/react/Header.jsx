@@ -6,6 +6,7 @@ import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import MenuIcon from "@material-ui/icons/Menu";
 import { IconButton } from "@material-ui/core";
+import FileMenu from "./LettersFileMenu"
 import EditMode from "./EditMode";
 import Auth from "./Auth";
 
@@ -20,7 +21,7 @@ const styles = theme => ({
         border: "1px solid blue"
     },
     contrastBar: {
-        minHeight: 10,
+        minHeight: 8,
         background: theme.palette.primary.medium
     },
     menuButton: {
@@ -36,28 +37,49 @@ const styles = theme => ({
 });
 
 class SimpleAppBar extends React.Component {
-    constructor(props) {
-        super(props);
+    // constructor(props) {
+    //     super(props);
 
-        this.state = {
-            menuToggled: false,
-            editMode: this.props.editMode // Set the initial state with value passed by parent
-        };
-    }
-
-    toggleMenu = () => {
-        let menuToggled = !this.state.menuToggled; // toggle opposite of previous state
-        this.setState({ menuToggled: menuToggled }); // update self
-        this.props.onUpdate({
-            menuToggled: menuToggled,
-            editMode: this.state.editMode
-        }); // update parent
+    //     this.state = {
+    //         fileMenuOpened: false,
+    //         editMode: this.props.editMode // Set the initial state with value passed by parent
+    //     };
+    // }
+    state = {
+        anchorEl: null,
+        fileMenuOpened: false,
+        editMode: this.props.editMode // Set the initial state with value passed by parent
     };
+
+    openFileMenu = event => {
+        console.log(event.currentTarget)
+        this.setState({
+            anchorEl: event.currentTarget,
+            fileMenuOpened: true
+        })
+    };
+
+    updateFileMenu = (bool) => {
+        this.setState({ fileMenuOpened: bool })
+    };
+
+    closeFileMenu = () => {
+        this.setState({ fileMenuOpened: false })
+    };
+
+    // toggleMenu = () => {
+    //     let fileMenuOpened = !this.state.fileMenuOpened; // toggle opposite of previous state
+    //     this.setState({ fileMenuOpened: fileMenuOpened }); // update self
+    //     this.props.onUpdate({
+    //         fileMenuOpened: fileMenuOpened,
+    //         editMode: this.state.editMode
+    //     }); // update parent
+    // };
 
     updateEditMode = mode => {
         this.setState({ editMode: mode }); // update self
         this.props.onUpdate({
-            menuToggled: this.state.menuToggled,
+            fileMenuOpened: this.state.fileMenuOpened,
             editMode: mode
         }); // update parent
     };
@@ -67,38 +89,17 @@ class SimpleAppBar extends React.Component {
 
         return (
             <div id="Header" className={classes.root}>
-                <AppBar
-                    className={classes.root}
-                    position="static"
-                    color="primary"
-                >
-                    <Toolbar
-                        variant="dense"
-                        classes={{ root: classes.contrastBar, dense: classes.contrastBar }}
-                    // className={classes.contrastBar}
-                    >
-                    {/* <span>Test</span> */}
-                    </Toolbar>
-                    <Toolbar
-                        variant="dense"
-                    >
-                        <IconButton
-                            onClick={this.toggleMenu}
-                            className={classes.menuButton}
-                            color="inherit"
-                            aria-label="DrawerToggle"
-                            text="test"
-                        >
+                <AppBar className={classes.root} position="static" color="primary" >
+                    <Toolbar variant="dense" classes={{ root: classes.contrastBar, dense: classes.contrastBar }} />
+                    <Toolbar variant="dense" >
+                        <IconButton onClick={this.openFileMenu} className={classes.menuButton} color="inherit">
                             <MenuIcon />{" "}
                         </IconButton>
-                        <EditMode
-                            currentTab={this.state.editMode}
-                            onUpdate={this.updateEditMode}
-                            editMode={this.state.editMode}
-                        />
+                        <EditMode currentTab={this.state.editMode} onUpdate={this.updateEditMode} editMode={this.state.editMode} />
                         <Auth authorized={true} className={classes.authButton} />
                     </Toolbar>
                 </AppBar>
+                <FileMenu anchorEl={this.state.anchorEl} open={this.state.fileMenuOpened} onClose={this.closeFileMenu} onUpdate={this.updateFileMenu}/>
             </div>
         );
     }

@@ -115,8 +115,7 @@ class Auth extends React.Component {
                                 varient="contained"
                             >
                                 Victor H.
-                <Avatar />
-                                {/* <Avatar /> */}
+                                <Avatar />
                             </Button>
                         </Slide>
                         <Menu
@@ -131,35 +130,20 @@ class Auth extends React.Component {
                                 <ListItemIcon className={classes.icon}>
                                     <AccountIcon />
                                 </ListItemIcon>
-                                <ListItemText
-                                    classes={{ primary: classes.primary }}
-                                    inset
-                                    primary="Account"
-                                />
+                                <ListItemText classes={{ primary: classes.primary }} inset primary="Account" />
                             </MenuItem>
                             <MenuItem className={classes.menuItem}>
                                 <ListItemIcon className={classes.icon}>
                                     <InfoIcon />
                                 </ListItemIcon>
-                                <ListItemText
-                                    classes={{ primary: classes.primary }}
-                                    inset
-                                    primary="Details"
-                                />
+                                <ListItemText classes={{ primary: classes.primary }} inset primary="Details" />
                             </MenuItem>
                             <Divider />
-                            <MenuItem
-                                className={classes.menuItem}
-                                onClick={this.handleLogout}
-                            >
+                            <MenuItem className={classes.menuItem} onClick={this.handleLogout}  >
                                 <ListItemIcon className={classes.icon}>
                                     <LogoutIcon />
                                 </ListItemIcon>
-                                <ListItemText
-                                    classes={{ primary: classes.primary }}
-                                    inset
-                                    primary="Logout"
-                                />
+                                <ListItemText classes={{ primary: classes.primary }} inset primary="Logout" />
                             </MenuItem>
                         </Menu>
                     </div>
@@ -170,7 +154,7 @@ class Auth extends React.Component {
                         <Button color="inherit" onClick={this.openModal}>
                             Preview
                             {/* Log In */}
-            </Button>
+                        </Button>
                     </Grow>
                 )}
                 {/* Not Authorized, Show Firebase SignIn Modal */}

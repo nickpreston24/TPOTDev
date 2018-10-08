@@ -137,30 +137,12 @@ class ModalLoad extends React.Component {
 
         return (
             <Dialog
-                classes={{
-                    root: classes.root,
-                    paper: classes.paper
-                }}
-                open={this.props.open}
-                onClose={this.handleClose}
-                onBackdropClick={this.handleClose}
-            >
-                <Grid
-                    container
-                    className={classes.demo}
-                    spacing={0}
-                    justify="space-evenly"
-                    alignItems="center"
-                >
+                classes={{ root: classes.root, paper: classes.paper }} open={this.props.open} onClose={this.handleClose} onBackdropClick={this.handleClose} >
+                <Grid container className={classes.demo} spacing={0} justify="space-evenly" alignItems="center"   >
                     {cards.map(card => {
                         return (
-                            <Grid
-                                key={card.name.toLocaleLowerCase()}
-                                item
-                                className={classes.grid}
-                                onClick={card.handler}
-                            >
-                                <img src={card.icon} className={classes.icon} alt="cardimg"/>
+                            <Grid key={card.name.toLocaleLowerCase()} item className={classes.grid} onClick={card.handler}    >
+                                <img src={card.icon} className={classes.icon} alt="cardimg" />
                                 <Button variant="contained" color="inherit">
                                     {card.name}
                                 </Button>
@@ -168,9 +150,7 @@ class ModalLoad extends React.Component {
                         );
                     })}
                 </Grid>
-                <DialogContentText align="center" className={classes.textbox}>
-                    {this.state.description}
-                </DialogContentText>
+                <DialogContentText align="center" className={classes.textbox}> {this.state.description} </DialogContentText>
             </Dialog>
         );
     }
