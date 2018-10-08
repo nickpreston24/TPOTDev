@@ -2,6 +2,8 @@
 import React from 'react'
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import ShiftDrawer from '../react/Containers/ShiftDrawer'
+import AccountItems from '../react/Components/AccountItems'
+import AppItems from '../react/Components/AppItems'
 import Letters from './Letters'
 import 'typeface-roboto'
 
@@ -56,6 +58,9 @@ const theme = createMuiTheme({
             main: '#343745',
             dark: '#b61827',
             contrastText: '#fff',
+            textLight: '#FFFFFF',
+            textMain: '#A7AAB8',
+            textDark: '#C2C6D7',
         },
         type: 'light'
     },
@@ -66,22 +71,8 @@ const theme = createMuiTheme({
     //   MuiStepper: { // Name of the component ⚛️ / style sheet
     //     root: { // Name of the rule
     //       // color: "blue",
-    //       background: 'grey', // Some CSS
     //     },
     //   },
-    //   MuiStep: { // Name of the component ⚛️ / style sheet
-    //     root: { // Name of the rule
-    //       // color: "blue",
-    //       background: 'magenta', // Some CSS
-    //     },
-    //   },
-    //   MuiStepButton: { // Name of the component ⚛️ / style sheet
-    //     root: { // Name of the rule
-    //       // color: "blue",
-    //       background: 'green', // Some CSS
-    //     },
-    //   },
-    // },
 });
 
 class Toolbox extends React.Component {
@@ -91,6 +82,7 @@ class Toolbox extends React.Component {
 
         this.state = { // set default state for App (single source of truth)
             menuToggled: false,
+            currentApp: <Letters />,
             compactDrawer: true,
         }
     }
@@ -109,10 +101,11 @@ class Toolbox extends React.Component {
                     <MuiThemeProvider theme={theme}>
                         <ShiftDrawer
                             compact={this.state.compactDrawer}
-                            accountItems={''}
-                            appItems={''}
+                            accountItems={<AccountItems/>}
+                            appItems={<AppItems />}
+                            settingsFooter={''}
                             settingsPage={''}
-                            currentApp={<Letters />}
+                            currentApp={this.state.currentApp}
                         >
                         </ShiftDrawer>
                     </MuiThemeProvider>

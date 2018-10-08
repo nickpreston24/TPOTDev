@@ -20,7 +20,7 @@ const styles = theme => ({
         border: "1px solid blue"
     },
     contrastBar: {
-        minHeight: 16,
+        minHeight: 10,
         background: theme.palette.primary.medium
     },
     menuButton: {
@@ -71,7 +71,6 @@ class SimpleAppBar extends React.Component {
                     className={classes.root}
                     position="static"
                     color="primary"
-                    aria-label="AppBar"
                 >
                     <Toolbar
                         variant="dense"
@@ -81,7 +80,7 @@ class SimpleAppBar extends React.Component {
                     {/* <span>Test</span> */}
                     </Toolbar>
                     <Toolbar
-                        // variant="dense"
+                        variant="dense"
                     >
                         <IconButton
                             onClick={this.toggleMenu}

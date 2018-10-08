@@ -10,7 +10,15 @@ import Button from '@material-ui/core/Button';
 import PreviewIcon from '@material-ui/icons/LaptopMacTwoTone';
 import Tooltip from '@material-ui/core/Tooltip';
 import Zoom from '@material-ui/core/Zoom';
+import Toolbar from "@material-ui/core/Toolbar";
+import Typography from '@material-ui/core/Typography';
 import 'typeface-roboto'
+
+import ListItem from '@material-ui/core/ListItem';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import ListItemText from '@material-ui/core/ListItemText';
+import DraftsIcon from '@material-ui/icons/Drafts';
+import PlusIcon from '@material-ui/icons/Add'
 
 const drawerWidth = 250;
 
@@ -24,6 +32,7 @@ const styles = theme => ({
         whiteSpace: 'nowrap',
         width: drawerWidth,
         background: theme.palette.secondary.main,
+        boxShadow: '1.5px 0px 4px 0px rgba(0,0,0,0.2)',
         transition: theme.transitions.create('width', {
             easing: theme.transitions.easing.sharp,
             duration: theme.transitions.duration.enteringScreen,
@@ -40,6 +49,39 @@ const styles = theme => ({
         // [theme.breakpoints.up('sm')]: {
         //     width: theme.spacing.unit * 9,
         // },
+    },
+    toolbar: {
+        background: theme.palette.secondary.light
+    },
+    accounts: {
+        width: "100%",
+        position: "relative",
+        // background: "grey",
+    },
+    apps: {
+        width: "100%",
+        position: "absolute",
+        bottom: 48,
+        // background: "navy",
+    },
+    settings: {
+        width: "100%",
+        position: "absolute",
+        bottom: 0,
+        height: 48,
+        // background: "lightgrey",
+    },
+    primaryText: {
+        fontSize: 15,
+        textTransform: "uppercase",
+        // letterSpacing: 5,
+        color: theme.palette.secondary.textMain,
+    },
+    secondaryText: {
+        color: theme.palette.secondary.textMain,
+    },
+    icon: {
+        color: theme.palette.secondary.textMain,
     },
     // preview: {
     //     position: "fixed",
@@ -64,18 +106,48 @@ class ShiftDrawer extends React.Component {
             <React.Fragment>
                 <Drawer variant="permanent" open={!this.props.compact} id="Drawer" classes={{ paper: classNames(classes.drawer, !this.props.compact && classes.drawerClose), }} >
                     {/* <DrawerMenuList onClick={this.handleDrawerClose}/> */}
+                    <div id="Accounts" className={classes.accounts}>
+                        <Toolbar variant="dense">
+                            <Typography variant="body2" className={classes.primaryText}>
+                                Accounts
+                             </Typography>
+                        </Toolbar>
+                        {this.props.accountItems && (
+                            this.props.accountItems
+                        )}
+                        <ListItem button>
+                            <ListItemIcon className={classes.icon}>
+                                <PlusIcon />
+                            </ListItemIcon>
+                            <ListItemText primary="Add Account" primaryTypographyProps={{ classes: { root: classes.secondaryText } }} />
+                        </ListItem>
+                    </div>
+                    <div id="Apps" className={classes.apps}>
+                        <Toolbar variant="dense">
+                            <Typography variant="body2" className={classes.primaryText}>
+                                Apps
+                             </Typography>
+                        </Toolbar>
+                        {this.props.appItems && (
+                            this.props.appItems
+                        )}
+                        <ListItem button>
+                            <ListItemIcon className={classes.icon}>
+                                <PlusIcon />
+                            </ListItemIcon>
+                            <ListItemText primary="Add App" primaryTypographyProps={{ classes: { root: classes.secondaryText } }} />
+                        </ListItem>
+                    </div>
+                    <div id="Settings" className={classes.settings}>
+                        Settings
+                    </div>
                 </Drawer>
+                <Toolbar className={classes.toolbar} variant="dense">
+                </Toolbar>
                 {this.props.currentApp && (
                     this.props.currentApp
                 )}
 
-                {/* <Draft editMode={this.props.editMode} /> */}
-
-                {/* <Tooltip title="Preview Page" TransitionComponent={Zoom}>
-                    <Button variant="fab" color="primary" aria-label="Preview" className={classes.preview}>
-                        <PreviewIcon />
-                    </Button>
-                </Tooltip> */}
             </React.Fragment>
         )
     }
@@ -87,79 +159,3 @@ class ShiftDrawer extends React.Component {
 // };
 
 export default withStyles(styles)(ShiftDrawer);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// import React from 'react';
-// import PropTypes from 'prop-types';
-// import { withStyles } from '@material-ui/core/styles';
-// import Drawer from '@material-ui/core/Drawer';
-// import Button from '@material-ui/core/Button';
-// import List from '@material-ui/core/List';
-// import Divider from '@material-ui/core/Divider';
-// import { mailFolderListItems, otherMailFolderListItems } from './DrawerMenuList';
-
-// const styles = {
-//   list: {
-//     width: 250,
-//   },
-//   fullList: {
-//     width: 'auto',
-//   },
-// };
-
-// class TemporaryDrawer extends React.Component {
-//   state = {
-//     left: true,
-//   };
-
-//   toggleDrawer = (side, open) => () => {
-//     this.setState({
-//       [side]: open,
-//     });
-//   };
-
-//   render() {
-//     const { classes } = this.props;
-
-//     return (
-//       <div>
-//         <Button onClick={this.toggleDrawer('left', true)}>Open Left</Button>
-//         <Drawer hideBackdrop="false" variant="persistent" open={this.state.left} onClose={this.toggleDrawer('left', false)}>
-//           <div
-//             tabIndex={0}
-//             role="button"
-//             onClick={this.toggleDrawer('left', false)}
-//             onKeyDown={this.toggleDrawer('left', false)}
-//           >
-//           <List>{mailFolderListItems}</List>
-//           </div>
-//         </Drawer>
-//       </div>
-//     );
-//   }
-// }
-
-// TemporaryDrawer.propTypes = {
-//   classes: PropTypes.object.isRequired,
-// };
-
-// export default withStyles(styles)(TemporaryDrawer);
-
-

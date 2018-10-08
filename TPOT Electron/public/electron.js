@@ -29,7 +29,7 @@ function createWindow(offset) {
           },
     x: offset.x,
     y: offset.y,
-    width: 1700,
+    width: 1800,
     height: 700,
     center: true
   }
@@ -74,7 +74,7 @@ app.on("ready", () => {
 
   if (externalDisplay) {
     let offset = {
-      x: externalDisplay.bounds.x + 110,
+      x: externalDisplay.bounds.x + 60,
       y: externalDisplay.bounds.y + 170
     }
     createWindow(offset)
