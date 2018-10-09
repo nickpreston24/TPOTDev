@@ -1,0 +1,32 @@
+  appId: tpot.toolbox.app
+  productName: TPOT Toolbox
+  copyright: Copyright ©2018 Michael & Braden Preston
+  files:
+  - "**/*"
+  - public/*ico
+  extraFiles:
+  - from: src/config
+    to: storage/drafts
+    filter:
+    - "**/*"
+  - from: src/config
+    to: storage/users
+    filter:
+    - "**/*"
+    - "!**/foo/*.ico"
+  icon: public/defaultIcon.ico
+  win:
+    icon: public/installerIcon.ico
+  nsis:
+    oneClick: false
+    perMachine: true
+    allowToChangeInstallationDirectory: true
+    createStartMenuShortcut: true
+    createDesktopShortcut: always
+    menuCategory: TPOT
+    installerIcon: public/installerIcon.ico
+    uninstallerIcon: public/uninstallerIcon.ico
+    installerHeader: public/installerHeader.bmp
+    installerHeaderIcon: public/defaultIcon.ico
+    installerSidebar: public/installerSidebar.bmp
+    uninstallerSidebar: public/uninstallerSidebar.bmp
