@@ -161,7 +161,7 @@ class Wysiwyg extends React.Component {
     }
 
     loadEditorStateEmptyDefault() {
-        console.clear() // temp
+        // console.clear() // temp
         let originalState = <h4>This is the original</h4>
         let codeState = <h4>This is the code</h4>
         this.setState({

@@ -1,10 +1,11 @@
 {
     "name": "TPOT_Toolbox",
     "description": "A collection of utilities for ThePathofTruth members",
+    "version": "0.0.10",
     "author": "Michael & Braden Preston",
-    "version": "0.0.2",
     "private": true,
     "homepage": "./",
+    "repository": "https://github.com/MikePreston17/TPOTDev",
     "main": "public/electron.js",
     "scripts": {
         "test": "mocha",
@@ -15,8 +16,11 @@
         "react-eject": "react-scripts eject",
         "electron-build": "electron-builder",
         "release": "yarn react-build && electron-builder --publish=always",
-        "build": "yarn react-build && yarn electron-build",
-        "asar": "yarn electron-build",
+        "bundle": "yarn react-build",
+        "package": "yarn electron-build",
+        "build": "yarn bundle && yarn package",
+        "fast": "yarn package -p always",
+        "ship": "yarn build -p always",
         "start": "concurrently \"cross-env BROWSER=none yarn react-start\" \"wait-on http://localhost:3000 && electron .\""
     },
     "dependencies": {
@@ -96,5 +100,41 @@
         "prettier": "^1.4.4",
         "react-scripts": "1.1.4",
         "wait-on": "2.1.0"
+    },
+    "build": {
+        "appId": "tpot.toolbox.app",
+        "productName": "TPOT Toolbox",
+        "copyright": "Copyright© 2018 Michael & Braden Preston",
+        "publish": {
+            "provider": "github",
+            "token": "f9ff07f638035e2470b6e980c371bd71b17016bb"
+        },
+        "files": ["**/*", "public/*ico"],
+        "extraFiles": [{
+                "from": "src/config",
+                "to": "storage/drafts",
+                "filter": ["**/*"]
+            },
+            {
+                "from": "src/config",
+                "to": "storage/users",
+                "filter": ["**/*", "!**/foo/*.ico"]
+            }
+        ],
+        "icon": "public/defaultIcon.ico",
+        "nsis": {
+            "oneClick": false,
+            "perMachine": true,
+            "allowToChangeInstallationDirectory": true,
+            "createStartMenuShortcut": true,
+            "createDesktopShortcut": "always",
+            "menuCategory": "TPOT",
+            "installerIcon": "public/installerIcon.ico",
+            "uninstallerIcon": "public/uninstallerIcon.ico",
+            "installerHeader": "public/installerHeader.bmp",
+            "installerHeaderIcon": "public/defaultIcon.ico",
+            "installerSidebar": "public/installerSidebar.bmp",
+            "uninstallerSidebar": "public/uninstallerSidebar.bmp"
+        }
     }
 }

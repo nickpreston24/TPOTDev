@@ -156,7 +156,7 @@ class MiniDrawer extends React.Component {
                 >
                     {menus.map(menu => {
                         return (
-                            <MenuItem className={classes.menuItem} onClick={menu.handler}>
+                            <MenuItem className={classes.menuItem} onClick={menu.handler} key={menu.name}>
                                 <ListItemIcon className={classes.icon}>
                                     {menu.icon}
                                 </ListItemIcon>

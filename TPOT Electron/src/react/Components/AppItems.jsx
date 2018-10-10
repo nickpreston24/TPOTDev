@@ -111,7 +111,7 @@ class DrawerMenuList extends React.Component {
             <div className={classes.root}>
                 {accounts.map(account => {
                     return (
-                        <ListItem button className={account.active ? classes.active : null} onClick={this.openLoadModal}>
+                        <ListItem button className={account.active ? classes.active : null} onClick={this.openLoadModal} key={account.primary}>
                             <ListItemAvatar>
                                 {/* <SvgIcon component={account.icon} className={classes.letter} /> */}
                                 <Avatar src={account.icon} className={classes.avatar} />

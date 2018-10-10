@@ -88,7 +88,7 @@ class DrawerMenuList extends React.Component {
             <div className={classes.root}>
                 <ListItem button className={classes.active} onClick={this.openSettingsModal}>
                     <ListItemAvatar>
-                        <SvgIcon component={SettingsIcon} className={classes.letter} />
+                        <SvgIcon component={SettingsIcon} className={classes.letter} children={<SettingsIcon/>}/>
                     </ListItemAvatar>
                     <ListItemText
                         primary="Settings"

@@ -106,12 +106,11 @@ class DrawerMenuList extends React.Component {
             <div className={classes.root}>
                 {accounts.map(account => {
                     return (
-                        <ListItem button className={account.active ? classes.active : null} onClick={this.openLoadModal}>
+                        <ListItem button className={account.active ? classes.active : null} onClick={this.openLoadModal} key={account.primary}>
                             <ListItemAvatar>
                                 <Avatar src={account.icon} className={classes.avatar} />
                             </ListItemAvatar>
                             <ListItemText
-                                indent={false}
                                 primary={account.primary}
                                 secondary={account.secondary ? account.secondary : null}
                                 classes={{ primary: classes.primaryText, secondary: classes.secondaryText }}

@@ -17,6 +17,7 @@ import 'typeface-roboto'
 // const electron_process = electron.process;
 // const electron_app = electron.app;
 // const ipc = electron.ipcRenderer;
+
 // const dialog = remote.dialog;
 
 // Node Built-In
@@ -98,7 +99,7 @@ class Toolbox extends React.Component {
     render() {
         return (
             <div id="Toolbox">
-                <Provider store={store}>
+                <Provider>
                     <MuiThemeProvider theme={theme}>
                         <ShiftDrawer
                             compact={this.state.compactDrawer}

@@ -193,7 +193,7 @@ class Preferences extends React.Component {
                                                         <List subheader={<ListSubheader disableSticky color="primary">{section.name}</ListSubheader>} key={"option_" + index}>
                                                                 {section.options.map((option, el) => {
                                                                         return (
-                                                                                <ListItem key={"option_" + index + "_" + el}>
+                                                                                <ListItem key={"option_" + index + "_" + el} key={option.icon}>
                                                                                         <ListItemIcon>
                                                                                                 {option.icon}
                                                                                         </ListItemIcon>

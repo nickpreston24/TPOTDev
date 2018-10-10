@@ -16,6 +16,7 @@ package-lock.json
 # production
 /build
 /dist
+dev-app-update.yml
 
 # ide
 .vscode/
