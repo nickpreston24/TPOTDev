@@ -45,39 +45,41 @@ app.on("activate", () => {
 ipc.on("toolbox-initialized", (event, arg) => {
     console.log(chalk.bgGreen.black('Toolbox render process loaded...'));
 
-    // Mock Update Available
-    sendUpdateStatusToToolbox('update-available', `temp update`, {
-        version: '0.0.1'
-    })
-    setInterval(async () => {
-        sendUpdateStatusToToolbox('update-available', `temp update`, {
-            version: '0.0.1'
-        })
-    }, 60000)
-
-    // Mock Download every few seconds
-    sendUpdateStatusToToolbox('update-downloaded', 'Starting  Mock download')
-    setInterval(async () => {
-        let time = new Array(11)
-        console.log(chalk.bgGreen.black('Toolbox render process loaded...'));
-        for (let count = 0; count < time.length; count++) {
-            let progressObj = {
-                bytesPerSecond: '100kb',
-                percent: `${count * 10}`,
-                transferred: `${count*512}`,
-                total: `${count*512*10}`
-            }
-            console.log(chalk.blue(progressObj));
-            sendUpdateStatusToToolbox('update-download-progress', `Download speed: ${progressObj.bytesPerSecond} - Downloaded ${progressObj.percent}% (${progressObj.transferred}/${progressObj.total})`, progressObj)
-            await rest(250)
-        }
-    }, 10000)
-
     // Start Auto Update Service
     autoUpdater.checkForUpdates()
     setInterval(() => {
         autoUpdater.checkForUpdates()
     }, 60000)
+
+    // Mock on Dev Tools
+    if (isDev) {
+        // Mock Update Available
+        sendUpdateStatusToToolbox('update-available', `temp update`, {
+            version: '0.0.1'
+        })
+        setInterval(async () => {
+            sendUpdateStatusToToolbox('update-available', `temp update`, {
+                version: '0.0.1'
+            })
+        }, 60000)
+        // Mock Download every few seconds
+        sendUpdateStatusToToolbox('update-downloaded', 'Starting  Mock download')
+        setInterval(async () => {
+            let time = new Array(11)
+            console.log(chalk.bgGreen.black('Toolbox render process loaded...'));
+            for (let count = 0; count < time.length; count++) {
+                let progressObj = {
+                    bytesPerSecond: '100kb',
+                    percent: `${count * 10}`,
+                    transferred: `${count*512}`,
+                    total: `${count*512*10}`
+                }
+                console.log(chalk.blue(progressObj));
+                sendUpdateStatusToToolbox('update-download-progress', `Download speed: ${progressObj.bytesPerSecond} - Downloaded ${progressObj.percent}% (${progressObj.transferred}/${progressObj.total})`, progressObj)
+                await rest(250)
+            }
+        }, 10000)
+    }
 
 })
 
