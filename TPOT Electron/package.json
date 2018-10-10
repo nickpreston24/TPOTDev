@@ -3,6 +3,7 @@
     "description": "A collection of utilities for ThePathofTruth members",
     "version": "0.0.10",
     "author": "Michael & Braden Preston",
+    "license": "MIT",
     "private": true,
     "homepage": "./",
     "repository": "https://github.com/MikePreston17/TPOTDev",
@@ -105,7 +106,6 @@
         "appId": "tpot.toolbox.app",
         "productName": "TPOT Toolbox",
         "copyright": "Copyright© 2018 Michael & Braden Preston",
-        "publish": "token.json",
         "files": ["**/*", "public/*ico"],
         "extraFiles": [{
                 "from": "src/config",
