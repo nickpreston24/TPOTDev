@@ -13,14 +13,11 @@ const path = require("path");
 const isDev = require("electron-is-dev");
 const log = require('electron-log')
 const chalk = require('chalk');
+const rest = (ms) => {
+    return new Promise(r => setTimeout(r, ms));
+}
 
-let updater
 let toolboxWindow;
-autoUpdater.autoDownload = false
-autoUpdater.logger = log;
-autoUpdater.logger.transports.file.level = 'info';
-log.info('App starting...');
-
 
 //  ELECTRON MAIN PROCESS APP EVENTS
 /////////////////////////////////////////////////////////////////////////
@@ -47,23 +44,59 @@ app.on("activate", () => {
 
 ipc.on("toolbox-initialized", (event, arg) => {
     console.log(chalk.bgGreen.black('Toolbox render process loaded...'));
+
+    // Mock Update Available
+    sendUpdateStatusToToolbox('update-available', `temp update`, {
+        version: '0.0.1'
+    })
+    setInterval(async () => {
+        sendUpdateStatusToToolbox('update-available', `temp update`, {
+            version: '0.0.1'
+        })
+    }, 60000)
+
+    // Mock Download every few seconds
+    sendUpdateStatusToToolbox('update-downloaded', 'Starting  Mock download')
+    setInterval(async () => {
+        let time = new Array(11)
+        console.log(chalk.bgGreen.black('Toolbox render process loaded...'));
+        for (let count = 0; count < time.length; count++) {
+            let progressObj = {
+                bytesPerSecond: '100kb',
+                percent: `${count * 10}`,
+                transferred: `${count*512}`,
+                total: `${count*512*10}`
+            }
+            console.log(chalk.blue(progressObj));
+            sendUpdateStatusToToolbox('update-download-progress', `Download speed: ${progressObj.bytesPerSecond} - Downloaded ${progressObj.percent}% (${progressObj.transferred}/${progressObj.total})`, progressObj)
+            await rest(250)
+        }
+    }, 10000)
+
     // Start Auto Update Service
     autoUpdater.checkForUpdates()
     setInterval(() => {
         autoUpdater.checkForUpdates()
     }, 60000)
+
 })
 
 
 //  AUTO UPDATES
 /////////////////////////////////////////////////////////////////////////
 
+autoUpdater.autoDownload = false
+autoUpdater.autoInstallOnAppQuit = false
+autoUpdater.logger = log;
+autoUpdater.logger.transports.file.level = 'info';
+log.info('App starting...');
+
 autoUpdater.on('checking-for-update', () => {
     sendUpdateStatusToToolbox('update-checking', 'Checking for update...')
 })
 
 autoUpdater.on('update-available', (info) => {
-    sendUpdateStatusToToolbox('update-available', `Found Update: ${info.version}`, info)
+    sendUpdateStatusToToolbox('update-available', `Found Update: ${info}`, info)
 })
 
 autoUpdater.on('update-not-available', (info) => {
@@ -79,26 +112,27 @@ autoUpdater.on('error', (err) => {
 })
 
 autoUpdater.on('download-progress', (progressObj) => {
-    sendUpdateStatusToToolbox('update-download-progress', `Download speed: ${progressObj.bytesPerSecond} - Downloaded ${progressObj.percent}% (${progressObj.transferred}/${progressObj.total})`, info)
+    sendUpdateStatusToToolbox('update-download-progress', `Download speed: ${progressObj.bytesPerSecond} - Downloaded ${progressObj.percent}% (${progressObj.transferred}/${progressObj.total})`)
 })
 
-ipc.on("update-confirm-download-and-restart", (event, arg) => {
-    autoUpdater.quitAndInstall(); // Downloads and Quits
+ipc.on("update-confirm-download-and-restart", async (event, arg) => {
+    await autoUpdater.downloadUpdate()
+    autoUpdater.quitAndInstall(); // Downloads and Quits after Finished
 })
 
 ipc.on("update-confirm-download", (event, arg) => {
-    autoUpdater.downloadUpdate(); // Just Downloads
+    autoUpdater.downloadUpdate(); //  Download Update and Show Progress
 })
 
 ipc.on("update-confirm-restart", (event, arg) => {
-    autoUpdater.quitAndInstall(); // Assuming already download, will just quit, otherwise, download  quit
+    autoUpdater.quitAndInstall(); //  If Update Downloaded, Refresh Install
 })
 
 function sendUpdateStatusToToolbox(event, desc, data) {
     log.info(desc ? desc : "auto-update uknown event triggered");
     toolboxWindow.webContents.send('auto-update', msg = {
-        event: event,
-        desc: desc,
+        event: event ? event : 'update-unknown',
+        desc: desc ? event : 'Unknown Update...',
         data: data ? data : null
     });
 }

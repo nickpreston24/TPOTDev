@@ -1,7 +1,7 @@
 {
     "name": "TPOT_Toolbox",
     "description": "A collection of utilities for ThePathofTruth members",
-    "version": "0.0.12",
+    "version": "0.0.1",
     "author": "Michael & Braden Preston",
     "license": "MIT",
     "private": true,
@@ -106,12 +106,12 @@
         "appId": "tpot.toolbox.app",
         "productName": "TPOT Toolbox",
         "copyright": "Copyright© 2018 Michael & Braden Preston",
+        "icon": "public/defaultIcon.ico",
         "files": [
             "**/*",
             "public/*ico"
         ],
-        "extraFiles": [
-            {
+        "extraFiles": [{
                 "from": "src/config",
                 "to": "storage/drafts",
                 "filter": [
@@ -127,11 +127,16 @@
                 ]
             }
         ],
-        "icon": "public/defaultIcon.ico",
+        "win": {
+            "icon": "public/defaultIcon.ico"
+        },
         "nsis": {
-            "oneClick": false,
+            "oneClick": true,
             "perMachine": true,
-            "allowToChangeInstallationDirectory": true,
+            "allowElevation": false,
+            "allowToChangeInstallationDirectory": false,
+            "deleteAppDataOnUninstall": false,
+            "differentialPackage": true,
             "createStartMenuShortcut": true,
             "createDesktopShortcut": "always",
             "menuCategory": "TPOT",
