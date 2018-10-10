@@ -17,6 +17,7 @@ package-lock.json
 /build
 /dist
 dev-app-update.yml
+token-github.json
 
 # ide
 .vscode/

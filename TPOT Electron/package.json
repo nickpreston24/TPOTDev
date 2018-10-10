@@ -105,10 +105,7 @@
         "appId": "tpot.toolbox.app",
         "productName": "TPOT Toolbox",
         "copyright": "Copyright© 2018 Michael & Braden Preston",
-        "publish": {
-            "provider": "github",
-            "token": "f9ff07f638035e2470b6e980c371bd71b17016bb"
-        },
+        "publish": "token.json",
         "files": ["**/*", "public/*ico"],
         "extraFiles": [{
                 "from": "src/config",
