@@ -18,6 +18,7 @@ package-lock.json
 /dist
 dev-app-update.yml
 token.yml
+.bkp.zip
 
 # ide
 .vscode/
