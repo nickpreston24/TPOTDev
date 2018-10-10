@@ -1,7 +1,7 @@
 {
     "name": "TPOT_Toolbox",
     "description": "A collection of utilities for ThePathofTruth members",
-    "version": "0.0.11",
+    "version": "0.0.12",
     "author": "Michael & Braden Preston",
     "license": "MIT",
     "private": true,
@@ -20,7 +20,6 @@
         "bundle": "yarn react-build",
         "package": "yarn electron-build",
         "build": "yarn bundle && yarn package",
-        "fast": "yarn package -p always",
         "ship": "yarn build -p always",
         "start": "concurrently \"cross-env BROWSER=none yarn react-start\" \"wait-on http://localhost:3000 && electron .\""
     },
@@ -34,6 +33,7 @@
         "babel": "^6.23.0",
         "builtin-modules": "^3.0.0",
         "chai": "^4.1.2",
+        "chalk": "^2.4.1",
         "computed-style-to-inline-style": "^3.0.0",
         "computed-styles": "^1.1.2",
         "create-node": "^2.0.3",
@@ -106,16 +106,25 @@
         "appId": "tpot.toolbox.app",
         "productName": "TPOT Toolbox",
         "copyright": "Copyright© 2018 Michael & Braden Preston",
-        "files": ["**/*", "public/*ico"],
-        "extraFiles": [{
+        "files": [
+            "**/*",
+            "public/*ico"
+        ],
+        "extraFiles": [
+            {
                 "from": "src/config",
                 "to": "storage/drafts",
-                "filter": ["**/*"]
+                "filter": [
+                    "**/*"
+                ]
             },
             {
                 "from": "src/config",
                 "to": "storage/users",
-                "filter": ["**/*", "!**/foo/*.ico"]
+                "filter": [
+                    "**/*",
+                    "!**/foo/*.ico"
+                ]
             }
         ],
         "icon": "public/defaultIcon.ico",
