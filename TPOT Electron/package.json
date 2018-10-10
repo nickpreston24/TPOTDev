@@ -1,7 +1,7 @@
 {
     "name": "TPOT_Toolbox",
     "description": "A collection of utilities for ThePathofTruth members",
-    "version": "0.0.10",
+    "version": "0.0.11",
     "author": "Michael & Braden Preston",
     "license": "MIT",
     "private": true,
