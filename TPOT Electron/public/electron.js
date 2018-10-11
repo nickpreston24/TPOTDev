@@ -54,9 +54,11 @@ ipc.on("toolbox-initialized", (event, arg) => {
     // Mock on Dev Tools
     if (isDev) {
         // Mock Update Available
-        sendUpdateStatusToToolbox('update-available', `temp update`, {
-            version: '0.0.1'
-        })
+        setTimeout(() => {
+            sendUpdateStatusToToolbox('update-available', `temp update`, {
+                version: '0.0.1'
+            })
+        },1500)
         setInterval(async () => {
             sendUpdateStatusToToolbox('update-available', `temp update`, {
                 version: '0.0.1'

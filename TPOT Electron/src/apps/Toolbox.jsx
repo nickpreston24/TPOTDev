@@ -1,21 +1,13 @@
 // React
-import React from 'react'
-import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
-import ShiftDrawer from '../react/Containers/ShiftDrawer'
-import AccountItems from '../react/Components/AccountItems'
-import ToolbarItems from '../react/Components/ToolbarItems'
-import AppItems from '../react/Components/AppItems'
-import SettingsItems from '../react/Components/SettingsItems'
-import Letters from './Letters'
-import 'typeface-roboto'
-
-import Button from '@material-ui/core/Button';
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import DialogTitle from '@material-ui/core/DialogTitle';
-import withMobileDialog from '@material-ui/core/withMobileDialog';
+import { createMuiTheme, MuiThemeProvider } from '@material-ui/core/styles';
+import React from 'react';
+import 'typeface-roboto';
+import AccountItems from '../react/Components/AccountItems';
+import AppItems from '../react/Components/AppItems';
+import SettingsItems from '../react/Components/SettingsItems';
+import ToolbarItems from '../react/Components/ToolbarItems';
+import ShiftDrawer from '../react/Containers/ShiftDrawer';
+import Letters from './Letters';
 
 
 const ipc = window.require('electron').ipcRenderer;
@@ -133,22 +125,22 @@ class Toolbox extends React.Component {
         this.setState({ autoUpdateModal: true })
     }
 
-    componentDidMount() {
-        let openAutoUpdateModal = this.openAutoUpdateModal
-        ipc.on('auto-update', function (e, msg) {
-            console.log(msg)
-            if (msg.event === "update-available") {
-                openAutoUpdateModal(msg)
-            }
-        })
-    }
+    // componentDidMount() {
+    //     let openAutoUpdateModal = this.openAutoUpdateModal
+    //     ipc.on('auto-update', function (e, msg) {
+    //         console.log(msg)
+    //         if (msg.event === "update-available") {
+    //             openAutoUpdateModal(msg)
+    //         }
+    //     })
+    // }
 
-    openAutoUpdateModal = (msg) => {
-        this.setState({
-            autoUpdateModal: true,
-            updateVersion: msg.data && msg.data.version ? msg.data.version : "no version"
-        })
-    }
+    // openAutoUpdateModal = (msg) => {
+    //     this.setState({
+    //         autoUpdateModal: true,
+    //         updateVersion: msg.data && msg.data.version ? msg.data.version : "no version"
+    //     })
+    // }
 
     render() {
         return (
@@ -166,32 +158,6 @@ class Toolbox extends React.Component {
                         >
                         </ShiftDrawer>
                     </MuiThemeProvider>
-
-                    <Dialog
-                        open={this.state.autoUpdateModal}
-                        onClose={this.closeAutoUpdateModal}
-                    >
-                        <DialogTitle id="responsive-dialog-title">{"TPOT Cloud Updates"}</DialogTitle>
-                        <DialogContent>
-                            <DialogContentText>{`There is a new update available for download: Toolbox ${isDev ? this.state.updateVersion : "[dev]"}`}
-                            </DialogContentText>
-                        </DialogContent>
-                        <DialogActions>
-                            {/* <Button onClick={this.confirmAutoUpdateCommand} id='update-confirm-download-and-restart'color="primary">
-                                Install
-                            </Button> */}
-                            <Button onClick={this.confirmAutoUpdateCommand} id='update-confirm-download-and-restart'color="primary">
-                                Install
-                            </Button>
-                            <Button onClick={this.confirmAutoUpdateCommand} id='update-confirm-download' color="primary" autoFocus>
-                                Download
-                             </Button>
-                            <Button onClick={this.confirmAutoUpdateCommand} id='update-confirm-restart' color="primary" autoFocus>
-                                Reload
-                             </Button>
-                        </DialogActions>
-                    </Dialog>
-
                 </Provider>
             </div>
         )

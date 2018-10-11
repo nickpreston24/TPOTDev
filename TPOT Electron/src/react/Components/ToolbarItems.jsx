@@ -1,31 +1,25 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
-
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
-import CloudDownload from '@material-ui/icons/CloudDownload';
-import Save from '@material-ui/icons/Save';
-import DraftsIcon from '@material-ui/icons/Drafts';
-import SendIcon from '@material-ui/icons/Send';
-import SettingsIcon from '@material-ui/icons/SettingsRounded'
-import ModalLoad from '../ModalLoad'
-import ModalSettings from '../ModalSettings'
-
-import ListItemAvatar from '@material-ui/core/ListItemAvatar';
-import Avatar from '@material-ui/core/Avatar';
+import Badge from '@material-ui/core/Badge';
 import Button from "@material-ui/core/Button";
-import FolderIcon from '@material-ui/icons/Folder';
-import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
-import IconButton from '@material-ui/core/IconButton';
-import DeleteIcon from '@material-ui/icons/Delete';
-import DriveIcon from '../../media/drive.png'
-import FirebaseIcon from '../../media/firebase_icon.png'
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import { withStyles } from '@material-ui/core/styles';
+import AccountCircle from '@material-ui/icons/AccountCircle';
+import UpdateIcon from 'mdi-material-ui/CloudDownload';
+import DownloadIcon from 'mdi-material-ui/Download';
+import ChatIcon from 'mdi-material-ui/Forum';
+import HelpIcon from 'mdi-material-ui/HelpCircle';
+import PropTypes from 'prop-types';
+import React from 'react'; 
+import DriveIcon from '../../media/drive.png';
+import FirebaseIcon from '../../media/firebase_icon.png';
 
-import UpdateIcon from 'mdi-material-ui/BriefcaseDownload'
 
-import Auth from '../Auth'
+
+const ipc = window.require('electron').ipcRenderer;
+const isDev = require("electron-is-dev");
 
 
 
@@ -49,6 +43,48 @@ const styles = theme => ({
     },
     active: {
         background: theme.palette.primary.darkS
+    },
+    toolbar: {
+        background: theme.palette.secondary.light,
+        maxHeight: 48,
+        paddingRight: 12
+    },
+    logBar: {
+        color: "#a0da7c",
+        width: "100%",
+        fontStyle: "italic"
+    },
+    toolSet: {
+        minWidth: 600,
+        float: "right",
+        "&*": {
+            display: "inline-block",
+        }
+    },
+    rightIcon: {
+        marginLeft: 10
+    },
+    badgeVisible: {
+        position: "absolute",
+        right: 0,
+        top: 0,
+        height: 18,
+        width: 18,
+        opacity: 100,
+        background: "dodgerblue"
+    },
+    badgeInvisible: {
+        height: 0,
+        width: 0,
+        opacity: 0,
+        transition: "all 1s ease-in-out 0s",
+    },
+    margin: {
+        float: "right",
+    },
+    downloadSvg: {
+        fontSize: 14,
+        color: theme.palette.primary.contrastText
     }
 });
 
@@ -66,7 +102,11 @@ class DrawerMenuList extends React.Component {
     state = {
         loadModalOpen: false,
         settingsModalOpen: false,
+        autoUpdateModal: false,
         secondary: true,
+
+        updateAvailable: false,
+        updateVersion: "uknown version",
     }
 
 
@@ -86,8 +126,37 @@ class DrawerMenuList extends React.Component {
         this.setState({ settingsModalOpen: bool })
     }
 
+    componentDidMount() {
+        let setUpdateAvailable = this.setUpdateAvailable
+        ipc.on('auto-update', function (e, msg) {
+            console.log(msg)
+            if (msg.event === "update-available") {
+                setUpdateAvailable(msg)
+            }
+        })
+    }
+
+    setUpdateAvailable = (msg) => {
+        this.setState({
+            updateAvailable: true,
+            updateVersion: msg.data && msg.data.version ? msg.data.version : "unknown version"
+        })
+    }
+
+    openUpdateModal = () => {
+        this.setState({
+            autoUpdateModal: true,
+        })
+    }
+
+    closeUpdateModal = () => {
+        this.setState({ autoUpdateModal: false })
+    }
+
+
     render() {
         const { classes } = this.props;
+        const visible = true
 
         const accounts = [
             {
@@ -111,13 +180,46 @@ class DrawerMenuList extends React.Component {
 
         return (
             <div className={classes.root}>
-                <Button
-                    className={classes.button}
-                    onClick={this.openLogoutMenu}
-                    color="primary"
+                <div id="Log" className={classes.logBar}>{`[Letters] File saved to Disk`}</div>
+                <div id="Tools" className={classes.toolSet}>
+                    <Button id="Welcome" color="inherit" className={classes.button}>{`Welcome, ${"Victor H."}`}<AccountCircle className={classes.rightIcon} /></Button>
+
+                    <Badge color="primary" visible="false" badgeContent={<DownloadIcon className={classes.downloadSvg} />} onClick={this.openUpdateModal} classes={{ root: classes.margin, badge: this.state.updateAvailable ? classes.badgeVisible : classes.badgeInvisible }}>
+                        <Button color="inherit" className={classes.button}>{`Updates`}<UpdateIcon className={classes.rightIcon} /></Button>
+                    </Badge>
+                    <Badge color="primary" badgeContent={`5`} classes={{ root: classes.margin, badge: false ? classes.badgeVisible : classes.badgeInvisible }}>
+                        <Button color="inherit" className={classes.button}>{`Chat`}<ChatIcon className={classes.rightIcon} /></Button>
+                    </Badge>
+                    <Badge color="primary" badgeContent={`2`} classes={{ root: classes.margin, badge: false ? classes.badgeVisible : classes.badgeInvisible }}>
+                        <Button color="inherit" className={classes.button}>{`Help!`}<HelpIcon className={classes.rightIcon} /></Button>
+                    </Badge>
+                </div>
+
+                <Dialog
+                    open={this.state.autoUpdateModal}
+                    onClose={this.closeUpdateModal}
                 >
-                    Victor H. <Avatar />
-                </Button>
+                    <DialogTitle id="responsive-dialog-title">{"TPOT Cloud Updates"}</DialogTitle>
+                    <DialogContent>
+                        <DialogContentText>{`There is a new update available for download: Toolbox ${!isDev ? this.state.updateVersion : "[dev]"}`}
+                        </DialogContentText>
+                    </DialogContent>
+                    <DialogActions>
+                        {/* <Button onClick={this.confirmAutoUpdateCommand} id='update-confirm-download-and-restart'color="primary">
+                                Install   
+                            </Button> */  } 
+                        <Button onClick={this.confirmAutoUpdateCommand} id='update-confirm-download-and-restart' color="primary">
+                            Install
+                            </Button>
+                        <Button onClick={this.confirmAutoUpdateCommand} id='update-confirm-download' color="primary" autoFocus>
+                            Download
+                             </Button>
+                        <Button onClick={this.confirmAutoUpdateCommand} id='update-confirm-restart' color="primary" autoFocus>
+                            Reload
+                             </Button>
+                    </DialogActions>
+                </Dialog>
+
             </div>
         );
     }
