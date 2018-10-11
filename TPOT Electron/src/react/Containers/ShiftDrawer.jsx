@@ -12,13 +12,29 @@ import Tooltip from '@material-ui/core/Tooltip';
 import Zoom from '@material-ui/core/Zoom';
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from '@material-ui/core/Typography';
+import Badge from '@material-ui/core/Badge';
+
+import DownloadIcon from 'mdi-material-ui/Download'
+
+
 import 'typeface-roboto'
+
+import Auth from '../Auth'
+
+import DeleteIcon from '@material-ui/icons/Delete';
+
 
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import DraftsIcon from '@material-ui/icons/Drafts';
 import PlusIcon from '@material-ui/icons/Add'
+import AccountCircle from '@material-ui/icons/AccountCircle';
+import IconButton from '@material-ui/core/IconButton';
+
+import UpdateIcon from 'mdi-material-ui/CloudDownload'
+import ChatIcon from 'mdi-material-ui/Forum'
+import HelpIcon from 'mdi-material-ui/HelpCircle'
 
 const drawerWidth = 250;
 
@@ -51,7 +67,21 @@ const styles = theme => ({
         // },
     },
     toolbar: {
-        background: theme.palette.secondary.light
+        background: theme.palette.secondary.light,
+        color: "#a0da7c",
+        maxHeight: 48,
+        paddingRight: 12
+    },
+    logBar: {
+        width: "100%",
+        fontStyle: "italic"
+    },
+    toolSet: {
+        minWidth: 600,
+        float: "right",
+        "&*": {
+            display: "inline-block",
+        }
     },
     accounts: {
         width: "100%",
@@ -83,6 +113,35 @@ const styles = theme => ({
     icon: {
         color: theme.palette.secondary.textMain,
     },
+    button: {
+        color: theme.palette.secondary.textDark,
+        // color: "dodgerblue",
+    },
+    rightIcon: {
+        marginLeft: 10
+    },
+    badgeVisible: {
+        position: "absolute",
+        right: 0,
+        top: 0,
+        height: 18,
+        width: 18,
+        opacity: 100,
+        background: "dodgerblue"
+    },
+    badgeInvisible: {
+        height: 0,
+        width: 0,
+        opacity: 0,
+        transition: "all 1s ease-in-out 0s",
+    },
+    margin: {
+        float: "right",
+    },
+    downloadSvg: {
+        fontSize: 14,
+        color: theme.palette.primary.contrastText
+    },
 });
 
 class ShiftDrawer extends React.Component {
@@ -96,6 +155,7 @@ class ShiftDrawer extends React.Component {
 
     render() {
         const { classes } = this.props;
+        const visible = true
 
         return (
             <React.Fragment>
@@ -139,7 +199,24 @@ class ShiftDrawer extends React.Component {
                         )}
                     </div>
                 </Drawer>
-                <Toolbar className={classes.toolbar} variant="dense">
+                <Toolbar id="Toolbar" className={classes.toolbar} variant="dense">
+                    <div id="Log" className={classes.logBar}>{`[Letters] File saved to Disk`}</div>
+                    <div id="Tools" className={classes.toolSet}>
+                        <Button id="Welcome" color="inherit" className={classes.button}>{`Welcome, ${"Victor H."}`}<AccountCircle className={classes.rightIcon} /></Button>
+
+                        <Badge color="primary" visible="false" badgeContent={<DownloadIcon className={classes.downloadSvg} />} classes={{ root: classes.margin, badge: visible ? classes.badgeVisible : classes.badgeInvisible }}>
+                            <Button color="inherit" className={classes.button}>{`Updates`}<UpdateIcon className={classes.rightIcon} /></Button>
+                        </Badge>
+                        <Badge color="primary" badgeContent={`5`} classes={{ root: classes.margin, badge: visible ? classes.badgeVisible : classes.badgeInvisible }}>
+                            <Button color="inherit" className={classes.button}>{`Chat`}<ChatIcon className={classes.rightIcon} /></Button>
+                        </Badge>
+                        <Badge color="primary" badgeContent={`2`} classes={{ root: classes.margin, badge: visible ? classes.badgeVisible : classes.badgeInvisible }}>
+                            <Button color="inherit" className={classes.button}>{`Help!`}<HelpIcon className={classes.rightIcon} /></Button>
+                        </Badge>
+                    </div>
+                    {/* {this.props.toolbarItems && (
+                        this.props.toolbarItems
+                    )} */}
                 </Toolbar>
                 {this.props.currentApp && (
                     this.props.currentApp

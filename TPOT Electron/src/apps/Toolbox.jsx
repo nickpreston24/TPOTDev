@@ -3,6 +3,7 @@ import React from 'react'
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import ShiftDrawer from '../react/Containers/ShiftDrawer'
 import AccountItems from '../react/Components/AccountItems'
+import ToolbarItems from '../react/Components/ToolbarItems'
 import AppItems from '../react/Components/AppItems'
 import SettingsItems from '../react/Components/SettingsItems'
 import Letters from './Letters'
@@ -18,6 +19,7 @@ import withMobileDialog from '@material-ui/core/withMobileDialog';
 
 
 const ipc = window.require('electron').ipcRenderer;
+const isDev = require("electron-is-dev");
 // Electron
 // window.require('electron-react-devtools').install() // Works, but resets
 // window.require('devtron').install() // Not Working ATM
@@ -159,6 +161,7 @@ class Toolbox extends React.Component {
                             appItems={<AppItems />}
                             settingsItems={<SettingsItems />}
                             settingsPage={''}
+                            toolbarItems={<ToolbarItems/>}
                             currentApp={this.state.currentApp}
                         >
                         </ShiftDrawer>
@@ -170,9 +173,7 @@ class Toolbox extends React.Component {
                     >
                         <DialogTitle id="responsive-dialog-title">{"TPOT Cloud Updates"}</DialogTitle>
                         <DialogContent>
-                            <DialogContentText>{`
-                            There is a new update available for download: Toolbox ${this.state.updateVersion}
-                            `}
+                            <DialogContentText>{`There is a new update available for download: Toolbox ${isDev ? this.state.updateVersion : "[dev]"}`}
                             </DialogContentText>
                         </DialogContent>
                         <DialogActions>

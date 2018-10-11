@@ -27,8 +27,8 @@ import { Divider } from "@material-ui/core";
 import ModalLoad from '../react/ModalLoad'
 import DriveIcon from '../media/drive.png'
 import FirebaseIcon from '../media/firebase_icon.png'
-import CloudDownload from '@material-ui/icons/CloudDownload';
-import Save from '@material-ui/icons/Save';
+import LoadIcon from '@material-ui/icons/Folder';
+import Save from '@material-ui/icons/Save'
 import SettingsIcon from '@material-ui/icons/SettingsRounded'
 import SvgIcon from '@material-ui/core/SvgIcon';
 
@@ -104,7 +104,7 @@ class MiniDrawer extends React.Component {
             {
                 name: "Load",
                 secondary: "braden.t.preston@gmail.com",
-                icon: <CloudDownload />,
+                icon: <LoadIcon />,
                 active: true,
                 handler: () => {
                     this.openLoadModal();
