@@ -38,12 +38,15 @@ app.on("activate", () => {
     }
 });
 
+let doOnce = false
 
 //  TOOLBOX  POST-LOAD EVENTS
 /////////////////////////////////////////////////////////////////////////
 
 ipc.on("toolbox-initialized", (event, arg) => {
-    console.log(chalk.bgGreen.black('Toolbox render process loaded...'));
+    console.log(chalk.bgGreen.black('Toolbox render process loaded...'))
+
+    if (doOnce === false) {
 
     // Start Auto Update Service
     autoUpdater.checkForUpdates()
@@ -56,12 +59,12 @@ ipc.on("toolbox-initialized", (event, arg) => {
         // Mock Update Available
         setTimeout(() => {
             sendUpdateStatusToToolbox('update-available', `temp update`, {
-                version: '0.0.1'
+                version: '0.1.15'
             })
-        },1500)
+        }, 1500)
         setInterval(async () => {
             sendUpdateStatusToToolbox('update-available', `temp update`, {
-                version: '0.0.1'
+                version: '0.1.15'
             })
         }, 60000)
         // Mock Download every few seconds
@@ -78,9 +81,27 @@ ipc.on("toolbox-initialized", (event, arg) => {
                 }
                 console.log(chalk.blue(progressObj));
                 sendUpdateStatusToToolbox('update-download-progress', `Download speed: ${progressObj.bytesPerSecond} - Downloaded ${progressObj.percent}% (${progressObj.transferred}/${progressObj.total})`, progressObj)
-                await rest(250)
+                await rest(1000)
             }
-        }, 10000)
+            sendUpdateStatusToToolbox('update-downloaded', `Update downloaded: ${"fin"}`, {
+                version: "test"
+            })
+            setTimeout(() => {
+                sendUpdateStatusToToolbox('update-error', `Error: ${"TEST"}`, "test")
+            }, 1500)
+            setTimeout(() => {
+                sendUpdateStatusToToolbox('update-available', `temp update`, {
+                    version: '0.1.15'
+                })
+            }, 1500)
+
+        }, 15000)
+    }
+
+    }
+
+    if (doOnce === false) {
+        doOnce = true
     }
 
 })
@@ -116,7 +137,7 @@ autoUpdater.on('error', (err) => {
 })
 
 autoUpdater.on('download-progress', (progressObj) => {
-    sendUpdateStatusToToolbox('update-download-progress', `Download speed: ${progressObj.bytesPerSecond} - Downloaded ${progressObj.percent}% (${progressObj.transferred}/${progressObj.total})`)
+    sendUpdateStatusToToolbox('update-download-progress', `Download speed: ${progressObj.bytesPerSecond} - Downloaded ${progressObj.percent}% (${progressObj.transferred}/${progressObj.total})`, progressObj)
 })
 
 ipc.on("update-confirm-download-and-restart", async (event, arg) => {

@@ -1,20 +1,16 @@
 import Badge from '@material-ui/core/Badge';
 import Button from "@material-ui/core/Button";
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import DialogTitle from '@material-ui/core/DialogTitle';
 import { withStyles } from '@material-ui/core/styles';
-import AccountCircle from '@material-ui/icons/AccountCircle';
-import UpdateIcon from 'mdi-material-ui/CloudDownload';
-import DownloadIcon from 'mdi-material-ui/Download';
 import ChatIcon from 'mdi-material-ui/Forum';
 import HelpIcon from 'mdi-material-ui/HelpCircle';
 import PropTypes from 'prop-types';
-import React from 'react'; 
+import React from 'react';
 import DriveIcon from '../../media/drive.png';
 import FirebaseIcon from '../../media/firebase_icon.png';
+import UpdatesButton from './UpdatesButton';
+import AccountCircle from '@material-ui/icons/AccountCircle'
+import DownloadIcon from 'mdi-material-ui/Download';
+import UpdateIcon from 'mdi-material-ui/CloudDownload';
 
 
 
@@ -26,6 +22,7 @@ const isDev = require("electron-is-dev");
 
 const styles = theme => ({
     root: {
+        color: theme.palette.secondary.textDark
     },
     settings: {
         position: "absolute",
@@ -107,6 +104,7 @@ class DrawerMenuList extends React.Component {
 
         updateAvailable: false,
         updateVersion: "uknown version",
+        updateDownloadProgress: {}
     }
 
 
@@ -127,13 +125,18 @@ class DrawerMenuList extends React.Component {
     }
 
     componentDidMount() {
-        let setUpdateAvailable = this.setUpdateAvailable
-        ipc.on('auto-update', function (e, msg) {
-            console.log(msg)
-            if (msg.event === "update-available") {
-                setUpdateAvailable(msg)
-            }
-        })
+        // let setUpdateAvailable = this.setUpdateAvailable
+        // let setUpdateDownloadProgress = this.setUpdateDownloadProgress
+        // ipc.on('auto-update', function (e, msg) {
+        //     console.log(msg)
+        //     if (msg.event === "update-available") {
+        //         console.log(msg)
+        //         setUpdateAvailable(msg)
+        //     }
+        //     if (msg.event === "update-download-progress" && msg.data) {
+        //         setUpdateDownloadProgress(msg)
+        //     }
+        // })
     }
 
     setUpdateAvailable = (msg) => {
@@ -141,6 +144,10 @@ class DrawerMenuList extends React.Component {
             updateAvailable: true,
             updateVersion: msg.data && msg.data.version ? msg.data.version : "unknown version"
         })
+    }
+
+    setUpdateDownloadProgress = (msg) => {
+        this.setState({ updateDownloadProgress: msg.data })
     }
 
     openUpdateModal = () => {
@@ -153,10 +160,23 @@ class DrawerMenuList extends React.Component {
         this.setState({ autoUpdateModal: false })
     }
 
+    handleUpdateConfirmDownloadAndRestart = () => {
+        ipc.send('update-confirm-download-and-restart')
+    }
+
+    handleUpdateConfirmDownload = () => {
+        ipc.send('update-confirm-download')
+    }
+
+    handleUpdateConfirmRestart = () => {
+        ipc.send('update-confirm-restart')
+    }
 
     render() {
         const { classes } = this.props;
         const visible = true
+
+        const progressString = this.state.updateDownloadProgress != null ? `Downloading Update: ${this.state.updateDownloadProgress.percent}% (${this.state.updateDownloadProgress.transferred}/${this.state.updateDownloadProgress.total}) - Download speed: ${this.state.updateDownloadProgress.bytesPerSecond}` : `Unknown Progress`
 
         const accounts = [
             {
@@ -180,13 +200,9 @@ class DrawerMenuList extends React.Component {
 
         return (
             <div className={classes.root}>
-                <div id="Log" className={classes.logBar}>{`[Letters] File saved to Disk`}</div>
-                <div id="Tools" className={classes.toolSet}>
+                <div id="rename" className={classes.toolSet}>
                     <Button id="Welcome" color="inherit" className={classes.button}>{`Welcome, ${"Victor H."}`}<AccountCircle className={classes.rightIcon} /></Button>
-
-                    <Badge color="primary" visible="false" badgeContent={<DownloadIcon className={classes.downloadSvg} />} onClick={this.openUpdateModal} classes={{ root: classes.margin, badge: this.state.updateAvailable ? classes.badgeVisible : classes.badgeInvisible }}>
-                        <Button color="inherit" className={classes.button}>{`Updates`}<UpdateIcon className={classes.rightIcon} /></Button>
-                    </Badge>
+                    <UpdatesButton />
                     <Badge color="primary" badgeContent={`5`} classes={{ root: classes.margin, badge: false ? classes.badgeVisible : classes.badgeInvisible }}>
                         <Button color="inherit" className={classes.button}>{`Chat`}<ChatIcon className={classes.rightIcon} /></Button>
                     </Badge>
@@ -195,7 +211,7 @@ class DrawerMenuList extends React.Component {
                     </Badge>
                 </div>
 
-                <Dialog
+                {/* <Dialog
                     open={this.state.autoUpdateModal}
                     onClose={this.closeUpdateModal}
                 >
@@ -205,20 +221,11 @@ class DrawerMenuList extends React.Component {
                         </DialogContentText>
                     </DialogContent>
                     <DialogActions>
-                        {/* <Button onClick={this.confirmAutoUpdateCommand} id='update-confirm-download-and-restart'color="primary">
-                                Install   
-                            </Button> */  } 
-                        <Button onClick={this.confirmAutoUpdateCommand} id='update-confirm-download-and-restart' color="primary">
-                            Install
-                            </Button>
-                        <Button onClick={this.confirmAutoUpdateCommand} id='update-confirm-download' color="primary" autoFocus>
-                            Download
-                             </Button>
-                        <Button onClick={this.confirmAutoUpdateCommand} id='update-confirm-restart' color="primary" autoFocus>
-                            Reload
-                             </Button>
+                        <Button onClick={this.handleUpdateConfirmDownloadAndRestart} id='Update All' color="primary">{`Update & Restart`}</Button>
+                        <Button onClick={this.handleUpdateConfirmDownload} id='Update Download' color="primary" autoFocus>{`Download`}</Button>
+                        <Button onClick={this.handleUpdateConfirmRestart} id='Update Restart' color="primary" autoFocus>{`Restart`}</Button>
                     </DialogActions>
-                </Dialog>
+                </Dialog> */}
 
             </div>
         );

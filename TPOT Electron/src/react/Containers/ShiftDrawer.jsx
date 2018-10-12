@@ -134,7 +134,7 @@ class ShiftDrawer extends React.Component {
                             this.props.accountItems
                         )}
                         <ListItem button>
-                            <ListItemIcon className={classes.icon}>
+                            <ListItemIcon className={classes.icon}> 
                                 <PlusIcon />
                             </ListItemIcon>
                             <ListItemText primary="Add Account" primaryTypographyProps={{ classes: { root: classes.secondaryText } }} />
@@ -163,13 +163,15 @@ class ShiftDrawer extends React.Component {
                     </div>
                 </Drawer>
                 <Toolbar id="Toolbar" className={classes.toolbar} variant="dense">
-                    {this.props.toolbarItems && (
-                        this.props.toolbarItems
+                    {this.props.toolbar && (
+                        this.props.toolbar
                     )}
                 </Toolbar>
-                {this.props.currentApp && (
-                    this.props.currentApp
-                )}
+                <React.Fragment>
+                    {this.props.currentApp && (
+                        this.props.currentApp
+                    )}
+                </React.Fragment>
 
             </React.Fragment>
         )

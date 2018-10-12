@@ -5,7 +5,7 @@ import 'typeface-roboto';
 import AccountItems from '../react/Components/AccountItems';
 import AppItems from '../react/Components/AppItems';
 import SettingsItems from '../react/Components/SettingsItems';
-import ToolbarItems from '../react/Components/ToolbarItems';
+import Toolbar from '../react/Components/Toolbar';
 import ShiftDrawer from '../react/Containers/ShiftDrawer';
 import Letters from './Letters';
 
@@ -82,6 +82,8 @@ const theme = createMuiTheme({
     },
     status: {
         danger: 'orange',
+        warning: '#deb15b',
+        ready: '#98C379',
     },
     // overrides: {
     //   MuiStepper: { // Name of the component ⚛️ / style sheet
@@ -119,12 +121,6 @@ class Toolbox extends React.Component {
         this.setState({ autoUpdateModal: false })
     }
 
-    confirmAutoUpdateCommand = (event) => {
-        console.log(event.currentTarget.id)
-        ipc.send(event.currentTarget.id)
-        this.setState({ autoUpdateModal: true })
-    }
-
     // componentDidMount() {
     //     let openAutoUpdateModal = this.openAutoUpdateModal
     //     ipc.on('auto-update', function (e, msg) {
@@ -153,7 +149,7 @@ class Toolbox extends React.Component {
                             appItems={<AppItems />}
                             settingsItems={<SettingsItems />}
                             settingsPage={''}
-                            toolbarItems={<ToolbarItems/>}
+                            toolbar={<Toolbar/>}
                             currentApp={this.state.currentApp}
                         >
                         </ShiftDrawer>
