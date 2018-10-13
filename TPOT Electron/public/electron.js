@@ -38,7 +38,7 @@ app.on("activate", () => {
     }
 });
 
-let doOnce = false
+let doOnce = true
 
 //  TOOLBOX  POST-LOAD EVENTS
 /////////////////////////////////////////////////////////////////////////

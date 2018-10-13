@@ -27,12 +27,14 @@ import LettersIcon from '../../media/letters_icon.png'
 
 const styles = theme => ({
     root: {
-        paddingTop: 8,
+        paddingTop: 4,
+        // paddingBottom: 8,
+        // marginBottom: 8,
         borderTop: `1px solid ${theme.palette.secondary.light}`,
     },
     settings: {
-        position: "absolute",
-        bottom: 8,
+        // position: "absolute",
+        // bottom: 8,
     },
     avatar: {
         width: 32,
@@ -87,9 +89,9 @@ class DrawerMenuList extends React.Component {
         return (
             <div className={classes.root}>
                 <ListItem button className={classes.active} onClick={this.openSettingsModal}>
-                    <ListItemAvatar>
-                        <SvgIcon component={SettingsIcon} className={classes.letter} children={<SettingsIcon/>}/>
-                    </ListItemAvatar>
+                    <ListItemIcon className={classes.letter}>
+                        <SettingsIcon  />
+                    </ListItemIcon>
                     <ListItemText
                         primary="Settings"
                         classes={{ primary: classes.secondaryText, secondary: classes.secondaryText }}

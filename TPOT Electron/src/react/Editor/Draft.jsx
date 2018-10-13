@@ -18,10 +18,11 @@ import { getSelectedBlocksMap, getSelectedBlocksList, getSelectedBlock, getBlock
 // Custom DraftJS Architecture
 import Editor, { createEditorStateWithText } from 'draft-js-plugins-editor';
 import { plugins, InlineToolbar, SideToolbar } from './plugins/plugins'
-import { stateFromElementConfig, styles, exporter, customStyleFn, baseStyleMap, myBlockStyleFn, blockRenderMap, draftContentFromHtml } from './utilities/transforms'
+import { stateFromElementConfig, styles, exporter, customStyleFn, baseStyleMap, myBlockStyleFn, blockRenderMap, draftContentFromHtml, draftContentToHtml } from './utilities/transforms'
 import MuiToolbar from './components/MuiToolbar'
 
 import JSONPretty from 'react-json-pretty';
+import htmlBeautify from 'html-beautify'
 
 // Electron (change to import method later)
 const electron = window.require('electron')
@@ -183,10 +184,15 @@ class Wysiwyg extends React.Component {
         const newContentState = draftContentFromHtml(html, stateFromElementConfig, baseStyleMap)
         const newEditorState = EditorState.createWithContent(newContentState)
         const rawStateAsText = convertToRaw(newContentState).blocks
+        console.log(newContentState)
+        const rawHTML = draftContentToHtml(newContentState)
+        const rawHTMLPretty = rawHTML
+        console.log(rawHTMLPretty)
         this.setState({
             originalState: html,
             editorState: newEditorState,
-            codeState: rawStateAsText,
+            codeState: rawHTMLPretty,
+            // codeState: rawStateAsText,
         })
 
     }
@@ -310,7 +316,10 @@ class Wysiwyg extends React.Component {
                     }
                     {editMode === "code" &&
                         <React.Fragment>
-                            <JSONPretty id="json-pretty" json={this.state.codeState}></JSONPretty>
+                        <div>
+                            {this.state.codeState}
+                        </div>
+                            {/* <JSONPretty id="json-pretty" json={this.state.codeState}></JSONPretty> */}
                         </React.Fragment>
                     }
                     {editMode === "edited" &&

@@ -87,6 +87,7 @@ class UpdatesButton extends React.Component {
         updateVersion: "uknown version",
         updateDownloadVersion: "uknown version",
         updateStatus: "DEFAULT",
+        autoUpdateModal: false
     }
 
     openLoadModal = () => {
@@ -226,7 +227,7 @@ class UpdatesButton extends React.Component {
             {
                 status: "DEFAULT",
                 class: "invisible",
-                icon: null,
+                icon: <div/>,
             },
         ]
         const badge = badges.find(badge => badge.status == updateStatus)

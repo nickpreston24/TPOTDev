@@ -3,6 +3,9 @@
 import {
     stateFromElement
 } from 'draft-js-import-element'
+import {
+    stateToHTML
+} from 'draft-js-export-html'
 import createStyles from 'draft-js-custom-styles';
 import Immutable from 'immutable'
 import {
@@ -125,6 +128,7 @@ function myBlockStyleFn(contentBlock) {
 // STATE FROM ELEMENT WRAPPER FUNCTION (Package by @sstur + stuff by Braden)
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
+// IMPORT FUNCTION
 // make ContentState from HTML String
 const draftContentFromHtml = (html, stateFromElementConfig, baseStyleMap) => {
     let contentState = stateFromElement(createNode(`<div>${html}</div>`), stateFromElementConfig)
@@ -331,6 +335,42 @@ const stateFromElementConfig = {
     }
 }
 
+//  end of IMPORT FUNCTION
+
+// IMPORT FUNCTION
+// make ContentState from HTML String
+const draftContentToHtml = (contentState ) => {
+    let html = stateToHTML(contentState, stateToHTMLConfig)
+    return html
+}
+
+const stateToHTMLConfig = {
+  inlineStyles: {
+      // Override default element (`strong`).
+      BOLD: {
+          element: 'b'
+      },
+      ITALIC: {
+          // Add custom attributes. You can also use React-style `className`.
+          attributes: {
+              class: 'foo'
+          },
+          // Use camel-case. Units (`px`) will be added where necessary.
+          style: {
+              fontSize: 40
+          }
+      },
+      // Use a custom inline style. Default element is `span`.
+      RED: {
+          style: {
+              color: '#900'
+          }
+      },
+  },
+}
+
+//  end of EXPORT FUNCTION
+
 export {
     styles,
     exporter,
@@ -340,5 +380,6 @@ export {
     blockRenderMap,
     stateFromElementConfig,
     draftContentFromHtml,
-    flattenInlineStyleRanges
+    draftContentToHtml,
+    flattenInlineStyleRanges,
 }

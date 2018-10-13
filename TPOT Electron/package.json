@@ -1,7 +1,7 @@
 {
     "name": "TPOT_Toolbox",
     "description": "A collection of utilities for ThePathofTruth members",
-    "version": "0.0.5",
+    "version": "0.0.6",
     "author": "Michael & Braden Preston",
     "license": "MIT",
     "private": true,
@@ -48,6 +48,7 @@
         "draft-js-alignment-plugin": "^2.0.3",
         "draft-js-anchor-plugin": "^2.0.2",
         "draft-js-custom-styles": "^2.0.4",
+        "draft-js-export-html": "^1.2.0",
         "draft-js-focus-plugin": "^2.2.0",
         "draft-js-image-plugin": "^2.0.6",
         "draft-js-import-element": "^1.2.1",
@@ -70,6 +71,7 @@
         "firebase-admin": "^6.0.0",
         "firebaseui": "^3.4.0",
         "googleapis": "^27.0.0",
+        "html-beautify": "^1.0.4",
         "html-to-draftjs": "^1.4.0",
         "immutable": "^3.8.2",
         "jquery": "^3.3.1",
@@ -111,7 +113,8 @@
             "**/*",
             "public/*ico"
         ],
-        "extraFiles": [{
+        "extraFiles": [
+            {
                 "from": "src/config",
                 "to": "storage/drafts",
                 "filter": [
