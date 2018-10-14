@@ -1,4 +1,4 @@
-# TPOT Toolbox 🐦
+# TPOT Toolbox 💼
 
 
 **An example of using create-react-app, electron, and file2html**.  
