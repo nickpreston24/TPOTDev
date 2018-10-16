@@ -8,6 +8,7 @@ import createSideToolbarPlugin from 'draft-js-side-toolbar-plugin';
 // import createImagePlugin from 'draft-js-image-plugin';
 import 'draft-js-inline-toolbar-plugin/lib/plugin.css';
 import 'draft-js-side-toolbar-plugin/lib/plugin.css';
+import createMuiToolbarPlugin from './draft-js-mui-toolbar'
 import {
     ItalicButton,
     BoldButton,
@@ -26,7 +27,6 @@ import {
 // SETUPS
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
-// Toolbar
 const inlineToolbarPlugin = createInlineToolbarPlugin({
     structure: [
         BoldButton,
@@ -43,11 +43,6 @@ const inlineToolbarPlugin = createInlineToolbarPlugin({
         CodeBlockButton
     ]
 });
-export const {
-    InlineToolbar
-} = inlineToolbarPlugin;
-
-// Sidebar
 const sideToolbarPlugin = createSideToolbarPlugin({
     structure: [
         BoldButton,
@@ -56,11 +51,23 @@ const sideToolbarPlugin = createSideToolbarPlugin({
         CodeButton,
     ]
 });
-export const {SideToolbar} = sideToolbarPlugin;
+const muiToolbarPlugin = createMuiToolbarPlugin()
 
-// const imagePlugin = createImagePlugin();
+// EXPORTS
+///////////////////////////////////////////////////////////////////////////////////////////////////
+
+export const {
+    InlineToolbar
+} = inlineToolbarPlugin;
+export const {
+    SideToolbar
+} = sideToolbarPlugin;
+export const {
+    MuiToolbar
+} = muiToolbarPlugin;
+
 
 export const plugins = [
-    inlineToolbarPlugin,
-    sideToolbarPlugin
+    sideToolbarPlugin,
+    muiToolbarPlugin
 ];

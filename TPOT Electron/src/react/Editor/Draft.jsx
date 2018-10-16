@@ -11,15 +11,15 @@ import { EditorState, RichUtils, Modifier, convertToRaw, DraftInlineStyleType } 
 
 // Draft JS Utiliites
 import { stateFromElement } from 'draft-js-import-element'
-import { rest } from './utilities/helpers'
 import createStyles from 'draft-js-custom-styles';
 import { getSelectedBlocksMap, getSelectedBlocksList, getSelectedBlock, getBlockBeforeSelectedBlock, getAllBlocks, getSelectedBlocksType, removeSelectedBlocksStyle, getSelectionText, addLineBreakRemovingSelection, insertNewUnstyledBlock, clearEditorContent, getSelectionInlineStyle, setBlockData, getSelectedBlocksMetadata, getSelectionEntity, getEntityRange, handleNewLine, isListBlock, changeDepth, getSelectionCustomInlineStyle, } from 'draftjs-utils'
 
 // Custom DraftJS Architecture
 import Editor, { createEditorStateWithText } from 'draft-js-plugins-editor';
-import { plugins, InlineToolbar, SideToolbar } from './plugins/plugins'
-import { stateFromElementConfig, styles, exporter, customStyleFn, baseStyleMap, myBlockStyleFn, blockRenderMap, draftContentFromHtml, draftContentToHtml } from './utilities/transforms'
-import MuiToolbar from './components/MuiToolbar'
+import { plugins, InlineToolbar, SideToolbar, MuiToolbar } from './plugins/plugins'
+import { rest } from './utils/helpers'
+import { stateFromElementConfig, styles, exporter, customStyleFn, baseStyleMap, myBlockStyleFn, blockRenderMap, draftContentFromHtml, draftContentToHtml } from './utils/transforms'
+
 
 import JSONPretty from 'react-json-pretty';
 import htmlBeautify from 'html-beautify'
@@ -187,7 +187,7 @@ class Wysiwyg extends React.Component {
         console.log(newContentState)
         const rawHTML = draftContentToHtml(newContentState)
         const rawHTMLPretty = rawHTML
-        console.log(rawHTMLPretty)
+        // console.log(rawHTMLPretty)
         this.setState({
             originalState: html,
             editorState: newEditorState,
@@ -246,12 +246,12 @@ class Wysiwyg extends React.Component {
 
     saveStateToFile(state, stateName) {
         fs.writeFile(`${app.getAppPath()}/src/config/state${stateName}.json`, JSON.stringify(state), (err) => {
-        // fs.writeFile(path.join(path.join(app.getAppPath(), './src/config'), "state" + stateName + ".json"), JSON.stringify(state), (err) => {
+            // fs.writeFile(path.join(path.join(app.getAppPath(), './src/config'), "state" + stateName + ".json"), JSON.stringify(state), (err) => {
             if (err) throw err
         })
     }
 
-    
+
     //  EDITOR STYLING AND DATA TRANSFORMATION FUNCTIONS  //
 
     toggleStyle(type, style) {
@@ -316,14 +316,15 @@ class Wysiwyg extends React.Component {
                     }
                     {editMode === "code" &&
                         <React.Fragment>
-                        <div>
-                            {this.state.codeState}
-                        </div>
+                            <div>
+                                {this.state.codeState}
+                            </div>
                             {/* <JSONPretty id="json-pretty" json={this.state.codeState}></JSONPretty> */}
                         </React.Fragment>
                     }
                     {editMode === "edited" &&
                         <React.Fragment>
+                            <MuiToolbar />
                             <Editor
                                 id={'Editor'}
                                 ref={(element) => { this.editor = element; }}
@@ -342,7 +343,7 @@ class Wysiwyg extends React.Component {
                                 plugins={plugins}
                                 spellCheck={true}
                             />
-                            <InlineToolbar />
+                            {/* <InlineToolbar /> */}
                             <SideToolbar />
                         </React.Fragment>
                     }

@@ -341,6 +341,7 @@ const stateFromElementConfig = {
 // make ContentState from HTML String
 const draftContentToHtml = (contentState ) => {
     let html = stateToHTML(contentState, stateToHTMLConfig)
+    // console.log(stateToHTMLConfig)
     return html
 }
 
