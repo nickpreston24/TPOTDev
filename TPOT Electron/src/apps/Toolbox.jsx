@@ -78,7 +78,8 @@ const theme = createMuiTheme({
             textMain: '#A7AAB8',
             textDark: '#C2C6D7',
         },
-        type: 'light'
+        type: 'light',
+        accent: "dodgerblue"
     },
     status: {
         danger: 'orange',

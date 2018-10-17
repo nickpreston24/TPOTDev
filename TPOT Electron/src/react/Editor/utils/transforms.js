@@ -1,43 +1,24 @@
 // IMPORTS
 ///////////////////////////////////////////////////////////////////////////////////////////////////
+import '../config/editor.css'
 import {
     stateFromElement
 } from 'draft-js-import-element'
 import {
     stateToHTML
 } from 'draft-js-export-html'
+import {
+    rgb2hex,
+    Object
+} from './helpers'
+import {
+    convertToRaw,
+    convertFromRaw
+} from 'draft-js';
 import createStyles from 'draft-js-custom-styles';
 import Immutable from 'immutable'
-import {
-    getSelectedBlocksMap,
-    getSelectedBlocksList,
-    getSelectedBlock,
-    getBlockBeforeSelectedBlock,
-    getAllBlocks,
-    getSelectedBlocksType,
-    removeSelectedBlocksStyle,
-    getSelectionText,
-    addLineBreakRemovingSelection,
-    insertNewUnstyledBlock,
-    clearEditorContent,
-    getSelectionInlineStyle,
-    setBlockData,
-    getSelectedBlocksMetadata,
-    // blockRenderMap,
-    getSelectionEntity,
-    getEntityRange,
-    handleNewLine,
-    isListBlock,
-    changeDepth,
-    getSelectionCustomInlineStyle,
-    toggleCustomInlineStyle,
-    removeAllInlineStyles
-} from 'draftjs-utils'
-import { rgb2hex, Object } from './helpers'
-import { EditorState, RichUtils, Modifier, convertToRaw, convertFromRaw, DraftInlineStyleType } from 'draft-js';
 import createNode from 'create-node'
 import snakeCase from 'snake-case'
-
 
 
 // CUSTOM STYLES SETUP (Package by @webdeveloperpr)
@@ -113,15 +94,29 @@ const blockRenderMap = Immutable.Map({
     },
 });
 
-function myBlockStyleFn(contentBlock) {
+const baseBlockStyleFn = (contentBlock) => {
     // When there is a block of type, return a css class name to style the block and make it pretty
     const type = contentBlock.getType();
-    if (type === 'title') { return 'title'; }
-    if (type === 'subtitle') { return 'subtitle'; }
-    if (type === 'blockquote') { return 'blockqoute'; }
-    if (type === 'blockquote-intense') { return 'blockquote-intense'; }
-    if (type === 'indent') { return 'indent'; }
-    if (type === 'block') { return 'block'; }
+    const align = contentBlock.getData().get('textAlignment')
+    if (type === 'title') {
+        return 'title';
+    }
+    if (type === 'subtitle') {
+        return 'subtitle';
+    }
+    if (type === 'blockquote') {
+        return 'blockqoute';
+    }
+    if (type === 'blockquote-intense') {
+        return 'blockquote-intense';
+    }
+    if (type === 'indent') {
+        return 'indent';
+    }
+    if (type === 'block') {
+        return 'block';
+    }
+    if (align) return align
 }
 
 
@@ -138,7 +133,11 @@ const draftContentFromHtml = (html, stateFromElementConfig, baseStyleMap) => {
 
 // break apart multi-property Styles into single, inline Styles
 const flattenInlineStyleRanges = (contentState, baseStyleMap) => {
-    let defaultStyles = { fontWeight: "BOLD", fontStyle: "ITALIC", textDecoration: "UNDERLINE" }
+    let defaultStyles = {
+        fontWeight: "BOLD",
+        fontStyle: "ITALIC",
+        textDecoration: "UNDERLINE"
+    }
     let newContentState = convertToRaw(contentState)
     let blocks = newContentState.blocks
     let deleteStyles = []
@@ -156,7 +155,11 @@ const flattenInlineStyleRanges = (contentState, baseStyleMap) => {
 
             // Normal Vanilla Styles  -  EX: BOLD
             if (compoundStyleRangeClassProperties === undefined) {
-                singleStyleRanges.push({ offset: styleRange.offset, length: styleRange.length, style: compoundStyleRangeName }) // Push Inline Range 
+                singleStyleRanges.push({
+                    offset: styleRange.offset,
+                    length: styleRange.length,
+                    style: compoundStyleRangeName
+                }) // Push Inline Range 
             } else {
                 // Custom Named Styles  -  EX: CUSTOM_COLOR[#C00000]_FONT_WEIGHT[BOLD]_FONTSIZE[48PX]
                 for (const key in compoundStyleRangeClassProperties) {
@@ -166,11 +169,19 @@ const flattenInlineStyleRanges = (contentState, baseStyleMap) => {
                         if (Object.keys(defaultStyles).includes(styleName)) {
                             // EX: CUSTOM_FONT_WEIGHT[BOLD]  <<--- This is a vanilla style that needs mapped to be "BOLD"
                             let className = defaultStyles[styleName].toUpperCase()
-                            singleStyleRanges.push({ offset: styleRange.offset, length: styleRange.length, style: className }) // Push Inline Range
+                            singleStyleRanges.push({
+                                offset: styleRange.offset,
+                                length: styleRange.length,
+                                style: className
+                            }) // Push Inline Range
                         } else {
                             // EX: CUSTOM_COLOR[#404040]  <<--- This is a custom inline style who's mapping matches the styleName, and needs to create an entry in the baseStyleMap
                             let className = `CUSTOM_${snakeCase(styleName).toUpperCase()}_${styleProperty.toUpperCase()}`
-                            singleStyleRanges.push({ offset: styleRange.offset, length: styleRange.length, style: className }) // Push Inline Range
+                            singleStyleRanges.push({
+                                offset: styleRange.offset,
+                                length: styleRange.length,
+                                style: className
+                            }) // Push Inline Range
                             if (!Object.keys(baseStyleMap).includes(className)) {
                                 baseStyleMap[className] = {}
                                 baseStyleMap[className][styleName] = styleProperty
@@ -200,7 +211,10 @@ const flattenInlineStyleRanges = (contentState, baseStyleMap) => {
 // State from Element plugin configuration options
 const stateFromElementConfig = {
     // Should return a Style() or Entity() or null/undefined
-    customInlineFn: (element, { Style, Entity }) => {
+    customInlineFn: (element, {
+        Style,
+        Entity
+    }) => {
 
         let elementStyles = []
         // Generic Styles
@@ -285,13 +299,13 @@ const stateFromElementConfig = {
         if (element.tagName === 'P' && !element.className) {
             return {
                 type: 'paragraph',
-                // data: {
-                //     props: {
-                //         src: "www.thepathoftruth.com" // OK, yes we can pass props data to a custom react component for DraftJS to render.
-                //     },
-                //     id: "TEST",
-                //     style: "color: rgb(192, 0, 0);"
-                // }
+                data: {
+                    props: {
+                        src: "www.thepathoftruth.com" // OK, yes we can pass props data to a custom react component for DraftJS to render.
+                    },
+                    id: "TEST",
+                    style: "color: rgb(192, 0, 0);"
+                }
             };
         }
         if (element.className === 'title') {
@@ -324,11 +338,17 @@ const stateFromElementConfig = {
                 type: 'block'
             };
         }
-        if (element.style.textAlign) {
-            console.log(element)
-            return {
-                data: {
-                    style: 'text-align: center;'
+        if (!element.parentElement.parentElement) { // Check for sub block alignment under parent div
+            let blocks = element.children
+            for (let index = 0; index < blocks.length; index++) {
+                const alignType = blocks[index].style.textAlign
+                if (alignType) {
+                    // console.log(alignType)
+                    return {
+                        data: {
+                            textAlignment: `${alignType}`
+                        }
+                    }
                 }
             }
         }
@@ -339,35 +359,35 @@ const stateFromElementConfig = {
 
 // IMPORT FUNCTION
 // make ContentState from HTML String
-const draftContentToHtml = (contentState ) => {
+const draftContentToHtml = (contentState) => {
     let html = stateToHTML(contentState, stateToHTMLConfig)
     // console.log(stateToHTMLConfig)
     return html
 }
 
 const stateToHTMLConfig = {
-  inlineStyles: {
-      // Override default element (`strong`).
-      BOLD: {
-          element: 'b'
-      },
-      ITALIC: {
-          // Add custom attributes. You can also use React-style `className`.
-          attributes: {
-              class: 'foo'
-          },
-          // Use camel-case. Units (`px`) will be added where necessary.
-          style: {
-              fontSize: 40
-          }
-      },
-      // Use a custom inline style. Default element is `span`.
-      RED: {
-          style: {
-              color: '#900'
-          }
-      },
-  },
+    inlineStyles: {
+        // Override default element (`strong`).
+        BOLD: {
+            element: 'b'
+        },
+        ITALIC: {
+            // Add custom attributes. You can also use React-style `className`.
+            attributes: {
+                class: 'foo'
+            },
+            // Use camel-case. Units (`px`) will be added where necessary.
+            style: {
+                fontSize: 40
+            }
+        },
+        // Use a custom inline style. Default element is `span`.
+        RED: {
+            style: {
+                color: '#900'
+            }
+        },
+    },
 }
 
 //  end of EXPORT FUNCTION
@@ -377,7 +397,7 @@ export {
     exporter,
     customStyleFn,
     baseStyleMap,
-    myBlockStyleFn,
+    baseBlockStyleFn,
     blockRenderMap,
     stateFromElementConfig,
     draftContentFromHtml,

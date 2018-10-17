@@ -7,7 +7,6 @@ import { withStyles } from '@material-ui/core/styles';
 // Draft JS Vanilla
 import { EditorState, RichUtils, Modifier, convertToRaw, DraftInlineStyleType } from 'draft-js';
 // import 'draft-js/dist/Draft.css'
-// import './config/Draft.css'
 
 // Draft JS Utiliites
 import { stateFromElement } from 'draft-js-import-element'
@@ -18,7 +17,7 @@ import { getSelectedBlocksMap, getSelectedBlocksList, getSelectedBlock, getBlock
 import Editor, { createEditorStateWithText } from 'draft-js-plugins-editor';
 import { plugins, InlineToolbar, SideToolbar, MuiToolbar } from './plugins/plugins'
 import { rest } from './utils/helpers'
-import { stateFromElementConfig, styles, exporter, customStyleFn, baseStyleMap, myBlockStyleFn, blockRenderMap, draftContentFromHtml, draftContentToHtml } from './utils/transforms'
+import { stateFromElementConfig, styles, exporter, customStyleFn, baseStyleMap, baseBlockStyleFn, blockRenderMap, draftContentFromHtml, draftContentToHtml } from './utils/transforms'
 
 
 import JSONPretty from 'react-json-pretty';
@@ -47,7 +46,7 @@ const MUIstyles = theme => ({
         height: 'calc(100vh - 104px)',
         boxShadow: '0px',
         overflow: 'hidden',
-        // border: '4px solid red',
+        // border: '4px solid lime',
     },
     editorFrame: {
         padding: 80,
@@ -95,9 +94,11 @@ class Wysiwyg extends React.Component {
         codeState: "I am Code",
     };
 
-    focus = () => {
-        if (this.editor)
+    focus = (event) => {
+        event.preventDefault();
+        if (this.editor) {
             this.editor.focus();
+        }
     };
 
     onChange = (editorState) => {
@@ -191,8 +192,8 @@ class Wysiwyg extends React.Component {
         this.setState({
             originalState: html,
             editorState: newEditorState,
-            codeState: rawHTMLPretty,
-            // codeState: rawStateAsText,
+            // codeState: rawHTMLPretty,
+            codeState: rawStateAsText,
         })
 
     }
@@ -279,23 +280,23 @@ class Wysiwyg extends React.Component {
 
     //   UTILITY FUNCTIONS   //
 
-    getData = () => {
-        const editorState = this.state.editorState
-        console.log("BLOCKS", convertToRaw(editorState.getCurrentContent()).blocks)
+    // getData = () => {
+    //     const editorState = this.state.editorState
+    //     console.log("BLOCKS", convertToRaw(editorState.getCurrentContent()).blocks)
 
-        let blockKey = this.state.editorState.getSelection().getFocusKey()
-        let block = this.state.editorState.getCurrentContent().getBlockForKey(blockKey)
-        let style = block.getInlineStyleAt(57)
-        console.log(style)
-        console.log(getSelectionInlineStyle(this.state.editorState))
-        console.log(getSelectedBlocksMetadata(this.state.editorState))
-        console.log(getSelectionEntity(this.state.editorState))
-        console.log(getSelectionCustomInlineStyle(this.state.editorState))
-        // console.log(getSelectedBlock(),
-        //     getSelectedBlocksType(),
-        //     getSelectionText(),
-        //     getSelectionInlineStyle())
-    }
+    //     let blockKey = this.state.editorState.getSelection().getFocusKey()
+    //     let block = this.state.editorState.getCurrentContent().getBlockForKey(blockKey)
+    //     let style = block.getInlineStyleAt(57)
+    //     console.log(style)
+    //     console.log(getSelectionInlineStyle(this.state.editorState))
+    //     console.log(getSelectedBlocksMetadata(this.state.editorState))
+    //     console.log(getSelectionEntity(this.state.editorState))
+    //     console.log(getSelectionCustomInlineStyle(this.state.editorState))
+    //     // console.log(getSelectedBlock(),
+    //     //     getSelectedBlocksType(),
+    //     //     getSelectionText(),
+    //     //     getSelectionInlineStyle())
+    // }
 
 
     // RENDER
@@ -307,8 +308,27 @@ class Wysiwyg extends React.Component {
         const editorState = this.state.editorState
 
         return (
-            <div id="Editor" className={classes.root} onClick={this.focus}>
-                <div id="Frame" className={classes.editorFrame}>
+            <div id="Editor" className={classes.root}>
+                <div id="Frame" className={classes.editorFrame} onClick={this.focus}>
+                    {editMode === "edited" &&
+                        <React.Fragment >
+                            <Editor
+                                id={'DraftJS'}
+                                ref={(element) => { this.editor = element; }}
+                                placeholder="The editor is empty."
+                                editorState={this.state.editorState}
+                                onChange={this.onChange}
+                                customStyleMap={baseStyleMap} // STYLE MAP TO TYPE
+                                blockRenderMap={blockRenderMap} // BLOCK MAP MAP TO TYPE
+                                // customStyleFn={customStyleFn} // STYLE & ENTITY CLASS FUNCTION
+                                blockStyleFn={baseBlockStyleFn} // BLOCK & ATOMIC CLASS FUNCTION
+                                // blockRendererFn={} // BLOCK ?/& ATOMIC PROPS=>COMP RENDERER
+                                plugins={plugins}
+                                spellCheck={true}
+                            />
+                            <MuiToolbar />
+                        </React.Fragment>
+                    }
                     {editMode === "original" &&
                         <React.Fragment>
                             {this.state.originalState}
@@ -316,35 +336,10 @@ class Wysiwyg extends React.Component {
                     }
                     {editMode === "code" &&
                         <React.Fragment>
-                            <div>
+                            {/* <div>
                                 {this.state.codeState}
-                            </div>
-                            {/* <JSONPretty id="json-pretty" json={this.state.codeState}></JSONPretty> */}
-                        </React.Fragment>
-                    }
-                    {editMode === "edited" &&
-                        <React.Fragment>
-                            <MuiToolbar />
-                            <Editor
-                                id={'Editor'}
-                                ref={(element) => { this.editor = element; }}
-                                placeholder="The editor is empty."
-                                editorState={this.state.editorState}
-                                onChange={this.onChange}
-
-                                customStyleMap={baseStyleMap} // STYLE MAP TO TYPE
-                                blockRenderMap={blockRenderMap} // BLOCK MAP MAP TO TYPE
-
-                                // customStyleFn={customStyleFn} // STYLE & ENTITY CLASS FUNCTION
-                                // blockStyleFn={CustomBlock} // BLOCK & ATOMIC CLASS FUNCTION
-
-                                // blockRendererFn={} // BLOCK ?/& ATOMIC PROPS=>COMP RENDERER
-
-                                plugins={plugins}
-                                spellCheck={true}
-                            />
-                            {/* <InlineToolbar /> */}
-                            <SideToolbar />
+                            </div> */}
+                            <JSONPretty id="json-pretty" json={this.state.codeState}></JSONPretty>
                         </React.Fragment>
                     }
                 </div>
@@ -360,17 +355,17 @@ Wysiwyg.propTypes = {
 export default withStyles(MUIstyles)(Wysiwyg)
 
 
-const CustomInline = (draftInlineStyle, contentBlock, editor) => {
-    console.group()
-    console.log(draftInlineStyle)
-    console.log(contentBlock.text)
-    console.log(editor.getProps())
-    console.groupEnd()
-}
+// const CustomInline = (draftInlineStyle, contentBlock, editor) => {
+//     console.group()
+//     console.log(draftInlineStyle)
+//     console.log(contentBlock.text)
+//     console.log(editor.getProps())
+//     console.groupEnd()
+// }
 
-const CustomBlock = (contentBlock, editor) => {
-    console.group()
-    console.log(contentBlock)
-    console.log(editor)
-    console.groupEnd()
-}
+// const CustomBlock = (contentBlock, editor) => {
+//     console.group()
+//     console.log(contentBlock)
+//     console.log(editor)
+//     console.groupEnd()
+// }

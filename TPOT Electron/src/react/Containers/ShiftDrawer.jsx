@@ -103,7 +103,7 @@ const styles = theme => ({
     },
     button: {
         color: theme.palette.secondary.textDark,
-        // color: "dodgerblue",
+        // color: theme.palette.accent,
     },
 });
 

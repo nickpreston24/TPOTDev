@@ -51,7 +51,7 @@ const styles = theme => ({
     },
     active: {
         background: theme.palette.secondary.dark,
-        borderRight: '4px solid #1E90FF'
+        borderRight: `4px solid ${theme.palette.accent}`
     }
 });
 

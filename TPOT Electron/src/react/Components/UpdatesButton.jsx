@@ -68,11 +68,11 @@ const styles = theme => ({
         background: theme.palette.secondary.dark
     },
     progressBar: {
-        background: "dodgerblue",
+        background: theme.palette.accent,
     },
     green: { background: theme.status.ready },
     yellow: { background: theme.status.warning },
-    accent: { background: "dodgerblue" },
+    accent: { background: theme.palette.accent },
     invisible: { background: "transparent" },
 });
 

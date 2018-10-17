@@ -68,7 +68,7 @@ const styles = theme => ({
         height: 18,
         width: 18,
         opacity: 100,
-        background: "dodgerblue"
+        background: theme.palette.accent
     },
     badgeInvisible: {
         height: 0,
@@ -207,7 +207,7 @@ class DrawerMenuList extends React.Component {
                         <Button color="inherit" className={classes.button}>{`Chat`}<ChatIcon className={classes.rightIcon} /></Button>
                     </Badge>
                     <Badge color="primary" badgeContent={`2`} classes={{ root: classes.margin, badge: false ? classes.badgeVisible : classes.badgeInvisible }}>
-                        <Button color="inherit" className={classes.button}>{`Help!`}<HelpIcon className={classes.rightIcon} /></Button>
+                        <Button color="inherit" className={classes.button}>{`Help`}<HelpIcon className={classes.rightIcon} /></Button>
                     </Badge>
                 </div>
 
