@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
-import InlineStyleButton from '../utils/InlineStyleButton';
-import Icon from 'mdi-material-ui/Marker'
+import CustomStyleButton from '../utils/CustomStyleButton';
+import Icon from 'mdi-material-ui/GreasePencil'
 
 export default class HighlightButton extends Component {
     render() {
         return (
-            <InlineStyleButton {...this.props} styleType={'HIGHLIGHT'} name={'Highlight Button'} >
+            <CustomStyleButton {...this.props} customType={'background'} customPalette={['#BDFFA3']} name={'Highlight Button'} >
                 <Icon />
-            </InlineStyleButton>
+            </CustomStyleButton>
         );
     }
 }

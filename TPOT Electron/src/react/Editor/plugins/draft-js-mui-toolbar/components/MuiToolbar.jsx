@@ -14,6 +14,7 @@ import Button from '@material-ui/core/Button';
 import BoldButton from './BoldButton'
 import ItalicButton from './ItalicButton'
 import UnderlineButton from './UnderlineButton'
+import HeadingButton from './HeadingButton'
 import LinkButton from './LinkButton'
 import ColorButton from './ColorButton'
 import HighlightButton from './HighlightButton'
@@ -24,6 +25,8 @@ import AlignRightButton from './AlignRightButton'
 import OrderedListButton from './OrderedListButton'
 import UnorderedListButton from './UnorderedListButton'
 import CheckListButton from './CheckListButton'
+
+import QuoteButton from './QuoteButton'
 
 const styles = theme => ({
     root: {
@@ -112,7 +115,6 @@ class MuiToolbar extends Component {
                 left: editorRoot.offsetLeft
                     - (this.toolbar.offsetWidth / 2)
             };
-            console.log(editorRoot.offsetLeft, this.toolbar.offsetLeft)
             // Calculate Inline Style(s) based on Selection State
             const inlineVisible = (!selection.isCollapsed() && selection.getHasFocus());
             const blockVisible = (selection.isCollapsed());
@@ -139,7 +141,11 @@ class MuiToolbar extends Component {
         const { classes, store} = this.props;
         const childrenProps = {
             getEditorState: store.getItem('getEditorState'),
-            setEditorState: store.getItem('setEditorState')
+            setEditorState: store.getItem('setEditorState'),
+            getEditorRef: store.getItem('getEditorRef'),
+            getEditorProps: store.getItem('getEditorProps'),
+            customStylePrefix: store.getItem('customStylePrefix'),
+            customStyleFunctions: store.getItem('customStyleFunctions'),
         };
 
         return (
@@ -148,9 +154,11 @@ class MuiToolbar extends Component {
                     <BoldButton {...childrenProps} />
                     <ItalicButton {...childrenProps} />
                     <UnderlineButton {...childrenProps} />
+                    <HeadingButton {...childrenProps} />
                     <LinkButton {...childrenProps} />
                     <ColorButton {...childrenProps} />
                     <HighlightButton {...childrenProps} />
+                    <QuoteButton {...childrenProps} />
                     <MoreButton {...childrenProps} />
 
                     {/* <AlignLeftButton {...childrenProps} />

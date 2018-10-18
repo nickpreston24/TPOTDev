@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
-import { RichUtils } from 'draft-js';
 import { withStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import classNames from 'classnames';
 
-const styles = theme => ({
+const MuiStyles = theme => ({
     root: {
         color: theme.palette.secondary.textDark,
         minWidth: 40,
@@ -13,26 +12,39 @@ const styles = theme => ({
         maxHeight: 40,
     },
     active: {
-        color: theme.palette.accent
+        color: theme.palette.accent,
+        fill: theme.palette.accent,
     }
 });
 
 class CustomStyleButton extends Component {
 
-    toggleStyle = (event) => {
+    toggleStyle = async (event) => {
         event.preventDefault();
+
+        const PREFIX = this.props.customStylePrefix
+        const CUSTOM_PROP = this.props.customType
+        const CUSTOM_NAME = `${PREFIX}${CUSTOM_PROP.toUpperCase()}_${this.props.customPalette[0]}`
+        const CUSTOM_ATTRB = `${this.props.customPalette[0]}`
+
+        // Update the style map with the new custom style before you try to apply the class with customStyleFunctions[property-name].toggle()
+        const STYLE_MAP = Object.assign(this.props.getEditorProps().customStyleMap, { [`${CUSTOM_NAME}`]: { [`${CUSTOM_PROP}`]: CUSTOM_ATTRB } })
+        await this.props.getEditorProps().setStyleMap(STYLE_MAP)
+
+        // Toggle the style using the attribute name (ex:  #FF0099, 24PX, LIME, etc.)
         this.props.setEditorState(
-            RichUtils.toggleInlineStyle(
+            this.props.customStyleFunctions[`${CUSTOM_PROP}`].toggle(
                 this.props.getEditorState(),
-                this.props.styleType
+                CUSTOM_ATTRB.toUpperCase()
             )
         );
+
     }
 
     preventBubblingUp = (event) => { event.preventDefault(); }
 
     // we check if this.props.getEditorstate is undefined first in case the button is rendered before the editor
-    styleIsActive = () => this.props.getEditorState && this.props.getEditorState().getCurrentInlineStyle().has(this.props.type);
+    styleIsActive = () => this.props.getEditorState && this.props.getEditorState().getCurrentInlineStyle().has(`${this.props.customStylePrefix}${this.props.customType.toUpperCase()}_${this.props.customPalette[0].toUpperCase()}`)
 
     render() {
         const { classes, name } = this.props;
@@ -43,9 +55,12 @@ class CustomStyleButton extends Component {
                     children={this.props.children}
                     onClick={this.toggleStyle}
                 />
+                {/* {this.styleIsActive() && (
+                    <h6>ACTIVE</h6>
+                )} */}
             </div>
         );
     }
 }
 
-export default withStyles(styles)(CustomStyleButton);
+export default withStyles(MuiStyles)(CustomStyleButton);

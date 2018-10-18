@@ -92,6 +92,7 @@ class Wysiwyg extends React.Component {
         originalState: "I am Original",
         editorState: createEditorStateWithText("This is some starter text. Start typing!"),
         codeState: "I am Code",
+        baseStyleMap: baseStyleMap
     };
 
     focus = (event) => {
@@ -106,6 +107,14 @@ class Wysiwyg extends React.Component {
             editorState,
         });
     };
+
+    setStyleMap = async (customStyleMap) => {
+        console.log("Set Before", this.state.baseStyleMap)
+        await this.setState({
+            baseStyleMap: customStyleMap
+        })
+        console.log("Set After", this.state.baseStyleMap)
+    }
 
     // ComponentDidMount is an event that is fired off as soon as this react component is added to the dom (but not rendered immediately)
     // This is the best place to attach listeners, load an initial configuration for the class, and start timed services.
@@ -182,7 +191,7 @@ class Wysiwyg extends React.Component {
         // console.log("Editor Reloaded with Content")
         // await this.saveEditorStateToFile()
         // console.log(newContentState)
-        const newContentState = draftContentFromHtml(html, stateFromElementConfig, baseStyleMap)
+        const newContentState = draftContentFromHtml(html, stateFromElementConfig, this.state.baseStyleMap)
         const newEditorState = EditorState.createWithContent(newContentState)
         const rawStateAsText = convertToRaw(newContentState).blocks
         console.log(newContentState)
@@ -318,7 +327,8 @@ class Wysiwyg extends React.Component {
                                 placeholder="The editor is empty."
                                 editorState={this.state.editorState}
                                 onChange={this.onChange}
-                                customStyleMap={baseStyleMap} // STYLE MAP TO TYPE
+                                setStyleMap={this.setStyleMap}
+                                customStyleMap={this.state.baseStyleMap} // STYLE MAP TO TYPE
                                 blockRenderMap={blockRenderMap} // BLOCK MAP MAP TO TYPE
                                 // customStyleFn={customStyleFn} // STYLE & ENTITY CLASS FUNCTION
                                 blockStyleFn={baseBlockStyleFn} // BLOCK & ATOMIC CLASS FUNCTION
