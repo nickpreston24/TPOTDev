@@ -5,7 +5,7 @@ import Icon from 'mdi-material-ui/FormatSize'
 export default class HeadingButton extends Component {
     render() {
         return (
-            <BlockStyleButton {...this.props} blockType={'header-three'} name={'Heading Button'} >
+            <BlockStyleButton {...this.props} blockType={'header-four'} name={'Heading Button'} >
                 <Icon />
             </BlockStyleButton>
         );

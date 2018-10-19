@@ -112,27 +112,29 @@ class ModalLoad extends React.Component {
                 name: "From Disk",
                 description: "Open a file from your computer's hard drive",
                 icon: HardDrive,
+                enabled: true,
                 handler: () => {
                     this.handleSelection("disk");
                 }
             },
             {
-                name: "Google Drive",
+                name: "Coming Soon",
                 description: "Open a file from your linked Google Drive folder",
                 icon: GoogleDrive,
+                enabled: false,
                 handler: () => {
                     this.handleSelection("google");
                 }
             },
-            {
-                name: "Clipboard",
-                description:
-                    "Opens a window where you can paste in the content of a word document",
-                icon: ClipBoard,
-                handler: () => {
-                    this.handleSelection("clipboard");
-                }
-            }
+            // {
+            //     name: "Clipboard",
+            //     description:
+            //         "Opens a window where you can paste in the content of a word document",
+            //     icon: ClipBoard,
+            //     handler: () => {
+            //         this.handleSelection("clipboard");
+            //     }
+            // }
         ];
 
         return (
@@ -141,9 +143,9 @@ class ModalLoad extends React.Component {
                 <Grid container className={classes.demo} spacing={0} justify="space-evenly" alignItems="center"   >
                     {cards.map(card => {
                         return (
-                            <Grid key={card.name.toLocaleLowerCase()} item className={classes.grid} onClick={card.handler}    >
+                            <Grid key={card.name.toLocaleLowerCase()} item className={classes.grid} onClick={card.enabled ? card.handler : null} >
                                 <img src={card.icon} className={classes.icon} alt="cardimg" />
-                                <Button variant="contained" color="inherit">
+                                <Button variant="contained" color="inherit" disabled={!card.enabled}>
                                     {card.name}
                                 </Button>
                             </Grid>

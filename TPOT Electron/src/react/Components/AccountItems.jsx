@@ -85,19 +85,19 @@ class DrawerMenuList extends React.Component {
         const accounts = [
             {
                 primary: "TPOT Cloud",
-                secondary: "braden.t.preston@gmail.com",
+                secondary: "your-email@gmail.com",
                 icon: FirebaseIcon,
                 active: true,
                 handler: () => {
-                    this.handleSelection("disk");
+                    // this.handleSelection("disk");
                 }
             },
             {
-                primary: "Google Drive",
-                secondary: "bpfilmsinc@gmail.com",
+                // primary: "Google Drive",
+                secondary: "Coming Soon...",
                 icon: DriveIcon,
                 handler: () => {
-                    this.handleSelection("google");
+                    // this.handleSelection("google");
                 }
             }
         ]
@@ -106,7 +106,7 @@ class DrawerMenuList extends React.Component {
             <div className={classes.root}>
                 {accounts.map(account => {
                     return (
-                        <ListItem button className={account.active ? classes.active : null} onClick={this.openLoadModal} key={account.primary}>
+                        <ListItem button className={account.active ? classes.active : null} onClick={null} key={account.primary}>
                             <ListItemAvatar>
                                 <Avatar src={account.icon} className={classes.avatar} />
                             </ListItemAvatar>

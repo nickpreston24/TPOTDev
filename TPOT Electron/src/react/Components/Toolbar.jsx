@@ -203,9 +203,9 @@ class DrawerMenuList extends React.Component {
                 <div id="rename" className={classes.toolSet}>
                     <Button id="Welcome" color="inherit" className={classes.button}>{`Welcome, ${"Victor H."}`}<AccountCircle className={classes.rightIcon} /></Button>
                     <UpdatesButton />
-                    <Badge color="primary" badgeContent={`5`} classes={{ root: classes.margin, badge: false ? classes.badgeVisible : classes.badgeInvisible }}>
+                    {/* <Badge color="primary" badgeContent={`5`} classes={{ root: classes.margin, badge: false ? classes.badgeVisible : classes.badgeInvisible }}>
                         <Button color="inherit" className={classes.button}>{`Chat`}<ChatIcon className={classes.rightIcon} /></Button>
-                    </Badge>
+                    </Badge> */}
                     <Badge color="primary" badgeContent={`2`} classes={{ root: classes.margin, badge: false ? classes.badgeVisible : classes.badgeInvisible }}>
                         <Button color="inherit" className={classes.button}>{`Help`}<HelpIcon className={classes.rightIcon} /></Button>
                     </Badge>

@@ -2,24 +2,13 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
 import createMuiToolbarPlugin from './draft-js-mui-toolbar'
-import {
-    ItalicButton,
-    BoldButton,
-    UnderlineButton,
-    CodeButton,
-    HeadlineOneButton,
-    HeadlineTwoButton,
-    HeadlineThreeButton,
-    UnorderedListButton,
-    OrderedListButton,
-    BlockquoteButton,
-    CodeBlockButton,
-} from 'draft-js-buttons';
+import createSoftNewLinePlugin from '@jimmycode/draft-js-soft-newline-plugin';
 
 // SETUPS
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
 const muiToolbarPlugin = createMuiToolbarPlugin()
+const softNewLinePlugin = createSoftNewLinePlugin();
 
 // EXPORTS
 ///////////////////////////////////////////////////////////////////////////////////////////////////
@@ -29,5 +18,6 @@ export const {
 } = muiToolbarPlugin;
 
 export const plugins = [
-    muiToolbarPlugin
+    muiToolbarPlugin,
+    softNewLinePlugin
 ];

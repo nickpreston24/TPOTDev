@@ -55,9 +55,6 @@ class CustomStyleButton extends Component {
                     children={this.props.children}
                     onClick={this.toggleStyle}
                 />
-                {/* {this.styleIsActive() && (
-                    <h6>ACTIVE</h6>
-                )} */}
             </div>
         );
     }

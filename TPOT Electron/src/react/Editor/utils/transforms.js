@@ -20,6 +20,8 @@ import Immutable from 'immutable'
 import createNode from 'create-node'
 import snakeCase from 'snake-case'
 
+import HorizontalRule from '../plugins/draft-js-mui-toolbar/utils/HorizontalRule'
+import SvgIcon from '@material-ui/core/SvgIcon';
 
 // CUSTOM STYLES SETUP (Package by @webdeveloperpr)
 ///////////////////////////////////////////////////////////////////////////////////////////////////
@@ -94,10 +96,10 @@ const blockRenderMap = Immutable.Map({
     },
 });
 
-const baseBlockStyleFn = (contentBlock) => {
+const baseBlockStyleFn = (block) => {
     // When there is a block of type, return a css class name to style the block and make it pretty
-    const type = contentBlock.getType();
-    const align = contentBlock.getData().get('textAlignment')
+    const type = block.getType();
+    const align = block.getData().get('textAlignment')
     if (type === 'title') {
         return 'title';
     }
@@ -117,6 +119,32 @@ const baseBlockStyleFn = (contentBlock) => {
         return 'block';
     }
     if (align) return align
+}
+// contentBlock, PluginFunctions
+const blockRenderer = (contentBlock, pluginFunctions) => {
+    const type = contentBlock.getType();
+    // if (type === 'page-break') {
+    //     return {
+    //         component: Icon,
+    //         editable: false,
+    //     };
+    // }
+
+    if (type === 'atomic') {
+        console.log(pluginFunctions.getEditorState())
+        const editorState = pluginFunctions.getEditorState()
+        const contentState = editorState.getCurrentContent();
+        const entityKey = contentBlock.getEntityAt(0);
+
+        const entity = contentState.getEntity(entityKey);
+        if (entity && entity.type === 'page-break') {
+            return {
+                component: HorizontalRule,
+                editable: false,
+            };
+        }
+    }
+    // return undefined;
 }
 
 
@@ -299,13 +327,6 @@ const stateFromElementConfig = {
         if (element.tagName === 'P' && !element.className) {
             return {
                 type: 'paragraph',
-                data: {
-                    props: {
-                        src: "www.thepathoftruth.com" // OK, yes we can pass props data to a custom react component for DraftJS to render.
-                    },
-                    id: "TEST",
-                    style: "color: rgb(192, 0, 0);"
-                }
             };
         }
         if (element.className === 'title') {
@@ -335,7 +356,14 @@ const stateFromElementConfig = {
         }
         if (element.className === 'block') {
             return {
-                type: 'block'
+                type: 'page-break',
+                data: {
+                    props: {
+                        src: "www.thepathoftruth.com" // OK, yes we can pass props data to a custom react component for DraftJS to render.
+                    },
+                    id: "TEST",
+                    style: "color: rgb(192, 0, 0);"
+                }
             };
         }
         if (!element.parentElement.parentElement) { // Check for sub block alignment under parent div
@@ -399,6 +427,7 @@ export {
     baseStyleMap,
     baseBlockStyleFn,
     blockRenderMap,
+    blockRenderer,
     stateFromElementConfig,
     draftContentFromHtml,
     draftContentToHtml,

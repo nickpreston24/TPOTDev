@@ -116,30 +116,30 @@ class MiniDrawer extends React.Component {
                 secondary: "braden.t.preston@gmail.com",
                 icon: <Save />,
                 active: true,
-                handler: () => {
-                    this.saveEditorStateToDisk()
-                    this.props.onUpdate(false)
-                }
+                // handler: () => {
+                //     this.saveEditorStateToDisk()
+                //     this.props.onUpdate(false)
+                // }
             },
             {
                 name: "Drafts",
                 secondary: "braden.t.preston@gmail.com",
-                icon: <SendIcon />,
+                icon: <DraftsIcon />,
                 active: true,
-                handler: () => {
-                    // this.openLoadModal();
-                    this.props.onUpdate(false)
-                }
+                // handler: () => {
+                //     // this.openLoadModal();
+                //     this.props.onUpdate(false)
+                // }
             },
             {
                 name: "Publish",
                 secondary: "braden.t.preston@gmail.com",
-                icon: <SettingsIcon />,
+                icon: <SendIcon />,
                 active: true,
-                handler: () => {
-                    // this.openLoadModal();
-                    this.props.onUpdate(false)
-                }
+                // handler: () => {
+                //     // this.openLoadModal();
+                //     this.props.onUpdate(false)
+                // }
             },
         ]
 

@@ -150,13 +150,13 @@ class Preferences extends React.Component {
                         {
                                 name: "Editing Documents",
                                 options: [
-                                        {
-                                                description: "Use Inline Editor",
-                                                icon: <InlineEditIcon />,
-                                                config: "test2-1",
-                                                type: false,
-                                                handler: "this.props.update()"
-                                        },
+                                        // {
+                                        //         description: "Use Inline Editor",
+                                        //         icon: <InlineEditIcon />,
+                                        //         config: "test2-1",
+                                        //         type: false,
+                                        //         handler: "this.props.update()"
+                                        // },
                                         {
                                                 description: "Autosave",
                                                 icon: <AutosaveIcon />,
@@ -179,10 +179,10 @@ class Preferences extends React.Component {
                                                 Version <Chip label={app.getVersion()} className={classes.chip} />
                                         </Typography>
                                         <center className={classes.centerButton}>
-                                                {this.state.updateAvailable &&
+                                                {/* {this.state.updateAvailable &&
                                                         <Badge color="primary" badgeContent={<DownloadIcon className={classes.downloadSvg} />} className={classes.margin}>
                                                                 <Button variant="contained" color="inherit" className={classes.buttonNew}>Update Available!</Button>
-                                                        </Badge>}
+                                                        </Badge>} */}
                                                 {!this.state.updateAvailable && <Button variant="outlined" disabled={true} className={classes.buttonNew}>Up to Date</Button>}
                                         </center>
                                         <Divider light classes={{ root: classes.divider }} />
@@ -200,7 +200,7 @@ class Preferences extends React.Component {
                                                                                         <ListItemText primary={option.description} />
                                                                                         <ListItemSecondaryAction>
                                                                                                 {/* <Switch onChange={this.handleToggle('wifi')} checked={this.state.checked.indexOf('wifi') !== -1} /> */}
-                                                                                                <Switch color ="primary" onChange={this.handleToggle('wifi')} checked={option.type} />
+                                                                                                <Switch color ="primary" onChange={this.handleToggle('wifi')} checked={option.type}disabled />
                                                                                         </ListItemSecondaryAction>
                                                                                 </ListItem>
                                                                         );
@@ -210,12 +210,12 @@ class Preferences extends React.Component {
                                         })}
                                         <Divider light className={classes.divider} />
                                         <List>
-                                                <ListItem>
+                                                {/* <ListItem>
                                                         <Button variant="outlined" color="primary" className={classes.buttonNew}>Export Settings</Button>
                                                 </ListItem>
                                                 <ListItem dense>
                                                         <Button variant="contained" color="primary" className={classes.buttonNew}>Reset to Default</Button>
-                                                </ListItem>
+                                                </ListItem> */}
                                         </List>
                                 </CardContent>
                         </Card>

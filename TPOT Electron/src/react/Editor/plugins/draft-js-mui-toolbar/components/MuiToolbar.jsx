@@ -25,6 +25,7 @@ import AlignRightButton from './AlignRightButton'
 import OrderedListButton from './OrderedListButton'
 import UnorderedListButton from './UnorderedListButton'
 import CheckListButton from './CheckListButton'
+import PageBreakButton from './PageBreakButton'
 
 import QuoteButton from './QuoteButton'
 
@@ -46,10 +47,10 @@ const styles = theme => ({
         }
     },
     blockToolbar: {
-        // padding: `${0}px ${8}px`,
-        // "& *": {
-        //     float: "left",
-        // }
+        padding: `${0}px ${8}px`,
+        "& *": {
+            float: "left",
+        }
     }
 });
 
@@ -114,6 +115,7 @@ class MuiToolbar extends Component {
                     - (this.toolbar.offsetHeight / 2), 
                 left: editorRoot.offsetLeft
                     - (this.toolbar.offsetWidth / 2)
+                    + 40
             };
             // Calculate Inline Style(s) based on Selection State
             const inlineVisible = (!selection.isCollapsed() && selection.getHasFocus());
@@ -169,8 +171,15 @@ class MuiToolbar extends Component {
                     <CheckListButton {...childrenProps} /> */}
 
                 </div>
-                <div id={"MUI Block Toolbar"} className={classes.root} ref={this.handleToolbarRef} style={this.state.blockStyle}>
-                    <Button variant="contained" color="secondary"></Button>
+                <div id={"MUI Block Toolbar"} className={classNames(classes.root, classes.blockToolbar)} ref={this.handleToolbarRef} style={this.state.blockStyle} >
+                    {/* <Button variant="contained" color="secondary"></Button> */}
+                    <AlignLeftButton {...childrenProps} />
+                    <AlignCenterButton {...childrenProps} />
+                    <PageBreakButton {...childrenProps} />
+                    {/* <AlignRightButton {...childrenProps} /> */}
+                    {/* <OrderedListButton {...childrenProps} />
+                    <UnorderedListButton {...childrenProps} />
+                    <CheckListButton {...childrenProps} />  */}
                 </div>
             </React.Fragment>
         )

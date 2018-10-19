@@ -92,26 +92,26 @@ class DrawerMenuList extends React.Component {
                 secondary: "edit letters & translations",
                 icon: LettersIcon,
                 active: true,
-                handler: () => {
-                    this.handleSelection("disk");
-                }
+                // handler: () => {
+                //     this.handleSelection("disk");
+                // }
             },
-            {
-                primary: "Pidgeon",
-                secondary: "reorder emails by date",
-                icon: ReorderIcon,
-                active: false,
-                handler: () => {
-                    this.handleSelection("disk");
-                }
-            },
+            // {
+            //     primary: "Pidgeon",
+            //     secondary: "reorder emails by date",
+            //     icon: ReorderIcon,
+            //     active: false,
+            //     handler: () => {
+            //         this.handleSelection("disk");
+            //     }
+            // },
         ]
 
         return (
             <div className={classes.root}>
                 {accounts.map(account => {
                     return (
-                        <ListItem button className={account.active ? classes.active : null} onClick={this.openLoadModal} key={account.primary}>
+                        <ListItem button className={account.active ? classes.active : null}  key={account.primary}>
                             <ListItemAvatar>
                                 {/* <SvgIcon component={account.icon} className={classes.letter} /> */}
                                 <Avatar src={account.icon} className={classes.avatar} />

@@ -1,4 +1,3 @@
-
 import decorateComponentWithProps from 'decorate-component-with-props';
 import createStyles from 'draft-js-custom-styles';
 import createStore from './utils/createStore';
@@ -23,7 +22,7 @@ const createMuiToolbarPlugin = (config) => {
             store.updateItem('selection', editorState.getSelection());
             return editorState;
         },
-        MuiToolbar: decorateComponentWithProps(MuiToolbar, {store})
+        MuiToolbar: decorateComponentWithProps(MuiToolbar, { store, config })
     };
 };
 
