@@ -55,6 +55,7 @@ class Wysiwyg extends React.Component {
     focus = (event) => {
         event.preventDefault();
         if (this.editor) {
+            console.log(this.editor)
             this.editor.focus();
         }
     };
@@ -104,7 +105,7 @@ class Wysiwyg extends React.Component {
         console.log(newContentState)
         const rawHTML = draftContentToHtml(newContentState)
         const rawHTMLPretty = rawHTML
-        // console.log(rawHTMLPretty)
+        console.log(rawHTMLPretty)
         this.setState({
             originalState: html,
             editorState: newEditorState,
@@ -114,7 +115,9 @@ class Wysiwyg extends React.Component {
     }
 
     async getCode() {
-        const codeState = convertToRaw(this.state.editorState.getCurrentContent())
+        const codeState = draftContentToHtml(this.state.editorState.getCurrentContent()).toString()
+        console.log(codeState)
+        // const codeState = convertToRaw(this.state.editorState.getCurrentContent())
         this.setState({ codeState })
     }
 

@@ -9,16 +9,17 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 
 const styles = theme => ({
-    root: {
+    tabsRoot: {
         position: "absolute",
         left: "50%",
-        top: -2,
+        top: 0,
         transform: "translateX(-50%)",
         width: '50%',
-        '& div:nth-first-child(0)': {
-            background: "yellow !important",
-            backgroundColor: "yellow !important",
-        }
+        // border: '1px solid lime'
+        // '& div:nth-first-child(0)': {
+        //     background: "yellow !important",
+        //     backgroundColor: "yellow !important",
+        // }
     },
     button: {
         margin: 0,
@@ -29,12 +30,14 @@ const styles = theme => ({
     },
 
     indicator: {
-        top: 64,
-        background: theme.palette.primary.contrastText
+        top: 46,
+        background: theme.palette.primary.contrastText,
     },
-    tab: {
-        height: "40px !important",
+    tabRoot: {
+        // height: "40px !important",
+        minHeight: 48,
         color: theme.palette.primary.dark,
+        // border: '1px solid magenta',
         '&[aria-selected="true"]': {
             color: theme.palette.primary.contrastText,
         },
@@ -50,7 +53,11 @@ const styles = theme => ({
         '& span span': {
             fontSize: 14,
         },
+    },
+    selected: {
+        color: "lime",
     }
+
 });
 
 class EditMode extends React.Component {
@@ -105,9 +112,9 @@ class EditMode extends React.Component {
         const { classes } = this.props;
 
         return (
-            <div className={classes.root}>
+
                 <Tabs
-                    classes={{ root: classes.tabs, indicator: classes.indicator }}
+                    classes={{ root: classes.tabsRoot, indicator: classes.indicator }}
                     value={this.state.currentTab}
                     onChange={this.handleChange}
                     onClick={this.getCodeFromEditor}
@@ -117,11 +124,10 @@ class EditMode extends React.Component {
                 >
                     {this.tabs.map((tab) => {
                         return (
-                            <Tab className={classes.tab} icon={tab.icon} label={tab.name} key={Math.random(tab.name)} handl />
+                            <Tab classes={{ root: classes.tabRoot, selected: classes.selected }} icon={tab.icon} label={tab.name} key={Math.random(tab.name)} handl />
                         );
                     })}
                 </Tabs>
-            </div>
         );
     }
 }

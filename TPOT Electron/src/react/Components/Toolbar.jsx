@@ -14,7 +14,9 @@ import UpdateIcon from 'mdi-material-ui/CloudDownload';
 
 
 
-const ipc = window.require('electron').ipcRenderer;
+const electron = window.require('electron');
+const ipc = electron.ipcRenderer
+const shell = electron.shell
 const isDev = require("electron-is-dev");
 
 
@@ -139,6 +141,10 @@ class DrawerMenuList extends React.Component {
         // })
     }
 
+    getHelp = () => {
+        shell.openExternal('https://trello.com/c/NoyEqoFY/45-bug-reports-and-testing')
+    }
+
     setUpdateAvailable = (msg) => {
         this.setState({
             updateAvailable: true,
@@ -207,7 +213,7 @@ class DrawerMenuList extends React.Component {
                         <Button color="inherit" className={classes.button}>{`Chat`}<ChatIcon className={classes.rightIcon} /></Button>
                     </Badge> */}
                     <Badge color="primary" badgeContent={`2`} classes={{ root: classes.margin, badge: false ? classes.badgeVisible : classes.badgeInvisible }}>
-                        <Button color="inherit" className={classes.button}>{`Help`}<HelpIcon className={classes.rightIcon} /></Button>
+                        <Button color="inherit" className={classes.button} onClick={this.getHelp}>{`Help`}<HelpIcon className={classes.rightIcon} /></Button>
                     </Badge>
                 </div>
 

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
+import Popover from '@material-ui/core/Popover';
 import classNames from 'classnames';
 
 const MuiStyles = theme => ({
@@ -19,13 +20,20 @@ const MuiStyles = theme => ({
 
 class CustomStyleButton extends Component {
 
-    toggleStyle = async (event) => {
+    state = {
+        anchorEl: null,
+        paletteOpen: false,
+    };
+
+    preventBubblingUp = (event) => { event.preventDefault(); }
+
+    toggleStyle = async (event, value) => {
         event.preventDefault();
 
         const PREFIX = this.props.customStylePrefix
         const CUSTOM_PROP = this.props.customType
-        const CUSTOM_NAME = `${PREFIX}${CUSTOM_PROP.toUpperCase()}_${this.props.customPalette[0]}`
-        const CUSTOM_ATTRB = `${this.props.customPalette[0]}`
+        const CUSTOM_NAME = `${PREFIX}${CUSTOM_PROP.toUpperCase()}_${value}`
+        const CUSTOM_ATTRB = `${value}`
 
         // Update the style map with the new custom style before you try to apply the class with customStyleFunctions[property-name].toggle()
         const STYLE_MAP = Object.assign(this.props.getEditorProps().customStyleMap, { [`${CUSTOM_NAME}`]: { [`${CUSTOM_PROP}`]: CUSTOM_ATTRB } })
@@ -41,7 +49,17 @@ class CustomStyleButton extends Component {
 
     }
 
-    preventBubblingUp = (event) => { event.preventDefault(); }
+
+    handleParentButton = (event) => {
+        this.setState({
+            anchorEl: event.currentTarget,
+            paletteOpen: true
+         });
+    };
+
+    handleClose = () => {
+        this.setState({paletteOpen: false})
+    }
 
     // we check if this.props.getEditorstate is undefined first in case the button is rendered before the editor
     styleIsActive = () => this.props.getEditorState && this.props.getEditorState().getCurrentInlineStyle().has(`${this.props.customStylePrefix}${this.props.customType.toUpperCase()}_${this.props.customPalette[0].toUpperCase()}`)
@@ -53,8 +71,27 @@ class CustomStyleButton extends Component {
                 <Button
                     className={classNames(classes.root, this.styleIsActive() && classes.active)}
                     children={this.props.children}
-                    onClick={this.toggleStyle}
+                    onClick={this.handleParentButton}
                 />
+                <Popover
+                    anchorEl={this.state.anchorEl}
+                    open={this.state.paletteOpen}
+                    onClose={this.handleClose}
+                    anchorOrigin={{
+                        vertical: 'bottom',
+                        horizontal: 'center',
+                    }}
+                    transformOrigin={{
+                        vertical: 'top',
+                        horizontal: 'center',
+                    }}
+                >
+                    {this.props.customPalette.map(entry => {
+                        return (
+                            <Button style={{background: `${entry}`, minWidth: 40, maxWidth: 40, borderRadius: 20}} onClick={(e) => this.toggleStyle(e, entry)}></Button>
+                        );
+                    })}
+                </Popover>
             </div>
         );
     }
