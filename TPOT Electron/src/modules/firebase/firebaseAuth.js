@@ -40,7 +40,3 @@ export default class FirebaseCredentials {
         return this;
     }
 }
-
-// module.exports = {
-// FirebaseCredentials,
-// }
