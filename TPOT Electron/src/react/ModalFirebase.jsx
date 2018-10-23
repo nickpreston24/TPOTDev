@@ -12,6 +12,13 @@ import TextField from "@material-ui/core/TextField";
 import FireBaseLogo from "../media/firebase.png";
 import FirebaseCredentials from "../modules/firebase/firebaseAuth";
 
+const electron = window.require("electron");
+const remote = electron.remote;
+const app = remote.app;
+const fs = remote.require("fs");
+
+const loginFile = app.getAppPath() + "/src/config/tokens.txt";
+
 function Transition(props) {
   return <Slide direction="up" {...props} />;
 }
@@ -46,7 +53,8 @@ const styles = theme => ({
 
 class SignIn extends React.Component {
   state = {
-    // open: false,
+    email: null,
+    password: null
   };
 
   // handleClickOpen = () => {
@@ -62,23 +70,21 @@ class SignIn extends React.Component {
   //     this.props.onUpdate(false);
   //   };
 
-  async login() {
-    let success = false;
-    let email = "michael.n.preston@gmail.com";
-    let password = "Mercury10";
+  login = async () => {
+    let email = this.state.email;
+    let password = this.state.password;
 
-    console.log("before login");
     var fb = new FirebaseCredentials(email, password);
-    var r = await fb.login();
-    console.log("after login");
+    var response = await fb.login();
 
-    //todo: get the user.idtoken
-    // r.user.getTokenId(true).then(console.log);
-    console.log(r);
-    var user = r.user;
-    console.log("user\t", user);
-    console.log("userid=\t", r.user.id);
-  }
+    let refreshToken = response.user.refreshToken;
+    console.log("refresh token: ", refreshToken);
+    // console.log("path: ", loginFile);
+
+    fs.writeFile(loginFile, refreshToken, function(error) {
+      if (error) return console.log(error);
+    });
+  };
 
   closeModal = e => {
     if (e.target.innerHTML === "Login") {
@@ -86,12 +92,15 @@ class SignIn extends React.Component {
     } else {
       this.props.onUpdate(false);
     }
-
-    // console.log("captured data login");
   };
 
   clickAwayModal = e => {
     console.log(e.srcElement, e.target, e);
+  };
+
+  handleFieldChange = event => {
+    let type = event.target.type;
+    this.setState({ [`${type}`]: event.target.value });
   };
 
   render() {
@@ -122,10 +131,12 @@ class SignIn extends React.Component {
             id="username-input"
             label="Username"
             className={classes.textField}
-            type="text"
+            type="email"
             autoComplete="current-password"
             margin="normal"
             fullWidth
+            value={this.state.email}
+            onChange={this.handleFieldChange}
           />
           <TextField
             id="password-input"
@@ -135,6 +146,8 @@ class SignIn extends React.Component {
             autoComplete="current-password"
             margin="normal"
             fullWidth
+            value={this.state.password}
+            onChange={this.handleFieldChange}
           />
           {/* <Divider/> */}
 

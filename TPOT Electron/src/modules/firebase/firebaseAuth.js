@@ -11,7 +11,6 @@ export default class FirebaseCredentials {
     }
 
     async login() {
-        console.log('inside login()');
         return app.auth()
             .signInWithEmailAndPassword(this.email, this.password)
             .catch(console.log);
