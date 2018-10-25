@@ -1,13 +1,42 @@
-.blockquote {
+body {
+    font-size: 18px;
+    line-height: 30.6px;
+}
+
+/* h1 {
+    font-size: 60px;
+    line-height: 72px
+}
+h2 {
+    font-size: 30px;
+    line-height: 36px
+}
+h3 {
+    font-size: 28px;
+    line-height: 33.6px
+} */
+h4 {
+    font-size: 22px;
+    line-height: 26.4px
+}
+
+/* h5 {
+    font-size: 20px;
+    line-height: 24px
+}
+h6{
+    font-size: 16px;
+    line-height: 19.2px
+} */
+blockquote {
     text-align: center;
-    color: red;
+    font-size: 22px; 
+    line-height: 35.2px
 }
 
 .blockquote-intense {
     padding: 16px;
     font-weight: bold;
-    font-style: italic;
-    text-align: center;
     border-top: 1px solid rgb(68, 114, 196);
     border-bottom: 1px solid rgb(68, 114, 196);
 }
@@ -20,12 +49,12 @@
     margin-left: 48px;
 }
 
-.center {
-    text-align: center;
-}
-
 .left {
     text-align: left;
+}
+
+.center {
+    text-align: center;
 }
 
 .right {

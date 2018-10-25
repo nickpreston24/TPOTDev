@@ -25,7 +25,27 @@ class ToggleLinkButton extends Component {
 
         console.log(this.props.getEditorRef())
 
-        if (true) {
+
+        // this.button.focus()
+        this.props.getEditorRef().focus()
+        const editorState = this.props.getEditorState()
+        const contentState = editorState.getCurrentContent();
+        const contentStateWithEntity = contentState.createEntity(
+            'LINK',
+            'MUTABLE',
+            { url: 'www.thepathoftruth.com/new.htm' }
+        );
+        const entityKey = contentStateWithEntity.getLastCreatedEntityKey();
+        const newEditorState = EditorState.set(editorState, { currentContent: contentStateWithEntity });
+        this.props.setEditorState(
+            RichUtils.toggleLink(
+                newEditorState,
+                newEditorState.getSelection(),
+                entityKey
+            ),
+        );
+
+        if (false) {
             smalltalk
                 .prompt('Add Link', 'ex: www.thepathoftruth.com')
                 .then((value) => {

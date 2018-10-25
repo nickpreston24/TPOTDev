@@ -3,8 +3,10 @@
 
 import createMuiToolbarPlugin from './draft-js-mui-toolbar'
 import createSoftNewLinePlugin from '@jimmycode/draft-js-soft-newline-plugin'
+import createAlignmentPlugin from 'draft-js-alignment-plugin';
 import createLinkifyPlugin from 'draft-js-linkify-plugin'
 import createLinkPlugin from 'draft-js-link-plugin'
+
 import {
     AddLinkButton,
     AddColorButton
@@ -17,7 +19,10 @@ import 'draft-js-link-plugin/lib/plugin.css'
 const muiToolbarPlugin = createMuiToolbarPlugin()
 const softNewLinePlugin = createSoftNewLinePlugin()
 const linkPlugin = createLinkPlugin()
-const linkifyPlugin = createLinkifyPlugin()
+const linkifyPlugin = createLinkifyPlugin({
+    target: '_blank'
+})
+const alignmentPlugin = createAlignmentPlugin()
 
 // EXPORTS
 ///////////////////////////////////////////////////////////////////////////////////////////////////
@@ -27,8 +32,9 @@ export const {
 } = muiToolbarPlugin;
 
 export const plugins = [
+    alignmentPlugin,
     muiToolbarPlugin,
     softNewLinePlugin,
     linkPlugin,
-    linkifyPlugin
+    // linkifyPlugin
 ];
