@@ -8,9 +8,9 @@ import Tab from '@material-ui/core/Tab';
 import PreferencesIcon from 'mdi-material-ui/Tune'
 import AccountIcon from '@material-ui/icons/AccountBoxOutlined'
 import ThemeIcon from 'mdi-material-ui/InvertColors'
-import SettingsAccount from './SettingsAccount'
-import SettingsPreferences from './SettingsPreferences'
-import SettingsTheme from './SettingsTheme'
+import SettingsAccount from '../Preferences/SettingsAccount'
+import SettingsPreferences from '../Preferences/SettingsPreferences'
+import SettingsTheme from '../Preferences/SettingsTheme'
 
 const styles = theme => ({
     root: {

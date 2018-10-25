@@ -9,8 +9,8 @@ import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import Slide from "@material-ui/core/Slide";
 import TextField from "@material-ui/core/TextField";
-import FireBaseLogo from "../media/firebase.png";
-import FirebaseCredentials from "../modules/firebase/firebaseAuth";
+import FireBaseLogo from "../../media/firebase.png";
+import FirebaseCredentials from "../../modules/firebase/firebaseAuth";
 
 const electron = window.require("electron");
 const remote = electron.remote;

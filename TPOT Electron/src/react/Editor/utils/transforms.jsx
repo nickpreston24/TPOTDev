@@ -317,13 +317,18 @@ const stateFromElementConfig = {
 
         // Entity: (type: string, data: DataMap<mixed>, mutability: EntityMutability = 'MUTABLE') => <DraftEntityInstance>
         if (element.tagName === "A" && element.href) { // Are we a Link?
-            // console.log(element.href)
             return Entity(
                 'LINK',
                 { url: element.href },
                 'MUTABLE'
             )
-        } else { // Are we a compound inline style?
+        } else if (element.tagName === "IMG") {
+            console.log(element)
+            return Entity(
+                'IMAGE',
+                { src: element.src },
+                'MUTABLE')
+        }else { // Are we a compound inline style?
             // Final Inline Style
             styleName = prefix + styleName
             baseStyleMap[styleName] = styleData
@@ -430,8 +435,7 @@ const createBlockRenderers = (editorState, contentState, exporter) => {
 
     // Initial Configuration
     const stateToHTMLConfig = {
-        defaultBlockTag: 'p',
-        inlineStyles: exporter(editorState),
+
         blockStyleFn: (block) => {
             const blockType = block.type.toLowerCase()
             let styles = {}
@@ -464,17 +468,15 @@ const createBlockRenderers = (editorState, contentState, exporter) => {
             if (entityType === 'LINK') {
                 console.log("HELLO")
                 return {
-                    // style: {
-                    //     borderBottom: '1px solid #C7D6C4 !important'
-                    // },
-                    attributes: {
-                        href: 'www.google.com'
-                    },
+                    style: { borderBottom: '1px solid #C7D6C4 !important' },
+                    attributes: { href: 'www.google.com' },
                     element: 'a',
                 };
             }
         },
-        blockRenderers: {}
+        defaultBlockTag: 'p',
+        blockRenderers: {},
+        inlineStyles: exporter(editorState),
     }
 
     // Add in customBlockRenderers

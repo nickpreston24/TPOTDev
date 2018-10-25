@@ -4,7 +4,7 @@ import classNames from 'classnames';
 import { withStyles } from '@material-ui/core/styles';
 
 import Drawer from '@material-ui/core/Drawer';
-import Draft from './Editor/Draft'
+import Draft from '../Editor/Draft'
 import DrawerMenuList from './DrawerMenuList';
 import Button from '@material-ui/core/Button';
 import PreviewIcon from '@material-ui/icons/LaptopMacTwoTone';
@@ -24,9 +24,9 @@ import InfoIcon from "@material-ui/icons/InfoOutlined";
 import LogoutIcon from "@material-ui/icons/ExitToApp";
 import { Divider } from "@material-ui/core";
 
-import ModalLoad from '../react/ModalLoad'
-import DriveIcon from '../media/drive.png'
-import FirebaseIcon from '../media/firebase_icon.png'
+import ModalLoad from '../Modals/ModalLoad'
+import DriveIcon from '../../media/drive.png'
+import FirebaseIcon from '../../media/firebase_icon.png'
 import LoadIcon from '@material-ui/icons/Folder';
 import Save from '@material-ui/icons/Save'
 import SettingsIcon from '@material-ui/icons/SettingsRounded'

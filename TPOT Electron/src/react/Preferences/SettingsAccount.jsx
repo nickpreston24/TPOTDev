@@ -4,7 +4,7 @@ import { withStyles } from '@material-ui/core/styles';
 
 import Avatar from '@material-ui/core/Avatar';
 import Typography from '@material-ui/core/Typography';
-import ProfilePic from '../media/avatar.jpg'
+import ProfilePic from '../../media/avatar.jpg'
 
 const styles = theme => ({
     root: {

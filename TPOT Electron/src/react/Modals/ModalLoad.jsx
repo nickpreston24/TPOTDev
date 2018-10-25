@@ -6,9 +6,9 @@ import Button from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import Grid from "@material-ui/core/Grid";
-import ClipBoard from "../media/clipboard.png";
-import HardDrive from "../media/hdd.png";
-import GoogleDrive from "../media/drive.png";
+import ClipBoard from "../../media/clipboard.png";
+import HardDrive from "../../media/hdd.png";
+import GoogleDrive from "../../media/drive.png";
 
 ///File Import Strategies:
 // import { DiskFileLoader } from '../modules/docxLoaders/DiskFileLoader.ts'
@@ -18,8 +18,8 @@ import GoogleDrive from "../media/drive.png";
 // import * as Loaders from '../modules/docxLoaders/Loaders.ts'
 // import { Loaders } from '../modules/docxLoaders/Loaders.ts'
 
-import DiskFileLoader from "../modules/docxLoaders_js/DiskFileLoader";
-import { convertFile } from "../modules/converter";
+import DiskFileLoader from "../../modules/docxLoaders_js/DiskFileLoader";
+import { convertFile } from "../../modules/converter";
 
 
 const styles = theme => ({

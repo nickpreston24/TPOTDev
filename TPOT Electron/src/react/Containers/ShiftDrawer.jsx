@@ -5,7 +5,7 @@ import { withStyles } from '@material-ui/core/styles';
 
 import Drawer from '@material-ui/core/Drawer';
 import Draft from '../Editor/Draft'
-import DrawerMenuList from '../DrawerMenuList';
+import DrawerMenuList from '../Components/DrawerMenuList';
 import Button from '@material-ui/core/Button';
 import PreviewIcon from '@material-ui/icons/LaptopMacTwoTone';
 import Tooltip from '@material-ui/core/Tooltip';
@@ -19,7 +19,7 @@ import DownloadIcon from 'mdi-material-ui/Download'
 
 import 'typeface-roboto'
 
-import Auth from '../Auth'
+import Auth from '../Components/Auth'
 
 import DeleteIcon from '@material-ui/icons/Delete';
 

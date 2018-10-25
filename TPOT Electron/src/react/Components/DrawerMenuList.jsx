@@ -10,8 +10,8 @@ import Save from '@material-ui/icons/Save';
 import DraftsIcon from '@material-ui/icons/Drafts';
 import SendIcon from '@material-ui/icons/Send';
 import SettingsIcon from '@material-ui/icons/SettingsRounded'
-import ModalLoad from './ModalLoad'
-import ModalSettings from './ModalSettings'
+import ModalLoad from '../Modals/ModalLoad'
+import ModalSettings from '../Modals/ModalSettings'
 
 
 const styles = theme => ({

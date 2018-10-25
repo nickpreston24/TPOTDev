@@ -131,15 +131,15 @@ const mammothOptions = {
         "u => ins",
         "strike => del",
     ],
-    convertImage: mammoth.images.imgElement(function (image) {
-        return image.read("base64").then(function (imageBuffer) {
-            return {
-                src: "data:" + image.contentType + ";base64," + imageBuffer,
-                class: "image",
-                style: "max-width: 600px; max-height: 350px; position: relative; left: 50%; transform: translateX(-50%);"
-            };
-        });
-    })
+    // convertImage: mammoth.images.imgElement(function (image) {
+    //     return image.read("base64").then(function (imageBuffer) {
+    //         return {
+    //             src: "data:" + image.contentType + ";base64," + imageBuffer,
+    //             class: "image",
+    //             style: "max-width: 600px; max-height: 350px; position: relative; left: 50%; transform: translateX(-50%);"
+    //         };
+    //     });
+    // })
 };
 
 /////////////////////////////////////////////////////////////////////////////////////
@@ -318,7 +318,7 @@ const flattenStyles = async (baseDom, augDom) => {
                 return false
             } else {
                 if (flavor === "font-size") {
-                    if (icingNode.style[flavor] < "16px") {
+                    if (icingNode.style[flavor] < "18px") {
                         return false
                     } else {
                         return true // Only returns larger than normal font sizes

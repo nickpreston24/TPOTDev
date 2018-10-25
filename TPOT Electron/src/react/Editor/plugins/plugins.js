@@ -6,6 +6,7 @@ import createSoftNewLinePlugin from '@jimmycode/draft-js-soft-newline-plugin'
 import createAlignmentPlugin from 'draft-js-alignment-plugin';
 import createLinkifyPlugin from 'draft-js-linkify-plugin'
 import createLinkPlugin from 'draft-js-link-plugin'
+import createImagePlugin from 'draft-js-image-plugin';
 
 import {
     AddLinkButton,
@@ -19,10 +20,9 @@ import 'draft-js-link-plugin/lib/plugin.css'
 const muiToolbarPlugin = createMuiToolbarPlugin()
 const softNewLinePlugin = createSoftNewLinePlugin()
 const linkPlugin = createLinkPlugin()
-const linkifyPlugin = createLinkifyPlugin({
-    target: '_blank'
-})
+const linkifyPlugin = createLinkifyPlugin()
 const alignmentPlugin = createAlignmentPlugin()
+const imagePlugin = createImagePlugin();
 
 // EXPORTS
 ///////////////////////////////////////////////////////////////////////////////////////////////////
@@ -33,6 +33,7 @@ export const {
 
 export const plugins = [
     alignmentPlugin,
+    imagePlugin,
     muiToolbarPlugin,
     softNewLinePlugin,
     linkPlugin,

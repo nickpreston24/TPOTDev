@@ -118,7 +118,7 @@ class Wysiwyg extends React.Component {
         const codeState = draftContentToHtml(this.state.editorState, this.state.editorState.getCurrentContent())
         console.log(codeState)
         // const codeState = convertToRaw(this.state.editorState.getCurrentContent())
-        this.setState({ codeState })
+        // this.setState({ codeState })
     }
 
     // After the class is constructed and its data is mounted to the React DOM, render() is fired, which takes displays the elements with data from the instance's current state.

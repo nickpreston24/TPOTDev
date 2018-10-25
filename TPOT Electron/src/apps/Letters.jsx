@@ -1,6 +1,6 @@
 // React
 import React from 'react'
-import Header from '../react/Header'
+import Header from '../react/Components/Header'
 import Draft from '../react/Editor/Draft'
 
 class Letters extends React.Component {
