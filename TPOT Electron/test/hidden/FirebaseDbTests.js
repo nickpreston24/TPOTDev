@@ -1,5 +1,5 @@
 const admin = require('firebase-admin');
-const config = require('../src/config/environment.js').config;
+const config = require('../../src/config/environment.js').config;
 var serviceAccount = require('../src/config/service-account.json');
 console.log('Service Account:\n', serviceAccount);
 

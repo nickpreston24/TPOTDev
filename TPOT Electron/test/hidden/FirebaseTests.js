@@ -3,7 +3,7 @@
  */
 var firebase = require("firebase/app");
 require("firebase/auth");
-const config = require('../src/config/environment.js').config;
+const config = require('../../src/config/environment.js').config;
 var app = firebase.initializeApp(config);
 
 /**
