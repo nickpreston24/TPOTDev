@@ -46,7 +46,7 @@ const styles = theme => ({
         float: 'left',
         height: '100vh',
         whiteSpace: 'nowrap',
-        width: drawerWidth,
+        width: 78,
         background: theme.palette.secondary.main,
         boxShadow: '1.5px 0px 4px 0px rgba(0,0,0,0.2)',
         transition: theme.transitions.create('width', {
@@ -60,7 +60,7 @@ const styles = theme => ({
             easing: theme.transitions.easing.sharp,
             duration: theme.transitions.duration.leavingScreen,
         }),
-        width: 0,
+        width: drawerWidth,
         // width: theme.spacing.unit * 7,
         // [theme.breakpoints.up('sm')]: {
         //     width: theme.spacing.unit * 9,
@@ -125,11 +125,11 @@ class ShiftDrawer extends React.Component {
                 <Drawer variant="permanent" open={!this.props.compact} id="Drawer" classes={{ paper: classNames(classes.drawer, !this.props.compact && classes.drawerClose), }} >
                     {/* <DrawerMenuList onClick={this.handleDrawerClose}/> */}
                     <div id="Accounts" className={classes.accounts}>
-                        <Toolbar variant="dense">
+                        {/* <Toolbar variant="dense">
                             <Typography variant="body2" className={classes.primaryText}>
                                 Accounts
                              </Typography>
-                        </Toolbar>
+                        </Toolbar> */}
                         {this.props.accountItems && (
                             this.props.accountItems
                         )}
@@ -141,11 +141,11 @@ class ShiftDrawer extends React.Component {
                         </ListItem>
                     </div>
                     <div id="Apps" className={classes.apps}>
-                        <Toolbar variant="dense">
+                        {/* <Toolbar variant="dense">
                             <Typography variant="body2" className={classes.primaryText}>
                                 Apps
                              </Typography>
-                        </Toolbar>
+                        </Toolbar> */}
                         {this.props.appItems && (
                             this.props.appItems
                         )}

@@ -323,7 +323,7 @@ const stateFromElementConfig = {
                 'MUTABLE'
             )
         } else if (element.tagName === "IMG") {
-            console.log(element)
+            // console.log(element)
             return Entity(
                 'IMAGE',
                 { src: element.src },
@@ -459,14 +459,14 @@ const createBlockRenderers = (editorState, contentState, exporter) => {
             }
         },
         entityStyleFn: (entity) => {
-            console.log(entity.getType())
-            console.log(entity)
+            // console.log(entity.getType())
+            // console.log(entity)
             const entityType = entity.get('type').toLowerCase();
             if (entityType === 'page-break') {
                 return { element: 'hr' };
             }
             if (entityType === 'LINK') {
-                console.log("HELLO")
+                // console.log("HELLO")
                 return {
                     style: { borderBottom: '1px solid #C7D6C4 !important' },
                     attributes: { href: 'www.google.com' },

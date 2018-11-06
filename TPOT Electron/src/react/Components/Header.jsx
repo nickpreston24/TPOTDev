@@ -85,7 +85,7 @@ class SimpleAppBar extends React.Component {
 
     render() {
         const { classes } = this.props;
-
+        const childProps = { authUser: this.props.authUser }
         return (
             <div id="Header" className={classes.root}>
                 <AppBar className={classes.root} position="static" color="primary" >
@@ -95,7 +95,7 @@ class SimpleAppBar extends React.Component {
                             <MenuIcon />{" "}
                         </IconButton>
                         <EditMode currentTab={this.state.editMode} onUpdate={this.updateEditMode} editMode={this.state.editMode} />
-                        <Auth authorized={true} className={classes.authButton} />
+                        <Auth authorized={true} className={classes.authButton} {...childProps}/>
                     </Toolbar>
                 </AppBar>
                 <FileMenu anchorEl={this.state.anchorEl} open={this.state.fileMenuOpened} onClose={this.closeFileMenu} onUpdate={this.updateFileMenu}/>

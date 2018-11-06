@@ -110,13 +110,13 @@ class DrawerMenuList extends React.Component {
                             <ListItemAvatar>
                                 <Avatar src={account.icon} className={classes.avatar} />
                             </ListItemAvatar>
-                            <ListItemText
+                            {/* <ListItemText
                                 primary={account.primary}
                                 secondary={account.secondary ? account.secondary : null}
                                 classes={{ primary: classes.primaryText, secondary: classes.secondaryText }}
                                 primaryTypographyProps={{ noWrap: true }}
                                 secondaryTypographyProps={{ noWrap: true }}
-                            />
+                            /> */}
                             {/* <ListItemSecondaryAction>
                                 <IconButton aria-label="Delete">
                                     <DeleteIcon />

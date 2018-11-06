@@ -92,11 +92,11 @@ class DrawerMenuList extends React.Component {
                     <ListItemIcon className={classes.letter}>
                         <SettingsIcon  />
                     </ListItemIcon>
-                    <ListItemText
+                    {/* <ListItemText
                         primary="Settings"
                         classes={{ primary: classes.secondaryText, secondary: classes.secondaryText }}
                         primaryTypographyProps={{ noWrap: true }}
-                    />
+                    /> */}
                 </ListItem>
                 <ModalLoad open={this.state.loadModalOpen} onUpdate={this.updateLoadModal} />
                 <ModalSettings open={this.state.settingsModalOpen} onUpdate={this.updateSettingsModal} value={1} />

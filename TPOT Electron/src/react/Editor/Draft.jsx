@@ -30,6 +30,8 @@ const MUIstyles = theme => ({
     },
     editorFrame: {
         padding: 80,
+        paddingLeft: 160,
+        paddingRight: 160,
         position: 'relative',
         left: '50%',
         transform: 'translateX(-50%)',
@@ -102,10 +104,10 @@ class Wysiwyg extends React.Component {
         const newEditorState = EditorState.createWithContent(newContentState)
         // const rawStateAsText = convertToRaw(newContentState).blocks
         const rawStateAsText = convertToRaw(newContentState)
-        console.log(newContentState)
+        // console.log(newContentState)
         const rawHTML = draftContentToHtml(newEditorState, newContentState)
         const rawHTMLPretty = rawHTML
-        console.log(rawHTMLPretty)
+        // console.log(rawHTMLPretty)
         this.setState({
             originalState: html,
             editorState: newEditorState,

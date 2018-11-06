@@ -8,12 +8,12 @@ import SettingsItems from '../react/Components/SettingsItems';
 import Toolbar from '../react/Components/Toolbar';
 import ShiftDrawer from '../react/Containers/ShiftDrawer';
 import Letters from './Letters';
-
+import { firebase, auth, db } from '../firebase'
 
 const ipc = window.require('electron').ipcRenderer;
 const isDev = require("electron-is-dev");
 // Electron
-// window.require('electron-react-devtools').install() // Works, but resets
+window.require('electron-react-devtools').install() // Works, but resets
 // window.require('devtron').install() // Not Working ATM
 // const electron = window.require('electron')
 // const remote = electron.remote;
@@ -39,8 +39,6 @@ const isDev = require("electron-is-dev");
 // const fs = remote.require('fs')
 // const path = remote.require('path') 
 
-// Custom/Community
-const Provider = React.Fragment
 const store = {}
 
 // Set up Store Here
@@ -96,19 +94,13 @@ const theme = createMuiTheme({
 
 class Toolbox extends React.Component {
 
-    constructor(props) {
-        super(props);
-
-        this.state = { // set default state for App (single source of truth)
-            menuToggled: false,
-            currentApp: <Letters />,
-            compactDrawer: true,
-            autoUpdateModal: false,
-            updateVersion: ""
-        }
-
-        // this.openAutoUpdateModal = this.openAutoUpdateModal.bind(this)
-
+    state = { // set default state for App (single source of truth)
+        menuToggled: false,
+        currentApp: <Letters />,
+        compactDrawer: true,
+        autoUpdateModal: false,
+        updateVersion: "",
+        authUser: null,
     }
 
     onUpdateHeader = async (headerState) => {
@@ -122,40 +114,36 @@ class Toolbox extends React.Component {
         this.setState({ autoUpdateModal: false })
     }
 
-    // componentDidMount() {
-    //     let openAutoUpdateModal = this.openAutoUpdateModal
-    //     ipc.on('auto-update', function (e, msg) {
-    //         console.log(msg)
-    //         if (msg.event === "update-available") {
-    //             openAutoUpdateModal(msg)
-    //         }
-    //     })
-    // }
-
-    // openAutoUpdateModal = (msg) => {
-    //     this.setState({
-    //         autoUpdateModal: true,
-    //         updateVersion: msg.data && msg.data.version ? msg.data.version : "no version"
-    //     })
-    // }
+    componentDidMount() {
+        firebase.auth.onAuthStateChanged(authUser => {
+            authUser
+                ? this.setState({ authUser })
+                : this.setState({ authUser: null });
+        })
+            // .then(() => {
+            //     db.collection('public').get().then((querySnapshot) => {
+            //         querySnapshot.forEach((doc) => {
+            //             console.log(`${doc.id} => `, doc.data());
+            //         });
+            //     });
+            // });
+    }
 
     render() {
+        const childProps = { authUser: this.state.authUser }
         return (
             <div id="Toolbox">
-                <Provider>
-                    <MuiThemeProvider theme={theme}>
-                        <ShiftDrawer
-                            compact={this.state.compactDrawer}
-                            accountItems={<AccountItems />}
-                            appItems={<AppItems />}
-                            settingsItems={<SettingsItems />}
-                            settingsPage={''}
-                            toolbar={<Toolbar/>}
-                            currentApp={this.state.currentApp}
-                        >
-                        </ShiftDrawer>
-                    </MuiThemeProvider>
-                </Provider>
+                <MuiThemeProvider theme={theme}>
+                    <ShiftDrawer
+                        compact={this.state.compactDrawer}
+                        accountItems={<AccountItems />}
+                        appItems={<AppItems />}
+                        settingsItems={<SettingsItems />}
+                        settingsPage={''}
+                        toolbar={<Toolbar />}
+                        currentApp={<Letters {...childProps} />}
+                    />
+                </MuiThemeProvider>
             </div>
         )
     }

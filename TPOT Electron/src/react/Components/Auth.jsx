@@ -16,6 +16,8 @@ import InfoIcon from "@material-ui/icons/InfoOutlined";
 import LogoutIcon from "@material-ui/icons/ExitToApp";
 import ModalFirebase from "../Modals/ModalFirebase";
 
+import { auth } from '../../firebase';
+
 const styles = {
     root: {
         position: "absolute",
@@ -62,6 +64,18 @@ class Auth extends React.Component {
         });
     };
 
+    handleLogout = (event) => {
+        event.preventDefault();
+
+        auth.signOut()
+            .then(() => {
+                this.setState({
+                    authorized: false,
+                    anchorEl: null
+                });
+            })
+    }
+
     openModal = () => {
         this.setState({ modalVisible: true });
         // this.handleLogin
@@ -94,15 +108,14 @@ class Auth extends React.Component {
     };
 
     render() {
-        const { classes } = this.props;
+        const { classes, authUser } = this.props;
         const { anchorEl } = this.state;
-
         // console.log(this.state.authorized)
 
         return (
             <div className={classes.root}>
                 {/* Is Authorized! Show Logout Button */}
-                {this.state.authorized && (
+                {authUser && (
                     <div>
                         {/* <Typography color="inherit">Victor H.</Typography> */}
                         <Slide direction="left" in={true} timeout={{ enter: 700 }}>
@@ -149,7 +162,7 @@ class Auth extends React.Component {
                     </div>
                 )}
                 {/* Not Authorized, Show Login Button */}
-                {!this.state.authorized && (
+                {!authUser && (
                     <Grow in={true} timeout={{ enter: 400 }}>
                         <Button color="inherit" onClick={this.openModal}>
                             {/* Preview */}
@@ -162,6 +175,7 @@ class Auth extends React.Component {
                     <ModalFirebase
                         open={this.state.modalVisible}
                         onUpdate={this.updateModal}
+
                     />
                 )}
             </div>
