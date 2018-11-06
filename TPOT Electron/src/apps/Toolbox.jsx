@@ -9,6 +9,7 @@ import Toolbar from '../react/Components/Toolbar';
 import ShiftDrawer from '../react/Containers/ShiftDrawer';
 import Letters from './Letters';
 import { firebase, auth, db } from '../firebase'
+import { wp } from '../wordpress'
 
 const ipc = window.require('electron').ipcRenderer;
 const isDev = require("electron-is-dev");
@@ -101,6 +102,7 @@ class Toolbox extends React.Component {
         autoUpdateModal: false,
         updateVersion: "",
         authUser: null,
+        wordpressCredentials: null,
     }
 
     onUpdateHeader = async (headerState) => {
@@ -115,18 +117,35 @@ class Toolbox extends React.Component {
     }
 
     componentDidMount() {
-        firebase.auth.onAuthStateChanged(authUser => {
+
+        // Authenticate and get WP Credentials
+        firebase.auth.onAuthStateChanged(async (authUser) => {
+            // Set Authorized State
+            console.log("AuthUser", authUser)
             authUser
-                ? this.setState({ authUser })
-                : this.setState({ authUser: null });
+                ? await this.setState({ authUser })
+                : await this.setState({ authUser: null, wordpressCredentials: null });
+            // Set Create User Profile from authUser Object Data
+            authUser && await db.addUser(
+                authUser.uid,
+                authUser.firstname,
+                authUser.lastname,
+                authUser.email,
+                authUser.provider,
+                authUser.displayName,
+            )
+            // Pull down Wordpress Credentials from Auth'd Database
+            const wordpressCredentials = await db.wordpressCredentials
+            wordpressCredentials
+                ? await this.setState({ wordpressCredentials })
+                : await this.setState({ wordpressCredentials: null });
+            // Use Wordpress Credentials to Create a Page
+            wp.createPage(this.state.wordpressCredentials, {/*DraftState*/}, {
+                slug: 'wordpress-test-page-toolbox',
+                title: 'WP Toolbox Test Page',
+                excerpt: "This is a test page for wordpress, don't do anything with it!",
+            })
         })
-            // .then(() => {
-            //     db.collection('public').get().then((querySnapshot) => {
-            //         querySnapshot.forEach((doc) => {
-            //             console.log(`${doc.id} => `, doc.data());
-            //         });
-            //     });
-            // });
     }
 
     render() {

@@ -47,6 +47,7 @@ const styles = theme => ({
         height: '100vh',
         whiteSpace: 'nowrap',
         width: 78,
+        width: 0,
         background: theme.palette.secondary.main,
         boxShadow: '1.5px 0px 4px 0px rgba(0,0,0,0.2)',
         transition: theme.transitions.create('width', {
@@ -61,6 +62,7 @@ const styles = theme => ({
             duration: theme.transitions.duration.leavingScreen,
         }),
         width: drawerWidth,
+        width: 0,
         // width: theme.spacing.unit * 7,
         // [theme.breakpoints.up('sm')]: {
         //     width: theme.spacing.unit * 9,

@@ -54,8 +54,8 @@ const styles = theme => ({
         fontStyle: "italic"
     },
     toolSet: {
-        minWidth: 600,
-        float: "right",
+        // minWidth: 600,
+        // float: "right",
         "&*": {
             display: "inline-block",
         }

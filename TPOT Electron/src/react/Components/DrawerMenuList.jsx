@@ -16,6 +16,7 @@ import ModalSettings from '../Modals/ModalSettings'
 
 const styles = theme => ({
     root: {
+        right: 0,
         paddingTop: 8,
     },
     settings: {

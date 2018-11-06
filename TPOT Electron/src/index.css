@@ -8,6 +8,5 @@ body {
 }
 
 hr {
-    height: 0;
-    border-bottom: 2px solid rgb(223, 223, 223);
+    border: 2px solid #e2e2e2
 }
