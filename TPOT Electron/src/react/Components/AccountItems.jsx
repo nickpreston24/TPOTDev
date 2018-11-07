@@ -1,26 +1,15 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
-
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
-import CloudDownload from '@material-ui/icons/CloudDownload';
-import Save from '@material-ui/icons/Save';
-import DraftsIcon from '@material-ui/icons/Drafts';
-import SendIcon from '@material-ui/icons/Send';
-import SettingsIcon from '@material-ui/icons/SettingsRounded'
-import ModalLoad from '../Modals/ModalLoad'
-import ModalSettings from '../Modals/ModalSettings'
-
-import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import Avatar from '@material-ui/core/Avatar';
-import FolderIcon from '@material-ui/icons/Folder';
-import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
-import IconButton from '@material-ui/core/IconButton';
-import DeleteIcon from '@material-ui/icons/Delete';
-import DriveIcon from '../../media/drive.png'
-import FirebaseIcon from '../../media/firebase_icon.png'
+import ListItem from '@material-ui/core/ListItem';
+import ListItemAvatar from '@material-ui/core/ListItemAvatar';
+import { withStyles } from '@material-ui/core/styles';
+import PropTypes from 'prop-types';
+import React from 'react';
+import DriveIcon from '../../media/drive.png';
+import FirebaseIcon from '../../media/firebase_icon.png';
+import ModalLoad from '../Modals/ModalLoad';
+import ModalSettings from '../Modals/ModalSettings';
+
+
 
 
 const styles = theme => ({
@@ -104,9 +93,9 @@ class DrawerMenuList extends React.Component {
 
         return (
             <div className={classes.root}>
-                {accounts.map(account => {
+                {accounts.map((account, index) => {
                     return (
-                        <ListItem button className={account.active ? classes.active : null} onClick={null} key={account.primary}>
+                        <ListItem button className={account.active ? classes.active : null} onClick={null} key={index}>
                             <ListItemAvatar>
                                 <Avatar src={account.icon} className={classes.avatar} />
                             </ListItemAvatar>

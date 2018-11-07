@@ -1,8 +1,4 @@
 // React
-import React from 'react';
-import { withStyles } from '@material-ui/core/styles';
-import classNames from 'classnames';
-
 // Material UI
 import Badge from '@material-ui/core/Badge';
 import Button from "@material-ui/core/Button";
@@ -11,16 +7,17 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import LinearProgress from '@material-ui/core/LinearProgress';
+import { withStyles } from '@material-ui/core/styles';
+import classNames from 'classnames';
+import ErrorIcon from 'mdi-material-ui/Alert';
+import FinishedIcon from 'mdi-material-ui/Check';
 import UpdateIcon from 'mdi-material-ui/CloudDownload';
 import DownloadIcon from 'mdi-material-ui/Download';
-import FinishedIcon from 'mdi-material-ui/Check';
 import SyncIcon from 'mdi-material-ui/Sync';
-import ErrorIcon from 'mdi-material-ui/Alert';
-import LinearProgress from '@material-ui/core/LinearProgress';
+import React from 'react';
 
-// Custom / Community
-import DriveIcon from '../../media/drive.png';
-import FirebaseIcon from '../../media/firebase_icon.png';
+
 
 // Electron
 const electron = window.require('electron')
@@ -230,7 +227,7 @@ class UpdatesButton extends React.Component {
                 icon: <div/>,
             },
         ]
-        const badge = badges.find(badge => badge.status == updateStatus)
+        const badge = badges.find(badge => badge.status === updateStatus)
         // const progressString = this.state.updateDownloadProgress != null ? `Downloading Update: ${this.state.updateDownloadProgress.percent}% (${this.state.updateDownloadProgress.transferred}/${this.state.updateDownloadProgress.total}) - Download speed: ${this.state.updateDownloadProgress.bytesPerSecond}` : `Unknown Progress`
 
         return (

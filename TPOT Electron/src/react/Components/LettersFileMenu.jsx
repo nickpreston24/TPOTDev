@@ -1,39 +1,21 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import classNames from 'classnames';
-import { withStyles } from '@material-ui/core/styles';
-
-import Drawer from '@material-ui/core/Drawer';
-import Draft from '../Editor/Draft'
-import DrawerMenuList from './DrawerMenuList';
-import Button from '@material-ui/core/Button';
-import PreviewIcon from '@material-ui/icons/LaptopMacTwoTone';
-import Tooltip from '@material-ui/core/Tooltip';
-import Zoom from '@material-ui/core/Zoom';
-
-import Menu from '@material-ui/core/Menu';
-import MenuItem from '@material-ui/core/MenuItem';
-import MenuList from '@material-ui/core/MenuList';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import InboxIcon from '@material-ui/icons/MoveToInbox';
+import Menu from '@material-ui/core/Menu';
+import MenuItem from '@material-ui/core/MenuItem';
+import { withStyles } from '@material-ui/core/styles';
 import DraftsIcon from '@material-ui/icons/Drafts';
-import SendIcon from '@material-ui/icons/Send';
-import AccountIcon from "@material-ui/icons/AccountBoxOutlined";
-import InfoIcon from "@material-ui/icons/InfoOutlined";
-import LogoutIcon from "@material-ui/icons/ExitToApp";
-import { Divider } from "@material-ui/core";
-
-import ModalLoad from '../Modals/ModalLoad'
-import DriveIcon from '../../media/drive.png'
-import FirebaseIcon from '../../media/firebase_icon.png'
 import LoadIcon from '@material-ui/icons/Folder';
-import Save from '@material-ui/icons/Save'
-import SettingsIcon from '@material-ui/icons/SettingsRounded'
-import SvgIcon from '@material-ui/core/SvgIcon';
+import Save from '@material-ui/icons/Save';
+import SendIcon from '@material-ui/icons/Send';
+import PropTypes from 'prop-types';
+import React from 'react';
+import 'typeface-roboto';
+import ModalLoad from '../Modals/ModalLoad';
 
 
-import 'typeface-roboto'
+
+
+
 
 const drawerWidth = 200;
 

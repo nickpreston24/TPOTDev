@@ -1,26 +1,16 @@
 import Badge from '@material-ui/core/Badge';
 import Button from "@material-ui/core/Button";
 import { withStyles } from '@material-ui/core/styles';
-import ChatIcon from 'mdi-material-ui/Forum';
 import HelpIcon from 'mdi-material-ui/HelpCircle';
 import PropTypes from 'prop-types';
 import React from 'react';
-import DriveIcon from '../../media/drive.png';
-import FirebaseIcon from '../../media/firebase_icon.png';
 import UpdatesButton from './UpdatesButton';
-import AccountCircle from '@material-ui/icons/AccountCircle'
-import DownloadIcon from 'mdi-material-ui/Download';
-import UpdateIcon from 'mdi-material-ui/CloudDownload';
 
 
 
 const electron = window.require('electron');
 const ipc = electron.ipcRenderer
 const shell = electron.shell
-const isDev = require("electron-is-dev");
-
-
-
 
 const styles = theme => ({
     root: {
@@ -180,29 +170,9 @@ class DrawerMenuList extends React.Component {
 
     render() {
         const { classes } = this.props;
-        const visible = true
-
-        const progressString = this.state.updateDownloadProgress != null ? `Downloading Update: ${this.state.updateDownloadProgress.percent}% (${this.state.updateDownloadProgress.transferred}/${this.state.updateDownloadProgress.total}) - Download speed: ${this.state.updateDownloadProgress.bytesPerSecond}` : `Unknown Progress`
-
-        const accounts = [
-            {
-                primary: "TPOT Cloud",
-                secondary: "braden.t.preston@gmail.com",
-                icon: FirebaseIcon,
-                active: true,
-                handler: () => {
-                    this.handleSelection("disk");
-                }
-            },
-            {
-                primary: "Google Drive",
-                secondary: "bpfilmsinc@gmail.com",
-                icon: DriveIcon,
-                handler: () => {
-                    this.handleSelection("google");
-                }
-            }
-        ]
+        // KEEP
+        // const visible = true
+        // const progressString = this.state.updateDownloadProgress != null ? `Downloading Update: ${this.state.updateDownloadProgress.percent}% (${this.state.updateDownloadProgress.transferred}/${this.state.updateDownloadProgress.total}) - Download speed: ${this.state.updateDownloadProgress.bytesPerSecond}` : `Unknown Progress`
 
         return (
             <div className={classes.root}>

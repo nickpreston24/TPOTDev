@@ -96,13 +96,11 @@ class Auth extends React.Component {
     //   };
 
     auth = e => {
-        let booleanVariable = !booleanVariable;
         this.props.onUpdate(true); // update parent
         // this.setState({menuToggled: booleanVariable}); // update self
     };
 
     deauth = e => {
-        let booleanVariable = !booleanVariable;
         this.props.onUpdate(true); // update parent
         // this.setState({menuToggled: booleanVariable}); // update self
     };

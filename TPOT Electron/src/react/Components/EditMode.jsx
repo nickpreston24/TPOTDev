@@ -124,7 +124,7 @@ class EditMode extends React.Component {
                 >
                     {this.tabs.map((tab) => {
                         return (
-                            <Tab classes={{ root: classes.tabRoot, selected: classes.selected }} icon={tab.icon} label={tab.name} key={Math.random(tab.name)} handl />
+                            <Tab classes={{ root: classes.tabRoot, selected: classes.selected }} icon={tab.icon} label={tab.name} key={Math.random(tab.name)} />
                         );
                     })}
                 </Tabs>

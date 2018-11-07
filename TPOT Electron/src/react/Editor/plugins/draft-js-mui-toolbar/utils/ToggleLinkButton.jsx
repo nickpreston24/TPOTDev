@@ -10,7 +10,7 @@ const styles = theme => ({
         color: theme.palette.secondary.textDark,
         minWidth: 40,
         maxWidth: 40,
-        maxHeight: 40,
+        minHeight: 40,
         maxHeight: 40,
     },
     active: {

@@ -1,26 +1,21 @@
-import React from "react";
-import PropTypes from "prop-types";
-import { withStyles } from "@material-ui/core/styles";
-
 import Button from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import Slide from "@material-ui/core/Slide";
+import { withStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
-import FireBaseLogo from "../../media/firebase.png";
-import FirebaseCredentials from "../../modules/firebase/firebaseAuth";
+import PropTypes from "prop-types";
+import React from "react";
 import { auth } from '../../firebase';
-
-const electron = window.require("electron");
-const remote = electron.remote;
-const app = remote.app;
-const fs = remote.require("fs");
-
-const loginFile = app.getAppPath() + "/src/config/tokens.txt";
+import FireBaseLogo from "../../media/firebase.png";
 
 
+// const electron = window.require("electron");
+// const remote = electron.remote;
+// const app = remote.app;
+// const fs = remote.require("fs");
 
 function Transition(props) {
     return <Slide direction="up" {...props} />;
@@ -79,7 +74,7 @@ class SignIn extends React.Component {
     onSubmit = (event) => {
         event.preventDefault();
         const { email, password, } = this.state;
-        const { history, } = this.props;
+        // const { history, } = this.props;
         console.log(email, password)
         auth.signIn(email, password)
             .then((authUser) => {
@@ -97,7 +92,12 @@ class SignIn extends React.Component {
 
     render() {
         const { classes } = this.props;
-        const { email, password, error, submit } = this.state;
+        const {
+            email,
+            password,
+            // error,
+            // submit
+        } = this.state;
 
         return (
             <Dialog

@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import CustomStyleButton from '../utils/CustomStyleButton';
-import Icon from 'mdi-material-ui/FormatBold'
 
 const styles = theme => ({
     root: {

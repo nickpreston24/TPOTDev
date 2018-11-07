@@ -1,33 +1,24 @@
 // MobX
-import { observable } from 'mobx';
-import { observer } from 'mobx-react';
-// React
-import React, { Component } from "react";
-import ReactDOM from "react-dom";
-import PropTypes from 'prop-types';
-import classNames from 'classnames';
 // Other
 import { withStyles } from '@material-ui/core/styles';
+import classNames from 'classnames';
 import { getVisibleSelectionRect } from 'draft-js';
 import DraftOffsetKey from 'draft-js/lib/DraftOffsetKey';
-import Button from '@material-ui/core/Button';
-import BoldButton from './BoldButton'
-import ItalicButton from './ItalicButton'
-import UnderlineButton from './UnderlineButton'
-import HeadingButton from './HeadingButton'
-import LinkButton from './LinkButton'
-import ColorButton from './ColorButton'
-import HighlightButton from './HighlightButton'
-import MoreButton from './MoreButton'
-import AlignLeftButton from './AlignLeftButton'
-import AlignCenterButton from './AlignCenterButton'
-import AlignRightButton from './AlignRightButton'
-import OrderedListButton from './OrderedListButton'
-import UnorderedListButton from './UnorderedListButton'
-import CheckListButton from './CheckListButton'
-import PageBreakButton from './PageBreakButton'
+// React
+import React, { Component } from "react";
+import AlignCenterButton from './AlignCenterButton';
+import AlignLeftButton from './AlignLeftButton';
+import BoldButton from './BoldButton';
+import ColorButton from './ColorButton';
+import HeadingButton from './HeadingButton';
+import HighlightButton from './HighlightButton';
+import ItalicButton from './ItalicButton';
+import LinkButton from './LinkButton';
+import MoreButton from './MoreButton';
+import PageBreakButton from './PageBreakButton';
+import QuoteButton from './QuoteButton';
+import UnderlineButton from './UnderlineButton';
 
-import QuoteButton from './QuoteButton'
 
 const styles = theme => ({
     root: {
@@ -92,8 +83,8 @@ class MuiToolbar extends Component {
             const selection = editorState.getSelection();
             const currentContent = editorState.getCurrentContent();
             const editorRootRect = editorRoot.getBoundingClientRect();
-            const editorParentFrame = editorRoot.parentElement
-            const editorTopPadding = window.getComputedStyle(editorParentFrame).getPropertyValue('padding-top')
+            // const editorParentFrame = editorRoot.parentElement
+            // const editorTopPadding = window.getComputedStyle(editorParentFrame).getPropertyValue('padding-top')
             const currentBlock = currentContent.getBlockForKey(selection.getStartKey());
             const offsetKey = DraftOffsetKey.encode(currentBlock.getKey(), 0, 0);
             const currentBlockNode = document.querySelectorAll(`[data-offset-key="${offsetKey}"]`)[0];

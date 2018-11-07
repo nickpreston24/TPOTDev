@@ -8,11 +8,12 @@ import SettingsItems from '../react/Components/SettingsItems';
 import Toolbar from '../react/Components/Toolbar';
 import ShiftDrawer from '../react/Containers/ShiftDrawer';
 import Letters from './Letters';
-import { firebase, auth, db } from '../firebase'
+import { firebase, db } from '../firebase'
 import { wp } from '../wordpress'
 
-const ipc = window.require('electron').ipcRenderer;
-const isDev = require("electron-is-dev");
+// const ipc = window.require('electron').ipcRenderer;
+// const isDev = require("electron-is-dev");
+
 // Electron
 window.require('electron-react-devtools').install() // Works, but resets
 // window.require('devtron').install() // Not Working ATM
@@ -39,8 +40,6 @@ window.require('electron-react-devtools').install() // Works, but resets
 // const builtinModules = remote.require('builtin-modules')
 // const fs = remote.require('fs')
 // const path = remote.require('path') 
-
-const store = {}
 
 // Set up Store Here
 
@@ -91,6 +90,9 @@ const theme = createMuiTheme({
     //       // color: "blue",
     //     },
     //   },
+      typography: {
+        useNextVariants: true,
+    },
 });
 
 class Toolbox extends React.Component {

@@ -1,27 +1,24 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
-
 import Button from '@material-ui/core/Button';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
-import Typography from '@material-ui/core/Typography';
-import DownloadIcon from 'mdi-material-ui/Download'
-import PackageIcon from '../../media/package.png'
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import Chip from '@material-ui/core/Chip';
-import Divider from '@material-ui/core/Divider'
-import Badge from '@material-ui/core/Badge';
+import Divider from '@material-ui/core/Divider';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
+import ListItemText from '@material-ui/core/ListItemText';
 import ListSubheader from '@material-ui/core/ListSubheader';
+import { withStyles } from '@material-ui/core/styles';
 import Switch from '@material-ui/core/Switch';
-import DrawerExpandIcon from 'mdi-material-ui/TableColumnPlusAfter'
-import FullScreenIcon from 'mdi-material-ui/TelevisionGuide'
-import InlineEditIcon from 'mdi-material-ui/FormatAlignTop'
-import AutosaveIcon from 'mdi-material-ui/ContentSaveOutline'
+import Typography from '@material-ui/core/Typography';
+import AutosaveIcon from 'mdi-material-ui/ContentSaveOutline';
+import DrawerExpandIcon from 'mdi-material-ui/TableColumnPlusAfter';
+import FullScreenIcon from 'mdi-material-ui/TelevisionGuide';
+import PropTypes from 'prop-types';
+import React from 'react';
+import PackageIcon from '../../media/package.png';
+
 
 const app = window.require('electron').remote.app
 
@@ -193,7 +190,7 @@ class Preferences extends React.Component {
                                                         <List subheader={<ListSubheader disableSticky color="primary">{section.name}</ListSubheader>} key={"option_" + index}>
                                                                 {section.options.map((option, el) => {
                                                                         return (
-                                                                                <ListItem key={"option_" + index + "_" + el} key={option.icon}>
+                                                                                <ListItem key={"option_" + index + "_" + el} >
                                                                                         <ListItemIcon>
                                                                                                 {option.icon}
                                                                                         </ListItemIcon>

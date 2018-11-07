@@ -27,7 +27,7 @@ export default class DiskFileLoader {
     getFilePath() {
         return new Promise((result, reject) => {
             dialog.showOpenDialog(options, (fileNames) => {
-                if (!fileNames || fileNames.length == 0) {
+                if (!fileNames || fileNames.length === 0) {
                     alert('Filename cannot be empty!')
                     return reject('file not selected');
                 }

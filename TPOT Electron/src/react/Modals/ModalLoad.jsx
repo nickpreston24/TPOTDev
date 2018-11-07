@@ -1,25 +1,22 @@
-import React from "react";
-import PropTypes from "prop-types";
-import { withStyles } from "@material-ui/core/styles";
-
 import Button from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import Grid from "@material-ui/core/Grid";
-import ClipBoard from "../../media/clipboard.png";
-import HardDrive from "../../media/hdd.png";
+import { withStyles } from "@material-ui/core/styles";
+import PropTypes from "prop-types";
+import React from "react";
 import GoogleDrive from "../../media/drive.png";
-
+import HardDrive from "../../media/hdd.png";
+import { convertFile } from "../../modules/converter";
 ///File Import Strategies:
 // import { DiskFileLoader } from '../modules/docxLoaders/DiskFileLoader.ts'
 // import { GoogleFileLoader } from '../modules/docxLoaders/GoogleFileLoader.ts'
 // import { Clipboard } from '../modules/docxLoaders/Clipboard.ts'
-
 // import * as Loaders from '../modules/docxLoaders/Loaders.ts'
 // import { Loaders } from '../modules/docxLoaders/Loaders.ts'
-
 import DiskFileLoader from "../../modules/docxLoaders_js/DiskFileLoader";
-import { convertFile } from "../../modules/converter";
+
+
 
 
 const styles = theme => ({

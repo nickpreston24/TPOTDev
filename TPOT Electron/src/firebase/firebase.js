@@ -3,14 +3,16 @@ import firebase from 'firebase/app';
 import 'firebase/auth';
 import 'firebase/firestore';
 
+// Initialize Firebase Project
 if (!firebase.apps.length) {
-    firebase.initializeApp(firebaseConfig);
+    firebase.initializeApp(firebaseConfig.default);
 }
 
-console.log(firebase)
+// Fix for Firebase 5.0.4 Timestamp Deprecation
+firebase.firestore().settings({ timestampsInSnapshots: true })
 
-const auth = firebase.auth();
 const db = firebase.firestore();
+const auth = firebase.auth();
 
 export {
     auth,

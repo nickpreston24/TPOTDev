@@ -28,7 +28,7 @@ const remote = electron.remote
 const app = remote.app
 
 // Node built-in
-const fs = remote.require('promise-fs')
+const fs = remote.require('fs-extra')
 const path = remote.require('path')
 
 // Custom/Community
@@ -214,9 +214,9 @@ const mapCssClassesToInlineStyles = async (dom, cssClasses) => {
                     } else {
                         if (cssClasses[nodeClass][nodeClass]) {
                             node.style.cssText += cssClasses[nodeClass][nodeClass].styles
-                        } else if (cssClasses[nodeClass][nodeClass + " r"]) {
-                            node.style.cssText += cssClasses[nodeClass][nodeClass + " r"].styles
-                        } else if (cssClasses[nodeClass][nodeClass] && cssClasses[nodeClass][nodeClass + " r"]) {} else {}
+                        } else if (cssClasses[nodeClass][`${nodeClass} r`]) {
+                            node.style.cssText += cssClasses[nodeClass][`${nodeClass} r`].styles
+                        } else if (cssClasses[nodeClass][nodeClass] && cssClasses[nodeClass][`${nodeClass} r`]) {} else {}
                     }
                 }
             })

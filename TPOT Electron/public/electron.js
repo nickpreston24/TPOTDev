@@ -193,7 +193,7 @@ function createWindow(offset) {
     const windowOptions = {
         // width: 1100,
         webPreferences: {
-            webSecurity: false,
+            webSecurity: true,
             allowRunningInsecureContent: true,
             devTools: true
         },
@@ -212,7 +212,11 @@ function createWindow(offset) {
     );
 
     toolboxWindow.setMenu(null)
-    toolboxWindow.webContents.openDevTools()
+
+    if (true) { // flag to enable dev tools in production build
+        isDev && toolboxWindow.webContents.openDevTools()
+    }
+
     toolboxWindow.on("closed", () => (toolboxWindow = null));
 
     ipc.on('asynchronous-message', (event, arg) => {

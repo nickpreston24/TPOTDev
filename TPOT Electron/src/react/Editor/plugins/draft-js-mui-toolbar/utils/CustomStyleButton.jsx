@@ -9,7 +9,7 @@ const MuiStyles = theme => ({
         color: theme.palette.secondary.textDark,
         minWidth: 40,
         maxWidth: 40,
-        maxHeight: 40,
+        minHeight: 40,
         maxHeight: 40,
     },
     active: {
@@ -86,9 +86,9 @@ class CustomStyleButton extends Component {
                         horizontal: 'center',
                     }}
                 >
-                    {this.props.customPalette.map(entry => {
+                    {this.props.customPalette.map((entry, index) => {
                         return (
-                            <Button style={{background: `${entry}`, minWidth: 40, maxWidth: 40, borderRadius: 20}} onClick={(e) => this.toggleStyle(e, entry)}></Button>
+                            <Button key={index} style={{background: `${entry}`, minWidth: 40, maxWidth: 40, borderRadius: 20}} onClick={(e) => this.toggleStyle(e, entry)}></Button>
                         );
                     })}
                 </Popover>

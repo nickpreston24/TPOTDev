@@ -1,42 +1,15 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import classNames from 'classnames';
-import { withStyles } from '@material-ui/core/styles';
-
 import Drawer from '@material-ui/core/Drawer';
-import Draft from '../Editor/Draft'
-import DrawerMenuList from '../Components/DrawerMenuList';
-import Button from '@material-ui/core/Button';
-import PreviewIcon from '@material-ui/icons/LaptopMacTwoTone';
-import Tooltip from '@material-ui/core/Tooltip';
-import Zoom from '@material-ui/core/Zoom';
-import Toolbar from "@material-ui/core/Toolbar";
-import Typography from '@material-ui/core/Typography';
-import Badge from '@material-ui/core/Badge';
-
-import DownloadIcon from 'mdi-material-ui/Download'
-
-
-import 'typeface-roboto'
-
-import Auth from '../Components/Auth'
-
-import DeleteIcon from '@material-ui/icons/Delete';
-
-
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import DraftsIcon from '@material-ui/icons/Drafts';
-import PlusIcon from '@material-ui/icons/Add'
-import AccountCircle from '@material-ui/icons/AccountCircle';
-import IconButton from '@material-ui/core/IconButton';
+import { withStyles } from '@material-ui/core/styles';
+import Toolbar from "@material-ui/core/Toolbar";
+import PlusIcon from '@material-ui/icons/Add';
+import classNames from 'classnames';
+import React from 'react';
+import 'typeface-roboto';
 
-import UpdateIcon from 'mdi-material-ui/CloudDownload'
-import ChatIcon from 'mdi-material-ui/Forum'
-import HelpIcon from 'mdi-material-ui/HelpCircle'
-
-const drawerWidth = 250;
+// const drawerWidth = 250;
 
 const styles = theme => ({
     drawer: {
@@ -46,7 +19,7 @@ const styles = theme => ({
         float: 'left',
         height: '100vh',
         whiteSpace: 'nowrap',
-        width: 78,
+        // width: 78,
         width: 0,
         background: theme.palette.secondary.main,
         boxShadow: '1.5px 0px 4px 0px rgba(0,0,0,0.2)',
@@ -61,7 +34,7 @@ const styles = theme => ({
             easing: theme.transitions.easing.sharp,
             duration: theme.transitions.duration.leavingScreen,
         }),
-        width: drawerWidth,
+        // width: drawerWidth,
         width: 0,
         // width: theme.spacing.unit * 7,
         // [theme.breakpoints.up('sm')]: {
@@ -120,7 +93,7 @@ class ShiftDrawer extends React.Component {
 
     render() {
         const { classes } = this.props;
-        const visible = true
+        // const visible = true
 
         return (
             <React.Fragment>

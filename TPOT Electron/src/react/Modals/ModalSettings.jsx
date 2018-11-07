@@ -1,16 +1,16 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
-
 import Dialog from '@material-ui/core/Dialog';
-import Tabs from '@material-ui/core/Tabs';
+import { withStyles } from '@material-ui/core/styles';
 import Tab from '@material-ui/core/Tab';
-import PreferencesIcon from 'mdi-material-ui/Tune'
-import AccountIcon from '@material-ui/icons/AccountBoxOutlined'
-import ThemeIcon from 'mdi-material-ui/InvertColors'
-import SettingsAccount from '../Preferences/SettingsAccount'
-import SettingsPreferences from '../Preferences/SettingsPreferences'
-import SettingsTheme from '../Preferences/SettingsTheme'
+import Tabs from '@material-ui/core/Tabs';
+import AccountIcon from '@material-ui/icons/AccountBoxOutlined';
+import ThemeIcon from 'mdi-material-ui/InvertColors';
+import PreferencesIcon from 'mdi-material-ui/Tune';
+import PropTypes from 'prop-types';
+import React from 'react';
+import SettingsAccount from '../Preferences/SettingsAccount';
+import SettingsPreferences from '../Preferences/SettingsPreferences';
+import SettingsTheme from '../Preferences/SettingsTheme';
+
 
 const styles = theme => ({
     root: {

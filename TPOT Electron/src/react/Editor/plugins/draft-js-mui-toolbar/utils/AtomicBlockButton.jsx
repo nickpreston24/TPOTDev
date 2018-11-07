@@ -3,16 +3,14 @@ import { RichUtils } from 'draft-js';
 import { AtomicBlockUtils } from 'draft-js';
 import { withStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
-import classNames from 'classnames';
-
-import Icon from 'mdi-material-ui/FormatBold'
+import classNames from 'classnames'
 
 const styles = theme => ({
     root: {
         color: theme.palette.secondary.textDark,
         minWidth: 40,
         maxWidth: 40,
-        maxHeight: 40,
+        minHeight: 40,
         maxHeight: 40,
     },
     active: {

@@ -1,28 +1,16 @@
 // IMPORTS
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-import '../config/editor.css'
-import {
-    stateFromElement
-} from 'draft-js-import-element'
-import {
-    stateToHTML
-} from 'draft-js-export-html'
-import {
-    rgb2hex,
-    Object
-} from './helpers'
-import {
-    convertToRaw,
-    convertFromRaw
-} from 'draft-js';
+import createNode from 'create-node';
+import { convertFromRaw, convertToRaw } from 'draft-js';
 import createStyles from 'draft-js-custom-styles';
-import Immutable from 'immutable'
-import createNode from 'create-node'
-import snakeCase from 'snake-case'
-import DraftUtils from 'draftjs-utils'
+import { stateToHTML } from 'draft-js-export-html';
+import { stateFromElement } from 'draft-js-import-element';
+import Immutable from 'immutable';
+import snakeCase from 'snake-case';
+import '../config/editor.css';
+import HorizontalRule from '../plugins/draft-js-mui-toolbar/utils/HorizontalRule';
+import { Object, rgb2hex } from './helpers';
 
-import HorizontalRule from '../plugins/draft-js-mui-toolbar/utils/HorizontalRule'
-import SvgIcon from '@material-ui/core/SvgIcon';
 
 // CUSTOM STYLES SETUP (Package by @webdeveloperpr)
 ///////////////////////////////////////////////////////////////////////////////////////////////////
@@ -426,7 +414,7 @@ const stateFromElementConfig = {
 const draftContentToHtml = (editorState, contentState, baseStyleMap) => {
     const { exporter } = createStyles(['font-size', 'color', 'background'], 'CUSTOM_', baseStyleMap) // not passed?
     const options = createBlockRenderers(editorState, contentState, exporter)
-    console.log(options)
+    // console.log(options)
     let html = stateToHTML(contentState, options)
     return html
 }
@@ -494,7 +482,6 @@ const createBlockRenderers = (editorState, contentState, exporter) => {
                 // Setup Initial Tag Building Blocks
                 const blockMapRef = blockRenderMap.get(BLOCK_TYPE)
                 let TAG_NAME = blockMapRef ? blockMapRef.element : stateToHTMLConfig.defaultBlockTag
-                let attributes = {}
                 let style = {}
                 let htmlContents = ''
 
@@ -502,22 +489,22 @@ const createBlockRenderers = (editorState, contentState, exporter) => {
                 if (BLOCK_TYPE === 'title') {
                     style = {
                         ...style,
-                        ['font-weight']: 'bold'
+                        fontWeight: 'bold'
                     }
                     TAG_NAME = 'h2' // override
                 }
                 if (BLOCK_TYPE === 'subtitle') {
                     style = {
                         ...style,
-                        ['font-style']: 'italic'
+                        fontStyle: 'italic'
                     }
                 }
                 if (BLOCK_TYPE === 'blockquote-intense') {
                     style = {
                         ...style,
-                        ['font-style']: 'italic',
-                        ['font-weight']: 'bold',
-                        ['text-align']: 'center'
+                        fontStyle: 'italic',
+                        fontWeight: 'bold',
+                        textAlign: 'center'
                     }
                 }
 
@@ -535,336 +522,336 @@ const createBlockRenderers = (editorState, contentState, exporter) => {
 
 
                 // DO NOT DELETE!!! DONT YOU DARE! 
-                if (false) {
-                    const inlineStylesPlaceHolder = (placeholderFunction) => {
-                        // Get Style Names
-                        let styleRanges = {}
-                        block.findStyleRanges((characterMetadata) => {
-                            const customInlineStyles = exporter(editorState)
-                            const customInlineNames = Object.keys(exporter(editorState))
-                            const inlineStyleRanges = []
-                            const currentStyle = []
-                            customInlineNames.forEach(styleName => {
-                                if (characterMetadata.hasStyle(styleName)) {
-                                    styleRanges[styleName] = {}
-                                    styleRanges[styleName].prop = customInlineStyles[styleName].style
-                                }
-                            })
-                        })
-                        // Get Style Ranges
-                        Object.keys(styleRanges).forEach(styleName => {
-                            // console.log(styleName)
-                            block.findStyleRanges((characterMetadata) => {
-                                if (characterMetadata.hasStyle(styleName)) {
-                                    return true
-                                }
-                            }, (start, end) => {
-                                if (!styleRanges[styleName].ranges) styleRanges[styleName].ranges = []
-                                styleRanges[styleName].ranges.push({ start, end })
-                                // let lastIndex = styleRanges[styleName].ranges.length - 2
-                                // console.log("styleName", styleName)
-                                // console.log("last.index", lastIndex)
-                                // if (styleRanges[styleName].ranges[lastIndex]) {
-                                //     console.log("last.end", styleRanges[styleName].ranges[lastIndex].end)
-                                //     if (styleRanges[styleName].ranges[lastIndex].end === start) {
-                                //         styleRanges[styleName].ranges[lastIndex].end = start
-                                //     } else {
-                                //         styleRanges[styleName].ranges.push({ start, end })
-                                //     }
-                                // }
-                                // console.log("start", start)
-                                // console.log("end", end)
-                                // console.log("ranges", styleRanges[styleName].ranges)
-                                // styleRanges[styleName].ranges.push({start, end})
-                            })
-                        })
+                // if (false) {
+                //     const inlineStylesPlaceHolder = (placeholderFunction) => {
+                //         // Get Style Names
+                //         let styleRanges = {}
+                //         block.findStyleRanges((characterMetadata) => {
+                //             const customInlineStyles = exporter(editorState)
+                //             const customInlineNames = Object.keys(exporter(editorState))
+                //             const inlineStyleRanges = []
+                //             const currentStyle = []
+                //             customInlineNames.forEach(styleName => {
+                //                 if (characterMetadata.hasStyle(styleName)) {
+                //                     styleRanges[styleName] = {}
+                //                     styleRanges[styleName].prop = customInlineStyles[styleName].style
+                //                 }
+                //             })
+                //         })
+                //         // Get Style Ranges
+                //         Object.keys(styleRanges).forEach(styleName => {
+                //             // console.log(styleName)
+                //             block.findStyleRanges((characterMetadata) => {
+                //                 if (characterMetadata.hasStyle(styleName)) {
+                //                     return true
+                //                 }
+                //             }, (start, end) => {
+                //                 if (!styleRanges[styleName].ranges) styleRanges[styleName].ranges = []
+                //                 styleRanges[styleName].ranges.push({ start, end })
+                //                 // let lastIndex = styleRanges[styleName].ranges.length - 2
+                //                 // console.log("styleName", styleName)
+                //                 // console.log("last.index", lastIndex)
+                //                 // if (styleRanges[styleName].ranges[lastIndex]) {
+                //                 //     console.log("last.end", styleRanges[styleName].ranges[lastIndex].end)
+                //                 //     if (styleRanges[styleName].ranges[lastIndex].end === start) {
+                //                 //         styleRanges[styleName].ranges[lastIndex].end = start
+                //                 //     } else {
+                //                 //         styleRanges[styleName].ranges.push({ start, end })
+                //                 //     }
+                //                 // }
+                //                 // console.log("start", start)
+                //                 // console.log("end", end)
+                //                 // console.log("ranges", styleRanges[styleName].ranges)
+                //                 // styleRanges[styleName].ranges.push({start, end})
+                //             })
+                //         })
 
-                        console.log("CURRENT", styleRanges)
+                //         console.log("CURRENT", styleRanges)
 
-                        // let element = createNode(`<${TAG_NAME}>${block.getText()}<${TAG_NAME}/>`)
-                        let element = createNode(`<${TAG_NAME}>${block.getText()}</${TAG_NAME}>`)
-                        console.log(element.tagName)
-                        const ELEMENT_STRING = element.textContent
-                        // console.log(ELEMENT_STRING)
+                //         // let element = createNode(`<${TAG_NAME}>${block.getText()}<${TAG_NAME}/>`)
+                //         let element = createNode(`<${TAG_NAME}>${block.getText()}</${TAG_NAME}>`)
+                //         console.log(element.tagName)
+                //         const ELEMENT_STRING = element.textContent
+                //         // console.log(ELEMENT_STRING)
 
-                        let inlineRanges = {}
-                        for (const key in styleRanges) {
-                            if (styleRanges.hasOwnProperty(key)) {
-                                const styleName = styleRanges[key]
-                                const ranges = styleName.ranges
-                                for (let index = 0; index < ranges.length; index++) {
-                                    const range = ranges[index];
-                                    const lastRange = ranges[index - 1]
-                                    // console.log("Range", range)
-                                    // console.log("range.start", range.start)
-                                    if (lastRange) {
-                                        // console.log("last.end", lastRange.end)
-                                        if (lastRange.end === range.start) {
-                                            styleRanges[key].ranges[index - 1].end = range.start
-                                            delete styleRanges[key].ranges[index]
-                                            // inlineRanges.push()
-                                            // console.log("DELETE")
-                                        }
-                                    }
-                                }
-                                // Get the ranges and restore them by range with classes as key
-                                // console.log("STYLE", key, ranges)
-                                // const styleKeyName = key
-                                for (const key in ranges) {
-                                    if (ranges.hasOwnProperty(key)) {
-                                        const range = ranges[key];
-                                        // console.log(range)
-                                        const name = `${range.start}_${range.end}`
-                                        if (!inlineRanges[name]) inlineRanges[name] = []
-                                        inlineRanges[name].push(styleName.prop)
-                                    }
-                                }
-                            }
-                        }
-                        console.log("MERGE", inlineRanges)
-                        // Create Empty Style Ranges (for unstyled text snippets)
-                        // const textLength = block.getText().length
-                        // console.log(textLength)
-                        // for (const key in inlineRanges) {
-                        //     // For each Range
-                        //     if (inlineRanges.hasOwnProperty(key)) {
-                        //         const keyRange = inlineRanges[key];
-                        //         // console.log(key)
-                        //         const keySplit = key.split('_')
-                        //         const start = keySplit[0]
-                        //         const end = keySplit[1]
-                        //         // console.log(start, end)
-                        //         const blockText = block.getText()
-                        //         let blockSlice = blockText.slice(start, end)
+                //         let inlineRanges = {}
+                //         for (const key in styleRanges) {
+                //             if (styleRanges.hasOwnProperty(key)) {
+                //                 const styleName = styleRanges[key]
+                //                 const ranges = styleName.ranges
+                //                 for (let index = 0; index < ranges.length; index++) {
+                //                     const range = ranges[index];
+                //                     const lastRange = ranges[index - 1]
+                //                     // console.log("Range", range)
+                //                     // console.log("range.start", range.start)
+                //                     if (lastRange) {
+                //                         // console.log("last.end", lastRange.end)
+                //                         if (lastRange.end === range.start) {
+                //                             styleRanges[key].ranges[index - 1].end = range.start
+                //                             delete styleRanges[key].ranges[index]
+                //                             // inlineRanges.push()
+                //                             // console.log("DELETE")
+                //                         }
+                //                     }
+                //                 }
+                //                 // Get the ranges and restore them by range with classes as key
+                //                 // console.log("STYLE", key, ranges)
+                //                 // const styleKeyName = key
+                //                 for (const key in ranges) {
+                //                     if (ranges.hasOwnProperty(key)) {
+                //                         const range = ranges[key];
+                //                         // console.log(range)
+                //                         const name = `${range.start}_${range.end}`
+                //                         if (!inlineRanges[name]) inlineRanges[name] = []
+                //                         inlineRanges[name].push(styleName.prop)
+                //                     }
+                //                 }
+                //             }
+                //         }
+                //         console.log("MERGE", inlineRanges)
+                //         // Create Empty Style Ranges (for unstyled text snippets)
+                //         // const textLength = block.getText().length
+                //         // console.log(textLength)
+                //         // for (const key in inlineRanges) {
+                //         //     // For each Range
+                //         //     if (inlineRanges.hasOwnProperty(key)) {
+                //         //         const keyRange = inlineRanges[key];
+                //         //         // console.log(key)
+                //         //         const keySplit = key.split('_')
+                //         //         const start = keySplit[0]
+                //         //         const end = keySplit[1]
+                //         //         // console.log(start, end)
+                //         //         const blockText = block.getText()
+                //         //         let blockSlice = blockText.slice(start, end)
 
-                        //     }
-                        //     // append result to htmlContent
-                        // }
-
-
-                        let htmlContent = block.getText()
-                        const contentLength = block.getText().length
-                        const snippetRanges = [...Array(contentLength).keys()]
+                //         //     }
+                //         //     // append result to htmlContent
+                //         // }
 
 
-                        let htmlSnippets = []
-                        for (const key in inlineRanges) {
-                            if (inlineRanges.hasOwnProperty(key)) {
-                                const keySplit = key.split('_')
-                                const start = keySplit[0]
-                                const end = keySplit[1]
-                                const snippet = block.getText().slice(start, end)
-                                snippetRanges[arrayStart] = {
-                                    range: { start, end },
-                                    snippet
-                                }
-                                let arrayStart = snippetRanges.findIndex((entry) => {
-                                    return entry.start === start
-                                })
-                                let arrayEnd = snippetRanges.findIndex((entry) => {
-                                    return entry.end === end
-                                })
-                                snippetRanges.splice(arrayStart ? arrayStart + 1 : start, arrayEnd ? arrayEnd : end)
-                                console.log(arrayStart, arrayEnd)
-
-                                // htmlSnippets.push({
-                                //     range: {start, end},
-                                //     snippet
-                                // })
-                                // htmlContent = htmlContent.replace(snippet, `[:]${snippet}[:]`)
-                                // console.log(snippetArray)
-
-                                // const keyRange = inlineRanges[key];
-                                // // console.log(key)
-                                // const keySplit = key.split('_')
-                                // const start = keySplit[0]
-                                // const end = keySplit[1]
-                                // // console.log(start, end)
-                                // const snippet = block.getText().slice(start, end)
-
-                                // let blockSlice = blockText.slice(start, end)
-                                // keyRange.forEach(range => {
-                                //     const styleName = Object.keys(range)[0]
-                                //     const styleValue = Object.values(range)[0]
-                                //     if (styleName == 'fontWeight') {
-                                //         blockSlice = `<strong>${blockSlice}</strong>`
-                                //     }
-                                //     if (styleName == 'fontStyle') {
-                                //         blockSlice = `<em>${blockSlice}</em>`
-                                //     }
-                                //     if (styleName == 'textDecoration') {
-                                //         blockSlice = `<u>${blockSlice}</u>`
-                                //     }
-                                //     if (styleName == 'background') {
-                                //         blockSlice = `<span style="background: ${styleValue};">${blockSlice}</span>`
-                                //     }
-                                //     if (styleName == 'color') {
-                                //         blockSlice = `<span style="color: ${styleValue} !important;">${blockSlice}</span>`
-                                //     }
-                                //     if (styleName == 'fontSize') {
-                                //         blockSlice = `<span style="font-size: ${styleValue};">${blockSlice}</span>`
-                                //     }
-                                //     // console.log(styleName, styleValue)  
-                                // })
-                                // console.log(blockSlice)
-                                // htmlContent += blockSlice
-                                // console.log(block.getText())
-                            }
+                //         let htmlContent = block.getText()
+                //         const contentLength = block.getText().length
+                //         const snippetRanges = [...Array(contentLength).keys()]
 
 
-                            // append result to htmlContent
-                        }
-                        // htmlContent = htmlContent.split('[:]')
-                        console.log("SNIPPETS", htmlSnippets)
-                        console.log(snippetRanges)
-                        // const contentLength = block.getText().length
-                        // const enums = [...Array(contentLength).keys()]
-                        // console.log(enums)
+                //         let htmlSnippets = []
+                //         for (const key in inlineRanges) {
+                //             if (inlineRanges.hasOwnProperty(key)) {
+                //                 const keySplit = key.split('_')
+                //                 const start = keySplit[0]
+                //                 const end = keySplit[1]
+                //                 const snippet = block.getText().slice(start, end)
+                //                 snippetRanges[arrayStart] = {
+                //                     range: { start, end },
+                //                     snippet
+                //                 }
+                //                 let arrayStart = snippetRanges.findIndex((entry) => {
+                //                     return entry.start === start
+                //                 })
+                //                 let arrayEnd = snippetRanges.findIndex((entry) => {
+                //                     return entry.end === end
+                //                 })
+                //                 snippetRanges.splice(arrayStart ? arrayStart + 1 : start, arrayEnd ? arrayEnd : end)
+                //                 console.log(arrayStart, arrayEnd)
 
-                        element.innerHTML = htmlContent
+                //                 // htmlSnippets.push({
+                //                 //     range: {start, end},
+                //                 //     snippet
+                //                 // })
+                //                 // htmlContent = htmlContent.replace(snippet, `[:]${snippet}[:]`)
+                //                 // console.log(snippetArray)
 
-                        // for (const key in styleRanges) {
-                        //     if (styleRanges.hasOwnProperty(key)) {
-                        //         const styleName = styleRanges.key;
-                        //         console.log(styleName)
-                        //         block.findStyleRanges((characterMetadata) => {
-                        //             // if (characterMetadata.hasStyle(styleName)) {
-                        //             //     styleRanges[styleName] = {}
-                        //             //     styleRanges[styleName].prop = customInlineStyles[styleName].style
-                        //             // }
-                        //         })
-                        //     }
-                        // }
+                //                 // const keyRange = inlineRanges[key];
+                //                 // // console.log(key)
+                //                 // const keySplit = key.split('_')
+                //                 // const start = keySplit[0]
+                //                 // const end = keySplit[1]
+                //                 // // console.log(start, end)
+                //                 // const snippet = block.getText().slice(start, end)
 
-
-                        let blockStyles = {}
-                        let inlineStyles = {}
-                        let testStyle = null
-
-
-                        // block.findStyleRanges((characterMetadata) => {
-                        //     const customInlineStyles = exporter(editorState)
-                        //     const customInlineNames = Object.keys( exporter(editorState))
-                        //     const inlineStyleRanges = []
-                        //     const currentStyle = []
-                        //     customInlineNames.forEach(styleName => {
-                        //         if (characterMetadata.hasStyle(styleName)) {
-                        //             currentStyle.push(styleName)
-                        //             // inlineStyleRanges.push(customInlineStyles[styleName].style)
-                        //             // const property = customInlineStyles[styleName].style
-                        //             // testStyle = property
-                        //             // inlineStyles = { ...inlineStyles, ...property }
-                        //             return true
-                        //         }
-                        //     })
-                        //     console.log("CURRENT", currentStyle)
-                        //     // for (let index = 0; index < [5].length; index++) {
-                        //     //     return true
-                        //     // }
-                        // }, (start, end) => {
-                        //     // console.log(testStyle)
-                        //     console.log(start, end)
-                        // })
-                        // Get Outside Attributes
-                        // Get Outside Data
-                        const textAlign = block.getData().get("alignment")
-                        const styleString = (
-                            Object.entries(inlineStyles).reduce((styleString, [propName, propValue]) => {
-                                return `${styleString}${propName}: ${propValue}; `;
-                            }, '')
-                        );
-                        // Apply Inline Style Tags one by one
-                        // console.log(styleString)
-                        // return `<${TAG_NAME}>${block.getText()}<${TAG_NAME}/>`
-                        // return `<${TAG_NAME}${textAlign !== '' ? ` style="text-align: ${textAlign}"` : ''}><span style="${styleString}">${block.getText()}<span></${TAG_NAME}>`
-                        console.log(element)
-                        return element.outerHTML
-
-                        // other code!
-
-                        // let style = {}
-                        // block.findStyleRanges((characterMetadata) => {
-                        //     const customInlineStyles = exporter(editorState)
-                        //     const customInlineNames = Object.keys(customInlineStyles)
-                        //     customInlineNames.forEach(name => {
-                        //         if (characterMetadata.hasStyle(name)) {
-                        //             const property = customInlineStyles[name].style
-                        //             console.log(name)
-                        //             console.log(property)
-                        //             style = { ...style, ...property }
-                        //         }
-                        //     })
-                        // })
-                        // const textAlign = block.getData().get("alignment")
-                        // const styleString = (
-                        //     Object.entries(style).reduce((styleString, [propName, propValue]) => {
-                        //         return `${styleString}${propName}: ${propValue}; `;
-                        //     }, '')
-                        // );
-                        // console.log(style, styleString)
-                        // return `<p${textAlign !== '' ? ` style="text-align: ${textAlign}"` : ''}><span style="${styleString}">${block.getText()}<span></p>`
+                //                 // let blockSlice = blockText.slice(start, end)
+                //                 // keyRange.forEach(range => {
+                //                 //     const styleName = Object.keys(range)[0]
+                //                 //     const styleValue = Object.values(range)[0]
+                //                 //     if (styleName == 'fontWeight') {
+                //                 //         blockSlice = `<strong>${blockSlice}</strong>`
+                //                 //     }
+                //                 //     if (styleName == 'fontStyle') {
+                //                 //         blockSlice = `<em>${blockSlice}</em>`
+                //                 //     }
+                //                 //     if (styleName == 'textDecoration') {
+                //                 //         blockSlice = `<u>${blockSlice}</u>`
+                //                 //     }
+                //                 //     if (styleName == 'background') {
+                //                 //         blockSlice = `<span style="background: ${styleValue};">${blockSlice}</span>`
+                //                 //     }
+                //                 //     if (styleName == 'color') {
+                //                 //         blockSlice = `<span style="color: ${styleValue} !important;">${blockSlice}</span>`
+                //                 //     }
+                //                 //     if (styleName == 'fontSize') {
+                //                 //         blockSlice = `<span style="font-size: ${styleValue};">${blockSlice}</span>`
+                //                 //     }
+                //                 //     // console.log(styleName, styleValue)  
+                //                 // })
+                //                 // console.log(blockSlice)
+                //                 // htmlContent += blockSlice
+                //                 // console.log(block.getText())
+                //             }
 
 
-                        // {
-                        //     'null': (block) => {
-                        //         console.log("PARAG")
-                        //     },
-                        //     paragraph: (block) => {
+                //             // append result to htmlContent
+                //         }
+                //         // htmlContent = htmlContent.split('[:]')
+                //         console.log("SNIPPETS", htmlSnippets)
+                //         console.log(snippetRanges)
+                //         // const contentLength = block.getText().length
+                //         // const enums = [...Array(contentLength).keys()]
+                //         // console.log(enums)
 
-                        //     },
-                        //     'undefined': (block) => {
-                        //         console.log("YAY")
-                        //     },
-                        //     undefined: (block) => {
-                        //         console.log("YAY")
-                        //     },
+                //         element.innerHTML = htmlContent
+
+                //         // for (const key in styleRanges) {
+                //         //     if (styleRanges.hasOwnProperty(key)) {
+                //         //         const styleName = styleRanges.key;
+                //         //         console.log(styleName)
+                //         //         block.findStyleRanges((characterMetadata) => {
+                //         //             // if (characterMetadata.hasStyle(styleName)) {
+                //         //             //     styleRanges[styleName] = {}
+                //         //             //     styleRanges[styleName].prop = customInlineStyles[styleName].style
+                //         //             // }
+                //         //         })
+                //         //     }
+                //         // }
+
+
+                //         let blockStyles = {}
+                //         let inlineStyles = {}
+                //         let testStyle = null
+
+
+                //         // block.findStyleRanges((characterMetadata) => {
+                //         //     const customInlineStyles = exporter(editorState)
+                //         //     const customInlineNames = Object.keys( exporter(editorState))
+                //         //     const inlineStyleRanges = []
+                //         //     const currentStyle = []
+                //         //     customInlineNames.forEach(styleName => {
+                //         //         if (characterMetadata.hasStyle(styleName)) {
+                //         //             currentStyle.push(styleName)
+                //         //             // inlineStyleRanges.push(customInlineStyles[styleName].style)
+                //         //             // const property = customInlineStyles[styleName].style
+                //         //             // testStyle = property
+                //         //             // inlineStyles = { ...inlineStyles, ...property }
+                //         //             return true
+                //         //         }
+                //         //     })
+                //         //     console.log("CURRENT", currentStyle)
+                //         //     // for (let index = 0; index < [5].length; index++) {
+                //         //     //     return true
+                //         //     // }
+                //         // }, (start, end) => {
+                //         //     // console.log(testStyle)
+                //         //     console.log(start, end)
+                //         // })
+                //         // Get Outside Attributes
+                //         // Get Outside Data
+                //         const textAlign = block.getData().get("alignment")
+                //         const styleString = (
+                //             Object.entries(inlineStyles).reduce((styleString, [propName, propValue]) => {
+                //                 return `${styleString}${propName}: ${propValue}; `;
+                //             }, '')
+                //         );
+                //         // Apply Inline Style Tags one by one
+                //         // console.log(styleString)
+                //         // return `<${TAG_NAME}>${block.getText()}<${TAG_NAME}/>`
+                //         // return `<${TAG_NAME}${textAlign !== '' ? ` style="text-align: ${textAlign}"` : ''}><span style="${styleString}">${block.getText()}<span></${TAG_NAME}>`
+                //         console.log(element)
+                //         return element.outerHTML
+
+                //         // other code!
+
+                //         // let style = {}
+                //         // block.findStyleRanges((characterMetadata) => {
+                //         //     const customInlineStyles = exporter(editorState)
+                //         //     const customInlineNames = Object.keys(customInlineStyles)
+                //         //     customInlineNames.forEach(name => {
+                //         //         if (characterMetadata.hasStyle(name)) {
+                //         //             const property = customInlineStyles[name].style
+                //         //             console.log(name)
+                //         //             console.log(property)
+                //         //             style = { ...style, ...property }
+                //         //         }
+                //         //     })
+                //         // })
+                //         // const textAlign = block.getData().get("alignment")
+                //         // const styleString = (
+                //         //     Object.entries(style).reduce((styleString, [propName, propValue]) => {
+                //         //         return `${styleString}${propName}: ${propValue}; `;
+                //         //     }, '')
+                //         // );
+                //         // console.log(style, styleString)
+                //         // return `<p${textAlign !== '' ? ` style="text-align: ${textAlign}"` : ''}><span style="${styleString}">${block.getText()}<span></p>`
+
+
+                //         // {
+                //         //     'null': (block) => {
+                //         //         console.log("PARAG")
+                //         //     },
+                //         //     paragraph: (block) => {
+
+                //         //     },
+                //         //     'undefined': (block) => {
+                //         //         console.log("YAY")
+                //         //     },
+                //         //     undefined: (block) => {
+                //         //         console.log("YAY")
+                //         //     },
 
 
 
-                        //     marshmallow: (block) => {
-                        //         console.log(block);
-                        //     },
-                        //     // blockRenderers['paragraph']
-                        //     // blockRenderers['atomic']
-                        //     // blockRenderers['blockquote-intense']
+                //         //     marshmallow: (block) => {
+                //         //         console.log(block);
+                //         //     },
+                //         //     // blockRenderers['paragraph']
+                //         //     // blockRenderers['atomic']
+                //         //     // blockRenderers['blockquote-intense']
 
-                        //     // DEVELOPER: This function is complicated enough as is. It would be better to have it universally applicable,
-                        //     // though I don't know how to arbitrarily name functions in this object according to blocktype. Perhaps this
-                        //     //  blockRender object can be created via function that reads the editorState and makes the functions on the fly.
-                        //     'blockquote-intense': (block) => {
-                        //         let style = {}
-                        //         block.findStyleRanges((characterMetadata) => {
-                        //             const customInlineStyles = exporter(editorState)
-                        //             const customInlineNames = Object.keys(customInlineStyles)
-                        //             customInlineNames.forEach(name => {
-                        //                 if (characterMetadata.hasStyle(name)) {
-                        //                     const property = customInlineStyles[name].style
-                        //                     console.log(name)
-                        //                     console.log(property)
-                        //                     style = { ...style, ...property }
-                        //                 }
-                        //             })
-                        //         })
-                        //         const textAlign = block.getData().get("alignment")
-                        //         const styleString = (
-                        //             Object.entries(style).reduce((styleString, [propName, propValue]) => {
-                        //                 return `${styleString}${propName}: ${propValue}; `;
-                        //             }, '')
-                        //         );
-                        //         console.log(style, styleString)
-                        //         return `<blockquote${textAlign !== '' ? ` style="text-align: ${textAlign}"` : ''}><span style="${styleString}">${block.getText()}<span></blockquote>`
-                        //     },
-                        //     'title': (block) => {
-                        //         return `<h2>${block.getText()}</h2>`
-                        //     },
-                        //     'subtitle': (block) => {
-                        //         return `<h4>${block.getText()}</h4>`
-                        //     }
+                //         //     // DEVELOPER: This function is complicated enough as is. It would be better to have it universally applicable,
+                //         //     // though I don't know how to arbitrarily name functions in this object according to blocktype. Perhaps this
+                //         //     //  blockRender object can be created via function that reads the editorState and makes the functions on the fly.
+                //         //     'blockquote-intense': (block) => {
+                //         //         let style = {}
+                //         //         block.findStyleRanges((characterMetadata) => {
+                //         //             const customInlineStyles = exporter(editorState)
+                //         //             const customInlineNames = Object.keys(customInlineStyles)
+                //         //             customInlineNames.forEach(name => {
+                //         //                 if (characterMetadata.hasStyle(name)) {
+                //         //                     const property = customInlineStyles[name].style
+                //         //                     console.log(name)
+                //         //                     console.log(property)
+                //         //                     style = { ...style, ...property }
+                //         //                 }
+                //         //             })
+                //         //         })
+                //         //         const textAlign = block.getData().get("alignment")
+                //         //         const styleString = (
+                //         //             Object.entries(style).reduce((styleString, [propName, propValue]) => {
+                //         //                 return `${styleString}${propName}: ${propValue}; `;
+                //         //             }, '')
+                //         //         );
+                //         //         console.log(style, styleString)
+                //         //         return `<blockquote${textAlign !== '' ? ` style="text-align: ${textAlign}"` : ''}><span style="${styleString}">${block.getText()}<span></blockquote>`
+                //         //     },
+                //         //     'title': (block) => {
+                //         //         return `<h2>${block.getText()}</h2>`
+                //         //     },
+                //         //     'subtitle': (block) => {
+                //         //         return `<h4>${block.getText()}</h4>`
+                //         //     }
 
-                        // }
+                //         // }
 
-                    }
-                }
+                //     }
+                // }
             }
 
 
@@ -878,16 +865,4 @@ const createBlockRenderers = (editorState, contentState, exporter) => {
 
 //  end of EXPORT FUNCTION
 
-export {
-    styles,
-    exporter,
-    customStyleFn,
-    baseStyleMap,
-    baseBlockStyleFn,
-    blockRenderMap,
-    blockRenderer,
-    stateFromElementConfig,
-    draftContentFromHtml,
-    draftContentToHtml,
-    flattenInlineStyleRanges,
-}
+export { styles, exporter, customStyleFn, baseStyleMap, baseBlockStyleFn, blockRenderMap, blockRenderer, stateFromElementConfig, draftContentFromHtml, draftContentToHtml, flattenInlineStyleRanges, };

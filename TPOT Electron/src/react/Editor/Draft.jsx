@@ -1,20 +1,20 @@
-import React from 'react';
-import PropTypes from 'prop-types'; import { withStyles } from '@material-ui/core/styles';
+import { withStyles } from '@material-ui/core/styles';
 import { convertToRaw, EditorState } from 'draft-js';
 // Custom DraftJS Architecture
 import Editor, { createEditorStateWithText } from 'draft-js-plugins-editor';
+import PropTypes from 'prop-types';
+import React from 'react';
+import ReactHtmlParser from 'react-html-parser';
 import JSONPretty from 'react-json-pretty';
 import { MuiToolbar, plugins } from './plugins/plugins';
 import { rest } from './utils/helpers';
-import createNode from 'create-node'
-import ReactHtmlParser, { processNodes, convertNodeToElement, htmlparser2 } from 'react-html-parser';
 import { baseBlockStyleFn, baseStyleMap, blockRenderer, blockRenderMap, draftContentFromHtml, draftContentToHtml, stateFromElementConfig } from './utils/transforms';
 // Electron (change to import method later)
-const electron = window.require('electron')
-const remote = electron.remote
-const app = remote.app
-const fs = remote.require('fs')
-const path = remote.require('path')
+// const electron = window.require('electron')
+// const remote = electron.remote
+// const app = remote.app
+// const fs = remote.require('fs')
+// const path = remote.require('path')
 
 
 const MUIstyles = theme => ({
@@ -100,10 +100,10 @@ class Wysiwyg extends React.Component {
     async reloadEditor(html) {
         await rest(0)
         const newContentState = draftContentFromHtml(html, stateFromElementConfig, this.state.baseStyleMap)
-        const newOriginalState = createNode(html)
+        // const newOriginalState = createNode(html)
         const newEditorState = EditorState.createWithContent(newContentState)
         // const rawStateAsText = convertToRaw(newContentState).blocks
-        const rawStateAsText = convertToRaw(newContentState)
+        // const rawStateAsText = convertToRaw(newContentState)
         // console.log(newContentState)
         const rawHTML = draftContentToHtml(newEditorState, newContentState)
         const rawHTMLPretty = rawHTML
@@ -111,8 +111,8 @@ class Wysiwyg extends React.Component {
         this.setState({
             originalState: html,
             editorState: newEditorState,
-            // codeState: rawHTMLPretty,
-            codeState: rawStateAsText,
+            codeState: rawHTMLPretty,
+            // codeState: rawStateAsText,
         })
     }
 
