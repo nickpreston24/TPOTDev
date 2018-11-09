@@ -74,7 +74,7 @@ class DrawerMenuList extends React.Component {
         const accounts = [
             {
                 primary: "TPOT Cloud",
-                secondary: "your-email@gmail.com",
+                secondary: "",
                 icon: FirebaseIcon,
                 active: true,
                 handler: () => {

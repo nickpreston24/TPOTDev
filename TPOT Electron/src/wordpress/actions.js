@@ -1,6 +1,16 @@
-import { wp } from './wordpress'
+import {
+    wp
+} from './wordpress'
 
-const createPage = (wordpressCredentials, draftState, pageConfig) => {
+const getCatg = async() => {
+    wp.categories().then((response) => {
+        response.forEach(r => {
+            console.log(r)
+        })
+    })
+}
+
+const createPage = (wordpressCredentials, pageConfig) => {
     // Add Authentication information to existing WPAPI instance
     wp._options = {
         ...wp._options,
@@ -10,14 +20,10 @@ const createPage = (wordpressCredentials, draftState, pageConfig) => {
     // These are Default Options assuming that ...pageConfig has no values
     let options = {
         ...pageConfig,
-        content: draftState? draftState : '<p>This is a default post</p>',
         status: 'pending',
-        meta: {
-            author: 'z6onX6acVvOZbNcirQCDGMIiIQi2',
-            key: 'lePmMgx6AYDc5H2MDDIn'
-        },
-        author: 3,
-        date: new Date(),
+        author: 3, // Victor Hafichuk
+        categories: [496], // letters
+        date: new Date(), // publish time
     }
     // Create the page and do error checking here.
     wp.pages().create(options)
@@ -27,9 +33,9 @@ const createPage = (wordpressCredentials, draftState, pageConfig) => {
         }).catch((error) => {
             if (error) console.error('ERROR: ', error)
         })
-
 }
 
 export {
     createPage,
+    getCatg,
 }

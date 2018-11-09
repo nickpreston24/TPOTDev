@@ -15,39 +15,8 @@ import { wp } from '../wordpress'
 // const isDev = require("electron-is-dev");
 
 // Electron
-window.require('electron-react-devtools').install() // Works, but resets
+// window.require('electron-react-devtools').install() // Works, but resets (IS IT SLOWING THINGS DOWN?)
 // window.require('devtron').install() // Not Working ATM
-// const electron = window.require('electron')
-// const remote = electron.remote;
-// const app = remote.app
-// const electron_process = electron.process;
-// const electron_app = electron.app;
-// const ipc = electron.ipcRenderer;
-
-// // Electron
-// window.require('electron-react-devtools').install() // Works, but resets
-// window.require('devtron').install() // Not Working ATM
-// const electron = window.require('electron')
-// const remote = electron.remote;
-// const app = remote.app
-// const electron_process = electron.process;
-// const electron_app = electron.app;
-// const ipc = electron.ipcRenderer;
-
-// const dialog = remote.dialog;
-
-// Node Built-In
-// const builtinModules = remote.require('builtin-modules')
-// const fs = remote.require('fs')
-// const path = remote.require('path') 
-
-// Set up Store Here
-
-// Initialization of Toolbox Application
-
-// Start Task Manager / Threads
-
-// Initilize User Preferences
 
 // Start Theming Service
 const theme = createMuiTheme({
@@ -137,16 +106,16 @@ class Toolbox extends React.Component {
                 authUser.displayName,
             )
             // Pull down Wordpress Credentials from Auth'd Database
-            const wordpressCredentials = await db.wordpressCredentials
-            wordpressCredentials
-                ? await this.setState({ wordpressCredentials })
-                : await this.setState({ wordpressCredentials: null });
+            // const wordpressCredentials = await db.wordpressCredentials
+            // wordpressCredentials
+            //     ? await this.setState({ wordpressCredentials })
+            //     : await this.setState({ wordpressCredentials: null });
             // Use Wordpress Credentials to Create a Page
-            wp.createPage(this.state.wordpressCredentials, {/*DraftState*/}, {
-                slug: 'wordpress-test-page-toolbox',
-                title: 'WP Toolbox Test Page',
-                excerpt: "This is a test page for wordpress, don't do anything with it!",
-            })
+            // wp.createPage(this.state.wordpressCredentials, {/*DraftState*/}, {
+            //     slug: 'wordpress-test-page-toolbox',
+            //     title: 'WP Toolbox Test Page',
+            //     excerpt: "This is a test page for wordpress, don't do anything with it!",
+            // })
         })
     }
 
@@ -154,17 +123,17 @@ class Toolbox extends React.Component {
         const childProps = { authUser: this.state.authUser }
         return (
             <div id="Toolbox">
-                <MuiThemeProvider theme={theme}>
-                    <ShiftDrawer
-                        compact={this.state.compactDrawer}
-                        accountItems={<AccountItems />}
-                        appItems={<AppItems />}
-                        settingsItems={<SettingsItems />}
-                        settingsPage={''}
-                        toolbar={<Toolbar />}
-                        currentApp={<Letters {...childProps} />}
-                    />
-                </MuiThemeProvider>
+                    <MuiThemeProvider theme={theme}>
+                        <ShiftDrawer
+                            compact={this.state.compactDrawer}
+                            accountItems={<AccountItems />}
+                            appItems={<AppItems />}
+                            settingsItems={<SettingsItems />}
+                            settingsPage={''}
+                            toolbar={<Toolbar />}
+                            currentApp={<Letters {...childProps} />}
+                        />
+                    </MuiThemeProvider>
             </div>
         )
     }

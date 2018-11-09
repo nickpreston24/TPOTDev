@@ -12,7 +12,8 @@ import React from 'react';
 import 'typeface-roboto';
 import ModalLoad from '../Modals/ModalLoad';
 
-
+import { inject, observer } from 'mobx-react'
+import { compose } from 'recompose'
 
 
 
@@ -85,7 +86,7 @@ class MiniDrawer extends React.Component {
         const menus = [
             {
                 name: "Load",
-                secondary: "braden.t.preston@gmail.com",
+                secondary: "",
                 icon: <LoadIcon />,
                 active: true,
                 handler: () => {
@@ -95,7 +96,7 @@ class MiniDrawer extends React.Component {
             },
             {
                 name: "Save",
-                secondary: "braden.t.preston@gmail.com",
+                secondary: "",
                 icon: <Save />,
                 active: true,
                 // handler: () => {
@@ -105,7 +106,7 @@ class MiniDrawer extends React.Component {
             },
             {
                 name: "Drafts",
-                secondary: "braden.t.preston@gmail.com",
+                secondary: "",
                 icon: <DraftsIcon />,
                 active: true,
                 // handler: () => {
@@ -115,13 +116,12 @@ class MiniDrawer extends React.Component {
             },
             {
                 name: "Publish",
-                secondary: "braden.t.preston@gmail.com",
+                secondary: "",
                 icon: <SendIcon />,
                 active: true,
-                // handler: () => {
-                //     // this.openLoadModal();
-                //     this.props.onUpdate(false)
-                // }
+                handler: e => {
+                    this.props.lettersStore.togglePublishModal()
+                }
             },
         ]
 
@@ -182,12 +182,15 @@ class MiniDrawer extends React.Component {
 
 MiniDrawer.propTypes = {
     classes: PropTypes.object.isRequired,
-    theme: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles, { withTheme: true })(MiniDrawer);
+// export default withStyles(styles, { withTheme: true })(MiniDrawer);
 
-
+export default compose(
+    inject('lettersStore'),
+    withStyles(styles),
+    observer
+)(MiniDrawer);
 
 
 

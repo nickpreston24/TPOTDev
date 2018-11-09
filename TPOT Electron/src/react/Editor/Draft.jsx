@@ -9,6 +9,12 @@ import JSONPretty from 'react-json-pretty';
 import { MuiToolbar, plugins } from './plugins/plugins';
 import { rest } from './utils/helpers';
 import { baseBlockStyleFn, baseStyleMap, blockRenderer, blockRenderMap, draftContentFromHtml, draftContentToHtml, stateFromElementConfig } from './utils/transforms';
+import PublishScreenContainer from '../../container/PublishScreenContainer';
+
+
+import { inject, observer } from 'mobx-react'
+import { compose } from 'recompose'
+
 // Electron (change to import method later)
 // const electron = window.require('electron')
 // const remote = electron.remote
@@ -42,6 +48,9 @@ const MUIstyles = theme => ({
         overflowY: 'scroll',
         // backgroundColor: '#f0f0f0',
         // border: '4px solid blue !important',
+    },
+    modal: {
+        paddingTop: '400px !important',
     }
 });
 
@@ -107,6 +116,9 @@ class Wysiwyg extends React.Component {
         // console.log(newContentState)
         const rawHTML = draftContentToHtml(newEditorState, newContentState)
         const rawHTMLPretty = rawHTML
+
+        this.props.lettersStore.setEditorContent(rawHTML)
+
         // console.log(rawHTMLPretty)
         this.setState({
             originalState: html,
@@ -118,14 +130,14 @@ class Wysiwyg extends React.Component {
 
     async getCode() {
         const codeState = draftContentToHtml(this.state.editorState, this.state.editorState.getCurrentContent())
-        console.log(codeState)
+        // console.log(codeState)
         // const codeState = convertToRaw(this.state.editorState.getCurrentContent())
         // this.setState({ codeState })
     }
 
     // After the class is constructed and its data is mounted to the React DOM, render() is fired, which takes displays the elements with data from the instance's current state.
     render() {
-        const { classes, editMode } = this.props
+        const { lettersStore: store, classes, editMode } = this.props
         return (
             <div id="Editor" className={classes.root}>
                 <div id="Frame" className={classes.editorFrame} onClick={this.focus}>
@@ -173,4 +185,10 @@ Wysiwyg.propTypes = {
     classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(MUIstyles)(Wysiwyg)
+export default compose(
+    inject('lettersStore'),
+    withStyles(MUIstyles),
+    observer
+)(Wysiwyg);
+    
+    // export default withStyles(MUIstyles)(Wysiwyg)

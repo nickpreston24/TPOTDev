@@ -1,18 +1,22 @@
-// React
 import React from "react";
 import ReactDOM from "react-dom";
+import { Provider } from 'mobx-react';
+import MobxStore from './stores'
 import Toolbox from "./apps/Toolbox";
 import "./index.css";
 
-// Electron
-const electron = window.require("electron");
-const IPC = electron.ipcRenderer;
-// const remote = electron.remote;
-// const app = remote.app;
-// const fs = remote.require("fs");
+// Set up Store Here
+const store = new MobxStore()
 
-// Initialization of React Toolbox Application into Index.js Render Process Browser Window
-ReactDOM.render(<Toolbox />, document.getElementById("root"));
+// Start Task Manager / Threads
 
+// Initialization of Toolbox Application
+ReactDOM.render(
+    <Provider { ...store }>
+        <Toolbox />
+    </Provider>
+    , document.getElementById("root"));
+    
 // Initialize Auto Update Service
+const IPC = window.require("electron").ipcRenderer;
 IPC.send("toolbox-initialized");

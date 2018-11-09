@@ -48,55 +48,55 @@ ipc.on("toolbox-initialized", (event, arg) => {
 
     if (doOnce === false) {
 
-    // Start Auto Update Service
-    autoUpdater.checkForUpdates()
-    setInterval(() => {
+        // Start Auto Update Service
         autoUpdater.checkForUpdates()
-    }, 60000)
-
-    // Mock on Dev Tools
-    if (isDev) {
-        // Mock Update Available
-        setTimeout(() => {
-            sendUpdateStatusToToolbox('update-available', `temp update`, {
-                version: '0.1.15'
-            })
-        }, 1500)
-        setInterval(async () => {
-            sendUpdateStatusToToolbox('update-available', `temp update`, {
-                version: '0.1.15'
-            })
+        setInterval(() => {
+            autoUpdater.checkForUpdates()
         }, 60000)
-        // Mock Download every few seconds
-        sendUpdateStatusToToolbox('update-downloaded', 'Starting  Mock download')
-        setInterval(async () => {
-            let time = new Array(11)
-            console.log(chalk.bgGreen.black('Toolbox render process loaded...'));
-            for (let count = 0; count < time.length; count++) {
-                let progressObj = {
-                    bytesPerSecond: '100kb',
-                    percent: `${count * 10}`,
-                    transferred: `${count*512}`,
-                    total: `${count*512*10}`
-                }
-                console.log(chalk.blue(progressObj));
-                sendUpdateStatusToToolbox('update-download-progress', `Download speed: ${progressObj.bytesPerSecond} - Downloaded ${progressObj.percent}% (${progressObj.transferred}/${progressObj.total})`, progressObj)
-                await rest(1000)
-            }
-            sendUpdateStatusToToolbox('update-downloaded', `Update downloaded: ${"fin"}`, {
-                version: "test"
-            })
-            setTimeout(() => {
-                sendUpdateStatusToToolbox('update-error', `Error: ${"TEST"}`, "test")
-            }, 1500)
+
+        // Mock on Dev Tools
+        if (isDev) {
+            // Mock Update Available
             setTimeout(() => {
                 sendUpdateStatusToToolbox('update-available', `temp update`, {
                     version: '0.1.15'
                 })
             }, 1500)
+            setInterval(async () => {
+                sendUpdateStatusToToolbox('update-available', `temp update`, {
+                    version: '0.1.15'
+                })
+            }, 60000)
+            // Mock Download every few seconds
+            sendUpdateStatusToToolbox('update-downloaded', 'Starting  Mock download')
+            setInterval(async () => {
+                let time = new Array(11)
+                console.log(chalk.bgGreen.black('Toolbox render process loaded...'));
+                for (let count = 0; count < time.length; count++) {
+                    let progressObj = {
+                        bytesPerSecond: '100kb',
+                        percent: `${count * 10}`,
+                        transferred: `${count*512}`,
+                        total: `${count*512*10}`
+                    }
+                    console.log(chalk.blue(progressObj));
+                    sendUpdateStatusToToolbox('update-download-progress', `Download speed: ${progressObj.bytesPerSecond} - Downloaded ${progressObj.percent}% (${progressObj.transferred}/${progressObj.total})`, progressObj)
+                    await rest(1000)
+                }
+                sendUpdateStatusToToolbox('update-downloaded', `Update downloaded: ${"fin"}`, {
+                    version: "test"
+                })
+                setTimeout(() => {
+                    sendUpdateStatusToToolbox('update-error', `Error: ${"TEST"}`, "test")
+                }, 1500)
+                setTimeout(() => {
+                    sendUpdateStatusToToolbox('update-available', `temp update`, {
+                        version: '0.1.15'
+                    })
+                }, 1500)
 
-        }, 15000)
-    }
+            }, 15000)
+        }
 
     }
 
@@ -213,11 +213,27 @@ function createWindow(offset) {
 
     toolboxWindow.setMenu(null)
 
-    if (true) { // flag to enable dev tools in production build
-        isDev && toolboxWindow.webContents.openDevTools()
+    // if (true) { // flag to enable dev tools in production build
+    //     isDev && toolboxWindow.webContents.openDevTools()
+    // }
+    toolboxWindow.webContents.openDevTools()
+
+    // Install React Dev Tools
+    if (false) {
+        const { default: installExtension, REACT_DEVELOPER_TOOLS } = require('electron-devtools-installer');
+        setTimeout(() => {
+            installExtension(REACT_DEVELOPER_TOOLS).then((name) => {
+                    console.log(`Added Extension:  ${name}`);
+                })
+                .catch((err) => {
+                    console.log('An error occurred: ', err);
+                });
+        },15000) // Need to wait for bundle & Concurrently to finish
     }
 
+
     toolboxWindow.on("closed", () => (toolboxWindow = null));
+    
 
     ipc.on('asynchronous-message', (event, arg) => {
         console.log(arg) // prints "ping"

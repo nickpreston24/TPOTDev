@@ -54,8 +54,8 @@ describe.skip('Discover WP site', () => {
         var apiPromise = WPAPI.discover('https://www.thepathoftruth.com/wp-json')
             .then(site => {
                 return site.auth({
-                    username: 'michael.n.preston@gmail.com',
-                    password: 'MercuryMedium10!'
+                    username: '',
+                    password: ''
                 });
             });
         apiPromise.then(site => {
@@ -89,8 +89,8 @@ function initializeTests() {
     /* WPAPI */
     var wpapi = new WPAPI({
         endpoint: "https://www.thepathoftruth.com/wp-json",
-        username: 'michael.n.preston@gmail.com',
-        password: "MercuryMedium10!",
+        //username:
+        //password:
     });
     return {
         WPAPI,

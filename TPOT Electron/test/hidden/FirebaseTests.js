@@ -9,8 +9,8 @@ var app = firebase.initializeApp(config);
 /**
  * constants
  */
-const email = "michael.n.preston@gmail.com";
-const password = "Mercury10";
+const email = "";
+const password = ''
 
 describe("sign in", () => {
     it('should sign in', () => {
@@ -48,8 +48,8 @@ async function login() {
 //     // var setMichael = users.set({
 //     //     FirstName: 'Michael',
 //     //     LastName: 'Preston',
-//     //     Email: 'michael.n.preston@gmail.com',
-//     //     password: 'Mintsharp18!',
+//     //     Email: '',
+//     //     password: '',
 //     // }).catch(console.log)
 
 

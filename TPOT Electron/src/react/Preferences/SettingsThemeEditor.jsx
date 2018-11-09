@@ -7,7 +7,7 @@ import Typography from '@material-ui/core/Typography';
 import ProfilePic from '../media/avatar.jpg'
 // import TabContainer from '@material-ui/core/'
 
-const emails = ['username@gmail.com', 'user02@gmail.com'];
+const emails = ['', ''];
 const styles = theme => ({
     root: {
         display: 'flex',

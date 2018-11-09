@@ -31,7 +31,6 @@ export const wordpressCredentials = new Promise((resolve, reject) => {
     db.collection('public').doc('wp-credentials').get()
         .then((documentSnapshot) => {
             const data = documentSnapshot.data()
-            console.log("WP Credentials", data)
             data
                 ? resolve(data)
                 : reject("Document Snapshot is Null")

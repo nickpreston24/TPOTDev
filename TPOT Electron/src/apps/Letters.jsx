@@ -2,6 +2,7 @@
 import React from 'react'
 import Header from '../react/Components/Header'
 import Draft from '../react/Editor/Draft'
+import PublishScreenContainer from '../container/PublishScreenContainer';
 
 class Letters extends React.Component {
 
@@ -26,6 +27,7 @@ class Letters extends React.Component {
             <div className="Letters">
                 <Header color="primary" onUpdate={this.onUpdateHeader} editMode={this.state.editMode} {...childProps} />
                 <Draft editMode={this.state.editMode} />
+                <PublishScreenContainer/>
             </div>
         )
     }
