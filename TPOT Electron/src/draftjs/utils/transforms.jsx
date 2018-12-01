@@ -862,7 +862,12 @@ const createBlockRenderers = (editorState, contentState, exporter) => {
 }
 
 
+const saveEditorState = state => {
+    console.log("Saved Editor")
+    console.log(state)
+}
+
 
 //  end of EXPORT FUNCTION
 
-export { styles, exporter, customStyleFn, baseStyleMap, baseBlockStyleFn, blockRenderMap, blockRenderer, stateFromElementConfig, draftContentFromHtml, draftContentToHtml, flattenInlineStyleRanges, };
+export { saveEditorState, styles, exporter, customStyleFn, baseStyleMap, baseBlockStyleFn, blockRenderMap, blockRenderer, stateFromElementConfig, draftContentFromHtml, draftContentToHtml, flattenInlineStyleRanges, };

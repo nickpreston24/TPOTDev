@@ -14,9 +14,9 @@ import ListItemText from "@material-ui/core/ListItemText";
 import AccountIcon from "@material-ui/icons/AccountBoxOutlined";
 import InfoIcon from "@material-ui/icons/InfoOutlined";
 import LogoutIcon from "@material-ui/icons/ExitToApp";
-import ModalFirebase from "../Modals/ModalFirebase";
+import ModalFirebase from "../presentation/ModalFirebase";
 
-import { auth } from '../../firebase';
+import { auth } from '../firebase';
 
 const styles = {
     root: {

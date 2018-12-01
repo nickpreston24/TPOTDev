@@ -5,16 +5,16 @@ import Grid from "@material-ui/core/Grid";
 import { withStyles } from "@material-ui/core/styles";
 import PropTypes from "prop-types";
 import React from "react";
-import GoogleDrive from "../../media/drive.png";
-import HardDrive from "../../media/hdd.png";
-import { convertFile } from "../../modules/converter";
+import GoogleDrive from "../media/drive.png";
+import HardDrive from "../media/hdd.png";
+import { convertFile } from "../utilities/converter";
 ///File Import Strategies:
 // import { DiskFileLoader } from '../modules/docxLoaders/DiskFileLoader.ts'
 // import { GoogleFileLoader } from '../modules/docxLoaders/GoogleFileLoader.ts'
 // import { Clipboard } from '../modules/docxLoaders/Clipboard.ts'
 // import * as Loaders from '../modules/docxLoaders/Loaders.ts'
 // import { Loaders } from '../modules/docxLoaders/Loaders.ts'
-import DiskFileLoader from "../../modules/docxLoaders_js/DiskFileLoader";
+import DiskFileLoader from "../utilities/docxLoaders_js/DiskFileLoader";
 
 
 

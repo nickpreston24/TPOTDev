@@ -8,8 +8,8 @@ import { withStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
 import PropTypes from "prop-types";
 import React from "react";
-import { auth } from '../../firebase';
-import FireBaseLogo from "../../media/firebase.png";
+import { auth } from '../firebase';
+import FireBaseLogo from "../media/firebase.png";
 
 
 // const electron = window.require("electron");
