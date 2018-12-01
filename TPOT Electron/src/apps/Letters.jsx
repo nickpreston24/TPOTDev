@@ -1,7 +1,7 @@
 // React
 import React from 'react'
-import Header from '../react/Components/Header'
-import Draft from '../react/Editor/Draft'
+import Header from '../presentation/Header'
+import Draft from '../draftjs/Draft'
 import PublishScreenContainer from '../container/PublishScreenContainer';
 
 class Letters extends React.Component {

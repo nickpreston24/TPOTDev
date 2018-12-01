@@ -9,7 +9,7 @@ import JSONPretty from 'react-json-pretty';
 import { MuiToolbar, plugins } from './plugins/plugins';
 import { rest } from './utils/helpers';
 import { baseBlockStyleFn, baseStyleMap, blockRenderer, blockRenderMap, draftContentFromHtml, draftContentToHtml, stateFromElementConfig } from './utils/transforms';
-import PublishScreenContainer from '../../container/PublishScreenContainer';
+import PublishScreenContainer from '../container/PublishScreenContainer';
 
 
 import { inject, observer } from 'mobx-react'
@@ -130,9 +130,10 @@ class Wysiwyg extends React.Component {
 
     async getCode() {
         const codeState = draftContentToHtml(this.state.editorState, this.state.editorState.getCurrentContent())
-        // console.log(codeState)
+        console.log(codeState)
         // const codeState = convertToRaw(this.state.editorState.getCurrentContent())
-        // this.setState({ codeState })
+        this.setState({ codeState })
+        this.props.lettersStore.setEditorContent(codeState)
     }
 
     // After the class is constructed and its data is mounted to the React DOM, render() is fired, which takes displays the elements with data from the instance's current state.

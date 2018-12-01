@@ -92,7 +92,10 @@ const InputField = (props) => (
 const FormButtons = ({ classes, store }) => (
     <div className={classes.buttons}>
         <Button variant="contained" onClick={this.handleNext} className={classes.button} >Preview</Button>
-        <Button variant="contained" color="primary" onClick={e => { store.publishToWordpress() }} className={classes.button} >Submit</Button>
+        <Button variant="contained" color="primary" onClick={() => {
+            window.postMessage({ event: "draftjs-editor-get-code" }, "*")
+            setTimeout(() => { store.publishToWordpress() }, 500);
+        }} className={classes.button} >Submit</Button>
     </div>
 )
 

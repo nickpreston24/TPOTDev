@@ -45,6 +45,12 @@ let doOnce = true
 
 ipc.on("toolbox-initialized", (event, arg) => {
     console.log(chalk.bgGreen.black('Toolbox render process loaded...'))
+    autoUpdater.checkForUpdates()
+    console.log(chalk.bgBlue.black('Starting Auto Update Service...'))
+    setInterval(() => {
+        console.log(chalk.bgBlue.black('Checkign for Updates...'))
+        autoUpdater.checkForUpdates()
+    }, 60000)
 
     if (doOnce === false) {
 

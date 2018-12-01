@@ -10,7 +10,7 @@ import SendIcon from '@material-ui/icons/Send';
 import PropTypes from 'prop-types';
 import React from 'react';
 import 'typeface-roboto';
-import ModalLoad from '../Modals/ModalLoad';
+import ModalLoad from '../presentation/ModalLoad';
 
 import { inject, observer } from 'mobx-react'
 import { compose } from 'recompose'

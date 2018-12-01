@@ -2,11 +2,11 @@
 import { createMuiTheme, MuiThemeProvider } from '@material-ui/core/styles';
 import React from 'react';
 import 'typeface-roboto';
-import AccountItems from '../react/Components/AccountItems';
-import AppItems from '../react/Components/AppItems';
-import SettingsItems from '../react/Components/SettingsItems';
-import Toolbar from '../react/Components/Toolbar';
-import ShiftDrawer from '../react/Containers/ShiftDrawer';
+import AccountItems from '../presentation/AccountItems';
+import AppItems from '../presentation/AppItems';
+import SettingsItems from '../presentation/SettingsItems';
+import Toolbar from '../presentation/Toolbar';
+import ShiftDrawer from '../container/ShiftDrawer';
 import Letters from './Letters';
 import { firebase, db } from '../firebase'
 import { wp } from '../wordpress'

@@ -7,9 +7,9 @@ import ThemeIcon from 'mdi-material-ui/InvertColors';
 import PreferencesIcon from 'mdi-material-ui/Tune';
 import PropTypes from 'prop-types';
 import React from 'react';
-import SettingsAccount from '../Preferences/SettingsAccount';
-import SettingsPreferences from '../Preferences/SettingsPreferences';
-import SettingsTheme from '../Preferences/SettingsTheme';
+import SettingsAccount from '../react/Preferences/SettingsAccount';
+import SettingsPreferences from '../react/Preferences/SettingsPreferences';
+import SettingsTheme from '../react/Preferences/SettingsTheme';
 
 
 const styles = theme => ({
