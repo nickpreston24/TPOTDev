@@ -1,13 +1,17 @@
 import { observable, action, computed, decorate } from 'mobx'
 import { db } from '../firebase' 
 import { wp } from '../wordpress'
+import { draft } from '../draftjs'
 
 class LettersStore {
     constructor(rootStore) {
         this.rootStore = rootStore
     }
-    editorContent = '<p>Hey there!</p>'
+    originalState = {}
+    editorState = {}
+    codeState = {}
     wordpressCredentials = {}
+    editorContent = '<p>Hey there!</p>'
     publishModal = false
     publishData = {
         slug: '*',
@@ -19,6 +23,9 @@ class LettersStore {
     }
     setPublishData = (key, value) => {
         this.publishData[key] = value 
+    }
+    saveEditorState = () => {
+        draft.saveEditorState(this.editorState)
     }
     togglePublishModal = () => {
         this.publishModal = !this.publishModal
@@ -45,5 +52,6 @@ export default decorate(
         publishData: observable,
         setPublishData: action,
         togglePublishModal: action,
+        saveEditorState: action,
 })
 // Don't make store variables observable if you want to keep them private to this class

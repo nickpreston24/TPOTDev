@@ -99,10 +99,9 @@ class MiniDrawer extends React.Component {
                 secondary: "",
                 icon: <Save />,
                 active: true,
-                // handler: () => {
-                //     this.saveEditorStateToDisk()
-                //     this.props.onUpdate(false)
-                // }
+                handler: () => {
+                    this.props.lettersStore.saveEditorState()
+                }
             },
             {
                 name: "Drafts",
@@ -119,7 +118,7 @@ class MiniDrawer extends React.Component {
                 secondary: "",
                 icon: <SendIcon />,
                 active: true,
-                handler: e => {
+                handler: () => {
                     this.props.lettersStore.togglePublishModal()
                 }
             },
