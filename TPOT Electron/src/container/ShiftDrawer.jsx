@@ -100,22 +100,22 @@ class ShiftDrawer extends React.Component {
             <React.Fragment>
                 <Drawer variant="permanent" open={!this.props.compact} id="Drawer" classes={{ paper: classNames(classes.drawer, !this.props.compact && classes.drawerClose), }} >
                     {/* <DrawerMenuList onClick={this.handleDrawerClose}/> */}
-                    <div id="Accounts" className={classes.accounts}>
+                    {/* <div id="Accounts" className={classes.accounts}> */}
                         {/* <Toolbar variant="dense">
                             <Typography variant="body2" className={classes.primaryText}>
                                 Accounts
                              </Typography>
                         </Toolbar> */}
-                        {this.props.accountItems && (
+                        {/* {this.props.accountItems && (
                             this.props.accountItems
-                        )}
-                        <ListItem button>
+                        )} */}
+                        {/* <ListItem button>
                             <ListItemIcon className={classes.icon}> 
                                 <PlusIcon />
                             </ListItemIcon>
                             <ListItemText primary="Add Account" primaryTypographyProps={{ classes: { root: classes.secondaryText } }} />
                         </ListItem>
-                    </div>
+                    </div> */}
                     <div id="Apps" className={classes.apps}>
                         {/* <Toolbar variant="dense">
                             <Typography variant="body2" className={classes.primaryText}>
