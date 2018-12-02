@@ -45,6 +45,11 @@ class MuiToolbar extends React.Component {
             this.props.onToggle(this.props.type, this.props.style);
         }
     }
+
+    componentShouldUpdate = () => {
+        return false
+    }
+
     render() {
         const classes = this.props.classes
         const options = x => x.map(fontSize => {

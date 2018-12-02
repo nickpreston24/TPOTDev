@@ -17,7 +17,7 @@ import DrawerExpandIcon from 'mdi-material-ui/TableColumnPlusAfter';
 import FullScreenIcon from 'mdi-material-ui/TelevisionGuide';
 import PropTypes from 'prop-types';
 import React from 'react';
-import PackageIcon from '../../media/package.png';
+import PackageIcon from '../media/package.png';
 
 
 const app = window.require('electron').remote.app

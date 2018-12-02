@@ -100,7 +100,7 @@ class MiniDrawer extends React.Component {
                 icon: <Save />,
                 active: true,
                 handler: () => {
-                    this.props.lettersStore.saveEditorState()
+                    this.props.lettersStore.saveSession()
                 }
             },
             {

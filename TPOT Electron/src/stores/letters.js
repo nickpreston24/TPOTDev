@@ -1,15 +1,19 @@
-import { observable, action, computed, decorate } from 'mobx'
+import { observable, action, computed, decorate, autorun } from 'mobx'
 import { db } from '../firebase' 
 import { wp } from '../wordpress'
 import { draft } from '../draftjs'
+import {
+    convertToRaw,
+    EditorState
+} from "draft-js";
 
 class LettersStore {
     constructor(rootStore) {
         this.rootStore = rootStore
     }
-    originalState = {}
-    editorState = {}
-    codeState = {}
+    originalState = 'origiinal'
+    editedState = EditorState.createEmpty()
+    codeState = ''
     wordpressCredentials = {}
     editorContent = '<p>Hey there!</p>'
     publishModal = false
@@ -21,11 +25,14 @@ class LettersStore {
     setEditorContent = async(string) => {
         this.editorContent = string
     }
+    setEditorState = (string, state) => {
+        this[`${string}State`] = state
+    }
     setPublishData = (key, value) => {
         this.publishData[key] = value 
     }
-    saveEditorState = () => {
-        draft.saveEditorState(this.editorState)
+    saveSession = () => {
+        draft.saveSession(this.originalState, this.editedState, this.codeState)
     }
     togglePublishModal = () => {
         this.publishModal = !this.publishModal
@@ -43,6 +50,9 @@ class LettersStore {
             excerpt: this.publishData.excerpt,
         })
     }
+    dispatch = autorun(() => {
+        console.log("update")
+    });
 
 }
 
@@ -50,8 +60,11 @@ export default decorate(
     LettersStore, {
         publishModal: observable,
         publishData: observable,
+        editedState: observable,
         setPublishData: action,
         togglePublishModal: action,
         saveEditorState: action,
+        setEditorState: action,
+        dispatch: action,
 })
 // Don't make store variables observable if you want to keep them private to this class

@@ -11,6 +11,12 @@ import '../config/editor.css';
 import HorizontalRule from '../plugins/draft-js-mui-toolbar/utils/HorizontalRule';
 import { Object, rgb2hex } from './helpers';
 
+const electron = window.require('electron')
+const IPC = electron.ipcRenderer;
+const remote = electron.remote
+const app = remote.app
+const path = window.require('path')
+const fs = window.require('fs')
 
 // CUSTOM STYLES SETUP (Package by @webdeveloperpr)
 ///////////////////////////////////////////////////////////////////////////////////////////////////
@@ -862,12 +868,20 @@ const createBlockRenderers = (editorState, contentState, exporter) => {
 }
 
 
-const saveEditorState = state => {
-    console.log("Saved Editor")
-    console.log(state)
+export const saveSession = (original, edited, code) => {
+    const contents = {
+        original: !!original ? original : {},
+        edited: !!edited ? edited : {},
+        code: !!code ? code : {}
+    }
+    let fileContents = JSON.stringify(contents)
+    const fileName = path.join(app.getPath('userData'),'Local Storage', 'session.json')
+    fs.writeFile(fileName, fileContents, (err) => {
+        if (err) throw err;
+        console.log("Session Saved to Disk")
+    })
 }
-
 
 //  end of EXPORT FUNCTION
 
-export { saveEditorState, styles, exporter, customStyleFn, baseStyleMap, baseBlockStyleFn, blockRenderMap, blockRenderer, stateFromElementConfig, draftContentFromHtml, draftContentToHtml, flattenInlineStyleRanges, };
+export { styles, exporter, customStyleFn, baseStyleMap, baseBlockStyleFn, blockRenderMap, blockRenderer, stateFromElementConfig, draftContentFromHtml, draftContentToHtml, flattenInlineStyleRanges, };

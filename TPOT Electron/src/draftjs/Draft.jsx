@@ -17,9 +17,10 @@ import {
 	draftContentToHtml,
 	stateFromElementConfig
 } from "./utils/transforms";
-import PublishScreenContainer from "../../container/PublishScreenContainer";
+import PublishScreenContainer from "../container/PublishScreenContainer";
 
 import { inject, observer } from "mobx-react";
+import { observable, action, computed, decorate, autorun } from 'mobx'
 import { compose } from "recompose";
 
 // Electron (change to import method later)
@@ -70,54 +71,9 @@ class Wysiwyg extends React.Component {
 		baseStyleMap: baseStyleMap
 	};
 
-	saveSession = async () => {
-		const { originalState, editorState, codeState } = this.state;
-
-		const session = {
-			originalState,
-			editorState,
-			codeState
-		};
-
-		let fileSavePath = app.getPath("userData") + "/session.json";
-
-		if (!session) {
-			throw Error("Session cannot be null!");
-		}
-
-		this.saveJSONFile(session, fileSavePath);
-	};
-
-	saveJSONFile(json, savePath) {
-		let fileContents = JSON.stringify(json);
-		fs.writeFile(savePath, fileContents, err => {
-			if (err) throw err;
-			console.log(`File ${savePath} Saved to Disk`);
-		});
-	}
-
-	focus = event => {
-		event.preventDefault();
-		if (this.editor) {
-			// console.log(this.editor)
-			this.editor.focus();
-		}
-	};
-
-	onChange = editorState => {
-		this.setState({
-			editorState
-		});
-	};
-
-	setStyleMap = customStyleMap => {
-		this.setState({
-			baseStyleMap: customStyleMap
-		});
-	};
-
 	componentDidMount() {
-		// Load Editor's Initial State from File
+        const { lettersStore: store } = this.props
+        store.setEditorState('edited', EditorState.createEmpty())
 
 		window.addEventListener("message", msg => {
 			if (msg.data.event === "draftjs-editor-reload") {
@@ -127,7 +83,24 @@ class Wysiwyg extends React.Component {
 				this.getCode();
 			}
 		});
-	}
+    }
+
+	onChange = editorState => {
+        const { lettersStore: store } = this.props
+        store.setEditorState('edited', editorState)
+		this.setState({ editorState });
+    };
+    
+    focus = event => {
+		event.preventDefault();
+		if (this.editor) { this.editor.focus(); }
+	};
+
+
+	setStyleMap = customStyleMap => {
+		this.setState({ baseStyleMap: customStyleMap });
+	};
+
 
 	getData(e) {
 		// console.log(JSON.stringify(convertToRaw(this.state.editorState.getCurrentContent())))
@@ -146,6 +119,7 @@ class Wysiwyg extends React.Component {
 	}
 
 	async reloadEditor(html) {
+        const { lettersStore: store } = this.props
 		await rest(0);
 		const newContentState = draftContentFromHtml(
 			html,
@@ -160,7 +134,9 @@ class Wysiwyg extends React.Component {
 		const rawHTML = draftContentToHtml(newEditorState, newContentState);
 		const rawHTMLPretty = rawHTML;
 
-		this.props.lettersStore.setEditorContent(rawHTML);
+        store.setEditorState('original', html)
+        store.setEditorState('edited', newEditorState)
+        store.setEditorState('code', rawHTML)
 
 		// console.log(rawHTMLPretty)
 		this.setState({
@@ -172,18 +148,46 @@ class Wysiwyg extends React.Component {
 	}
 
 	async getCode() {
-		const codeState = draftContentToHtml(
-			this.state.editorState,
-			this.state.editorState.getCurrentContent()
-		);
+        const { lettersStore: store } = this.props
+        const editorState = store.editedState
+		const html = draftContentToHtml(
+			editorState,
+			editorState.getCurrentContent()
+        );
+        store.setEditorState('code',  html)
 		// console.log(codeState)
 		// const codeState = convertToRaw(this.state.editorState.getCurrentContent())
-		// this.setState({ codeState })
-	}
+		this.setState({ codeState: html })
+    }
+    
+    getState() {
+        const { lettersStore: store } = this.props
+        const editorState = store.editedState
+        // this.setState({editorState})
+        return this.state.editorState
+    }
 
+    // es = observable.box(this.props.lettersStore.editedState)
+
+    // dispatch = autorun(() => {
+    //     console.log("update")
+    // });
+    
+    
 	// After the class is constructed and its data is mounted to the React DOM, render() is fired, which takes displays the elements with data from the instance's current state.
 	render() {
-		const { lettersStore: store, classes, editMode } = this.props;
+        const { lettersStore: store, classes, editMode } = this.props;
+        console.log(store.editedState)
+        // this.setState({editorState: store.editedState})
+        //         const { lettersStore: store } = this.props
+        // store.setEditorState('edited', editorState)
+    //     	onChange = editorState => {
+    //     const { lettersStore: store } = this.props
+    //     store.setEditorState('edited', editorState)
+	// 	// this.setState({
+	// 	// 	editorState
+	// 	// });
+	// };
 		return (
 			<div id="Editor" className={classes.root}>
 				<div
@@ -191,7 +195,7 @@ class Wysiwyg extends React.Component {
 					className={classes.editorFrame}
 					onClick={this.focus}
 				>
-					<button onClick={this.saveSession}>Feed Me</button>
+					{/* <button onClick={this.saveSession}>Feed Me</button> */}
 					{editMode === "edited" && (
 						<React.Fragment>
 							<Editor
@@ -216,20 +220,14 @@ class Wysiwyg extends React.Component {
 					)}
 					{editMode === "original" && (
 						<React.Fragment>
-							{/* {this.state.originalState} */}
-							{ReactHtmlParser(this.state.originalState)}
+							{ReactHtmlParser(store.originalState)}
 						</React.Fragment>
 					)}
 					{editMode === "code" && (
-						<React.Fragment>
-							{/* <div>
-                                {this.state.codeState}
-                            </div> */}
-							<JSONPretty
-								id="json-pretty"
-								json={this.state.codeState}
-							/>
-						</React.Fragment>
+                        <JSONPretty
+                            id="json-pretty"
+                            json={store.codeState}
+                        />
 					)}
 				</div>
 			</div>
