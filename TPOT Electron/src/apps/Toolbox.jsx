@@ -59,7 +59,7 @@ const theme = createMuiTheme({
     //       // color: "blue",
     //     },
     //   },
-      typography: {
+    typography: {
         useNextVariants: true,
     },
 });
@@ -122,8 +122,9 @@ class Toolbox extends React.Component {
     render() {
         const childProps = { authUser: this.state.authUser }
         return (
-            <div id="Toolbox">
+                <div id="Toolbox">
                     <MuiThemeProvider theme={theme}>
+                        
                         <ShiftDrawer
                             compact={this.state.compactDrawer}
                             accountItems={<AccountItems />}
@@ -134,7 +135,7 @@ class Toolbox extends React.Component {
                             currentApp={<Letters {...childProps} />}
                         />
                     </MuiThemeProvider>
-            </div>
+                </div>
         )
     }
 }

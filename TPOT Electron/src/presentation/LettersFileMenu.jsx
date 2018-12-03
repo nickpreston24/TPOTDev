@@ -17,7 +17,6 @@ import { compose } from 'recompose'
 
 
 
-
 const drawerWidth = 200;
 
 const styles = theme => ({
@@ -108,10 +107,9 @@ class MiniDrawer extends React.Component {
                 secondary: "",
                 icon: <DraftsIcon />,
                 active: true,
-                // handler: () => {
-                //     // this.openLoadModal();
-                //     this.props.onUpdate(false)
-                // }
+                handler: () => {
+                    this.props.lettersStore.clearEditor()
+                }
             },
             {
                 name: "Publish",

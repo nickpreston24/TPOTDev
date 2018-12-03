@@ -85,7 +85,8 @@ class Wysiwyg extends React.Component {
 		});
     }
 
-	onChange = editorState => {
+    onChange = editorState => {
+        console.log(this.props)
         const { lettersStore: store } = this.props
         store.setEditorState('edited', editorState)
 		this.setState({ editorState });

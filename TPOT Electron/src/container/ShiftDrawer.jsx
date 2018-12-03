@@ -6,9 +6,10 @@ import { withStyles } from '@material-ui/core/styles';
 import Toolbar from "@material-ui/core/Toolbar";
 import PlusIcon from '@material-ui/icons/Add';
 import classNames from 'classnames';
-import React from 'react';
+import React, { Fragment } from 'react';
 import 'typeface-roboto';
 
+import Notifier from './Notifier';
 
 const drawerWidth = 250;
 
@@ -97,19 +98,19 @@ class ShiftDrawer extends React.Component {
         // const visible = true
 
         return (
-            <React.Fragment>
+            <Fragment>
                 <Drawer variant="permanent" open={!this.props.compact} id="Drawer" classes={{ paper: classNames(classes.drawer, !this.props.compact && classes.drawerClose), }} >
                     {/* <DrawerMenuList onClick={this.handleDrawerClose}/> */}
                     {/* <div id="Accounts" className={classes.accounts}> */}
-                        {/* <Toolbar variant="dense">
+                    {/* <Toolbar variant="dense">
                             <Typography variant="body2" className={classes.primaryText}>
                                 Accounts
                              </Typography>
                         </Toolbar> */}
-                        {/* {this.props.accountItems && (
+                    {/* {this.props.accountItems && (
                             this.props.accountItems
                         )} */}
-                        {/* <ListItem button>
+                    {/* <ListItem button>
                             <ListItemIcon className={classes.icon}> 
                                 <PlusIcon />
                             </ListItemIcon>
@@ -147,9 +148,9 @@ class ShiftDrawer extends React.Component {
                     {this.props.currentApp && (
                         this.props.currentApp
                     )}
+                    <Notifier />
                 </React.Fragment>
-
-            </React.Fragment>
+            </Fragment>
         )
     }
 }
