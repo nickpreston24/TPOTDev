@@ -3,6 +3,8 @@ import { db } from '../firebase'
 import { wp } from '../wordpress'
 import { draft } from '../draftjs'
 import { convertToRaw, EditorState } from "draft-js";
+import React, { Fragment } from 'react';
+import { Button } from '@material-ui/core';
 
 class LettersStore {
     constructor(rootStore) {
@@ -26,9 +28,10 @@ class LettersStore {
         this.editorContent = string
     }
 
-    clearEditor = async () => {
+    clearEditor = () => {
+        const editedState = EditorState.createEmpty()
+        this.editedState = editedState
         this.notify('Cleared Editor')
-        this.editedState = EditorState.createEmpty()
     }
 
     setEditorState = (string, state) => {
@@ -41,11 +44,13 @@ class LettersStore {
 
     saveSession = () => {
         draft.saveSession(this.originalState, this.editedState, this.codeState)
-        this.notify('Document Saved to Disk Successfully', { variant: 'success' })
+        this.notify('Document Saved to Disk Successfully', {
+            variant: 'success',
+        })
     }
 
     notify = (message, config) => {
-        const data = JSON.stringify({message, config})
+        const data = JSON.stringify({message, config: {...config}})
         this.notification = { data }
         console.log(`%c${message}`, `color: dodgerblue; font-size: 14px; border: 1px solid dodgerblue; background: #092b4c;`)
     }
@@ -68,10 +73,6 @@ class LettersStore {
         })
     }
 
-    dispatch = autorun(() => {
-        console.log("update")
-    });
-
 }
 
 export default decorate(
@@ -85,7 +86,6 @@ export default decorate(
         saveEditorState: action,
         setEditorState: action,
         clearEditor: action,
-        dispatch: action,
         notify: action,
     })
 // Don't make store variables observable if you want to keep them private to this class

@@ -1,9 +1,9 @@
 import { withStyles } from "@material-ui/core/styles";
-import { convertToRaw, EditorState } from "draft-js";
+import { convertToRaw, getDefaultKeyBinding, KeyBindingUtil, EditorState } from "draft-js";
 // Custom DraftJS Architecture
 import Editor, { createEditorStateWithText } from "draft-js-plugins-editor";
 import PropTypes from "prop-types";
-import React from "react";
+import React, { Fragment } from "react";
 import ReactHtmlParser from "react-html-parser";
 import JSONPretty from "react-json-pretty";
 import { MuiToolbar, plugins } from "./plugins/plugins";
@@ -18,6 +18,8 @@ import {
 	stateFromElementConfig
 } from "./utils/transforms";
 import PublishScreenContainer from "../container/PublishScreenContainer";
+import SyntaxHighlighter from 'react-syntax-highlighter';
+import { atomOneDark } from 'react-syntax-highlighter/dist/esm/styles/hljs';
 
 import { inject, observer } from "mobx-react";
 import { observable, action, computed, decorate, autorun } from 'mobx'
@@ -173,6 +175,38 @@ class Wysiwyg extends React.Component {
     // dispatch = autorun(() => {
     //     console.log("update")
     // });
+
+    myKeyBindingFn = (e) => {
+        const {hasCommandModifier} = KeyBindingUtil;
+        if (e.keyCode === 83 /* `S` key */ && hasCommandModifier(e)) {
+            return 'save'
+        }
+        if (e.keyCode === 79 /* `O key */ && hasCommandModifier(e)) {
+            return 'open'
+        }
+        if (e.keyCode === 80 /* `S` key */ && hasCommandModifier(e)) {
+            return 'publish'
+        }
+        return getDefaultKeyBinding(e);
+    }
+
+    handleKeyCommand = (command) => {
+        const { lettersStore: store } = this.props
+        if (command === 'save') {
+            store.saveSession()
+            return 'handled';
+        }
+        if (command === 'open') {
+            // store.saveSession()
+            console.log('load file')
+            return 'handled';
+        }
+        if (command === 'publish') {
+            store.togglePublishModal()
+            return 'handled';
+        }
+        return 'not-handled';
+    }
     
     
 	// After the class is constructed and its data is mounted to the React DOM, render() is fired, which takes displays the elements with data from the instance's current state.
@@ -191,14 +225,16 @@ class Wysiwyg extends React.Component {
 	// };
 		return (
 			<div id="Editor" className={classes.root}>
+                    <noscript>{store.editedState.toString()}</noscript>
 				<div
 					id="Frame"
 					className={classes.editorFrame}
 					onClick={this.focus}
 				>
 					{/* <button onClick={this.saveSession}>Feed Me</button> */}
-					{editMode === "edited" && (
+					{(editMode === "edited") && (
 						<React.Fragment>
+                            
 							<Editor
 								id={"DraftJS"}
 								ref={element => {
@@ -206,7 +242,9 @@ class Wysiwyg extends React.Component {
 								}}
 								placeholder="The editor is empty."
 								editorState={this.state.editorState}
-								onChange={this.onChange}
+                                onChange={this.onChange}
+                                handleKeyCommand={this.handleKeyCommand}
+                                keyBindingFn={this.myKeyBindingFn}
 								setStyleMap={this.setStyleMap}
 								customStyleMap={this.state.baseStyleMap} // STYLE MAP TO TYPE
 								blockRenderMap={blockRenderMap} // BLOCK MAP MAP TO TYPE
@@ -225,9 +263,16 @@ class Wysiwyg extends React.Component {
 						</React.Fragment>
 					)}
 					{editMode === "code" && (
-                        <JSONPretty
-                            id="json-pretty"
-                            json={store.codeState}
+                        // <JSONPretty
+                        //     id="json-pretty"
+                        //     json={store.codeState}
+                        // />
+                        <SyntaxHighlighter
+                            showLineNumbers 
+                            children={store.codeState}
+                            language='html'
+                            style={atomOneDark}
+                            codeTagProps={{style: {border: '0px solid red'}}}
                         />
 					)}
 				</div>

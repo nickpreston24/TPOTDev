@@ -878,7 +878,7 @@ export const saveSession = (original, edited, code) => {
     const fileName = path.join(app.getPath('userData'),'Local Storage', 'session.json')
     fs.writeFile(fileName, fileContents, (err) => {
         if (err) throw err;
-        console.log("Session Saved to Disk")
+        // console.log("Session Saved to Disk")
     })
 }
 
