@@ -19,7 +19,7 @@ import {
 } from "./utils/transforms";
 import PublishScreenContainer from "../container/PublishScreenContainer";
 import SyntaxHighlighter from 'react-syntax-highlighter';
-import { atomOneDark } from 'react-syntax-highlighter/dist/esm/styles/hljs';
+import * as hljs from 'react-syntax-highlighter/dist/esm/styles/hljs';
 
 import { inject, observer } from "mobx-react";
 import { observable, action, computed, decorate, autorun } from 'mobx'
@@ -258,9 +258,9 @@ class Wysiwyg extends React.Component {
 						</React.Fragment>
 					)}
 					{editMode === "original" && (
-						<React.Fragment>
+						<Fragment>
 							{ReactHtmlParser(store.originalState)}
-						</React.Fragment>
+						</Fragment>
 					)}
 					{editMode === "code" && (
                         // <JSONPretty
@@ -269,9 +269,21 @@ class Wysiwyg extends React.Component {
                         // />
                         <SyntaxHighlighter
                             showLineNumbers 
+                            wrapLines
+                            lineProps={{ style: { border: '0px solid yellow'}}}
                             children={store.codeState}
                             language='html'
-                            style={atomOneDark}
+                            style={hljs.solarizedLight}
+                            customStyle={{
+                                border: '0PXsolid blue',
+                                borderRadius: 16,
+                                background: 'transparent',
+                                overflow: 'hidden',
+                                textOverflow: 'ellipsis',
+                                // fontFamily: 'Monda',
+                                // fontWeight: 'bold',
+                                // fontSize: 16,
+                            }}
                             codeTagProps={{style: {border: '0px solid red'}}}
                         />
 					)}
