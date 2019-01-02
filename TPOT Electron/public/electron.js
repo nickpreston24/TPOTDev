@@ -189,12 +189,16 @@ const createToolboxWindow = () => {
             x: externalDisplay.bounds.x + 60,
             y: externalDisplay.bounds.y + 170
         }
-        createWindow(offset)
+        // createWindow(offset)
     }
+
+    createWindow()
 }
 
-function createWindow(offset) {
-    console.log(offset)
+function createWindow() {
+    // console.log(offset)
+
+    console.log('Window Created')
 
     const windowOptions = {
         // width: 1100,
@@ -203,8 +207,8 @@ function createWindow(offset) {
             allowRunningInsecureContent: true,
             devTools: true
         },
-        x: offset.x,
-        y: offset.y,
+        // x: offset.x,
+        // y: offset.y,
         width: 1800,
         height: 700,
         center: true

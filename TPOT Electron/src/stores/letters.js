@@ -62,6 +62,7 @@ class LettersStore {
     publishToWordpress = async () => {
         // wp.getCatg()
         const wpCreds = await db.wordpressCredentials
+        console.log(wpCreds)
         this.wordpressCredentials = !!wpCreds
             ? wpCreds
             : null
