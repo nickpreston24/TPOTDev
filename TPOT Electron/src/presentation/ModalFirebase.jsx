@@ -11,6 +11,9 @@ import React from "react";
 import { auth } from '../firebase';
 import FireBaseLogo from "../media/firebase.png";
 
+import { inject, observer } from "mobx-react";
+import { observable, action, computed, decorate, autorun } from 'mobx'
+import { compose } from "recompose";
 
 // const electron = window.require("electron");
 // const remote = electron.remote;
@@ -60,11 +63,13 @@ class SignIn extends React.Component {
     };
 
     closeModal = e => {
-        if (e.target.innerHTML === "Login") {
-            this.props.onUpdate(true);
-        } else {
-            this.props.onUpdate(false);
-        }
+
+        this.props.lettersStore.signOut()
+        // if (e.target.innerHTML === "Login") {
+        //     this.props.onUpdate(true);
+        // } else {
+        //     this.props.onUpdate(false);
+        // }
     };
 
     clickAwayModal = e => {
@@ -76,18 +81,7 @@ class SignIn extends React.Component {
         const { email, password, } = this.state;
         // const { history, } = this.props;
         console.log(email, password)
-        auth.signIn(email, password)
-            .then((authUser) => {
-                console.log(authUser)
-                console.log("Signed into Firebase")
-                this.setState({ ...this.state });
-                this.closeModal()
-                // history.push(routes.DASHBOARD);
-            })
-            .catch(error => { 
-                console.log(error)
-                this.setState(byPropKey('error', error));
-            });
+        this.props.lettersStore.signIn(email, password)
     }
 
     render() {
@@ -173,4 +167,8 @@ SignIn.propTypes = {
     classes: PropTypes.object.isRequired
 };
 
-export default withStyles(styles)(SignIn);
+export default compose(
+    inject("lettersStore"),
+    withStyles(styles),
+    observer
+)(SignIn);

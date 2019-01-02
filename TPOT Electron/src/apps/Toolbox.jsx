@@ -92,7 +92,7 @@ class Toolbox extends React.Component {
         // Authenticate and get WP Credentials
         firebase.auth.onAuthStateChanged(async (authUser) => {
             // Set Authorized State
-            console.log("AuthUser", authUser)
+            // console.log("AuthUser", authUser)
             authUser
                 ? await this.setState({ authUser })
                 : await this.setState({ authUser: null, wordpressCredentials: null });

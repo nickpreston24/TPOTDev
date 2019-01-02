@@ -1,5 +1,5 @@
 import { observable, action, computed, decorate, autorun } from 'mobx'
-import { db } from '../firebase' 
+import { db, auth } from '../firebase' 
 import { wp } from '../wordpress'
 import { draft } from '../draftjs'
 import { convertToRaw, EditorState } from "draft-js";
@@ -11,6 +11,7 @@ class LettersStore {
         this.rootStore = rootStore
     }
 
+    authUser = null
     originalState = ''
     editedState = EditorState.createEmpty()
     codeState = ''
@@ -23,6 +24,26 @@ class LettersStore {
         excerpt: '',
     }
     notification = null
+
+    setKey = (key, value) => {
+        this[key] = value
+        console.log(`Set key [${key}] : ${value}`)
+    }
+
+    signIn = async (email, password) => {
+        const getAuthUser = action(auth.signIn(email, password))
+        const authUser = await getAuthUser()
+        this.authUser = authUser
+        // this.wordpressCredentials = !!wpCreds ?
+        //     wpCreds :
+        //     null
+        console.log(this.authUser, authUser)
+    }
+
+    signOut = (email, password) => {
+        // this.authUser = null
+        auth.signOut(email, password)
+    }
 
     setEditorContent = async(string) => {
         this.editorContent = string
@@ -61,6 +82,7 @@ class LettersStore {
 
     publishToWordpress = async () => {
         // wp.getCatg()
+        console.log('published to wordpress')
         const wpCreds = await db.wordpressCredentials
         console.log(wpCreds)
         this.wordpressCredentials = !!wpCreds
@@ -78,6 +100,7 @@ class LettersStore {
 
 export default decorate(
     LettersStore, {
+        authUser: observable,
         notification: observable,
         publishModal: observable,
         publishData: observable,
@@ -88,5 +111,8 @@ export default decorate(
         setEditorState: action,
         clearEditor: action,
         notify: action,
+        setKey: action,
+        signIn: action,
+        signOut: action,
     })
 // Don't make store variables observable if you want to keep them private to this class

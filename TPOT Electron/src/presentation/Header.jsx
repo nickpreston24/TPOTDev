@@ -95,7 +95,6 @@ class SimpleAppBar extends React.Component {
                             <MenuIcon />{" "}
                         </IconButton>
                         <EditMode currentTab={this.state.editMode} onUpdate={this.updateEditMode} editMode={this.state.editMode} />
-                        <Auth authorized={true} className={classes.authButton} {...childProps}/>
                     </Toolbar>
                 </AppBar>
                 <FileMenu anchorEl={this.state.anchorEl} open={this.state.fileMenuOpened} onClose={this.closeFileMenu} onUpdate={this.updateFileMenu}/>

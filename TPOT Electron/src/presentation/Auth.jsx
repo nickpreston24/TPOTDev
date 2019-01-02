@@ -16,6 +16,10 @@ import InfoIcon from "@material-ui/icons/InfoOutlined";
 import LogoutIcon from "@material-ui/icons/ExitToApp";
 import ModalFirebase from "../presentation/ModalFirebase";
 
+import { inject, observer } from "mobx-react";
+import { observable, action, computed, decorate, autorun } from 'mobx'
+import { compose } from "recompose";
+
 import { auth } from '../firebase';
 
 const styles = {
@@ -42,10 +46,9 @@ class Auth extends React.Component {
         super(props);
 
         this.state = {
-            authorized: false,
             anchorEl: null,
-            username: null,
-            modalVisible: false
+            // username: null,
+            // modalVisible: false
         };
     }
 
@@ -62,6 +65,7 @@ class Auth extends React.Component {
             authorized: false,
             anchorEl: null
         });
+        this.props.lettersStore.setKey('authUser', 'exited')
     };
 
     handleLogout = (event) => {
@@ -106,16 +110,17 @@ class Auth extends React.Component {
     };
 
     render() {
-        const { classes, authUser } = this.props;
-        const { anchorEl } = this.state;
-        // console.log(this.state.authorized)
+        const { lettersStore: store, classes } = this.props;
+        const { anchorEl } = this.state
+        console.log(store.authUser)
+        // if (store.authUser === null && store.authUser !== 'exited') {
+        //     store.signIn('bpfilmsinc@gmail.com', 'Mercuy18')
+        // }
 
         return (
             <div className={classes.root}>
-                {/* Is Authorized! Show Logout Button */}
-                {authUser && (
+                {store.authUser && (
                     <div>
-                        {/* <Typography color="inherit">Victor H.</Typography> */}
                         <Slide direction="left" in={true} timeout={{ enter: 700 }}>
                             <Button
                                 className={classes.button}
@@ -125,7 +130,7 @@ class Auth extends React.Component {
                                 color="inherit"
                                 varient="contained"
                             >
-                                Victor H.
+                                {store.authUser.email}
                                 <Avatar />
                             </Button>
                         </Slide>
@@ -159,16 +164,13 @@ class Auth extends React.Component {
                         </Menu>
                     </div>
                 )}
-                {/* Not Authorized, Show Login Button */}
-                {!authUser && (
+                {!store.authUser && (
                     <Grow in={true} timeout={{ enter: 400 }}>
                         <Button color="inherit" onClick={this.openModal}>
-                            {/* Preview */}
                             Log In
                         </Button>
                     </Grow>
                 )}
-                {/* Not Authorized, Show Firebase SignIn Modal */}
                 {this.state.modalVisible && (
                     <ModalFirebase
                         open={this.state.modalVisible}
@@ -185,4 +187,8 @@ Auth.propTypes = {
     classes: PropTypes.object.isRequired
 };
 
-export default withStyles(styles)(Auth);
+export default compose(
+    inject("lettersStore"),
+    withStyles(styles),
+    observer
+)(Auth);
