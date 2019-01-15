@@ -38,9 +38,9 @@ Adapted by Braden & Michael Preston to add more features like WordPress API, Goo
 - [ ] Account Details
 - [ ] System Information
 - [ ] HTML 5 FS
-- [ ] Firebase
+- [x] Firebase
 - [ ] Google OAuth2
-- [ ] WP API
+- [x] WP API
 
 ## Getting Started 🐫
 
