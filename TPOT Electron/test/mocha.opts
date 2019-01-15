@@ -1,0 +1,4 @@
+# https://stackoverflow.com/questions/34301448/run-mocha-excluding-paths
+--exclude **/*sqlite.test.js
+--exclude ./archived/sqlite.test.js
+--exclude ./hidden/*.test.js
