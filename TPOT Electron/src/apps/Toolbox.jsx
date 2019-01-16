@@ -15,7 +15,7 @@ import { wp } from '../wordpress'
 // const isDev = require("electron-is-dev");
 
 // Electron
-window.require('electron-react-devtools').install() // Works, but resets (IS IT SLOWING THINGS DOWN?)
+// window.require('electron-react-devtools').install() // Works, but resets (IS IT SLOWING THINGS DOWN!!!!)
 // window.require('devtron').install() // Not Working ATM
 
 // Start Theming Service

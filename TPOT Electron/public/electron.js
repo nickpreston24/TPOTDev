@@ -48,7 +48,7 @@ ipc.on("toolbox-initialized", (event, arg) => {
     autoUpdater.checkForUpdates()
     console.log(chalk.bgBlue.black('Starting Auto Update Service...'))
     setInterval(() => {
-        console.log(chalk.bgBlue.black('Checkign for Updates...'))
+        console.log(chalk.bgBlue.black('Checking for Updates...'))
         autoUpdater.checkForUpdates()
     }, 60000)
 
