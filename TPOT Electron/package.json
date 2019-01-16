@@ -128,7 +128,7 @@
         "appId": "tpot.toolbox.app",
         "productName": "TPOT Toolbox",
         "copyright": "Copyright© 2018 Michael & Braden Preston",
-        "icon": "public/defaultIcon.ico",
+        "icon": "public/toolboxicon.ico",
         "files": [
             "**/*",
             "public/*ico"
@@ -169,6 +169,9 @@
             "installerHeaderIcon": "public/defaultIcon.ico",
             "installerSidebar": "public/installerSidebar.bmp",
             "uninstallerSidebar": "public/uninstallerSidebar.bmp"
+        }, 
+        "dmg" : {
+            
         }
     }
 }

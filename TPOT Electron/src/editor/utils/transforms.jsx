@@ -34,9 +34,9 @@ const {
 const baseStyleMap = {
     // These are custom style classes on top of Draft defaults ("BOLD", "ITALIC", "UNDERLINE")
     // Single property per class name so edit buttons can toggle the property on or off
-    // 'HIGHLIGHT': {
-    //     background: 'yellow'
-    // },
+    'HIGHLIGHT': {
+        background: 'yellow'
+    },
     // 'INDENT': {
     //     marginLeft: "30px"
     // },
@@ -150,8 +150,8 @@ const blockRenderer = (contentBlock, pluginFunctions) => {
 // make ContentState from HTML String
 const draftContentFromHtml = (html, stateFromElementConfig, baseStyleMap) => {
     let contentState = stateFromElement(createNode(`<div>${html}</div>`), stateFromElementConfig)
-    let newContentState = flattenInlineStyleRanges(contentState, baseStyleMap)
-    return newContentState
+    let { newContentState, newBaseStyleMap} = flattenInlineStyleRanges(contentState, baseStyleMap)
+    return { newContentState, newBaseStyleMap }
 }
 
 // break apart multi-property Styles into single, inline Styles
@@ -228,7 +228,10 @@ const flattenInlineStyleRanges = (contentState, baseStyleMap) => {
 
     //Return new Content State
     newContentState.blocks = blocks
-    return convertFromRaw(newContentState)
+    return {
+        newContentState: convertFromRaw(newContentState),
+        newBaseStyleMap: baseStyleMap
+    }
 }
 
 // State from Element plugin configuration options

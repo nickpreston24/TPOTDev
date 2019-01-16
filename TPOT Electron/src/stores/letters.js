@@ -1,10 +1,8 @@
 import { observable, action, computed, decorate, autorun } from 'mobx'
 import { db, auth } from '../firebase' 
 import { wp } from '../wordpress'
-import { draft } from '../draftjs'
+import { draft } from '../editor'
 import { convertToRaw, EditorState } from "draft-js";
-import React, { Fragment } from 'react';
-import { Button } from '@material-ui/core';
 
 class LettersStore {
     constructor(rootStore) {
@@ -80,8 +78,9 @@ class LettersStore {
         this.publishModal = !this.publishModal
     }
 
-    publishToWordpress = async () => {
+    publishToWordpress = async (html) => {
         // wp.getCatg()
+        console.log(html)
         console.log('published to wordpress')
         const wpCreds = await db.wordpressCredentials
         console.log(wpCreds)

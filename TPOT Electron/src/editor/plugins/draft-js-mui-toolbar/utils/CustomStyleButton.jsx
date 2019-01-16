@@ -3,6 +3,8 @@ import { withStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import Popover from '@material-ui/core/Popover';
 import classNames from 'classnames';
+import { compose } from "recompose";
+import { inject, observer, Provider } from "mobx-react";
 
 const MuiStyles = theme => ({
     root: {
@@ -35,9 +37,11 @@ class CustomStyleButton extends Component {
         const CUSTOM_NAME = `${PREFIX}${CUSTOM_PROP.toUpperCase()}_${value}`
         const CUSTOM_ATTRB = `${value}`
 
+        const customStyleMap = JSON.parse(JSON.stringify(this.props.editorStore.baseStyleMap))
         // Update the style map with the new custom style before you try to apply the class with customStyleFunctions[property-name].toggle()
-        const STYLE_MAP = Object.assign(this.props.getEditorProps().customStyleMap, { [`${CUSTOM_NAME}`]: { [`${CUSTOM_PROP}`]: CUSTOM_ATTRB } })
-        await this.props.getEditorProps().setStyleMap(STYLE_MAP)
+        const STYLE_MAP = Object.assign(customStyleMap, { [`${CUSTOM_NAME}`]: { [`${CUSTOM_PROP}`]: CUSTOM_ATTRB } })
+        // await this.props.getEditorProps().setStyleMap(STYLE_MAP)
+        this.props.editorStore.setStyleMap(STYLE_MAP)
 
         // Toggle the style using the attribute name (ex:  #FF0099, 24PX, LIME, etc.)
         this.props.setEditorState(
@@ -97,4 +101,10 @@ class CustomStyleButton extends Component {
     }
 }
 
-export default withStyles(MuiStyles)(CustomStyleButton);
+// export default withStyles(MuiStyles)(CustomStyleButton);
+
+export default compose(
+	inject('editorStore'),
+	withStyles(MuiStyles),
+	observer
+)(CustomStyleButton);
