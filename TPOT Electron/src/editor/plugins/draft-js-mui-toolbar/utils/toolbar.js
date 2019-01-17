@@ -29,10 +29,12 @@ class ToolbarStore {
     }
 
     inlineOrigin = {}
+    inlineRef = null
     inlineSize = {}
     inlineOffset = {}
     inlineVisible = false
     blockOrigin = {}
+    blockRef = null
     blockSize = {}
     blockOffset = {}
     blockVisible = false
@@ -57,10 +59,12 @@ export default decorate(
         state: observable,
         listeners: observable,
         inlineOrigin: observable,
+        inlineRef: observable,
         inlineSize: observable,
         inlineOffset: observable,
         inlineVisible: observable,
         blockOrigin: observable, 
+        blockRef: observable,
         blockSize: observable,
         blockOffset: observable,
         blockVisible: observable,

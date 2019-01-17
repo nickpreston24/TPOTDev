@@ -13,61 +13,16 @@ const styles = theme => ({
     root: {
         position: "absolute",
         display: "block",
-        visibility: "hidden",
-        transform: 'translate(-50%) scale(0)',
-        transition: 'transform 0.15s cubic-bezier(.3,1.2,.2,1)',
-        background: theme.palette.secondary.light,
-        boxShadow: "0px 1px 5px 0px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 3px 1px -2px rgba(0, 0, 0, 0.12)",
-        borderRadius: 20,
-    },
-    marker: {
-        position: "absolute",
-        display: "block",
         visibility: "visible",
         // transform: 'translate(-50%) scale(0)',
         // transition: 'transform 0.15s cubic-bezier(.3,1.2,.2,1)',
-        background: 'red',
-        top: 0,
-        // left: 80,
-        height: 40,
-        width: 40,
+        // background: theme.palette.secondary.light,
         // boxShadow: "0px 1px 5px 0px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 3px 1px -2px rgba(0, 0, 0, 0.12)",
         // borderRadius: 20,
     },
-    inlineToolbar: {
-        // padding: `${0}px ${8}px`,
-        minWidth: 400,
-        maxWidth: 400,
-        minHeight: 40,
-        maxHeight: 40,
-        overflow: 'hidden',
-        "& *": {
-            float: "left",
-        }
-    },
-    blockToolbar: {
-        // padding: `${0}px ${8}px`,
-        "& *": {
-            float: "left",
-        }
-    }
 });
 
 class MuiToolbar extends Component {
-
-    state = {
-        inlineVisible: true,
-        inlineStyle: {},
-        blockStyle: {}
-    }
-
-    handleInlineToolbarRef = (element) => {
-        this.inlineToolbar = element;
-    };
-
-    handleBlockToolbarRef = (element) => {
-        this.blockToolbar = element;
-    };
 
     componentWillMount() {
         this.props.store.subscribeToItem('selection', this.onSelectionChanged); // Listen to parent plugin's onChange event which updates 'selection' in the store
@@ -78,14 +33,11 @@ class MuiToolbar extends Component {
     }
 
     onSelectionChanged = () => {
-        console.log(this.props)
         // need to wait a tick for window.getSelection() to be accurate when focusing editor with already present selection
         setTimeout(() => {
             const { store } = this.props; // Get the Store from the Parent plugin script (which passes DraftJS props to this component)
             // if (!this.inlineToolbar || !this.blockToolbar) return;
             const editorRef = store.getItem('getEditorRef')();
-            console.log(this.inlineToolbar)
-            console.log(this.blockToolbar)
             if (!editorRef) return;
             // this keeps backwards-compatibility with react 15
             let editorRoot = editorRef.refs && editorRef.refs.editor
@@ -98,17 +50,17 @@ class MuiToolbar extends Component {
             const selection = editorState.getSelection();
             const currentContent = editorState.getCurrentContent();
             const editorRootRect = editorRoot.getBoundingClientRect();
-            // const editorParentFrame = editorRoot.parentElement
-            // const editorTopPadding = window.getComputedStyle(editorParentFrame).getPropertyValue('padding-top')
             const currentBlock = currentContent.getBlockForKey(selection.getStartKey());
             const offsetKey = DraftOffsetKey.encode(currentBlock.getKey(), 0, 0);
             const currentBlockNode = document.querySelectorAll(`[data-offset-key="${offsetKey}"]`)[0];
             const selectionRect = getVisibleSelectionRect(window);
             const extraTopOffset = -7;
             if (!selectionRect) return;
+            if (!currentBlockNode) return;
             // Create new Positions (Inline and Block Toolbars)
             const inlinePosition = {
                 top: (editorRoot.offsetTop)
+                    // - this.inlineToolbar.offsetHeight
                     + (selectionRect.top - editorRootRect.top)
                     + extraTopOffset,
                 left: editorRoot.offsetLeft
@@ -116,46 +68,27 @@ class MuiToolbar extends Component {
                     + (selectionRect.width / 2)
             };
             const blockPosition = {
-                top: currentBlockNode.offsetTop,
-                    // + (currentBlockNode.offsetHeight / 2)
-                    // - (this.blockToolbar.offsetHeight / 2), 
+                top: currentBlockNode.offsetTop
+                    + (currentBlockNode.offsetHeight / 2),
+                // - (this.blockToolbar.offsetHeight / 2),
                 left: editorRoot.offsetLeft
                     // - (this.blockToolbar.offsetWidth / 2)
-                    // + 40
+                    - 40
             };
             // Calculate Inline Style(s) based on Selection State
             const inlineVisible = (!selection.isCollapsed() && selection.getHasFocus());
             const blockVisible = (selection.isCollapsed());
-            const inlineStyle = { ...inlinePosition };
-            const blockStyle = { ...blockPosition };
-            if (inlineVisible) {
-                inlineStyle.visibility = 'visible'
-                inlineStyle.transform = 'translate(-50%) scale(1)';
-                blockStyle.visibility = 'hidden'
-                blockStyle.transform = 'translate(-50%) scale(0)';
-            }
-            if (blockVisible) {
-                blockStyle.visibility = 'visible'
-                blockStyle.transform = 'translate(-50%) scale(1)';
-                inlineStyle.visibility = 'hidden'
-                inlineStyle.transform = 'translate(-50%) scale(0)';
-            }
-            // Push final style to render
+            // Push Store Updates
             store.setStyleProp('inlineOrigin', inlinePosition)
             store.setStyleProp('blockOrigin', blockPosition)
             store.setStyleProp('inlineVisible', inlineVisible)
             store.setStyleProp('blockVisible', blockVisible)
             // this.setState({ inlineStyle, blockStyle, inlineVisible })
-        });
+        }, 200); // Necessary delay between inline and block toolbar switching. (prevents double-tap highlight render flickering)
     };
 
     render() {
         const { classes, store } = this.props;
-        // console.log(toolbarStore.getItem('getEditorState')())
-        console.log('inline', store.inlineVisible)
-        console.log('inline', toJS(store.inlineOrigin))
-        console.log('block', store.blockVisible)
-        console.log('block', toJS(store.blockOrigin))
 
         const childProps = {
             getEditorState: store.getItem('getEditorState'),
@@ -166,43 +99,14 @@ class MuiToolbar extends Component {
             customStyleFunctions: store.getItem('customStyleFunctions'),
         };
 
-        // console.log('PROPS', toJS(store.inlineOrigin))
-
         return (
             <Fragment>
-                {store.inlineVisible && <div className={classes.marker} style={toJS(store.inlineOrigin)} />}
-                {store.blockVisible && <div className={classes.marker} style={toJS(store.blockOrigin)} />}
-                <InlineToolbar id={"MUI Inline Toolbar"} childProps={childProps} ref={this.handleInlineToolbarRef}/>
-                <BlockToolbar id={"MUI Block Toolbar"} childProps={childProps} ref={this.handleBlockToolbarRef}/>
-                {/* <div id={"MUI Inline Toolbar"} className={classNames(classes.root, classes.inlineToolbar)} ref={this.handleToolbarRef} style={this.state.inlineStyle} >
-                    <BoldButton {...childrenProps} />
-                    <ItalicButton {...childrenProps} />
-                    <UnderlineButton {...childrenProps} />
-                    <HeadingButton {...childrenProps} />
-                    <LinkButton {...childrenProps} />
-                    <ColorButton {...childrenProps} />
-                    <HighlightButton {...childrenProps} />
-                    <QuoteButton {...childrenProps} />
-                    <MoreButton {...childrenProps} />
-
-                    <AlignLeftButton {...childrenProps} />
-                    <AlignCenterButton {...childrenProps} />
-                    <AlignRightButton {...childrenProps} />
-                    <OrderedListButton {...childrenProps} />
-                    <UnorderedListButton {...childrenProps} />
-                    <CheckListButton {...childrenProps} />
-
-                </div> */}
-                {/* <div id={"MUI Block Toolbar"} className={classNames(classes.root, classes.blockToolbar)} ref={this.handleToolbarRef} style={this.state.blockStyle} >
-                    <Button variant="contained" color="secondary"></Button>
-                    <AlignLeftButton {...childrenProps} />
-                    <AlignCenterButton {...childrenProps} />
-                    <PageBreakButton {...childrenProps} />
-                    <AlignRightButton {...childrenProps} />
-                    <OrderedListButton {...childrenProps} />
-                    <UnorderedListButton {...childrenProps} />
-                    <CheckListButton {...childrenProps} /> 
-                </div> */}
+                <div id={"MUI Inline Toolbar"} className={classes.root} style={toJS(store.inlineOrigin)} ref={(element) => { this.props.store.setStyleProp('inlineRef', element) }} >
+                    <InlineToolbar childProps={childProps} />
+                </div>
+                <div id={"MUI Block Toolbar"} className={classes.root} style={toJS(store.blockOrigin)} ref={(element) => { this.props.store.setStyleProp('blockRef', element) }}>
+                    <BlockToolbar childProps={childProps} />
+                </div>
             </Fragment>
         )
     }

@@ -25,20 +25,20 @@ import { inject, observer } from 'mobx-react';
 
 const styles = theme => ({
     root: {
-        position: "absolute",
-        display: "block",
-        visibility: "hidden",
-        transform: 'translate(-50%) scale(0)',
-        transition: 'transform 0.15s cubic-bezier(.3,1.2,.2,1)',
+        // position: "absolute",
+        // display: "block",
+        visibility: "visible",
+        // transform: 'translate(-50%) scale(0)',
+        // transition: 'transform 0.15s cubic-bezier(.3,1.2,.2,1)',
         background: theme.palette.secondary.light,
-        boxShadow: "0px 1px 5px 0px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 3px 1px -2px rgba(0, 0, 0, 0.12)",
-        borderRadius: 20,
+        // boxShadow: "0px 1px 5px 0px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 3px 1px -2px rgba(0, 0, 0, 0.12)",
+        // borderRadius: 20,
     },
     blockToolbar: {
         // padding: `${0}px ${8}px`,
-        "& *": {
-            float: "left",
-        }
+        // "& *": {
+        //     float: "left",
+        // }
     }
 });
 
@@ -122,7 +122,9 @@ class MuiToolbar extends Component {
 
         return (
             <Fragment>
-                <div id={"MUI Block Toolbar"} className={classNames(classes.root, classes.blockToolbar)} ref={this.handleToolbarRef} style={this.state.blockStyle} >
+                <div id={"MUI Block Toolbar"} className={classNames(classes.root, classes.blockToolbar)} ref={this.handleToolbarRef}
+                //  style={this.state.blockStyle} 
+                 >
                     <AlignLeftButton {...childProps} />
                     <AlignCenterButton {...childProps} />
                     <PageBreakButton {...childProps} />
