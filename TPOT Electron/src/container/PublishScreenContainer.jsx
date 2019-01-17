@@ -9,17 +9,18 @@ class PublishScreenContainer extends Component {
     }
 
     render() {
-        const { lettersStore: store, ...rest } = this.props
+        let { lettersStore: store, ...rest } = this.props
+        let editorCode = this.props.editorStore.editorCode
         
         return (
             <Fragment>
-                <PublishScreen comments={store.publishData} store={store} {...rest} />
+                <PublishScreen comments={store.publishData} store={store} editorCode={editorCode} {...rest} />
             </Fragment>
         )
     }
 }
 
 export default compose(
-    inject('lettersStore'),
+    inject('lettersStore', 'editorStore'),
     observer
 )(PublishScreenContainer)
