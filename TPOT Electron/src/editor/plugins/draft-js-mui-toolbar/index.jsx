@@ -5,16 +5,15 @@ import MuiToolbar from './components/MuiToolbar'
 import React from 'react'
 import { configure } from 'mobx'
 import { Provider } from 'mobx-react';
-import ToolbarStore from '../../../stores/toolbar'
+import ToolbarStore from './utils/toolbar'
 
 configure({ enforceActions: "observed" })
 
-const createMuiToolbarPlugin = (config) => {
+const createMuiToolbarPlugin = () => {
 
-    const store = createStore();
-    const toolbarStore = new ToolbarStore()
+    const store = new ToolbarStore()
 
-    return {
+    return { 
         initialize: ({ getEditorState, setEditorState, getEditorRef, getProps }) => {
             const PREFIX = 'CUSTOM_'
             const { styles } = createStyles(['font-size', 'color', 'background'], PREFIX);
@@ -30,8 +29,10 @@ const createMuiToolbarPlugin = (config) => {
             return editorState;
         },
         
-        MuiToolbar: decorateComponentWithProps( ({store}) => <Provider toolbarStore={toolbarStore}><MuiToolbar store={store} /></Provider>, { store, config } )
-    };
+        MuiToolbar: () => <Provider store={store}>
+                             <MuiToolbar />
+                          </Provider>
+};
 };
 
 export default createMuiToolbarPlugin

@@ -1,5 +1,6 @@
 // MobX
 // Other
+import PropTypes from 'prop-types'
 import { withStyles } from '@material-ui/core/styles';
 import classNames from 'classnames';
 import { getVisibleSelectionRect } from 'draft-js';
@@ -138,7 +139,9 @@ class MuiToolbar extends Component {
     };
 
     render() {
-        const { classes, store} = this.props;
+        const { classes, store } = this.props;
+        // console.log(toolbarStore.getItem('getEditorState')())
+
         const childrenProps = {
             getEditorState: store.getItem('getEditorState'),
             setEditorState: store.getItem('setEditorState'),
@@ -148,7 +151,7 @@ class MuiToolbar extends Component {
             customStyleFunctions: store.getItem('customStyleFunctions'),
         };
 
-        console.log('PROPS', this.props)
+        // console.log('PROPS', this.props)
 
         return (
             <Fragment>
@@ -187,12 +190,12 @@ class MuiToolbar extends Component {
 
 }
 
-// MuiToolbar.propTypes = {
-//     classes: PropTypes.object.isRequired,
-// };
+MuiToolbar.propTypes = {
+    store: PropTypes.object.isRequired,
+};
 
 export default compose(
-    inject('toolbarStore'),
+    inject('store'),
     withStyles(styles)
 )(MuiToolbar)
 

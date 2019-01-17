@@ -18,9 +18,11 @@ const Notifier = (props) => {
             anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
             autoHideDuration={2000}
             disableWindowBlurListener
-            // action={[ <Button color="secondary" size="small"> Alert </Button> ]}
+        // action={[ <Button color="secondary" size="small"> Alert </Button> ]}
         >
-            {notification && (< Dispatcher notification={notification} />)}
+            <Fragment>
+                {notification && (< Dispatcher notification={notification} />)}
+            </Fragment>
         </SnackbarProvider>
     )
 }
