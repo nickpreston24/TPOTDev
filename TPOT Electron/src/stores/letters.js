@@ -1,8 +1,8 @@
-import { observable, action, computed, decorate, autorun } from 'mobx'
+import { observable, action, decorate } from 'mobx'
 import { db, auth } from '../firebase' 
 import { wp } from '../wordpress'
 import { draft } from '../editor'
-import { convertToRaw, EditorState } from "draft-js";
+import { EditorState } from "draft-js";
 
 class LettersStore {
     constructor(rootStore) {
@@ -79,7 +79,6 @@ class LettersStore {
     }
 
     publishToWordpress = async (html) => {
-        // wp.getCatg()
         console.log(html)
         console.log('published to wordpress')
         const wpCreds = await db.wordpressCredentials
@@ -88,7 +87,7 @@ class LettersStore {
             ? wpCreds
             : null
         wp.createPage(this.wordpressCredentials, {
-            content: this.editorContent,
+            content: html,
             slug: this.publishData.slug,
             title: this.publishData.title,
             excerpt: this.publishData.excerpt,

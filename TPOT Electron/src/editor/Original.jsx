@@ -1,23 +1,12 @@
 import PropTypes from "prop-types";
-import React, { Fragment } from "react";
+import React, { Fragment, Component } from "react";
+import { inject, observer } from "mobx-react";
+import { compose } from "recompose";
 import ReactHtmlParser from "react-html-parser";
 
-import { inject, observer, Provider } from "mobx-react";
-import { observable, action, computed, decorate, autorun } from 'mobx'
-import { compose } from "recompose";
+class Original extends Component {
 
-class Original extends React.Component {
-
-	componentDidMount() {
-		const { lettersStore: store } = this.props
-		// store.setEditorState('edited', EditorState.createEmpty())
-	}
-
-
-	// After the class is constructed and its data is mounted to the React DOM, render() is fired, which takes displays the elements with data from the instance's current state.
 	render() {
-		const { lettersStore: store, classes, editMode } = this.props;
-
 		return (
 			<Fragment>
 				{ReactHtmlParser(this.props.editorStore.originalState)}
@@ -27,13 +16,10 @@ class Original extends React.Component {
 }
 
 Original.propTypes = {
-	// classes: PropTypes.object.isRequired
+	editorStore: PropTypes.object.isRequired
 };
 
 export default compose(
 	inject('editorStore'),
-	// withStyles(MUIstyles),
 	observer
 )(Original);
-
-// export default withStyles(MUIstyles)(Wysiwyg)

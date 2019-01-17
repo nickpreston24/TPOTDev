@@ -7,21 +7,6 @@ import Editor from "draft-js-plugins-editor";
 
 class Draft extends Component {
 
-	componentDidMount() {
-		const { lettersStore: store } = this.props
-
-		window.addEventListener("message", msg => {
-			if (msg.data.event === "draftjs-editor-reload") {
-				this.props.editorStore.loadEditorFromDocx(msg.data.html)
-				// this.reloadEditor(msg.data.html);
-			}
-			if (msg.data.event === "draftjs-editor-get-code") {
-				// this.getCode();
-				// console.log(this.props.editorStore.editorCode)
-			}
-		});
-	}
-
 	onChange = editorState =>
 		this.props.editorStore.onChange(editorState)
 
@@ -30,11 +15,8 @@ class Draft extends Component {
 		if (this.editor) { this.editor.focus(); }
 	};
 
-	// After the class is constructed and its data is mounted to the React DOM, render() is fired, which takes displays the elements with data from the instance's current state.
 	render() {
-		const { classes, editMode } = this.props;
 		const store = { ...this.props.lettersStore, ...this.props.editorStore }
-		console.log(store)
 
 		return (
 			<Fragment>
@@ -62,11 +44,11 @@ class Draft extends Component {
 }
 
 Draft.propTypes = {
-	editorStore: PropTypes.object.isRequired
+	editorStore: PropTypes.object.isRequired,
+	lettersStore: PropTypes.object.isRequired
 };
 
 export default compose(
 	inject('lettersStore', 'editorStore'),
-	// withStyles(MUIstyles),
 	observer
 )(Draft);
