@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react'
-import { observer } from 'mobx-react'
+import { observer, inject } from 'mobx-react'
 import { compose } from 'recompose'
 import classNames from 'classnames';
 import { withStyles } from '@material-ui/core/styles'
@@ -51,15 +51,15 @@ const styles = theme => ({
 })
 
 // Main Class
-const PublishScreen = observer(({ classes, store }) => (
+const PublishScreen = observer(({ classes, store, editorCode }) => (
     <main id="PublishScreen">
         <Dialog open={store.publishModal} onBackdropClick={e => { store.togglePublishModal() }} disablePortal={true} scroll={'body'} classes={{ root: classes.root, container: classes.backdrop, paper: classes.paper }} >
-            <PublishForm classes={classes} store={store} />
+            <PublishForm classes={classes} store={store} editorCode={editorCode} />
         </Dialog>
     </main>
 ))
 
-const PublishForm = ({ classes, store }) => (
+const PublishForm = ({ classes, store, editorCode }) => (
     <Fragment>
         <Typography variant="h4" align="center">Publish</Typography>
         <Grid container spacing={16} alignItems="center">
@@ -68,7 +68,7 @@ const PublishForm = ({ classes, store }) => (
             <InputField half="true" label="Title" onChange={e => { store.setPublishData('title', e.target.value) }} />
             <InputField half="true" label="Slug" onChange={e => { store.setPublishData('slug', e.target.value) }} />
             <InputField label="Excerpt (optional)" onChange={e => { store.setPublishData('excerpt', e.target.value) }} multiline rows={3} helperText="Enter a brief, meaningful description for search results." />
-            <FormButtons classes={classes} store={store} />
+            <FormButtons classes={classes} store={store} editorCode={editorCode} />
         </Grid>
     </Fragment>
 )
@@ -89,13 +89,10 @@ const InputField = (props) => (
         : <Grid item xs={12}><TextField fullWidth variant="outlined" {...props} /></Grid>
 )
 
-const FormButtons = ({ classes, store }) => (
+const FormButtons = ({ classes, store, editorCode }) => (
     <div className={classes.buttons}>
         <Button variant="contained" onClick={this.handleNext} className={classes.button} >Preview</Button>
-        <Button variant="contained" color="primary" onClick={() => {
-            window.postMessage({ event: "draftjs-editor-get-code" }, "*")
-            setTimeout(() => { store.publishToWordpress() }, 500);
-        }} className={classes.button} >Submit</Button>
+        <Button variant="contained" color="primary" onClick={() => store.publishToWordpress(editorCode)} className={classes.button} >Submit</Button>
     </div>
 )
 
@@ -105,6 +102,7 @@ const PublishIcon = ({ classes }) => (
 
 // Main Export
 export default compose(
+    // inject('editorStore'),
     withStyles(styles),
-    // observer
+    observer
 )(PublishScreen)

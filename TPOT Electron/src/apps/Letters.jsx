@@ -25,8 +25,8 @@ class Letters extends React.Component {
         const childProps = { authUser: this.props.authUser }
         return (
             <div className="Letters">
-                <Header color="primary" onUpdate={this.onUpdateHeader} editMode={this.state.editMode} {...childProps} />
-                <Editor editMode={this.state.editMode} />
+                <Header color="primary" onUpdate={this.onUpdateHeader} {...childProps} />
+                <Editor />
                 <PublishScreenContainer/>
             </div>
         )

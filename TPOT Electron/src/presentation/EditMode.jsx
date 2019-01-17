@@ -1,6 +1,11 @@
-import React from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
+
+import { inject, observer, Provider } from "mobx-react";
+import { observable, action, computed, decorate, autorun, toJS } from 'mobx'
+import { compose } from "recompose";
+
 
 import CodeIcon from '@material-ui/icons/Code'
 import FileIcon from '@material-ui/icons/InsertDriveFileOutlined'
@@ -60,7 +65,7 @@ const styles = theme => ({
 
 });
 
-class EditMode extends React.Component {
+class EditMode extends Component {
     constructor(props) {
         super(props)
 
@@ -89,6 +94,9 @@ class EditMode extends React.Component {
     }
 
     handleChange = (e, tab) => {
+        // console.log(e, tab)
+        // console.log(this.props.lettersStore.setEditMode)
+        this.props.lettersStore.setEditMode(tab)
         this.setState({ currentTab: tab }); // update self
         let editMode
         switch (tab) {
@@ -109,25 +117,23 @@ class EditMode extends React.Component {
     };
 
     render() {
-        const { classes } = this.props;
+        const { editorStore: store, classes } = this.props;
 
         return (
-
-                <Tabs
-                    classes={{ root: classes.tabsRoot, indicator: classes.indicator }}
-                    value={this.state.currentTab}
-                    onChange={this.handleChange}
-                    onClick={this.getCodeFromEditor}
-                    fullWidth
-                    indicatorColor="primary"
-                    textColor="inherit"
-                >
-                    {this.tabs.map((tab) => {
-                        return (
-                            <Tab classes={{ root: classes.tabRoot, selected: classes.selected }} icon={tab.icon} label={tab.name} key={Math.random(tab.name)} />
-                        );
-                    })}
-                </Tabs>
+            <Tabs
+                classes={{ root: classes.tabsRoot, indicator: classes.indicator }}
+                value={store.editModeKey}
+                onChange={(e, tab)=> store.setEditMode(e, tab)}
+                fullWidth
+                indicatorColor="primary"
+                textColor="inherit"
+            >
+                {this.tabs.map((tab) => {
+                    return (
+                        <Tab classes={{ root: classes.tabRoot, selected: classes.selected }} icon={tab.icon} label={tab.name} key={Math.random(tab.name)} />
+                    );
+                })}
+            </Tabs>
         );
     }
 }
@@ -136,4 +142,10 @@ EditMode.propTypes = {
     classes: PropTypes.object,
 };
 
-export default withStyles(styles)(EditMode);
+// export default withStyles(styles)(EditMode);
+
+export default compose(
+	inject('editorStore'),
+	withStyles(styles),
+	observer
+)(EditMode);
