@@ -1,6 +1,6 @@
-import decorateComponentWithProps from 'decorate-component-with-props';
+// import decorateComponentWithProps from 'decorate-component-with-props';
 import createStyles from 'draft-js-custom-styles';
-import createStore from './utils/createStore';
+// import createStore from './utils/createStore';
 import MuiToolbar from './components/MuiToolbar'
 import React from 'react'
 import { configure } from 'mobx'

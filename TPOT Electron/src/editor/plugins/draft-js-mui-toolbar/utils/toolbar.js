@@ -28,12 +28,45 @@ class ToolbarStore {
         return this.state[key];
     }
 
+    inlineOrigin = {}
+    inlineSize = {}
+    inlineOffset = {}
+    inlineVisible = false
+    blockOrigin = {}
+    blockSize = {}
+    blockOffset = {}
+    blockVisible = false
+
+    setStyleProp = (prop, style) => {
+        // console.log(prop, style)
+        this[prop] = style
+    }
+
+    get inlineStyle() {
+        return {...this.inlineOrigin, ...this.inlineOffset}
+    }
+
+    get blockStyle() {
+        return {...this.blockOrigin, ...this.blockOffset}
+    }
+
 }
 
 export default decorate(
     ToolbarStore, {
         state: observable,
         listeners: observable,
+        inlineOrigin: observable,
+        inlineSize: observable,
+        inlineOffset: observable,
+        inlineVisible: observable,
+        blockOrigin: observable, 
+        blockSize: observable,
+        blockOffset: observable,
+        blockVisible: observable,
+        setStyleProp: action,
+        inlineStyle: computed,
+        blockStyle: computed,
         subscribeToItem: action,
         unsubscribeFromItem: action,
         updateItem: action,
