@@ -32,14 +32,14 @@ class InlineStyleButton extends Component {
     preventBubblingUp = (event) => { event.preventDefault(); }
 
     // we check if this.props.getEditorstate is undefined first in case the button is rendered before the editor
-    // styleIsActive = () => this.props.getEditorState && this.props.getEditorState().getCurrentInlineStyle().has(this.props.styleType);
+    styleIsActive = () => this.props.getEditorState && this.props.getEditorState().getCurrentInlineStyle().has(this.props.styleType);
 
     render() {
         const { classes, name } = this.props;
         return (
             <div id={name} onMouseDown={this.preventBubblingUp} >
                 <Button
-                    // className={classNames(classes.root, this.styleIsActive() && classes.active)}
+                    className={classNames(classes.root, this.styleIsActive() && classes.active)}
                     children={this.props.children}
                     onClick={this.toggleStyle}
                 />

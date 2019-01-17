@@ -5,7 +5,7 @@ import classNames from 'classnames';
 import { getVisibleSelectionRect } from 'draft-js';
 import DraftOffsetKey from 'draft-js/lib/DraftOffsetKey';
 // React
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 import AlignCenterButton from './AlignCenterButton';
 import AlignLeftButton from './AlignLeftButton';
 import BoldButton from './BoldButton';
@@ -18,6 +18,8 @@ import MoreButton from './MoreButton';
 import PageBreakButton from './PageBreakButton';
 import QuoteButton from './QuoteButton';
 import UnderlineButton from './UnderlineButton';
+import { compose } from 'recompose';
+import { inject } from 'mobx-react';
 
 
 const styles = theme => ({
@@ -32,13 +34,18 @@ const styles = theme => ({
         borderRadius: 20,
     },
     inlineToolbar: {
-        padding: `${0}px ${8}px`,
+        // padding: `${0}px ${8}px`,
+        minWidth: 400,
+        maxWidth: 400,
+        minHeight: 40,
+        maxHeight: 40,
+        overflow: 'hidden',
         "& *": {
             float: "left",
         }
     },
     blockToolbar: {
-        padding: `${0}px ${8}px`,
+        // padding: `${0}px ${8}px`,
         "& *": {
             float: "left",
         }
@@ -141,8 +148,10 @@ class MuiToolbar extends Component {
             customStyleFunctions: store.getItem('customStyleFunctions'),
         };
 
+        console.log('PROPS', this.props)
+
         return (
-            <React.Fragment>
+            <Fragment>
                 <div id={"MUI Inline Toolbar"} className={classNames(classes.root, classes.inlineToolbar)} ref={this.handleToolbarRef} style={this.state.inlineStyle} >
                     <BoldButton {...childrenProps} />
                     <ItalicButton {...childrenProps} />
@@ -172,7 +181,7 @@ class MuiToolbar extends Component {
                     <UnorderedListButton {...childrenProps} />
                     <CheckListButton {...childrenProps} />  */}
                 </div>
-            </React.Fragment>
+            </Fragment>
         )
     }
 
@@ -182,4 +191,8 @@ class MuiToolbar extends Component {
 //     classes: PropTypes.object.isRequired,
 // };
 
-export default withStyles(styles)(MuiToolbar);
+export default compose(
+    inject('toolbarStore'),
+    withStyles(styles)
+)(MuiToolbar)
+
