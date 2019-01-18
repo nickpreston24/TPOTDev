@@ -12,13 +12,10 @@ import { toJS } from 'mobx';
 const styles = theme => ({
     root: {
         position: "absolute",
-        display: "block",
-        visibility: "visible",
-        // transform: 'translate(-50%) scale(0)',
-        // transition: 'transform 0.15s cubic-bezier(.3,1.2,.2,1)',
-        // background: theme.palette.secondary.light,
-        // boxShadow: "0px 1px 5px 0px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 3px 1px -2px rgba(0, 0, 0, 0.12)",
-        // borderRadius: 20,
+        border: '2px solid magenta',
+        height: 2,
+        width: 2,
+        overflow: 'visible',
     },
 });
 
@@ -33,10 +30,10 @@ class MuiToolbar extends Component {
     }
 
     onSelectionChanged = () => {
-        // need to wait a tick for window.getSelection() to be accurate when focusing editor with already present selection
         setTimeout(() => {
-            const { store } = this.props; // Get the Store from the Parent plugin script (which passes DraftJS props to this component)
-            // if (!this.inlineToolbar || !this.blockToolbar) return;
+            const { store } = this.props;
+            if (!store.inlineRef) return;
+            if (!store.blockRef) return;
             const editorRef = store.getItem('getEditorRef')();
             if (!editorRef) return;
             // this keeps backwards-compatibility with react 15
@@ -45,46 +42,25 @@ class MuiToolbar extends Component {
             while (editorRoot.className.indexOf('DraftEditor-root') === -1) {
                 editorRoot = editorRoot.parentNode;
             }
-            // Get Dimensions to Calculate Positions
+            store.setStyleProp('editorRoot', editorRoot)
             const editorState = store.getItem('getEditorState')();
             const selection = editorState.getSelection();
             const currentContent = editorState.getCurrentContent();
-            const editorRootRect = editorRoot.getBoundingClientRect();
+            const editorRootRect = editorRoot.getBoundingClientRect(); //
             const currentBlock = currentContent.getBlockForKey(selection.getStartKey());
             const offsetKey = DraftOffsetKey.encode(currentBlock.getKey(), 0, 0);
-            const currentBlockNode = document.querySelectorAll(`[data-offset-key="${offsetKey}"]`)[0];
-            const selectionRect = getVisibleSelectionRect(window);
-            const extraTopOffset = -7;
+            const currentBlockNode = document.querySelectorAll(`[data-offset-key="${offsetKey}"]`)[0]; //
+            const selectionRect = getVisibleSelectionRect(window); //
+            store.setStyleProp('editorRootRect', editorRootRect)
+            store.setStyleProp('currentBlockNode', currentBlockNode)
+            store.setStyleProp('selectionRect', selectionRect)
             if (!selectionRect) return;
             if (!currentBlockNode) return;
-            // Create new Positions (Inline and Block Toolbars)
-            const inlinePosition = {
-                top: (editorRoot.offsetTop)
-                    // - this.inlineToolbar.offsetHeight
-                    + (selectionRect.top - editorRootRect.top)
-                    + extraTopOffset,
-                left: editorRoot.offsetLeft
-                    + (selectionRect.left - editorRootRect.left)
-                    + (selectionRect.width / 2)
-            };
-            const blockPosition = {
-                top: currentBlockNode.offsetTop
-                    + (currentBlockNode.offsetHeight / 2),
-                // - (this.blockToolbar.offsetHeight / 2),
-                left: editorRoot.offsetLeft
-                    // - (this.blockToolbar.offsetWidth / 2)
-                    - 40
-            };
-            // Calculate Inline Style(s) based on Selection State
             const inlineVisible = (!selection.isCollapsed() && selection.getHasFocus());
             const blockVisible = (selection.isCollapsed());
-            // Push Store Updates
-            store.setStyleProp('inlineOrigin', inlinePosition)
-            store.setStyleProp('blockOrigin', blockPosition)
             store.setStyleProp('inlineVisible', inlineVisible)
             store.setStyleProp('blockVisible', blockVisible)
-            // this.setState({ inlineStyle, blockStyle, inlineVisible })
-        }, 200); // Necessary delay between inline and block toolbar switching. (prevents double-tap highlight render flickering)
+        }, 200); // Necessary delay between inline and block toolbar switching for accurate selection and rendering
     };
 
     render() {
