@@ -12,10 +12,10 @@ import { toJS } from 'mobx';
 const styles = theme => ({
     root: {
         position: "absolute",
-        border: '2px solid magenta',
-        height: 2,
-        width: 2,
-        overflow: 'visible',
+        // border: '2px solid magenta',
+        // height: 2,
+        // width: 2,
+        // overflow: 'visible',
     },
 });
 
