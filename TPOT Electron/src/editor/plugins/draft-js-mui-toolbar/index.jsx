@@ -1,13 +1,19 @@
-import decorateComponentWithProps from 'decorate-component-with-props';
+// import decorateComponentWithProps from 'decorate-component-with-props';
 import createStyles from 'draft-js-custom-styles';
-import createStore from './utils/createStore';
+// import createStore from './utils/createStore';
 import MuiToolbar from './components/MuiToolbar'
+import React from 'react'
+import { configure } from 'mobx'
+import { Provider } from 'mobx-react';
+import ToolbarStore from './utils/toolbar'
 
-const createMuiToolbarPlugin = (config) => {
+configure({ enforceActions: "observed" })
 
-    const store = createStore();
+const createMuiToolbarPlugin = () => {
 
-    return {
+    const store = new ToolbarStore()
+
+    return { 
         initialize: ({ getEditorState, setEditorState, getEditorRef, getProps }) => {
             const PREFIX = 'CUSTOM_'
             const { styles } = createStyles(['font-size', 'color', 'background'], PREFIX);
@@ -22,8 +28,11 @@ const createMuiToolbarPlugin = (config) => {
             store.updateItem('selection', editorState.getSelection());
             return editorState;
         },
-        MuiToolbar: decorateComponentWithProps(MuiToolbar, { store, config })
-    };
+        
+        MuiToolbar: () => <Provider store={store}>
+                             <MuiToolbar />
+                          </Provider>
+};
 };
 
 export default createMuiToolbarPlugin

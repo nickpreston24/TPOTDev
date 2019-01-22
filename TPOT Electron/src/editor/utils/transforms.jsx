@@ -471,7 +471,7 @@ const createBlockRenderers = (editorState, contentState, exporter) => {
                 };
             }
         },
-        defaultBlockTag: 'p',
+        // defaultBlockTag: 'div',
         blockRenderers: {},
         inlineStyles: exporter(editorState),
     }

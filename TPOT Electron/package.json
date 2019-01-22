@@ -169,9 +169,7 @@
             "installerHeaderIcon": "public/defaultIcon.ico",
             "installerSidebar": "public/installerSidebar.bmp",
             "uninstallerSidebar": "public/uninstallerSidebar.bmp"
-        }, 
-        "dmg" : {
-            
-        }
+        },
+        "dmg": {}
     }
 }
