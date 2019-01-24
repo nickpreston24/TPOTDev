@@ -70,6 +70,7 @@ class CustomStyleButton extends Component {
 
     render() {
         const { classes, name } = this.props;
+        console.log(this.props)
         return (
             <div id={name} onMouseDown={this.preventBubblingUp} >
                 <Button

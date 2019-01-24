@@ -56,7 +56,8 @@ class MuiToolbar extends Component {
             store.setStyleProp('selectionRect', selectionRect)
             if (!selectionRect) return;
             if (!currentBlockNode) return;
-            const inlineVisible = (!selection.isCollapsed() && selection.getHasFocus());
+            // const inlineVisible = (!selection.isCollapsed() && selection.getHasFocus());
+            const inlineVisible = (!selection.isCollapsed());
             const blockVisible = (selection.isCollapsed());
             store.setStyleProp('inlineVisible', inlineVisible)
             store.setStyleProp('blockVisible', blockVisible)
