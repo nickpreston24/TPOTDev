@@ -3,6 +3,7 @@ import { withStyles } from '@material-ui/core/styles';
 import CustomStyleButton from '../utils/CustomStyleButton';
 import { inject, observer } from 'mobx-react';
 import { compose } from 'recompose';
+import ColorPalette from './ColorPalette'
 
 const styles = theme => ({
     root: {
@@ -17,8 +18,8 @@ const ColorButton = (props) => (
         customType={'color'}
         name={'Color Button'}
         className={props.classes.root}
-        popup={'test'}
-        customPalette={[
+        palette={ColorPalette}
+        paletteItems={[
             '#000000', '#660000', '#990066', '#FFC000', '#00DBA8',
             '#660066', '#336600', '#717171', '#6033F1', '#0000FF',
             '#E00000', '#000099', '#ED7D31', '#0080FF', '#FFFFFF',

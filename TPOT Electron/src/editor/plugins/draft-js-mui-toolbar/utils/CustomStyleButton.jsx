@@ -1,18 +1,19 @@
 import React, { Component } from 'react';
 import { withStyles } from '@material-ui/core/styles';
-import Button from '@material-ui/core/Button';
+// import Button from '@material-ui/core/Button';
 import Popover from '@material-ui/core/Popover';
 import classNames from 'classnames';
 import { compose } from "recompose";
 import { inject, observer, Provider } from "mobx-react";
+import ButtonPlus from './ButtonPlus'
 
 const MuiStyles = theme => ({
     root: {
         color: theme.palette.secondary.textDark,
-        minWidth: 40,
-        maxWidth: 40,
-        minHeight: 40,
-        maxHeight: 40,
+        // minWidth: 40,
+        // maxWidth: 40,
+        // minHeight: 40,
+        // maxHeight: 40,
     },
     active: {
         color: theme.palette.accent,
@@ -30,6 +31,7 @@ class CustomStyleButton extends Component {
     preventBubblingUp = (event) => { event.preventDefault(); }
 
     toggleStyle = async (event, value) => {
+        console.log('CLICK')
         event.preventDefault();
 
         const PREFIX = this.props.customStylePrefix
@@ -51,34 +53,72 @@ class CustomStyleButton extends Component {
             )
         );
 
+        this.props.store.setStyleProp('menuOpen', false)
+
     }
 
 
     handleParentButton = (event) => {
-        this.setState({
-            anchorEl: event.currentTarget,
-            paletteOpen: true
-         });
+        event.preventDefault();
+
+        this.props.store.setStyleProp('menuOpen', true)
     };
 
+    handleChildButton = (event) => {
+        // event.preventDefault();
+        console.log('child')
+
+        this.toggleStyle()
+        this.props.store.setStyleProp('menuOpen', false)
+    };
+
+    handleRef = (element) => {
+        this.setState({ anchorEl: element })
+    }
+
     handleClose = () => {
-        this.setState({paletteOpen: false})
+        this.setState({ paletteOpen: false })
     }
 
     // we check if this.props.getEditorstate is undefined first in case the button is rendered before the editor
-    styleIsActive = () => this.props.getEditorState && this.props.getEditorState().getCurrentInlineStyle().has(`${this.props.customStylePrefix}${this.props.customType.toUpperCase()}_${this.props.customPalette[0].toUpperCase()}`)
+    styleIsActive = () => this.props.getEditorState && !!this.props.paletteItems && this.props.getEditorState().getCurrentInlineStyle().has(`${this.props.customStylePrefix}${this.props.customType.toUpperCase()}_${this.props.paletteItems[0].toUpperCase()}`)
 
     render() {
         const { classes, name } = this.props;
-        console.log(this.props)
+        const Palette = this.props.palette
+        console.log(this.props.paletteItems)
+
+
+        // this.props.store.setStyleProp('menuOpen', true)
+
+        // this.props.store.inlineRef.focus()
+        // this.props.store.setStyleProp()
+        // console.log(this.props.store.inlineRef)
         return (
-            <div id={name} onMouseDown={this.preventBubblingUp} >
-                <Button
+            <div id={name} onMouseDown={this.preventBubblingUp} ref={this.handleRef} >
+                {/* If this is a single function button */}
+                <ButtonPlus
                     className={classNames(classes.root, this.styleIsActive() && classes.active)}
                     children={this.props.children}
                     onClick={this.handleParentButton}
-                />
-                <Popover
+
+                >{this.props.children}</ButtonPlus>
+
+                {/* If this is a multi-function palette opening button */}
+                {this.props.palette &&
+                    <Palette
+                        open={this.state.paletteOpen}
+                        anchorEl={this.state.anchorEl}
+                    >
+                        {this.props.paletteItems.map((swatch, index) => {
+                            return (
+                                <ButtonPlus key={index} onClick={(e)=> this.toggleStyle(e, swatch)} style={{background: swatch}}></ButtonPlus>
+                            );
+                        })}
+                    </Palette>
+                }
+
+                {/* <Popover
                     anchorEl={this.state.anchorEl}
                     open={this.state.paletteOpen}
                     onClose={this.handleClose}
@@ -93,10 +133,10 @@ class CustomStyleButton extends Component {
                 >
                     {this.props.customPalette.map((entry, index) => {
                         return (
-                            <Button key={index} style={{background: `${entry}`, minWidth: 40, maxWidth: 40, borderRadius: 20}} onClick={(e) => this.toggleStyle(e, entry)}></Button>
+                            <ButtonPlus key={index} style={{background: `${entry}`, minWidth: 40, maxWidth: 40, borderRadius: 20}} onClick={(e) => this.toggleStyle(e, entry)}></ButtonPlus>
                         );
                     })}
-                </Popover>
+                </Popover> */}
             </div>
         );
     }
@@ -105,7 +145,7 @@ class CustomStyleButton extends Component {
 // export default withStyles(MuiStyles)(CustomStyleButton);
 
 export default compose(
-	inject('editorStore'),
-	withStyles(MuiStyles),
-	observer
+    inject('editorStore', 'store'),
+    withStyles(MuiStyles),
+    observer
 )(CustomStyleButton);
