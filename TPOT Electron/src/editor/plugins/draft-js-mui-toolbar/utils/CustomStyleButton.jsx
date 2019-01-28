@@ -6,6 +6,7 @@ import classNames from 'classnames';
 import { compose } from "recompose";
 import { inject, observer, Provider } from "mobx-react";
 import ButtonPlus from './ButtonPlus'
+import { toJS } from 'mobx';
 
 const MuiStyles = theme => ({
     root: {
@@ -26,6 +27,7 @@ class CustomStyleButton extends Component {
     state = {
         anchorEl: null,
         paletteOpen: false,
+        ref: null,
     };
 
     preventBubblingUp = (event) => { event.preventDefault(); }
@@ -59,8 +61,10 @@ class CustomStyleButton extends Component {
 
 
     handleParentButton = (event) => {
-        event.preventDefault();
-
+        // event.preventDefault();
+        // console.log(event)
+        // console.log(this.state.anchorEl)
+        this.props.store.setStyleProp('menuCurrent', this.state.anchorEl)
         this.props.store.setStyleProp('menuOpen', true)
     };
 

@@ -45,6 +45,7 @@ class ToolbarStore {
     blockVisible = false
 
     menuOpen = false
+    menuCurrent = null
 
     editorRoot
     editorRootRect
@@ -149,6 +150,7 @@ export default decorate(
         listeners: observable,
 
         menuOpen: observable,
+        menuCurrent: observable,
 
         inlineRef: observable,
         inlineSize: observable,

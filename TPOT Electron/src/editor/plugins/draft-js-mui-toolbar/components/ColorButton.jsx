@@ -1,31 +1,20 @@
-import React, { Component } from 'react';
-import { withStyles } from '@material-ui/core/styles';
+import React from 'react';
+import { observer } from 'mobx-react';
 import CustomStyleButton from '../utils/CustomStyleButton';
-import { inject, observer } from 'mobx-react';
-import { compose } from 'recompose';
-import ColorPalette from './ColorPalette'
+import ColorPalette from './ColorPalette';
 
-const styles = theme => ({
-    root: {
-        padding: 0,
-        color: `4px solid ${theme.palette.accent}`
-    }
-});
-
-const ColorButton = (props) => (
+const ColorButton = observer((props) => (
     <CustomStyleButton
         {...props}
-        customType={'color'}
-        name={'Color Button'}
-        className={props.classes.root}
         palette={ColorPalette}
+        name={'Color Button'}
+        customType={'color'}
         paletteItems={[
             '#000000', '#660000', '#990066', '#FFC000', '#00DBA8',
             '#660066', '#336600', '#717171', '#6033F1', '#0000FF',
             '#E00000', '#000099', '#ED7D31', '#0080FF', '#FFFFFF',
         ]}
     >
-
         <svg width="24" height="24" xmlns="http://www.w3.org/2000/svg">
             <path id="drop" fill={'#C2C6D7'} d="M19,17c1.1,0,2-0.9,2-2c0-1.3-2-3.5-2-3.5s-2,2.2-2,3.5C17,16.1,17.9,17,19,17z" />
             <path id="fill" fill={'#3c3c3c'} d="M13.4,11.4c-1.9-1.7-4.8-0.3-7.1-1L5.2,10l4.8,4.7L13.4,11.4z" />
@@ -40,12 +29,7 @@ const ColorButton = (props) => (
                 </linearGradient>
             </defs>
         </svg>
-
     </CustomStyleButton>
-)
+))
 
-export default compose(
-    // inject('store'),
-    withStyles(styles),
-    observer
-)(ColorButton)
+export default ColorButton

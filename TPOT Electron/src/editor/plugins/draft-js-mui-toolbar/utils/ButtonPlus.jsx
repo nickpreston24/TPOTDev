@@ -7,7 +7,7 @@ import Button from '@material-ui/core/Button';
 
 const styles = theme => ({
     root: {
-        // padding: 0,
+        padding: 0,
         minWidth: 40,
         maxWidth: 40,
         minHeight: 40,

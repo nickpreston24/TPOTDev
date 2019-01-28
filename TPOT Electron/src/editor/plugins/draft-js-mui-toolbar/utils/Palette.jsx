@@ -38,7 +38,17 @@ class Palette extends Component {
 
         // console.log(store.inlineOffset)
         let style = {}
+        let visible = false
+        if (!!this.props.anchorEl && !!this.props.store.menuCurrent) {
+            visible = this.props.anchorEl.id === this.props.store.menuCurrent.id
+        }
         // !!store.inlineOffset
+        this.props.anchorEl && console.log(this.props.anchorEl.id)
+        console.log(this.props.anchorEl)
+        console.log(this.props.store.menuCurrent)
+        console.log('render', visible)
+
+
         if (!!this.props.anchorEl) {
             style = {
                 left: this.props.anchorEl.offsetLeft + (this.props.anchorEl.offsetWidth / 2),
@@ -52,7 +62,7 @@ class Palette extends Component {
         // this.props.anchorEl && console.log(this.props.anchorEl.offsetHeight)
         return (
             <Fragment>
-                {this.props.store.menuOpen &&
+                {(this.props.store.menuOpen && visible) &&
                     <ClickAwayListener onClickAway={this.handleClickAway} >
                     <div className={this.props.classes.fake} style={style}>
                             {this.props.children}

@@ -1,16 +1,23 @@
-import React, { Component } from 'react';
-import CustomStyleButton from '../utils/CustomStyleButton';
+import React from 'react';
+import { observer } from 'mobx-react';
 import Icon from 'mdi-material-ui/GreasePencil'
+import CustomStyleButton from '../utils/CustomStyleButton';
+import ColorPalette from './ColorPalette';
 
-export default class HighlightButton extends Component {
-    render() {
-        return (
-            <CustomStyleButton {...this.props} customType={'background'} customPalette={[
-                '#FFFFFF', '#FFF4A3', '#FFA3D5', '#A3D4FF', '#BDFFA3',
-            ]} name={'Highlight Button'} >
-                <Icon />
-            </CustomStyleButton>
-        );
-    }
-}
+const HighlightButton = observer((props) => (
+    <CustomStyleButton
+        {...props}
+        palette={ColorPalette}
+        name={'Highlight Button'}
+        customType={'background'}
+        paletteItems={[
+            '#FFFFFF', '#FFF4A3', '#FFA3D5', '#A3D4FF', '#BDFFA3',
+        ]}
+    >
+        <Icon />
+    </CustomStyleButton>
+))
+
+export default HighlightButton
+
 
