@@ -1,17 +1,11 @@
 import React, { Component, Fragment } from 'react';
 import { withStyles } from '@material-ui/core/styles';
-import CustomStyleButton from '../utils/CustomStyleButton';
-import { inject, observer } from 'mobx-react';
 import { compose } from 'recompose';
-import { Popover } from '@material-ui/core';
+import { inject, observer } from 'mobx-react';
 import ClickAwayListener from '@material-ui/core/ClickAwayListener';
 
 const styles = theme => ({
     root: {
-        // padding: 0,
-        color: `4px solid ${theme.palette.accent}`
-    },
-    fake: {
         boxShadow: "0px 1px 5px 0px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 3px 1px -2px rgba(0, 0, 0, 0.12)",
         position: 'absolute',
         top: 0,
@@ -26,50 +20,42 @@ const styles = theme => ({
 
 class Palette extends Component {
 
-    state = {
-        open: this.props.open
-    }
-
     handleClickAway = () => {
         this.props.store.setStyleProp('menuOpen', false)
     };
 
-    render() {
-
-        // console.log(store.inlineOffset)
-        let style = {}
-        let visible = false
+    isVisible = () => {
         if (!!this.props.anchorEl && !!this.props.store.menuCurrent) {
-            visible = this.props.anchorEl.id === this.props.store.menuCurrent.id
+            return this.props.anchorEl.id === this.props.store.menuCurrent.id
+        } else {
+            return false
         }
-        // !!store.inlineOffset
-        this.props.anchorEl && console.log(this.props.anchorEl.id)
-        console.log(this.props.anchorEl)
-        console.log(this.props.store.menuCurrent)
-        console.log('render', visible)
+    }
 
-
+    getStyle = () => {
         if (!!this.props.anchorEl) {
-            style = {
+            return {
                 left: this.props.anchorEl.offsetLeft + (this.props.anchorEl.offsetWidth / 2),
                 top: this.props.anchorEl.offsetHeight,
                 height: this.props.height,
                 width: this.props.width,
             }
         }
-        console.log(style)
+    }
 
-        // this.props.anchorEl && console.log(this.props.anchorEl.offsetHeight)
+    render() {
+        const { handleClickAway } = this
+        const { classes, children } = this.props
+        const { menuOpen } = this.props.store
         return (
             <Fragment>
-                {(this.props.store.menuOpen && visible) &&
-                    <ClickAwayListener onClickAway={this.handleClickAway} >
-                    <div className={this.props.classes.fake} style={style}>
-                            {this.props.children}
-                            <button onClick={this.handleClickAway}>Click Me</button>
+                {(menuOpen && this.isVisible()) &&
+                    <ClickAwayListener onClickAway={handleClickAway} >
+                        <div className={classes.root} style={this.getStyle()}>
+                            {children}
                         </div>
-                        </ClickAwayListener>
-                    }
+                    </ClickAwayListener>
+                }
             </Fragment>
 
         )
