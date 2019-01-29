@@ -34,8 +34,18 @@ class Palette extends Component {
 
     getStyle = () => {
         if (!!this.props.anchorEl) {
+            const left = this.props.anchorEl.offsetLeft
+            const fullWidth = this.props.width
+            const halfWidth = fullWidth / 2
+            const buttonHalf = this.props.anchorEl.clientWidth / 2
+            const container = 400
+            const buffer = 20
+            console.log('left', left)
+            console.log('width', fullWidth)
+            console.log('half', halfWidth)
             return {
-                left: this.props.anchorEl.offsetLeft + (this.props.anchorEl.offsetWidth / 2),
+                carrotLeft: left,
+                left: (left < halfWidth) ? buffer : (left > container - fullWidth + buttonHalf ) ? (container - fullWidth - buffer) : (left - halfWidth + buttonHalf),
                 top: this.props.anchorEl.offsetHeight,
                 height: this.props.height,
                 width: this.props.width,
@@ -47,11 +57,13 @@ class Palette extends Component {
         const { handleClickAway } = this
         const { classes, children } = this.props
         const { menuOpen } = this.props.store
+        const style = this.getStyle()
+        const carrotStyle = !!style ? { top: style.top, left: style.carrotLeft } : { top: 40, left: 0}
         return (
             <Fragment>
                 {(menuOpen && this.isVisible()) &&
                     <ClickAwayListener onClickAway={handleClickAway} >
-                        <div className={classes.root} style={this.getStyle()}>
+                        <div className={classes.root} style={style}>
                             {children}
                         </div>
                     </ClickAwayListener>

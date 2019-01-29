@@ -11,17 +11,17 @@ const styles = theme => ({
     root: {
         // padding: 0,
         color: `4px solid ${theme.palette.accent}`,
-        maxWidth: 200,
+        maxWidth: 150,
         // border: '1px solid red',
         '& button': {
             borderRadius: 20,
             margin: 4,
             padding: 0,
-            minWidth: 30,
-            maxWidth: 30,
-            minHeight: 30,
-            maxHeight: 30,
-            boxShadow: "0px 1px 2px 0px rgba(0, 0, 0, 0.2)",
+            minWidth: 20,
+            maxWidth: 20,
+            minHeight: 20,
+            maxHeight: 20,
+            boxShadow: "0px 1px 3px 0px rgba(0, 0, 0, 0.3)",
         }
     }
 });
@@ -32,16 +32,17 @@ const ColorPalette = (props) => (
     <Palette
         open={props.open}
         anchorEl={props.anchorEl}
-        height={180}
-        width={200}
+        height={150}
+        width={150}
         >
         {/* <h1>Title</h1> */}
         {/* <h6>caption</h6> */}
+        <Grid item>Color</Grid>
         <Grid
             className={props.classes.root}
             container
             direction="row"
-            justify="flex-start"
+            justify="space-evenly"
             alignItems="flex-start"
         // xs={3}
         >

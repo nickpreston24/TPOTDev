@@ -11,8 +11,8 @@ const ColorButton = observer((props) => (
         customType={'color'}
         paletteItems={[
             '#000000', '#660000', '#990066', '#FFC000', '#00DBA8',
-            '#660066', '#336600', '#717171', '#6033F1', '#0000FF',
-            '#E00000', '#000099', '#ED7D31', '#0080FF', '#FFFFFF',
+            '#660066', '#336600', '#FFFFFF', '#6033F1', '#0000FF',
+            '#E00000', '#000099', '#ED7D31', '#0080FF', '#717171',
         ]}
     >
         <svg width="24" height="24" xmlns="http://www.w3.org/2000/svg">
