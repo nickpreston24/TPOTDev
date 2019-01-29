@@ -1,7 +1,6 @@
-import React, { Component } from 'react';
+import React, { Fragment } from 'react';
 import { withStyles } from '@material-ui/core/styles';
-import CustomStyleButton from './CustomStyleButton';
-import { inject, observer } from 'mobx-react';
+import { observer } from 'mobx-react';
 import { compose } from 'recompose';
 import Button from '@material-ui/core/Button';
 
@@ -17,20 +16,14 @@ const styles = theme => ({
     }
 });
 
-const ButtonPlus = (props) => {
-    // console.log(props)
-    return (
-        <Button {...props}>
-            {/* {props.palette && (
-                <p>{props.palette}</p>
-            )} */}
+const ButtonPlus = (props) =>
+    <Button {...props}>
+        <Fragment>
             {props.children}
-        </Button>
-    )
-}
+        </Fragment>
+    </Button>
 
 export default compose(
-    // inject('store'),
     withStyles(styles),
     observer
 )(ButtonPlus)

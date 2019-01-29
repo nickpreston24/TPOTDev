@@ -47,14 +47,13 @@ class MuiToolbar extends Component {
     render() {
         const { classes, store, childProps } = this.props;
 
-        console.log('visible', store.inlineVisible)
-        console.log('menu', store.menuOpen)
-        console.log('render', store.renderInline)
+        // console.log('visible', store.inlineVisible)
+        // console.log('menu', store.menuOpen)
+        // console.log('render', store.renderInline)
         // console.log(store.inlineOffset)
-        let style = {visibility: 'visible'}
+        // let style = {visibility: 'visible'}
         // !!store.inlineOffset
-        style = {
-            ...style,
+        const style = {
             ...store.inlineOffset
         }
         // console.log(style)

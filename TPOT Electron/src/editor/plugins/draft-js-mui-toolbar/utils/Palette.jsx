@@ -15,6 +15,16 @@ const styles = theme => ({
         width: 80,
         display: 'block',
         zIndex: 30,
+        borderTop: '6px solid #373940',
+        borderRadius: 6,
+    },
+    carrot: {
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        maxHeight: 10,
+        maxWidth: 20,
+        zIndex: 31,
     }
 });
 
@@ -27,8 +37,6 @@ class Palette extends Component {
     isVisible = () => {
         if (!!this.props.anchorEl && !!this.props.store.menuCurrent) {
             return this.props.anchorEl.id === this.props.store.menuCurrent.id
-        } else {
-            return false
         }
     }
 
@@ -40,15 +48,15 @@ class Palette extends Component {
             const buttonHalf = this.props.anchorEl.clientWidth / 2
             const container = 400
             const buffer = 20
-            console.log('left', left)
-            console.log('width', fullWidth)
-            console.log('half', halfWidth)
+            const padding = 6
+            const knurl = 4
             return {
-                carrotLeft: left,
-                left: (left < halfWidth) ? buffer : (left > container - fullWidth + buttonHalf ) ? (container - fullWidth - buffer) : (left - halfWidth + buttonHalf),
-                top: this.props.anchorEl.offsetHeight,
+                top: this.props.anchorEl.offsetHeight + padding + knurl,
+                left: (left < halfWidth) ? buffer : (left > container - fullWidth + buttonHalf) ? (container - fullWidth - buffer) : (left - halfWidth + buttonHalf),
                 height: this.props.height,
                 width: this.props.width,
+                carrotTop: this.props.anchorEl.offsetHeight + knurl - 1,
+                carrotLeft: left + buttonHalf / 2,
             }
         }
     }
@@ -58,7 +66,7 @@ class Palette extends Component {
         const { classes, children } = this.props
         const { menuOpen } = this.props.store
         const style = this.getStyle()
-        const carrotStyle = !!style ? { top: style.top, left: style.carrotLeft } : { top: 40, left: 0}
+        const carrotStyle = !!style && { top: style.carrotTop, left: style.carrotLeft }
         return (
             <Fragment>
                 {(menuOpen && this.isVisible()) &&
@@ -66,6 +74,9 @@ class Palette extends Component {
                         <div className={classes.root} style={style}>
                             {children}
                         </div>
+                        <svg className={classes.carrot} style={carrotStyle} xmlns="http://www.w3.org/2000/svg">
+                            <path id="splash" fill={'#373940'} d="M 10 0 L 20 10 L 0 10 " />
+                        </svg>
                     </ClickAwayListener>
                 }
             </Fragment>

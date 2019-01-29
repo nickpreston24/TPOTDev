@@ -2,12 +2,12 @@ import React from 'react';
 import { observer } from 'mobx-react';
 import Icon from 'mdi-material-ui/GreasePencil'
 import CustomStyleButton from '../utils/CustomStyleButton';
-import ColorPalette from './ColorPalette';
+import HighlightPalette from './HighlightPalette';
 
 const HighlightButton = observer((props) => (
     <CustomStyleButton
         {...props}
-        palette={ColorPalette}
+        palette={HighlightPalette}
         name={'Highlight Button'}
         customType={'background'}
         paletteItems={[

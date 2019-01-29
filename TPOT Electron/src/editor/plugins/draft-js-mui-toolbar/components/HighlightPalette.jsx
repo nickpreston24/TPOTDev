@@ -3,10 +3,11 @@ import { withStyles } from '@material-ui/core/styles';
 import { compose } from 'recompose';
 import { observer } from 'mobx-react';
 import { Grid } from '@material-ui/core';
-import Palette from '../utils/Palette'
+import Palette from '../utils/Palette';
 
 const styles = theme => ({
     root: {
+        color: `4px solid ${theme.palette.accent}`,
         maxWidth: 150,
         margin: 8,
         '& button': {
@@ -20,36 +21,20 @@ const styles = theme => ({
             boxShadow: "0px 1px 2px 0px rgba(0, 0, 0, 0.5)",
         },
         '& button:hover': {
-            transition: 'border 0s linear 0s',
-            border: '2px solid #DDDDDD',
-            boxShadow: "0px 1px 4px 0px rgba(0, 0, 0, 0.8)",
+            border: '2px solid #777777',
         }
-    },
-    hexCode: {
-        height: 40,
-        boxShadow: "0px 1px 3px 0px rgba(0, 0, 0, 0.3)",
-        color: 'white'
     }
 });
 
 // Determines how to render children from parent style button and how it should display inside a palette.
 
-const ColorPalette = (props) => (
+const HighlightPalette = (props) => (
     <Palette
         open={props.open}
         anchorEl={props.anchorEl}
-        height={150}
+        height={50}
         width={165}
     >
-        <Grid
-            className={props.classes.hexCode}
-            container
-            justify="center"
-            alignItems="center"
-            style={{ background: '#990066' }}
-        >
-            {'#990066'}
-        </Grid>
         <Grid
             className={props.classes.root}
             container
@@ -67,4 +52,4 @@ const ColorPalette = (props) => (
 export default compose(
     withStyles(styles),
     observer
-)(ColorPalette)
+)(HighlightPalette)

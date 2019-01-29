@@ -126,7 +126,7 @@ class ToolbarStore {
         } else {
             render = false
         }
-        console.log(render)
+        // console.log(render)
         return render
     }
 
