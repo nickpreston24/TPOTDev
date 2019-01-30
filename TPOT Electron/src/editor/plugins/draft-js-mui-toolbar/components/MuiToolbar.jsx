@@ -56,10 +56,12 @@ class MuiToolbar extends Component {
             store.setStyleProp('selectionRect', selectionRect)
             if (!selectionRect) return;
             if (!currentBlockNode) return;
-            const inlineVisible = (!selection.isCollapsed() && selection.getHasFocus());
+            // const inlineVisible = (!selection.isCollapsed() && selection.getHasFocus());
+            const inlineVisible = (!selection.isCollapsed());
             const blockVisible = (selection.isCollapsed());
-            store.setStyleProp('inlineVisible', inlineVisible)
             store.setStyleProp('blockVisible', blockVisible)
+            store.setStyleProp('inlineVisible', inlineVisible)
+            // store.setStyleProp('inlineVisible', true)
         }, 200); // Necessary delay between inline and block toolbar switching for accurate selection and rendering
     };
 

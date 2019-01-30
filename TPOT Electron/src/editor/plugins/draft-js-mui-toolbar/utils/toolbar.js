@@ -44,6 +44,9 @@ class ToolbarStore {
     // blockOffset = {}
     blockVisible = false
 
+    menuOpen = false
+    menuCurrent = null
+
     editorRoot
     editorRootRect
     currentBlockNode
@@ -110,6 +113,22 @@ class ToolbarStore {
         }
     }
 
+    get renderInline() {
+        // console.log(this.inlineVisible, this.menuOpen)
+        // console.log(this.inlineVisible || this.menuOpen)
+        let render = false
+        if (!this.inlineVisible && this.menuOpen) {
+            render = false
+        } else if (this.inlineVisible && !this.menuOpen) {
+            render = true
+        } else if (this.inlineVisible && this.menuOpen) {
+            render = true
+        } else {
+            render = false
+        }
+        // console.log(render)
+        return render
+    }
 
 
 
@@ -130,6 +149,9 @@ export default decorate(
         state: observable,
         listeners: observable,
 
+        menuOpen: observable,
+        menuCurrent: observable,
+
         inlineRef: observable,
         inlineSize: observable,
         // inlineOffset: observable,
@@ -139,6 +161,8 @@ export default decorate(
         blockSize: observable,
         // blockOffset: observable,
         blockVisible: observable,
+
+        renderInline: computed,
 
         editorRoot: observable,
         editorRootRect: observable,

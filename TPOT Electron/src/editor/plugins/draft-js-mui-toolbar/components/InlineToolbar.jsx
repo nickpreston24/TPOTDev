@@ -12,6 +12,7 @@ import LinkButton from './LinkButton';
 import MoreButton from './MoreButton';
 import QuoteButton from './QuoteButton';
 import UnderlineButton from './UnderlineButton';
+import { toJS } from 'mobx';
 
 const styles = theme => ({
     root: {
@@ -31,7 +32,7 @@ const styles = theme => ({
         maxWidth: 400,
         minHeight: 40,
         maxHeight: 40,
-        overflow: 'hidden',
+        // overflow: 'hidden',
         "& *": {
             // float: "left",
         }
@@ -39,13 +40,27 @@ const styles = theme => ({
 });
 
 class MuiToolbar extends Component {
+    visible = () => {
+        return this.props.store.renderInline
+    }
 
     render() {
         const { classes, store, childProps } = this.props;
 
+        // console.log('visible', store.inlineVisible)
+        // console.log('menu', store.menuOpen)
+        // console.log('render', store.renderInline)
+        // console.log(store.inlineOffset)
+        // let style = {visibility: 'visible'}
+        // !!store.inlineOffset
+        const style = {
+            ...store.inlineOffset
+        }
+        // console.log(style)
+
         return (
             <Fragment>
-                {store.inlineVisible &&
+                {toJS(store.renderInline) &&
                     <div className={classes.root} style={store.inlineOffset} >
                         <BoldButton {...childProps} />
                         <ItalicButton {...childProps} />
