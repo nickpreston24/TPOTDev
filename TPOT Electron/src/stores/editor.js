@@ -2,6 +2,7 @@ import { EditorState, getDefaultKeyBinding, KeyBindingUtil } from "draft-js";
 import { createEditorStateWithText } from "draft-js-plugins-editor";
 import { action, computed, decorate, observable } from 'mobx';
 import { baseBlockStyleFn, baseStyleMap, blockRenderer, blockRenderMap, draftContentFromHtml, draftContentToHtml, stateFromElementConfig } from "../editor/utils/transforms";
+import { draft } from '../editor'
 
 class EditorStore {
 
@@ -42,10 +43,20 @@ class EditorStore {
     loadEditorFromDocx = html => {
         // let baseStyleMapClear = JSON.parse(JSON.stringify(Object.assign(toJS(baseStyleMap))))
         const { newContentState, newBaseStyleMap } = draftContentFromHtml(html, stateFromElementConfig, baseStyleMap);
+        this.baseStyleMap = newBaseStyleMap
         this.originalState = html
         this.baseStyleMap = newBaseStyleMap
         this.editorState = EditorState.createWithContent(newContentState);
         this.codeState = draftContentToHtml(this.editorState, newContentState);
+    }
+
+    saveSession = (notify) => {
+        draft.saveSession(this.originalState, this.editorState, this.codeState, this.baseStyleMap, notify)
+    }
+
+    clearSession = (notify) => {
+        this.editorState = EditorState.createEmpty()
+        notify('Cleared Editor')
     }
 
     setEditMode = (e, tab) =>
@@ -55,12 +66,13 @@ class EditorStore {
         this.baseStyleMap = customStyleMap
 
     handleKeyCommand = (command, store) => {
+        const notify = store.notify
         if (command === 'save') {
-            store.saveSession()
+            this.saveSession(notify)
             return 'handled';
         }
         if (command === 'open') {
-            store.saveSession()
+            // this.clearSession(notify)
             console.log('load file')
             return 'handled';
         }
@@ -113,6 +125,8 @@ export default decorate(
         onChange: action,
         setRef: action,
         focus: action,
+        saveSession: action,
+        clearSession: action,
         loadEditorFromDocx: action,
         setEditMode: action,
         setStyleMap: action,

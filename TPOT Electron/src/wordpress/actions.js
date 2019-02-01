@@ -10,7 +10,7 @@ const getCatg = async() => {
     })
 }
 
-const createPage = (wordpressCredentials, pageConfig) => {
+const createPage = (wordpressCredentials, pageConfig, notify) => {
     // Add Authentication information to existing WPAPI instance
     wp._options = {
         ...wp._options,
@@ -20,6 +20,7 @@ const createPage = (wordpressCredentials, pageConfig) => {
     // These are Default Options assuming that ...pageConfig has no values
     let options = {
         ...pageConfig,
+        // slug: 'letters\/test\.htm',
         status: 'pending',
         author: 3, // Victor Hafichuk
         categories: [496], // letters
@@ -27,11 +28,16 @@ const createPage = (wordpressCredentials, pageConfig) => {
     }
     // Create the page and do error checking here.
     wp.pages().create(options)
-        .then((response, reject) => {
-            response && console.log('response: ', response)
-            reject && console.log('Rejection ', reject)
+        .then((response) => {
+            notify(`Page is now live at: ${response.link}`, { autoHideDuration: 10000 })
+            notify('Sucessfully Published Letter to TPOT!', { variant: 'success'})
         }).catch((error) => {
-            if (error) console.error('ERROR: ', error)
+            if (error.code === 'incorrect_password') {
+                console.log('good')
+                notify('Bad Publish Login Data: Log out and back into TPOT Cloud', { variant: 'error', autoHideDuration: 5000 })
+            } else {
+                notify(`Unknown Publish Error: ${error.code}`, { variant: 'error', autoHideDuration: 5000 })
+            }
         })
 }
 

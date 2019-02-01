@@ -1,6 +1,7 @@
 /* Electron */
 const electron = window.require('electron')
 const remote = electron.remote
+const app = remote.app
 const dialog = remote.dialog
 
 /* Node */
@@ -26,7 +27,9 @@ export default class DiskFileLoader {
 
     getFilePath() {
         return new Promise((result, reject) => {
-            dialog.showOpenDialog(options, (fileNames) => {
+            dialog.showOpenDialog({
+                defaultPath: app.getPath('documents')
+            }, (fileNames) => {
                 if (!fileNames || fileNames.length === 0) {
                     alert('Filename cannot be empty!')
                     return reject('file not selected');
