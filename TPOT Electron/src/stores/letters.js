@@ -17,7 +17,7 @@ class LettersStore {
     editorContent = '<p>Hey there!</p>'
     publishModal = false
     publishData = {
-        slug: '*',
+        slug: '',
         title: '',
         excerpt: '',
     }
@@ -61,12 +61,13 @@ class LettersStore {
         this.publishData[key] = value 
     }
 
-    saveSession = () => {
-        draft.saveSession(this.originalState, this.editedState, this.codeState)
-        this.notify('Document Saved to Disk Successfully', {
-            variant: 'success',
-        })
-    }
+    // saveSession = () => {
+    //     console.log('saved')
+    //     draft.saveSession(this.originalState, this.editedState, this.codeState)
+    //     this.notify('Document Saved to Disk Successfully', {
+    //         variant: 'success',
+    //     })
+    // }
 
     notify = (message, config) => {
         const data = JSON.stringify({message, config: {...config}})
@@ -79,19 +80,29 @@ class LettersStore {
     }
 
     publishToWordpress = async (html) => {
-        console.log(html)
-        console.log('published to wordpress')
         const wpCreds = await db.wordpressCredentials
-        console.log(wpCreds)
         this.wordpressCredentials = !!wpCreds
             ? wpCreds
             : null
-        wp.createPage(this.wordpressCredentials, {
-            content: html,
-            slug: this.publishData.slug,
-            title: this.publishData.title,
-            excerpt: this.publishData.excerpt,
-        })
+        if (!!this.wordpressCredentials) {
+            const { slug, title, excerpt } = this.publishData
+            if (!slug) {
+                this.notify('Could not Publish! Please enter a slug', { variant: 'error', autoHideDuration: 3000 })
+            }
+            if (!title) {
+                this.notify('Could not Publish! Please enter a title', { variant: 'error', autoHideDuration: 3000 })
+            }
+            if (slug && title) {
+                wp.createPage(this.wordpressCredentials, {
+                    content: html,
+                    slug,
+                    title,
+                    excerpt
+                }, this.notify)
+            }
+        } else {
+            this.notify('Could not Publish! Please log in again to TPOT Cloud', { variant: 'error', autoHideDuration: 5000 })
+        }
     }
 
 }

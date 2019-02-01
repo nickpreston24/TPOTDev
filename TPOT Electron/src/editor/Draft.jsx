@@ -7,8 +7,8 @@ import Editor from "draft-js-plugins-editor";
 
 class Draft extends Component {
 
-	onChange = editorState =>
-		this.props.editorStore.onChange(editorState)
+	// onChange = editorState =>
+	// 	this.props.editorStore.onChange(editorState)
 
 	focus = event => {
 		event.preventDefault();
@@ -26,8 +26,8 @@ class Draft extends Component {
 					placeholder="The editor is empty."
 					editorState={store.editorState}
 					onChange={editorState => this.props.editorStore.onChange(editorState)}
-					handleKeyCommand={command => this.props.editorStore.handleKeyCommand(command, store)}
-					keyBindingFn={store.myKeyBindingFn}
+					handleKeyCommand={command => this.props.editorStore.handleKeyCommand(command, this.props.lettersStore)}
+					keyBindingFn={this.props.editorStore.myKeyBindingFn}
 					setStyleMap={map => this.props.editorStore.setStyleMap(map)}
 					customStyleMap={store.baseStyleMap} // STYLE MAP TO TYPE
 					blockRenderMap={store.blockRenderMap} // BLOCK MAP MAP TO TYPE

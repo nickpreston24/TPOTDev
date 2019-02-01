@@ -81,6 +81,7 @@ class MiniDrawer extends React.Component {
 
     render() {
         const { classes } = this.props;
+        const { notify } = this.props.lettersStore
 
         const menus = [
             {
@@ -99,18 +100,18 @@ class MiniDrawer extends React.Component {
                 icon: <Save />,
                 active: true,
                 handler: () => {
-                    this.props.lettersStore.saveSession()
+                    this.props.editorStore.saveSession(notify)
                 }
             },
-            {
-                name: "Drafts",
-                secondary: "",
-                icon: <DraftsIcon />,
-                active: true,
-                handler: () => {
-                    this.props.lettersStore.clearEditor()
-                }
-            },
+            // {
+            //     name: "Drafts",
+            //     secondary: "",
+            //     icon: <DraftsIcon />,
+            //     active: true,
+            //     handler: () => {
+            //         this.props.lettersStore.clearEditor()
+            //     }
+            // },
             {
                 name: "Publish",
                 secondary: "",
@@ -184,7 +185,7 @@ MiniDrawer.propTypes = {
 // export default withStyles(styles, { withTheme: true })(MiniDrawer);
 
 export default compose(
-    inject('lettersStore'),
+    inject('lettersStore', 'editorStore'),
     withStyles(styles),
     observer
 )(MiniDrawer);

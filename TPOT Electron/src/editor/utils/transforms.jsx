@@ -871,17 +871,22 @@ const createBlockRenderers = (editorState, contentState, exporter) => {
 }
 
 
-export const saveSession = (original, edited, code) => {
+export const saveSession = (original, edited, code, baseStyleMap, notify) => {
     const contents = {
         original: !!original ? original : {},
         edited: !!edited ? edited : {},
-        code: !!code ? code : {}
+        code: !!code ? code : {},
+        baseStyleMap: !!baseStyleMap ? baseStyleMap : {}
     }
     let fileContents = JSON.stringify(contents)
     const fileName = path.join(app.getPath('userData'),'Local Storage', 'session.json')
-    fs.writeFile(fileName, fileContents, (err) => {
-        if (err) throw err;
-        // console.log("Session Saved to Disk")
+    console.log(fileName)
+    fs.writeFile(fileName, fileContents, (error) => {
+        if (error) {
+            notify('Could not Save Draft', { variant: 'error'})
+        } else {
+            notify('Document Saved to Disk Successfully', { variant: 'success', })
+        }
     })
 }
 
