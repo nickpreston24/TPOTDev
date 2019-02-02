@@ -125,6 +125,8 @@ const blockRenderer = (contentBlock, pluginFunctions) => {
     //     };
     // }
 
+    // console.log(type)
+
     if (type === 'atomic') {
         console.log(pluginFunctions.getEditorState())
         const editorState = pluginFunctions.getEditorState()
@@ -139,6 +141,7 @@ const blockRenderer = (contentBlock, pluginFunctions) => {
             };
         }
     }
+
     // return undefined;
 }
 
@@ -263,10 +266,12 @@ const stateFromElementConfig = {
             })
         }
         if (element.parentElement.tagName === "INS" || element.style.textDecoration === 'underline' || element.parentElement.style.textDecoration === 'underline') {
-            elementStyles.push({
-                name: 'textDecoration',
-                data: 'underline'
-            })
+            if (element.parentElement.tagName !== 'A') {
+                elementStyles.push({
+                    name: 'textDecoration',
+                    data: 'underline'
+                })
+            }
         }
         // Color 
         if (element.parentElement.style.color) { // Parent Inline
@@ -314,6 +319,7 @@ const stateFromElementConfig = {
 
         // Entity: (type: string, data: DataMap<mixed>, mutability: EntityMutability = 'MUTABLE') => <DraftEntityInstance>
         if (element.tagName === "A" && element.href) { // Are we a Link?
+            // console.log(element)
             return Entity(
                 'LINK',
                 { url: element.href },
@@ -892,4 +898,16 @@ export const saveSession = (original, edited, code, baseStyleMap, notify) => {
 
 //  end of EXPORT FUNCTION
 
-export { styles, exporter, customStyleFn, baseStyleMap, baseBlockStyleFn, blockRenderMap, blockRenderer, stateFromElementConfig, draftContentFromHtml, draftContentToHtml, flattenInlineStyleRanges, };
+export { 
+    styles, 
+    exporter, 
+    customStyleFn, 
+    baseStyleMap, 
+    baseBlockStyleFn, 
+    blockRenderMap, 
+    blockRenderer, 
+    stateFromElementConfig, 
+    draftContentFromHtml, 
+    draftContentToHtml, 
+    flattenInlineStyleRanges, 
+};
