@@ -18,6 +18,21 @@ const app = remote.app
 const path = window.require('path')
 const fs = window.require('fs')
 
+/*
+ 
+ oooooo     oooo                        o8o  oooo  oooo            
+  `888.     .8'                         `"'  `888  `888            
+   `888.   .8'    .oooo.   ooo. .oo.   oooo   888   888   .oooo.   
+    `888. .8'    `P  )88b  `888P"Y88b  `888   888   888  `P  )88b  
+     `888.8'      .oP"888   888   888   888   888   888   .oP"888  
+      `888'      d8(  888   888   888   888   888   888  d8(  888  
+       `8'       `Y888""8o o888o o888o o888o o888o o888o `Y888""8o 
+                                                                   
+                                                                   
+                                                                   
+
+*/
+
 // CUSTOM STYLES SETUP (Package by @webdeveloperpr)
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 const {
@@ -25,8 +40,6 @@ const {
     customStyleFn,
     exporter
 } = createStyles(['font-size', 'color', 'background'], 'CUSTOM', baseStyleMap);
-
-
 
 // VANILLA DRAFT MAPS, RENDERERS, & FUNCTIONs
 ///////////////////////////////////////////////////////////////////////////////////////////////////
@@ -146,10 +159,24 @@ const blockRenderer = (contentBlock, pluginFunctions) => {
 }
 
 
-// STATE FROM ELEMENT WRAPPER FUNCTION (Package by @sstur + stuff by Braden)
+/*
+ 
+ ooooo                                                     .   
+ `888'                                                   .o8   
+  888  ooo. .oo.  .oo.   oo.ooooo.   .ooooo.  oooo d8b .o888oo 
+  888  `888P"Y88bP"Y88b   888' `88b d88' `88b `888""8P   888   
+  888   888   888   888   888   888 888   888  888       888   
+  888   888   888   888   888   888 888   888  888       888 . 
+ o888o o888o o888o o888o  888bod8P' `Y8bod8P' d888b      "888" 
+                          888                                  
+                         o888o                                 
+                                                               
+ 
+*/
+
+// * CONVERT HTML TO DRAFTJS CONTENT STATE
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
-// IMPORT FUNCTION
 // make ContentState from HTML String
 const draftContentFromHtml = (html, stateFromElementConfig, baseStyleMap) => {
     let contentState = stateFromElement(createNode(`<div>${html}</div>`), stateFromElementConfig)
@@ -413,6 +440,8 @@ const stateFromElementConfig = {
                 }
             }
         }
+
+        // * This is important
         return {
             // needs nulls to default back to default style map for DraftJS
             // If unstyled here, it will default to H1, Paragraph, H3, etc.
@@ -424,13 +453,29 @@ const stateFromElementConfig = {
 
 //  end of IMPORT FUNCTION
 
-// IMPORT FUNCTION
+/*
+ 
+ oooooooooooo                                               .   
+ `888'     `8                                             .o8   
+  888         oooo    ooo oo.ooooo.   .ooooo.  oooo d8b .o888oo 
+  888oooo8     `88b..8P'   888' `88b d88' `88b `888""8P   888   
+  888    "       Y888'     888   888 888   888  888       888   
+  888       o  .o8"'88b    888   888 888   888  888       888 . 
+ o888ooooood8 o88'   888o  888bod8P' `Y8bod8P' d888b      "888" 
+                           888                                  
+                          o888o                                 
+                                                                
+ 
+*/
+
+// * CONVERT DRAFT JS CONTENT STATE TO HTML
+
 // make ContentState from HTML String
 const draftContentToHtml = (editorState, contentState, baseStyleMap) => {
     const { exporter } = createStyles(['font-size', 'color', 'background'], 'CUSTOM_', baseStyleMap) // not passed?
-    const options = createBlockRenderers(editorState, contentState, exporter)
-    // console.log(options)
-    let html = stateToHTML(contentState, options)
+    const stateToHTMLConfig = createBlockRenderers(editorState, contentState, exporter)
+    // console.log(stateToHTMLConfig)
+    let html = stateToHTML(contentState, stateToHTMLConfig)
     return html
 }
 
@@ -477,6 +522,8 @@ const createBlockRenderers = (editorState, contentState, exporter) => {
                 };
             }
         },
+
+
         // defaultBlockTag: 'div',
         blockRenderers: {},
         inlineStyles: exporter(editorState),
@@ -535,7 +582,7 @@ const createBlockRenderers = (editorState, contentState, exporter) => {
                 return `<${TAG_NAME}${Object.keys(style)[0] ? ` style="${style}"` : ''}>${htmlContents !== '' ? htmlContents : block.getText()}</${TAG_NAME}>`
 
 
-
+                // TODO: Add support for custom styles applied to H1-H6 tags
                 // DO NOT DELETE!!! DONT YOU DARE! 
                 // if (false) {
                 //     const inlineStylesPlaceHolder = (placeholderFunction) => {
@@ -876,6 +923,20 @@ const createBlockRenderers = (editorState, contentState, exporter) => {
     return stateToHTMLConfig
 }
 
+/*
+ 
+ ooooo     ooo     .    o8o  oooo   o8o      .               
+ `888'     `8'   .o8    `"'  `888   `"'    .o8               
+  888       8  .o888oo oooo   888  oooo  .o888oo oooo    ooo 
+  888       8    888   `888   888  `888    888    `88.  .8'  
+  888       8    888    888   888   888    888     `88..8'   
+  `88.    .8'    888 .  888   888   888    888 .    `888'    
+    `YbodP'      "888" o888o o888o o888o   "888"     .8'     
+                                                 .o..P'      
+                                                 `Y8P'       
+                                                             
+ 
+*/
 
 export const saveSession = (original, edited, code, baseStyleMap, notify) => {
     const contents = {
