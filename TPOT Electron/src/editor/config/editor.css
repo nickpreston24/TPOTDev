@@ -5,32 +5,39 @@ body {
     line-height: 30.6px;
 }
 
-/* h1 {
-    font-size: 60px;
-    line-height: 72px
+.DraftEditor-root h1 {
+    /* font-size: 60px; */
+    font-size: 40px;
+    /* line-height: 72px */
+    line-height: 46px
 }
-h2 {
+
+.DraftEditor-root h2 {
     font-size: 30px;
     line-height: 36px
 }
-h3 {
+
+.DraftEditor-root h3 {
     font-size: 28px;
     line-height: 33.6px
-} */
-h4 {
+}
+
+.DraftEditor-root h4 {
     font-size: 22px;
     line-height: 26.4px
 }
 
-/* h5 {
+.DraftEditor-root h5 {
     font-size: 20px;
     line-height: 24px
 }
-h6{
+
+.DraftEditor-root h6{
     font-size: 16px;
     line-height: 19.2px
-} */
-blockquote {
+}
+
+.DraftEditor-root blockquote {
     /* font-style: italic; */
     text-align: left;
     font-size: 22px; 
@@ -44,7 +51,7 @@ blockquote {
     margin-left: 0px;
 }
 
-blockquote:before {
+.DraftEditor-root blockquote:before {
     content: '\201C';
     line-height: 0px;
     padding: 0px;

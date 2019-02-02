@@ -16,12 +16,15 @@ const styles = theme => ({
     }
 });
 
-const ButtonPlus = (props) =>
-    <Button {...props}>
-        <Fragment>
-            {props.children}
-        </Fragment>
-    </Button>
+const ButtonPlus = (props) => {
+    return (
+        <Button {...props} >
+            <Fragment>
+                {props.children}
+            </Fragment>
+        </Button>
+    )
+}
 
 export default compose(
     withStyles(styles),

@@ -93,7 +93,7 @@ const styles = theme => ({
             // minHeight: 0,
             // maxHeight: 30,
             // padding: '1px',
-            '& *': {
+            '& button': {
                 // border: '2px solid blue',
                 color: '#777777',
                 // color: 'white',
@@ -128,7 +128,11 @@ class MuiToolbar extends Component {
     }
 
     render() {
-        const { classes, store, childProps } = this.props;
+        let { classes, store, childProps } = this.props;
+        childProps = {
+            ...childProps,
+            variant: 'light'
+        }
 
         return (
             <Fragment>
