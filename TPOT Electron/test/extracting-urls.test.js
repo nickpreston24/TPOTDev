@@ -3,36 +3,7 @@ var chai = require('chai');
 chai.use(require('chai-string'));
 var expect = require('expect');
 
-/**
- * PROBLEM
- *
- I need 3 more regex functions
- for each
- case.make sure to grab all variants of the url without preceding space.I already did the generic one at the bottom.Try to keep them under 60 characters
- for now and
- if we find we need support
- for other URLs later, we can do that.Here is the tester text:
-
-     REGEX: /_____/g
- Highlighted Bracket Insert < http: //www.a.google.com/test-3.html>
-     Highlighted Bracket Insert < https: //www.google.com/test/2-1.co.htm >
-     Highlighted Bracket Insert < www.google.com / test.org >
-
-     REGEX: /_____/g [url = http: //www.a.google.com/test-3.html]A Short Code Link[/url]
-         [url = https: //www.google.com/test/2-1.co.htm]A Short Code Link[/url]
-             [url = www.google.com / test.org] A Short Code Link[/url]
-
-                 REGEX: /_____/g [Markup Notation](http: //www.a.google.com/test-3.html)
-                     [Markup Notation](https: //www.google.com/test/2-1.co.htm)
-                         [Markup Notation](www.google.com / test.org)
-
-                         REGEX: /(https?:\/\/|www)+([\da-z\.-]+)\.([a-z\.]{2,6})([/\w\.-]*)*\/?/g
-                         http: //www.a.google.com/test-3.html
-                         https: //www.google.com/test/2-1.co.htm
-                         www.google.com / test.org
- * 
- * 
- */
+import * as strategies from './src/';
 
 describe("Canary Test", () => {
 
@@ -121,10 +92,11 @@ describe("Extract 'url=' links", () => {
     })
 })
 
+let everything = markup.concat(bracketInserts).concat(short_code_links);
+
 describe("Extract Everything", () => {
     it("should extract all URLs & enclosed Text", () => {
 
-        let everything = markup.concat(bracketInserts).concat(short_code_links);
         let results = everything.map(line => line.match(master_re));
         for (let i in results) {
             let match = results[i];
@@ -136,6 +108,13 @@ describe("Extract Everything", () => {
         }
     })
 })
+
+describe.skip("Extract Everything Using Draft (implementation)", () => {
+    it("should extract all URLs & enclosed Text", () => {
+        
+    })
+})
+
 
 // let {
 //     0: group1,
