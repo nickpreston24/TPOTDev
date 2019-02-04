@@ -79,7 +79,7 @@ The main render process, browser window is being hosted on `http://localhost:300
 
 Executing this yarn script starts a build, which could take anywhere from 30 seconds to two minutes to build. It creates two directories **build** and **dist**. If you have already created a build before, it may be best to clear out these two directories if they already exist. This way you don't end up with duplicate installers in the **dist** directory. It should be smart enough to override existing builds
 
-> Note: Make super-certain you are bumping up the version number in **pacakge.json**. I believe there are pacakges that do this that can be implemented later to this boilerplate.
+> Note: Make super-certain you are bumping up the version number in **package.json**. I believe there are pacakges that do this that can be implemented later to this boilerplate.
 
 ***
 
