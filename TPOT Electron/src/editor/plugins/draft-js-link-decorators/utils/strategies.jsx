@@ -2,6 +2,7 @@
 const HANDLE_REGEX = /\@[\w]+/g;
 const HASHTAG_REGEX = /\#[\w\u0590-\u05ff]+/g;
 const URL_REGEX = /(https?:\/\/|www)+([\da-z\.-]+)\.([a-z\.]{2,6})([/\w\.-]*)*\/?/g
+const master_re = /(\[[a-zA-Z\s\d-]+\])?(?:[\s\(]+?)?(?:url=\s*)?([(http(s)?):\/\/(www\.)?a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b[-a-zA-Z0-9@:%_\+.~#?&//=]*)(\][a-zA-Z\s\d-]+\[)?/
 
 function entity(contentBlock, callback, contentState) {
     contentBlock.findEntityRanges(
