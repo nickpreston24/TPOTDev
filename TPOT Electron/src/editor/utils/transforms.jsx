@@ -141,7 +141,7 @@ const blockRenderer = (contentBlock, pluginFunctions) => {
     // console.log(type)
 
     if (type === 'atomic') {
-        console.log(pluginFunctions.getEditorState())
+        // console.log(pluginFunctions.getEditorState())
         const editorState = pluginFunctions.getEditorState()
         const contentState = editorState.getCurrentContent();
         const entityKey = contentBlock.getEntityAt(0);

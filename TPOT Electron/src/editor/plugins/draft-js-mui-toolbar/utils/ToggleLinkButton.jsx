@@ -49,7 +49,7 @@ class ToggleLinkButton extends Component {
 
     render() {
         const { classes, name } = this.props;
-        console.log(convertToRaw(this.props.getEditorState().getCurrentContent()))
+        // console.log(convertToRaw(this.props.getEditorState().getCurrentContent()))
         return (
             <div id={name} onMouseDown={this.preventBubblingUp} >
                 <Button

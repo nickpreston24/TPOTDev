@@ -48,7 +48,7 @@ class BlockAlignmentButton extends Component {
                     className={classNames(classes.root, this.alignIsActive() && classes.active)}
                     children={this.props.children}
                     onClick={this.setAlign}
-                    active={this.alignIsActive()}
+                    // active={this.alignIsActive()}
                 />
             </div>
         );
