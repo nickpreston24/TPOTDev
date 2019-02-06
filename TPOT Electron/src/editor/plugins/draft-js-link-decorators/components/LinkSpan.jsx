@@ -92,8 +92,8 @@ class LinkSpan extends Component {
 
         const { seteditorstate, entitykey, offsetkey, regex, strategy, decoratedtext } = this.props
         const { currentEditorState } = this.props.store
-        console.group('CREATE')
-        console.log(`%c[${decoratedtext}]`, `color: #68b684; background: #02501e;`)
+        // console.group('CREATE')
+        // console.log(`%c[${decoratedtext}]`, `color: #68b684; background: #02501e;`)
 
         // : get currentEditorState from store that was initialized with first editorState
         let editorState = currentEditorState
@@ -117,8 +117,8 @@ class LinkSpan extends Component {
             let match = regx.exec(text)
             let start = match ? match.index : 0
             let end = match ? match[0].length + start : 0
-            console.log(match)
-            console.log(decoratedtext)
+            // console.log(match)
+            // console.log(decoratedtext)
 
             // : If there is a Regex Match 
             // TODO - Support for multiple decorator generator entities found on block and their selection range
@@ -144,16 +144,16 @@ class LinkSpan extends Component {
                 editorState = EditorState.forceSelection(editorState, collapsedSelection)
 
             } else {
-                console.log('No Match')
+                // console.log('No Match')
             }
 
         } else {
 
             // : Component Mounted by Existing Entity
             if (entitykey) {
-                console.log('Already an Entity')
+                // console.log('Already an Entity')
             } else {
-                console.error('Unknown Decorator')
+                // console.error('Unknown Decorator')
             }
         }
 
@@ -162,7 +162,7 @@ class LinkSpan extends Component {
         // setItem('currentEditorState', editorState) // need to set state for next cycle to see
 
         // : set editorState that onChange can see
-        console.groupEnd()
+        // console.groupEnd()
         seteditorstate(editorState)
 
     }
@@ -185,8 +185,8 @@ class LinkSpan extends Component {
     onEditorStateChange = (editorState) => {
 
         const { setItem, currentEditorState } = this.props.store
-        console.group('UPDATE')
-        console.error('editorStateChange')
+        // console.group('UPDATE')
+        // console.error('editorStateChange')
 
         // : Use editorState from OnChange
         let contentState = editorState.getCurrentContent()
@@ -214,12 +214,12 @@ class LinkSpan extends Component {
         // : User's Selection is inside an Entity Now!
         if (entityKeyAtSelectionStart || entityKeyAtSelectionEnd) {
 
-            console.log('Inside Entity', true)
+            // console.log('Inside Entity', true)
             // : Get and Check and Set Current Key and Entity
             let currentKey = !!entityKeyAtSelectionStart ? entityKeyAtSelectionStart : entityKeyAtSelectionEnd
             let currentEntity = contentState.getEntity(currentKey)
             setItem('currentEntityKey', currentKey)
-            console.log(currentKey)
+            // console.log(currentKey)
 
             // : Get Entity Text and Ranges
             let blockText = block.getText()
@@ -271,7 +271,7 @@ class LinkSpan extends Component {
         // // ! setItem('currentEntityKey', currentSelectionKey ? currentSelectionKey : randomKey)
 
         // : Return editorState to onChange (will update both currentEditorState and editorState)
-        console.groupEnd()
+        // console.groupEnd()
         return editorState
     }
 
@@ -294,12 +294,13 @@ class LinkSpan extends Component {
 
         const { geteditorstate, children, classes, entitykey, offsetkey, regex } = this.props
         const { currentEntityKey, currentEditorState } = this.props.store
-        console.group('RENDER')
-        console.warn(this.props.children[0].props.text)
+        // console.group('RENDER')
+        // console.warn(this.props.children[0].props.text)
 
         // : Any change here will go to next render cycle. Focus on
         // : evaluating render conditions based upon current state.
         let editing = false
+        let warning = false
         if (entitykey) {
             // console.log(entitykey)
             // console.log('Rendered Content: ', convertToRaw(geteditorstate().getCurrentContent()))
@@ -347,6 +348,7 @@ class LinkSpan extends Component {
 
             // : Component is Rendered, but there is no Entity (ex: un-doing a decorated added entry)
             // TODO - Prevent only initially converted decorator entities from being undone, but not later ones
+            warning = true
             // ! this.createEntityFromDecorator()
         }
 
@@ -355,10 +357,10 @@ class LinkSpan extends Component {
 
 
         // : Render based upon the current editorState
-        console.groupEnd()
+        // console.groupEnd()
 
         return (
-            <span className={classNames(classes.root, editing && classes.editing, !entitykey && classes.warning)} >
+            <span className={classNames(classes.root, editing && classes.editing, warning && classes.warning)} >
                 <Fragment>
                     <Icon className={classes.icon} />
                     <span className={classes.span} children={children} />
@@ -377,486 +379,3 @@ export default compose(
     withStyles(styles),
     observer
 )(LinkSpan)
-
-
-
-
-
-/*
-
-   .oooooo.   oooo        .o8
-  d8P'  `Y8b  `888       "888
- 888      888  888   .oooo888
- 888      888  888  d88' `888
- 888      888  888  888   888
- `88b    d88'  888  888   888
-  `Y8bood8P'  o888o `Y8bod88P"
-
-
-
-
-*/
-
-
-// class LinkSpan extends Component {
-
-//     componentWillMount() {
-//         // this.key = genKey();
-//         if (this.props.pluginprops) {
-//             this.props.pluginprops.callbacks.onChange = this.onEditorStateChange;
-//             this.createEntityFromDecorator()
-//             console.log('good')
-//         } else {
-//             console.log('ignore')
-//         }
-//     }
-
-//     componentWillUnmount() {
-//         // this.key = genKey();
-//         if (this.props.pluginprops) {
-//             // this.props.pluginprops.callbacks.onChange = undefined;
-//             console.log('goodbye')
-//         } else {
-//             console.log('ignorebye')
-//         }
-//     }
-
-//     createEntityFromDecorator = () => {
-//         console.group('CREATE')
-
-//         const { geteditorstate, seteditorstate, entitykey, offsetkey, regex, strategy, decoratedtext } = this.props
-//         const { setItem, currentEntityKey } = this.props.store
-//         let editorState = geteditorstate()
-//         const contentState = editorState.getCurrentContent()
-//         const blockKey = /([a-zA-z\d]+)/g.exec(offsetkey)[0]
-//         const block = contentState.getBlockForKey(blockKey)
-//         CURBLOCK = blockKey
-
-//         // *
-//         // console.log('block', block)
-//         // console.log('blockKey', blockKey)
-//         // console.log(entitykey, offsetkey)
-
-//         const TEXT = block.getText();
-//         const REGX = new RegExp(regex)
-//         const match = REGX.exec(TEXT)
-//         const start = match ? match.index : 0
-//         const end = match ? match[0].length + start : 0
-//         //*
-//         // console.log(match)
-//         // console.log(start)
-//         // console.log(end)
-//         var selection = new SelectionState({
-//             anchorKey: blockKey, anchorOffset: start,
-//             focusKey: blockKey, focusOffset: end,
-//         })
-//         //*
-//         // console.log(selection)
-//         // console.log('selectionCollapsed?', selection.isCollapsed())
-//         const hasEntity = block.getEntityAt(start)
-//         //*
-//         // console.log('hasEntityAtStart?', hasEntity)
-
-//         const contentStateWithEntity = contentState.createEntity(
-//             'LINK',
-//             'MUTABLE',
-//             { url: strategy === 'Decorator' ? decoratedtext : match[0] }
-//         )
-//         const lastKey = contentStateWithEntity.getLastCreatedEntityKey();
-//         // setItem('currentEntityKey', lastKey)
-//         // console.log(lastKey)
-//         CURRENT = lastKey
-//         const contentStateWithNewLink = Modifier.applyEntity(
-//             contentStateWithEntity,
-//             selection,
-//             lastKey
-//         );
-
-//         // * Apply the Entity to EditorState
-//         let editorStateWithEntity = EditorState.push(
-//             editorState,
-//             contentStateWithNewLink,
-//             'apply-entity'
-//         )
-
-//         // * Replace Decorator Text with String
-//         var contentStateWithReplacedText = Modifier.replaceText(
-//             editorStateWithEntity.getCurrentContent(), selection,
-//             strategy === 'Generic' ? decoratedtext : `${strategy ? strategy : 'default'} Link: Title`,
-//             null, lastKey
-//         )
-
-//         // * Apply the Replacement to EditorState
-//         let editorStateWithReplacedText = EditorState.push(
-//             editorStateWithEntity,
-//             contentStateWithReplacedText,
-//             editorStateWithEntity.getLastChangeType()
-//         )
-
-//         var selection = new SelectionState({
-//             anchorKey: blockKey, anchorOffset: start,
-//             focusKey: blockKey, focusOffset: end,
-//         })
-
-//         const newSelection = new SelectionState({
-//             anchorKey: blockKey, anchorOffset: end,
-//             focusKey: blockKey, focusOffset: end,
-//         });
-//         editorState = EditorState.forceSelection(editorStateWithReplacedText, newSelection);
-
-//         // * Final Result to Push to onChange
-//         // editorState = editorStateWithReplacedText
-
-//         console.log(decoratedtext)
-
-//         console.groupEnd()
-
-//         seteditorstate(editorState)
-
-//     }
-
-//     onEditorStateChange = (editorState) => {
-
-//         console.group('change')
-
-//         const { geteditorstate, seteditorstate, entitykey, offsetkey, regex, decoratedtext } = this.props
-//         const { setItem, currentEntityKey } = this.props.store
-
-//         // * Update URL only on Default Decorator Links to Match current Entity Text
-//         // console.error('spanEdit')
-//         // console.log(regex)
-//         // * Figure out if we are in an Entity
-//         // ? If we are not, return editorState right away.
-//         let selectionEntity = DraftUtils.getSelectionEntity(editorState)
-//         console.log('selectionEntity', selectionEntity)
-
-//         const contentState = editorState.getCurrentContent()
-//         let selection = editorState.getSelection()
-//         let focusKey = selection.getFocusKey()
-//         let anchorOffset = selection.getAnchorOffset()
-//         let offsetKeyTrim = /([a-zA-z\d]+)/g.exec(offsetkey)[0]
-//         let focusOffset = selection.getFocusOffset()
-//         const block = contentState.getBlockForKey(focusKey)
-//         // * Bump and shift selection to pay attention to characters around entity range
-//         let entityKeyAtSelectionEnd = block.getEntityAt(focusOffset)
-//         if (!entityKeyAtSelectionEnd) {
-//             entityKeyAtSelectionEnd = block.getEntityAt(focusOffset - 1)
-//         }
-//         if (!entityKeyAtSelectionEnd) {
-//             entityKeyAtSelectionEnd = block.getEntityAt(focusOffset - 2)
-//         }
-//         let entityKeyAtSelectionStart = block.getEntityAt(anchorOffset)
-//         // if (!entityKeyAtSelectionStart) {
-//         //     entityKeyAtSelectionStart = block.getEntityAt(anchorOffset + 1)
-//         // }
-//         // if (!entityKeyAtSelectionStart) {
-//         //     entityKeyAtSelectionStart = block.getEntityAt(anchorOffset - 2)
-//         // }
-//         // if (!entityKeyAtSelectionEnd) {return editorState}
-//         // if (!entityKeyAtSelectionEnd) {
-//         //     entityKeyAtSelectionEnd = block.getEntityAt(focusOffset + 1)
-//         // }
-//         //*
-//         // console.log('textAvail', block.getText())
-//         // console.log('entitykey', entitykey)
-//         // console.log('focusKey', focusKey)
-//         // console.log('focusOffset', focusOffset)
-//         // console.log('anchorOffset', anchorOffset)
-//         // console.log('enttyBlockKey', entityKeyAtSelectionEnd)
-
-//         if (entityKeyAtSelectionStart || entityKeyAtSelectionEnd) {
-//             // * User's Selection is inside an Entity Now!
-//             CURRENT = !!entityKeyAtSelectionStart ? entityKeyAtSelectionStart : entityKeyAtSelectionEnd
-//             CURBLOCK = focusKey
-//             let currentKey = !!entityKeyAtSelectionStart ? entityKeyAtSelectionStart : entityKeyAtSelectionEnd
-//             setItem('currentEntityKey', currentKey)
-//             //*
-//             // console.log(currentKey, CURRENT)
-//             // console.log(currentEntityKey)
-//             // console.error('\tfoundEntity', CURRENT, CURBLOCK)
-//             let currentEntity = contentState.getEntity(entityKeyAtSelectionEnd)
-//             currentEntity = !currentEntity && contentState.getEntity(entityKeyAtSelectionStart)
-//             let blockText = block.getText()
-//             let entityRange = {}
-
-//             block.findEntityRanges(
-//                 (value) => {
-//                     return entityKeyAtSelectionEnd === value.getEntity()
-//                     // if(entityKeyAtSelectionEnd === value.getEntity()){
-
-//                     //     console.log('value', value.getEntity())
-//                     //     return true
-//                     // }
-//                 },
-//                 (start, end) => {
-//                     // linkTitle = linkTitle.slice(start, end)
-//                     entityRange.start = start
-//                     entityRange.end = end
-//                     //*
-//                     // console.log('ranges', start, end)
-//                 },
-//             )
-
-
-//             // TODO: Capture string of entity range with characters before and after and add to entity
-
-//             //*
-//             // console.log("TEXT", blockText)
-//             // console.log("TEXT", blockText.slice(entityRange.start, entityRange.end))
-//             // console.log(entityRange)
-//             let captureStart = entityRange.start === 0 ? 0 : entityRange.start - 1
-//             let captureEnd = entityRange.end > blockText.length ? blockText.length : entityRange.end + 1
-//             let linkTitle = blockText.slice(
-//                 captureStart,
-//                 captureEnd
-//             )
-//             //*
-//             // console.log('len', entityRange.end - entityRange.start)
-//             // console.log("TEXT", linkTitle, linkTitle.length)
-
-
-
-//             // TODO: Force selection into entity range and collapse
-//             let insertPoint = anchorOffset
-
-//             //*
-//             // console.log(insertPoint)
-//             // console.log(anchorOffset, focusOffset)
-//             // console.log(captureStart, captureEnd)
-
-//             insertPoint = focusOffset > captureStart ? focusOffset : anchorOffset
-//             if (insertPoint < captureEnd) {
-//                 // * Create Collapsed Selection at nsertPoint
-//                 const insertSelection = new SelectionState({
-//                     anchorKey: focusKey, anchorOffset: insertPoint,
-//                     focusKey: focusKey, focusOffset: insertPoint,
-//                 });
-//                 // * Apply Selection to prevent breaking Entity title and URL
-//                 editorState = EditorState.forceSelection(editorState, insertSelection);
-//                 // CURRENT = true
-//                 //*
-//                 // console.log('COLLAPSED')
-//             } else {
-
-//                 CURRENT = null
-//                 CURBLOCK = null
-//             }
-// //*
-//             // console.log(insertPoint)
-
-
-
-
-
-
-//             // ! Check linkTitle to make sure it is a valid URL! 
-//             // ? Both linkTitle and data.url are in sync, so they need to both be valid
-//             // ? Other types of decorators have Titles separate from their URL which is 
-//             // ? set on creation, or it edited with the LinkMenu or MUIToolbar.
-
-//             let isURL = regex.test(linkTitle)
-
-//             //*
-//             // console.log(isURL)
-
-//             // * We are a Generic Decorator
-
-//             //*
-//             // console.log('editSpan')
-//             // console.log(currentEntity)
-//             // console.log(focusKey)
-//             // console.log(entitykey, entityKeyAtSelectionEnd)
-//             // console.groupCollapsed(decoratedtext)
-
-//             // const contentStateWithReplacedText
-
-//             /////
-
-//             // * Create Collapsed Selection around Entity Link Name
-//             const entitySelection = new SelectionState({
-//                 anchorKey: focusKey, anchorOffset: entityRange.start,
-//                 focusKey: focusKey, focusOffset: entityRange.end,
-//             });
-
-//             // * Replace Decorator Text with String
-//             var contentStateWithReplacedText = Modifier.replaceText(
-//                 contentState,
-//                 entitySelection,
-//                 linkTitle,
-//                 null,
-//                 entityKeyAtSelectionEnd
-//             )
-
-//             // * Apply the Replacement to EditorState
-//             let editorStateWithReplacedText = EditorState.push(
-//                 editorState,
-//                 contentStateWithReplacedText,
-//                 editorState.getLastChangeType()
-//             )
-
-//             // * Update Entity Map with new URL
-//             const contentStateWithNewURL = contentStateWithReplacedText.replaceEntityData(
-//                 entityKeyAtSelectionEnd,
-//                 { url: linkTitle }
-//             )
-
-//             // * Push Entity Map update to new EditorState
-//             const editorStateWithReplacedData = EditorState.push(
-//                 editorStateWithReplacedText,
-//                 contentStateWithNewURL,
-//                 'apply-entity'
-//             )
-
-//             // let editorState = geteditorstate()
-
-//             // console.log(this.props)
-
-//             // console.log(editorState)
-
-//             // console.log(selection)
-//             // console.log(convertToRaw(contentState))
-//             // console.log(block)
-//             // console.log(focusOffset)
-
-//             // if (entityKeyAtSelectionEnd) {
-
-//             // }
-//             // console.groupEnd()
-//             // * Create Collapsed Selection at End of Entity
-//             const newSelection = new SelectionState({
-//                 anchorKey: focusKey, anchorOffset: focusOffset,
-//                 focusKey: focusKey, focusOffset: focusOffset,
-//             });
-
-//             // * Apply Selection to prevent breaking Entity title and URL
-//             editorState = EditorState.forceSelection(editorState, newSelection);
-
-//         } else {
-//             // CURRENT = entitykey
-//             setItem('currentEntityKey', 0)
-//             CURRENT = null
-//             CURBLOCK = null
-//             //*
-//             // console.error('\tNO_Entity', CURRENT)
-//         }
-
-//         console.groupEnd()
-
-//         return editorState
-//         // seteditorstate(editorState)
-
-//     }
-
-//     render() {
-//         //*
-//         console.group('RENDER_ENTITY')
-//         console.warn('currentEntityKey',this.props.store.currentEntityKey)
-//         console.log(this.props.pluginprops)
-//         console.log(this.props.children[0].props.text)
-//         // console.log(this.props.store.setItem)
-//         const { classes, children } = this.props
-//         const { geteditorstate, seteditorstate, entitykey, offsetkey, regex, decoratedtext } = this.props
-
-//         let editorState = geteditorstate()
-//         let contentState = editorState.getCurrentContent()
-//         let selection = editorState.getSelection()
-//         let focusKey = selection.getFocusKey()
-//         let anchorOffset = selection.getAnchorOffset()
-//         let offsetKeyTrim = /([a-zA-z\d]+)/g.exec(offsetkey)[0]
-//         let focusOffset = selection.getFocusOffset()
-//         const block = contentState.getBlockForKey(focusKey)
-//         // * Bump and shift selection to pay attention to characters around entity range
-//         let entityKeyAtSelectionEnd = block.getEntityAt(focusOffset)
-//         if (!entityKeyAtSelectionEnd) {
-//             entityKeyAtSelectionEnd = block.getEntityAt(focusOffset - 1)
-//         }
-//         // if (!entityKeyAtSelectionEnd) {
-//         //     entityKeyAtSelectionEnd = block.getEntityAt(focusOffset - 2)
-//         // }
-//         let entityKeyAtSelectionStart = block.getEntityAt(anchorOffset)
-//         // if (!entityKeyAtSelectionStart) {
-//         //     entityKeyAtSelectionStart = block.getEntityAt(anchorOffset + 1)
-//         // }
-//         // if (!entityKeyAtSelectionStart) {
-//         //     entityKeyAtSelectionStart = block.getEntityAt(anchorOffset - 2)
-//         // }
-//         // if (!entityKeyAtSelectionEnd) {return editorState}
-//         // if (!entityKeyAtSelectionEnd) {
-//         //     entityKeyAtSelectionEnd = block.getEntityAt(focusOffset + 1)
-//         // }
-
-//         let renderedEntityKey = null
-//         if (entityKeyAtSelectionStart || entityKeyAtSelectionEnd) {
-//             renderedEntityKey = !!entityKeyAtSelectionStart ? entityKeyAtSelectionStart : entityKeyAtSelectionEnd
-//         }
-
-
-
-//         // const newSelection = new SelectionState({
-//         //     anchorKey: focusKey, anchorOffset: focusOffset,
-//         //     focusKey: focusKey, focusOffset: focusOffset,
-//         // });
-//         // console.error('\tcontains: ', containsLink)
-//         //*
-//         // console.group()
-//         // console.error('\tRENDER: ', renderedEntityKey, focusKey)
-//         // console.error('\tTEXT: ', block.getText())
-//         // console.error('\tCURRENT: ', CURRENT, CURBLOCK)
-
-//         let spanText = this.props.children[0].props.text
-//         let entityText = block.getText()
-//         block.findEntityRanges(
-//             (value) => {
-//                 return entityKeyAtSelectionEnd === value.getEntity()
-//                 // if(entityKeyAtSelectionEnd === value.getEntity()){
-
-//                 //     console.log('value', value.getEntity())
-//                 //     return true
-//                 // }
-//             },
-//             (start, end) => {
-//                 entityText = entityText.slice(start, end)
-//                 // entityRange.start = start
-//                 // entityRange.end = end
-//                 // console.log('ranges', start, end)
-//             },
-//         )
-//         //*
-//         // console.log('entityText', entityText, entityText.length)
-//         // console.log('spanText', spanText, spanText.length)
-//         // console.error('\tEK: ', entitykey, focusKey)
-//         let sameBlock = CURBLOCK === focusKey
-//         let sameKey = CURRENT === renderedEntityKey
-//         let sameWork = sameBlock === true && sameKey === true
-//         let sameText = entityText === spanText
-//         // let editing = sameWork === true && sameText === true
-//         let editing = renderedEntityKey === this.props.store.currentEntityKey
-//         //*
-//         // console.log(editing)
-//         console.groupEnd()
-
-
-//         // console.log(convertToRaw(this.props.geteditorstate().getCurrentContent()).blocks)
-//         return (
-//             <span {...this.props} key={this.props.store.currentEntityKey} className={classNames(classes.root, editing ? classes.editing : null)} >
-//                 <Fragment>
-//                     <Icon className={classes.icon} />
-//                     <span className={classes.span} children={children} />
-//                 </Fragment>
-//             </span>
-//         )
-//     }
-// };
-
-
-// // export default withStyles(styles)(LinkSpan)
-
-// LinkSpan.propTypes = {
-//     store: PropTypes.object.isRequired,
-// };
-
-// export default compose(
-//     inject('store'),
-//     withStyles(styles),
-//     observer
-// )(LinkSpan)
