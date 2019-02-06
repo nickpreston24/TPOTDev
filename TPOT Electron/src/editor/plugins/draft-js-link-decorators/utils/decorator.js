@@ -33,7 +33,7 @@ class DecoratorStore {
 
     setItem = (key, value) => {
         this[key] = value
-        console.log('SET ITEM', key, value)
+        // console.log('SET ITEM', key, value)
     }
 
     get getCurrentEditorState () {

@@ -52,7 +52,7 @@ const styles = theme => ({
 class LinkSpan extends Component {
 
     componentWillMount() {
-        console.log(this.props)
+        // console.log(this.props)
         const { pluginprops, geteditorstate } = this.props
         const { setItem, currentEntityKey, currentEditorState, getCurrentEditorState } = this.props.store
         const { onEditorStateChange, createEntityFromDecorator } = this
@@ -60,47 +60,41 @@ class LinkSpan extends Component {
             // let initialEditorState = currentEditorState ? currentEditorState : 
             pluginprops.callbacks.onChange = onEditorStateChange;
             createEntityFromDecorator()
-            console.log('good')
+            // console.log('good')
         } else {
             // console.log('ignore')
         }
     }
 
-    // /     componentWillMount() {
-    //         // this.key = genKey();
-    //         if (this.props.pluginprops) {
-    //             this.props.pluginprops.callbacks.onChange = this.onEditorStateChange;
-    //             this.createEntityFromDecorator()
-    //             console.log('good')
-    //         } else {
-    //             console.log('ignore')
-    //         }
-    //     }
+    // shouldComponentUpdate() {
+    //     return false
+    // }
 
     componentWillUnmount() {
         const { pluginprops } = this.props
         if (pluginprops) {
-            // this.props.pluginprops.callbacks.onChange = undefined;
+            // : Needed?
+            this.props.pluginprops.callbacks.onChange = undefined;
             // console.log('goodbye')
         } else {
             // console.log('ignorebye')
         }
     }
 
-/*
- 
-   .oooooo.                                    .             
-  d8P'  `Y8b                                 .o8             
- 888          oooo d8b  .ooooo.   .oooo.   .o888oo  .ooooo.  
- 888          `888""8P d88' `88b `P  )88b    888   d88' `88b 
- 888           888     888ooo888  .oP"888    888   888ooo888 
- `88b    ooo   888     888    .o d8(  888    888 . 888    .o 
-  `Y8bood8P'  d888b    `Y8bod8P' `Y888""8o   "888" `Y8bod8P' 
-                                                             
-                                                             
-                                                             
- 
-*/
+    /*
+     
+       .oooooo.                                    .             
+      d8P'  `Y8b                                 .o8             
+     888          oooo d8b  .ooooo.   .oooo.   .o888oo  .ooooo.  
+     888          `888""8P d88' `88b `P  )88b    888   d88' `88b 
+     888           888     888ooo888  .oP"888    888   888ooo888 
+     `88b    ooo   888     888    .o d8(  888    888 . 888    .o 
+      `Y8bood8P'  d888b    `Y8bod8P' `Y888""8o   "888" `Y8bod8P' 
+                                                                 
+                                                                 
+                                                                 
+     
+    */
 
     createEntityFromDecorator = () => {
 
@@ -109,178 +103,148 @@ class LinkSpan extends Component {
         console.group('CREATE')
         console.log(`%c[${decoratedtext}]`, `color: #68b684; background: #02501e;`)
 
-        // * Get Block and Key from Decorator Regex, Get Content State
-        // editorState = 
-        // let editorState = null
-        // if (getCurrentEditorState === null) {
-        //     editorState = geteditorstate()
-        // } else {
-        //     geteditorstate()
-        // }
-        // editorState = !!getCurrentEditorState ? getCurrentEditorState : geteditorstate()
-        // let editorState = !!getCurrentEditorState ? getCurrentEditorState : geteditorstate()
-        // * GOOD
         // : get currentEditorState from store that was initialized with first editorState
         let editorState = currentEditorState
-        // First time get the editorState from plugin, then mobx after that
-        let selection = editorState.getSelection()
-        let anchorKey = selection.getAnchorKey()
-        let anchorOffset = selection.getAnchorOffset()
-        let focusKey = selection.getFocusKey()
-        let focusOffset = selection.getFocusOffset()
-
-        // console.log(currentEditorState)
-        console.log('Content Before: ', convertToRaw(editorState.getCurrentContent()))
-        // console.log(convertToRaw(currentEditorState.getCurrentContent()))
-
         let contentState = editorState.getCurrentContent()
+        let selection = editorState.getSelection()
+        let focusKey = selection.getFocusKey()
+
+        // ! NA
+        // console.groupCollapsed(`%cPROPS: `, 'color: dodgerblue; background: navy;')
+        // for (var prop in this.props) {
+        //     if (this.props.hasOwnProperty(prop)) {
+        //         console.log(`%c${prop}`, 'color: dodgerblue;', this.props[prop])
+        //     }
+        // }
+        // console.groupEnd()
+
+        // // console.log(currentEditorState)
+        // console.log('Content Before: ', convertToRaw(editorState.getCurrentContent()))
+        // // console.log(convertToRaw(currentEditorState.getCurrentContent()))
+
+        // * Get Block and Key from Decorator Regex, Get Content State
         let blockKey = /([a-zA-z\d]+)/g.exec(offsetkey)[0]
         let block = contentState.getBlockForKey(blockKey)
         if (!block) {
             block = contentState.getBlockForKey(focusKey)
         }
 
-        console.groupCollapsed(`%cPROPS: `, 'color: dodgerblue; background: navy;')
-        for (var prop in this.props) {
-            if (this.props.hasOwnProperty(prop)) {
-                console.log(`%c${prop}`, 'color: dodgerblue;', this.props[prop])
-            }
-        }
-        console.groupEnd()
-
-        // console.log(offsetkey)
-        // console.log(block)
-        // console.log(block.getText())
-        // console.log(block.getText().length)
-        
-        // console.log(convertToRaw(contentState))
-        // console.log(blockKey)
-        // console.log(focusKey)
-        // console.log(entitykey)
-
         // * Component Mounted by Decorator
         if (regex) {
-            console.log(regex)
-            let text = block.getText();
-            let regx = new RegExp(regex)
 
             // * Find Decorated Text in Current Block
-            console.log(text)
+            let text = block.getText();
+            let regx = new RegExp(regex)
             let match = regx.exec(text)
-            console.log(match)
-
             let start = match ? match.index : 0
             let end = match ? match[0].length + start : 0
-            console.log(start)
-            console.log(end)
-            console.log(blockKey)
-            console.log(anchorKey)
-            console.log(focusKey)
+            // console.log(match)
 
-            // * Make New Selection from Regex
-            let regexSelection = new SelectionState({
-                anchorKey: blockKey, anchorOffset: start,
-                focusKey: blockKey, focusOffset: end,
-            })
+            if (match) {
 
-            const contentState = editorState.getCurrentContent();
-            console.log(regexSelection)
-            const contentStateWithEntity = contentState.createEntity(
-                'LINK',
-                'MUTABLE',
-                { url: decoratedtext }
-            );
-            const entityKey = contentStateWithEntity.getLastCreatedEntityKey();
-            console.log(contentStateWithEntity)
-            const contentStateWithLink = Modifier.applyEntity(
-                contentStateWithEntity,
-                regexSelection,
-                entityKey
-            );
-            const newEditorState = EditorState.push(editorState, contentStateWithLink, 'apply-entity');
+                // * Make New Selection from Regex
+                let regexSelection = new SelectionState({ anchorKey: blockKey, anchorOffset: start, focusKey: blockKey, focusOffset: end, })
 
-            editorState = newEditorState
+                // * Create Entity in Content State
+                contentState = contentState.createEntity( 'LINK', 'MUTABLE', { url: decoratedtext } );
+                let lastEntityKey = contentState.getLastCreatedEntityKey();
+
+                // * Modify contentState with Entity Data
+                contentState = Modifier.applyEntity( contentState, regexSelection, lastEntityKey );
+
+                // * Apply Entity to editorState
+                editorState = EditorState.push(editorState, contentState, 'apply-entity');
+
+                // * Create Collapsed Selection at Entity End
+                let collapsedSelection = new SelectionState({ anchorKey: blockKey, anchorOffset: end, focusKey: blockKey, focusOffset: end, })
+
+                // * Apply Selectlion to editorState
+                editorState = EditorState.forceSelection(editorState, collapsedSelection)
+
+            } else {
+                console.log('No Match')
+            }
 
         }
-        // ? Component Mounted by Existing Entity
+        // * Component Mounted by Existing Entity
         else {
             if (entitykey) {
-                console.log('already an entity')
+                console.log('Already an Entity')
+            } else {
+                console.error('Unknown Decorator')
             }
         }
 
-        console.log('Content After: ', convertToRaw(editorState.getCurrentContent()))
+        // // console.log('Content After: ', convertToRaw(editorState.getCurrentContent()))
 
-        console.groupEnd()
-        // * GOOD
-        // ? setItem('currentEditorState', editorState) // need to set state for next cycle to see
+        // // ? setItem('currentEditorState', editorState) // need to set state for next cycle to see
+
         // : set editorState that onChange can see
+        console.groupEnd()
         seteditorstate(editorState)
 
     }
 
-/*
- 
- ooooo     ooo                  .o8                .             
- `888'     `8'                 "888              .o8             
-  888       8  oo.ooooo.   .oooo888   .oooo.   .o888oo  .ooooo.  
-  888       8   888' `88b d88' `888  `P  )88b    888   d88' `88b 
-  888       8   888   888 888   888   .oP"888    888   888ooo888 
-  `88.    .8'   888   888 888   888  d8(  888    888 . 888    .o 
-    `YbodP'     888bod8P' `Y8bod88P" `Y888""8o   "888" `Y8bod8P' 
-                888                                              
-               o888o                                             
-                                                                 
- 
-*/
+    /*
+     
+     ooooo     ooo                  .o8                .             
+     `888'     `8'                 "888              .o8             
+      888       8  oo.ooooo.   .oooo888   .oooo.   .o888oo  .ooooo.  
+      888       8   888' `88b d88' `888  `P  )88b    888   d88' `88b 
+      888       8   888   888 888   888   .oP"888    888   888ooo888 
+      `88.    .8'   888   888 888   888  d8(  888    888 . 888    .o 
+        `YbodP'     888bod8P' `Y8bod88P" `Y888""8o   "888" `Y8bod8P' 
+                    888                                              
+                   o888o                                             
+                                                                     
+     
+    */
 
     onEditorStateChange = (editorState) => {
-
-        // ! geteditorstate is useless
 
         const { geteditorstate, seteditorstate, entitykey, offsetkey, regex, decoratedtext } = this.props
         const { setItem, currentEntityKey, currentEditorState, getCurrentEditorState } = this.props.store
         console.group('UPDATE')
         console.error('editorStateChange')
-        // console.log(!!getCurrentEditorState.getCurrentContent()w)
-        // let editorState = !!getCurrentEditorState ? getCurrentEditorState : editorStateDefault
-        // : Get editorState from OnChange
-        console.log('editorState',convertToRaw(editorState.getCurrentContent()))
-        // !! USELESS: console.log('geteditorstate()',convertToRaw(geteditorstate().getCurrentContent()))
-        console.log('currentEditorState',convertToRaw(currentEditorState.getCurrentContent()))
-        console.log('getCurrentEditorState',convertToRaw(getCurrentEditorState.getCurrentContent()))
 
+        // : Use editorState from OnChange
+        let contentState = editorState.getCurrentContent()
+        let selection = editorState.getSelection()
 
         // * Create a Random Key to force MobX Renders on every onEditorStateChange
         let randomKey = new Date()
-
-
-
         let currentSelectionKey = null
 
+        // * Create New Editor State
+        let newEntityState = (() => {
+            // ? Are we inside the Entity?
 
-        // let newEditorState = EditorState.push(editorStateDefault, editorState.getCurrentContent(), editorState.getLastChangeType())
+            // TODO - We are outside the Entity, Update the currentEntity Key
+            return EditorState.push(editorState, editorState.getCurrentContent(), 'apply-entity')
+        })()
+
         // * Set Selection Key or Randomize, Set Final EditorState
-        console.groupEnd()
-        setItem('currentEntityKey', currentSelectionKey ? currentSelectionKey : randomKey)
+        // ! setItem('currentEntityKey', currentSelectionKey ? currentSelectionKey : randomKey)
+
         // : Return editorState to onChange (will update both currentEditorState and editorState)
-        return editorState
+        console.groupEnd()
+        return newEntityState
     }
 
-/*
- 
- ooooooooo.                               .o8                     
- `888   `Y88.                            "888                     
-  888   .d88'  .ooooo.  ooo. .oo.    .oooo888   .ooooo.  oooo d8b 
-  888ooo88P'  d88' `88b `888P"Y88b  d88' `888  d88' `88b `888""8P 
-  888`88b.    888ooo888  888   888  888   888  888ooo888  888     
-  888  `88b.  888    .o  888   888  888   888  888    .o  888     
- o888o  o888o `Y8bod8P' o888o o888o `Y8bod88P" `Y8bod8P' d888b    
-                                                                  
-                                                                  
-                                                                  
- 
-*/
+    /*
+     
+     ooooooooo.                               .o8                     
+     `888   `Y88.                            "888                     
+      888   .d88'  .ooooo.  ooo. .oo.    .oooo888   .ooooo.  oooo d8b 
+      888ooo88P'  d88' `88b `888P"Y88b  d88' `888  d88' `88b `888""8P 
+      888`88b.    888ooo888  888   888  888   888  888ooo888  888     
+      888  `88b.  888    .o  888   888  888   888  888    .o  888     
+     o888o  o888o `Y8bod8P' o888o o888o `Y8bod88P" `Y8bod8P' d888b    
+                                                                      
+                                                                      
+                                                                      
+     
+    */
 
     render() {
 
@@ -288,17 +252,20 @@ class LinkSpan extends Component {
         const { setItem, currentEntityKey, getCurrentEditorState, currentEditorState } = this.props.store
         console.group('RENDER')
         console.warn(this.props.children[0].props.text)
+        // : Any changes here will go to next render cyle. Focus on
+        // : evaluating render conditions based upon current state.
 
-        // * GOOD
-        console.log('Rendered Content: ', convertToRaw(currentEditorState.getCurrentContent()))
-        console.log('Rendered Content: ', convertToRaw(geteditorstate().getCurrentContent()))
+        // console.log('Rendered Content: ', convertToRaw(currentEditorState.getCurrentContent()))
+        // console.log('Rendered Content: ', convertToRaw(geteditorstate().getCurrentContent()))
 
         let editing = false
 
+
+        // : Render based upon the current editorState
         console.groupEnd()
 
         return (
-            <span key={currentEntityKey} className={classNames(classes.root, editing ? classes.editing : null)} >
+            <span key={currentEntityKey} className={classNames(classes.root, editing && classes.editing)} >
                 <Fragment>
                     <Icon className={classes.icon} />
                     <span className={classes.span} children={children} />

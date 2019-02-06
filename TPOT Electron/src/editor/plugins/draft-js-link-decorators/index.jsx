@@ -126,14 +126,14 @@ export default (config = {}) => {
             // console.log(chars, editorState)
         },
         onChange: (editorState) => {
-            let newEditorState = null
-            if (callbacks.onChange) {
-                newEditorState = callbacks.onChange(editorState)
-            } else {
-                newEditorState = editorState
-            }
+            let newEditorState = callbacks.onChange ? callbacks.onChange(editorState) : editorState
             store.setItem('currentEditorState', newEditorState)
             return newEditorState;
+            // if (callbacks.onChange) {
+            //     newEditorState = callbacks.onChange(editorState)
+            // } else {
+            //     newEditorState = editorState
+            // }
             // console.time('onChange')
 
             // ! OLD
