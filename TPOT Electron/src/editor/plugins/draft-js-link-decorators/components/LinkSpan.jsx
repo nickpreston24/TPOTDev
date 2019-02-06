@@ -12,6 +12,7 @@ import { toJS } from 'mobx';
 
 const styles = theme => ({
     root: {
+        overflow: 'hidden',
         background: '#e9f4ff',
         borderRadius: 6,
         paddingRight: 6,
@@ -30,6 +31,13 @@ const styles = theme => ({
         '& span, svg': {
             background: '#d0e1f3',
             color: '#7eadda',
+        }
+    },
+    warning: {
+        background: '#fdf1d0',
+        '& span, svg': {
+            background: '#fdf1d0',
+            color: '#c5995e',
         }
     },
     span: {
@@ -52,32 +60,16 @@ const styles = theme => ({
 class LinkSpan extends Component {
 
     componentWillMount() {
-        // console.log(this.props)
-        const { pluginprops, geteditorstate } = this.props
-        const { setItem, currentEntityKey, currentEditorState, getCurrentEditorState } = this.props.store
-        const { onEditorStateChange, createEntityFromDecorator } = this
-        if (pluginprops) {
-            // let initialEditorState = currentEditorState ? currentEditorState : 
-            pluginprops.callbacks.onChange = onEditorStateChange;
-            createEntityFromDecorator()
-            // console.log('good')
-        } else {
-            // console.log('ignore')
+        if (this.props.pluginprops) {
+            this.props.pluginprops.callbacks.onChange = this.onEditorStateChange;
+            this.createEntityFromDecorator()
         }
     }
 
-    // shouldComponentUpdate() {
-    //     return false
-    // }
-
     componentWillUnmount() {
-        const { pluginprops } = this.props
-        if (pluginprops) {
+        if (this.pluginprops) {
             // : Needed?
-            // this.props.pluginprops.callbacks.onChange = undefined;
-            // console.log('goodbye')
-        } else {
-            // console.log('ignorebye')
+            this.props.pluginprops.callbacks.onChange = undefined;
         }
     }
 
@@ -98,8 +90,8 @@ class LinkSpan extends Component {
 
     createEntityFromDecorator = () => {
 
-        const { geteditorstate, seteditorstate, entitykey, offsetkey, regex, strategy, decoratedtext } = this.props
-        const { setItem, currentEntityKey, currentEditorState, getCurrentEditorState } = this.props.store
+        const { seteditorstate, entitykey, offsetkey, regex, strategy, decoratedtext } = this.props
+        const { currentEditorState } = this.props.store
         console.group('CREATE')
         console.log(`%c[${decoratedtext}]`, `color: #68b684; background: #02501e;`)
 
@@ -108,19 +100,6 @@ class LinkSpan extends Component {
         let contentState = editorState.getCurrentContent()
         let selection = editorState.getSelection()
         let focusKey = selection.getFocusKey()
-
-        // ! NA
-        // console.groupCollapsed(`%cPROPS: `, 'color: dodgerblue; background: navy;')
-        // for (var prop in this.props) {
-        //     if (this.props.hasOwnProperty(prop)) {
-        //         console.log(`%c${prop}`, 'color: dodgerblue;', this.props[prop])
-        //     }
-        // }
-        // console.groupEnd()
-
-        // // console.log(currentEditorState)
-        // console.log('Content Before: ', convertToRaw(editorState.getCurrentContent()))
-        // // console.log(convertToRaw(currentEditorState.getCurrentContent()))
 
         // : Get Block and Key from Decorator Regex, Get Content State
         let blockKey = /([a-zA-z\d]+)/g.exec(offsetkey)[0]
@@ -156,7 +135,7 @@ class LinkSpan extends Component {
                 contentState = Modifier.applyEntity(contentState, regexSelection, lastEntityKey);
 
                 // : Apply Entity to editorState
-                editorState = EditorState.push(editorState, contentState, 'apply-entity');
+                editorState = EditorState.push(editorState, contentState, 'undo');
 
                 // : Create Collapsed Selection at Entity End
                 let collapsedSelection = new SelectionState({ anchorKey: blockKey, anchorOffset: end, focusKey: blockKey, focusOffset: end, })
@@ -168,9 +147,9 @@ class LinkSpan extends Component {
                 console.log('No Match')
             }
 
-        }
-        // : Component Mounted by Existing Entity
-        else {
+        } else {
+
+            // : Component Mounted by Existing Entity
             if (entitykey) {
                 console.log('Already an Entity')
             } else {
@@ -180,7 +159,7 @@ class LinkSpan extends Component {
 
         // // console.log('Content After: ', convertToRaw(editorState.getCurrentContent()))
 
-        // // ? setItem('currentEditorState', editorState) // need to set state for next cycle to see
+        // setItem('currentEditorState', editorState) // need to set state for next cycle to see
 
         // : set editorState that onChange can see
         console.groupEnd()
@@ -205,8 +184,7 @@ class LinkSpan extends Component {
 
     onEditorStateChange = (editorState) => {
 
-        const { geteditorstate, seteditorstate, entitykey, offsetkey, regex, decoratedtext } = this.props
-        const { setItem, currentEntityKey, currentEditorState, getCurrentEditorState } = this.props.store
+        const { setItem, currentEditorState } = this.props.store
         console.group('UPDATE')
         console.error('editorStateChange')
 
@@ -241,6 +219,7 @@ class LinkSpan extends Component {
             let currentKey = !!entityKeyAtSelectionStart ? entityKeyAtSelectionStart : entityKeyAtSelectionEnd
             let currentEntity = contentState.getEntity(currentKey)
             setItem('currentEntityKey', currentKey)
+            console.log(currentKey)
 
             // : Get Entity Text and Ranges
             let blockText = block.getText()
@@ -258,12 +237,8 @@ class LinkSpan extends Component {
             let captureEnd = end > blockText.length ? blockText.length : end + 1
             let captureText = blockText.slice(captureStart, captureEnd)
 
-            // console.log(anchorOffset, focusOffset)
-            // console.log(captureStart, captureEnd)  
-
-            // TODO: Force selection into entity range and collapse
+            // TODO: Force selection into entity range
             let insertPoint = focusOffset > captureStart ? focusOffset : focusOffset < captureStart ? focusOffset : focusOffset > captureEnd ? focusOffset : focusOffset < captureEnd ? focusOffset : anchorOffset
-            // console.log(insertPoint)
 
             // : Create Collapsed Selection at insertPoint
             const insertSelection = new SelectionState({
@@ -317,30 +292,73 @@ class LinkSpan extends Component {
 
     render() {
 
-        const { geteditorstate, seteditorstate, children, classes, entitykey, offsetkey, regex, decoratedtext } = this.props
-        const { setItem, currentEntityKey, getCurrentEditorState, currentEditorState } = this.props.store
+        const { geteditorstate, children, classes, entitykey, offsetkey, regex } = this.props
+        const { currentEntityKey, currentEditorState } = this.props.store
         console.group('RENDER')
         console.warn(this.props.children[0].props.text)
 
-        // : Any changes here will go to next render cyle. Focus on
+        // : Any change here will go to next render cycle. Focus on
         // : evaluating render conditions based upon current state.
+        let editing = false
+        if (entitykey) {
+            // console.log(entitykey)
+            // console.log('Rendered Content: ', convertToRaw(geteditorstate().getCurrentContent()))
+            // console.log('Rendered Content: ', convertToRaw(currentEditorState.getCurrentContent()))
 
-        let editorState = geteditorstate()
-        let contentState = editorState.getCurrentContent()
+            // : This Entity Instance is Currently Editable
+            if (currentEntityKey === entitykey) {
 
-        console.log('Rendered Content: ', convertToRaw(contentState))
+                // : Get Entity Text and Ranges
+                let editorState = geteditorstate()
+                let contentState = editorState.getCurrentContent()
 
-        // console.log('Rendered Content: ', convertToRaw(geteditorstate().getCurrentContent()))
-        // console.log('Rendered Content: ', convertToRaw(currentEditorState.getCurrentContent()))
+                // : Get Entity Text and Ranges
+                let blockKey = /([a-zA-z\d]+)/g.exec(offsetkey)[0]
+                let block = contentState.getBlockForKey(blockKey)
+                let blockText = block.getText()
+                let { start, end } = (() => {
+                    let _ = {}
+                    block.findEntityRanges(
+                        (value) => { return entitykey === value.getEntity() },
+                        (start, end) => { _.start = start, _.end = end },
+                    )
+                    return _
+                })()
 
-        let editing = currentEntityKey !== null
+                // : Capture string of entity range with characters before and after and add to entity
+                let captureStart = start === 0 ? 0 : start - 1
+                let captureEnd = end > blockText.length ? blockText.length : end + 1
+                let captureText = blockText.slice(captureStart, captureEnd)
+
+                // : Shift and Bump Selection around Ranges    
+                let selection = editorState.getSelection()
+                let focusKey = selection.getFocusKey()
+                let focusOffset = selection.getFocusOffset()
+
+                // : Set Final Editing State for UI Feedback
+                editing = captureStart < focusOffset && focusOffset < captureEnd && focusKey === blockKey
+
+                // console.log(insertPoint)
+                // console.log(anchorOffset, focusOffset)
+                // console.log(captureStart, captureEnd)
+
+            }
+        } else {
+
+            // : Component is Rendered, but there is no Entity (ex: un-doing a decorated added entry)
+            // TODO - Prevent only initially converted decorator entities from being undone, but not later ones
+            // ! this.createEntityFromDecorator()
+        }
+
+
+        // : Other Rendering Prep Operations, if any
 
 
         // : Render based upon the current editorState
         console.groupEnd()
 
         return (
-            <span className={classNames(classes.root, editing && classes.editing)} >
+            <span className={classNames(classes.root, editing && classes.editing, !entitykey && classes.warning)} >
                 <Fragment>
                     <Icon className={classes.icon} />
                     <span className={classes.span} children={children} />
@@ -349,9 +367,6 @@ class LinkSpan extends Component {
         )
     }
 };
-
-
-// export default withStyles(styles)(LinkSpan)
 
 LinkSpan.propTypes = {
     store: PropTypes.object.isRequired,

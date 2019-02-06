@@ -30,6 +30,7 @@ class DecoratorStore {
 
     currentEntityKey = 0
     currentEditorState = null
+    insertPoint = null
 
     setItem = (key, value) => {
         this[key] = value
@@ -55,6 +56,8 @@ export default decorate(
 
         currentEntityKey: observable,
         currentEditorState: observable,
+        insertPoint: observable,
+
         setItem: action,
         getCurrentEditorState: computed,
 
