@@ -61,12 +61,6 @@ describe("Extract Inserts (<URL>s)", () => {
     })
 })
 
-function isHtml(line) {
-    return line != undefined;
-}
-
-
-
 describe("Generic", () => {
     it("Should get free floating urls"), _ => {
         everything.map(line => line.match(generic_re));
