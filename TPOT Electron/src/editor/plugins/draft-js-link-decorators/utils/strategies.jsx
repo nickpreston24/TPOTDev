@@ -2,8 +2,9 @@
 const HANDLE_REGEX = /\@[\w]+/g;
 const HASHTAG_REGEX = /\#[\w\u0590-\u05ff]+/g;
 const URL_REGEX = /(https?:\/\/|www)+([\da-z\.-]+)\.([a-z\.]{2,6})([/\w\.-]*)*\/?/g
-const master_re = /(\[[a-zA-Z\s\d-]+\])?(?:[\s\(]+?)?(?:url=\s*)?([(http(s)?):\/\/(www\.)?a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b[-a-zA-Z0-9@:%_\+.~#?&//=]*)(\][a-zA-Z\s\d-]+\[)?/
 
+const MARKUP_REGEX = /\[?([a-zA-Z&\s\d-]+)?\]?(?:[\s\(]+?)?([(http(s)?):\/\/(www\.)?a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b[-a-zA-Z0-9@:%_\+.~#?&//=]*)/
+const MASTER_REGEX = /(\[[a-zA-Z\s\d-]+\])?(?:[\s\(]+?)?(?:url=\s*)?([(http(s)?):\/\/(www\.)?a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b[-a-zA-Z0-9@:%_\+.~#?&//=]*)(\][a-zA-Z\s\d-]+\[)?/
 
 
 const isNullOrWhiteSpace = input => !input || !input.trim();
@@ -20,7 +21,7 @@ function extract(lines, pattern) {
             continue;
         if(match.every(m=>m===undefined)){
             throw Error('Matches cannot all be undefined (null)!')
-            //todo: 
+            //todo: log this error using a logging package.
         }
         extracted.push({
             url: match[2],
