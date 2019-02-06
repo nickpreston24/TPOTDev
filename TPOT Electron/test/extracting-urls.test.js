@@ -17,21 +17,33 @@ describe("Canary Test", () => {
     })
 })
 
-/**GOOD REGEX */
-const markup_re = /\[?([a-zA-Z&\s\d-]+)?\]?(?:[\s\(]+?)?([(http(s)?):\/\/(www\.)?a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b[-a-zA-Z0-9@:%_\+.~#?&//=]*)/
-
-/**TESTING REGEX */
-// const master_re = /(?:\[)?([a-zA-Z&\s\d-]+)?(?:\])?(?:[\s\(]+?)?(?:[\burl=\b\s]?)[\s<]*([(http(s)?):\/\/(www\.)?a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b[-a-zA-Z0-9@:%_\+.~#?&//=]*)(?:\])?([a-zA-Z\s\d-]+)?(?:\[)?/
-const master_re = /\[?([a-zA-Z&\s\d-]+)?\]?(?:[\s\(]+?)?[\burl=\b\s]?[\s<]*([(http(s)?):\/\/(www\.)?a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b[-a-zA-Z0-9@:%_\+.~#?&//=]*)(?:\])?([a-zA-Z\s\d-]+)?(?:\[)?/
-
-// const master_re = /(\[[a-zA-Z\s\d-]+\])?(?:[\s\(]+?)?(?:url=\s*)?([(http(s)?):\/\/(www\.)?a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b[-a-zA-Z0-9@:%_\+.~#?&//=]*)(\][a-zA-Z\s\d-]+\[)?/ //leaves the words prior to <, but captures [] content & unfortunately those [].
-// const master_re = /\[?([a-zA-Z\s\d-]+)?\]?(?:[\s\(]+?)?(?:url=\s*)?([(http(s)?):\/\/(www\.)?a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b[-a-zA-Z0-9@:%_\+.~#?&//=]*)(\][a-zA-Z\s\d-]+\[\/url\])?/ //leaves some 'url=' in first grouping.
-
-var bracketInserts = [
+const bracketInserts = [
     "Highlighted & Bracket Insert < http://www.a.google.com/test-3.html#imahastag!>",
     "these are the Issues of Life <https://www.google.com/test/2-1.co.htm >",
     "WhAt THe LoRd HAs DoNE WiTH Me < www.google.com/test.org>"
 ]
+
+const markup = [
+    "[Markup the Notation](http://www.a.google.com/test-3.html)",
+    "[Markup Notation 2](https://www.google.com/test/2-1.co.htm)",
+    "[Markup-Notation](www.google.com/test.org)"
+]
+
+const short_code_links = [
+    "[url= http://www.a.google.com/test-3.html]A Short Code Link[/url]",
+    "[url=https://www.google.com/test/2-1.co.htm]A Short Code Link[/url]",
+    "[url= www.google.com/test.org]A Short Code Link[/url]"
+]
+
+let everything = markup.concat(bracketInserts).concat(short_code_links);
+
+
+/**GOOD REGEX */
+const markup_re = /\[?([a-zA-Z&\s\d-]+)?\]?(?:[\s\(]+?)?([(http(s)?):\/\/(www\.)?a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b[-a-zA-Z0-9@:%_\+.~#?&//=]*)/
+const generic_re = /([(http(s)?):\/\/(www\.)?a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b[-a-zA-Z0-9@:%_\+.~#?&//=]*)/
+
+/**TESTING REGEX */
+const master_re = /\[?([a-zA-Z&\s\d-]+)?\]?(?:[\s\(]+?)?[\burl=\b\s]?[\s<]*([(http(s)?):\/\/(www\.)?a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b[-a-zA-Z0-9@:%_\+.~#?&//=]*)(?:\])?([a-zA-Z\s\d-]+)?(?:\[)?/
 
 describe("Extract Inserts (<URL>s)", () => {
     it("should parse out tpot urls from <>", () => {
@@ -53,11 +65,13 @@ function isHtml(line) {
     return line != undefined;
 }
 
-var markup = [
-    "[Markup the Notation](http://www.a.google.com/test-3.html)",
-    "[Markup Notation 2](https://www.google.com/test/2-1.co.htm)",
-    "[Markup-Notation](www.google.com/test.org)"
-]
+
+
+describe("Generic", () => {
+    it("Should get free floating urls"), _ => {
+        everything.map(line => line.match(generic_re));
+    }
+})
 
 describe("Extract Markup", () => {
     it("should extract markup URLs & bracket Text", () => {
@@ -74,12 +88,6 @@ describe("Extract Markup", () => {
     })
 })
 
-short_code_links = [
-    "[url= http://www.a.google.com/test-3.html]A Short Code Link[/url]",
-    "[url=https://www.google.com/test/2-1.co.htm]A Short Code Link[/url]",
-    "[url= www.google.com/test.org]A Short Code Link[/url]"
-]
-
 describe("Extract 'url=' links", () => {
     it("should extract URLs between [url=...]title[/url]", () => {
         let results = short_code_links.map(line => line.match(master_re));
@@ -94,8 +102,6 @@ describe("Extract 'url=' links", () => {
         }
     })
 })
-
-let everything = markup.concat(bracketInserts).concat(short_code_links);
 
 describe("Extract Everything", () => {
     it("should extract all URLs & enclosed Text", () => {
@@ -145,13 +151,3 @@ function extract(lines, pattern) {
 
     return extracted;
 }
-
-// let {
-//     0: group1,
-//     1: group2
-// } = element; //results[i]
-// console.log(group1, group2)
-
-// match.should.not.startWith('=')
-// match.should.not.startWith(':')
-// match.should.not.startWith('url')
