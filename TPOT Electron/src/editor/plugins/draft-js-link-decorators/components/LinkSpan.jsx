@@ -127,20 +127,20 @@ class LinkSpan extends Component {
                 let replaceSelection = new SelectionState({ anchorKey: blockKey, anchorOffset: match.index, focusKey: blockKey, focusOffset: match[0].length + match.index, })
 
                 // : Replace Selection with Title or Floating URL
-                contentState = Modifier.replaceText( contentState, replaceSelection, strategy === 'Generic' ? match[0] : match[1] )
+                contentState = Modifier.replaceText( contentState, replaceSelection, strategy === 'Generic' ? decoratedtext : match[1] )
 
                 // : Force Replaced Text into editorState History
                 editorState = EditorState.push(editorState, contentState, 'insert-characters');
 
                 // : Get Range of Full Match or Title Text
-                let start = match ? match.index : 0
-                let end = match ? match[1].length + start : 0
+                let start = match.index
+                let end = strategy === 'Generic' ? decoratedtext.length + start : match[1].length + start
                 
                 // : Make New Selection for Entity
-                let regexSelection = new SelectionState({ anchorKey: blockKey, anchorOffset: match.index, focusKey: blockKey, focusOffset: match[1].length + match.index })
+                let regexSelection = new SelectionState({ anchorKey: blockKey, anchorOffset: start, focusKey: blockKey, focusOffset: end })
 
                 // : Create Entity in Content State
-                contentState = contentState.createEntity('LINK', 'MUTABLE', { url: strategy === 'Generic' ? match[0] : match[2] });
+                contentState = contentState.createEntity('LINK', 'MUTABLE', { url: strategy === 'Generic' ? decoratedtext : match[2] });
                 let lastEntityKey = contentState.getLastCreatedEntityKey();
 
                 // : Modify contentState with Entity Data
@@ -197,8 +197,8 @@ class LinkSpan extends Component {
     onEditorStateChange = (editorState) => {
 
         const { setItem, currentEditorState } = this.props.store
-        // console.group('UPDATE')
-        // console.error('editorStateChange')
+        console.group('UPDATE')
+        console.error('editorStateChange')
 
         // : Use editorState from OnChange
         let contentState = editorState.getCurrentContent()
@@ -226,7 +226,7 @@ class LinkSpan extends Component {
         // : User's Selection is inside an Entity Now!
         if (entityKeyAtSelectionStart || entityKeyAtSelectionEnd) {
 
-            // console.log('Inside Entity', true)
+            console.log('Inside Entity', true)
             // : Get and Check and Set Current Key and Entity
             let currentKey = !!entityKeyAtSelectionStart ? entityKeyAtSelectionStart : entityKeyAtSelectionEnd
             let currentEntity = contentState.getEntity(currentKey)
@@ -251,6 +251,14 @@ class LinkSpan extends Component {
 
             // TODO: Force selection into entity range
             let insertPoint = focusOffset > captureStart ? focusOffset : focusOffset < captureStart ? focusOffset : focusOffset > captureEnd ? focusOffset : focusOffset < captureEnd ? focusOffset : anchorOffset
+
+            // TODO - Absorb Text
+            console.log(blockText)
+            console.log(blockText.slice(start, end))
+            console.log(blockText.slice(captureStart, captureEnd))
+            
+
+            // TODO - Set text
 
             // : Create Collapsed Selection at insertPoint
             const insertSelection = new SelectionState({
@@ -283,7 +291,7 @@ class LinkSpan extends Component {
         // // ! setItem('currentEntityKey', currentSelectionKey ? currentSelectionKey : randomKey)
 
         // : Return editorState to onChange (will update both currentEditorState and editorState)
-        // console.groupEnd()
+        console.groupEnd()
         return editorState
     }
 
