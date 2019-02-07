@@ -29,6 +29,26 @@ export default (config = {}) => {
     return {
         decorators: [
             {
+                strategy: strategies.markup,
+                component: (props) => {
+                    return (
+                        <Provider store={store} >
+                            <LinkSpan
+                                children={props.children}
+                                decoratedtext={props.decoratedText}
+                                entitykey={props.entityKey}
+                                offsetkey={props.offsetKey}
+                                geteditorstate={props.getEditorState}
+                                seteditorstate={props.setEditorState}
+                                pluginprops={pluginProps}
+                                strategy='Markup'
+                                regex={strategies.MARKUP_REGEX}
+                            />
+                        </Provider>
+                    )
+                }
+            },
+            {
                 strategy: strategies.generic,
                 component: (props) => {
                     return (

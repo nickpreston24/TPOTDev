@@ -115,8 +115,7 @@ class LinkSpan extends Component {
             let text = block.getText();
             let regx = new RegExp(regex)
             let match = regx.exec(text)
-            let start = match ? match.index : 0
-            let end = match ? match[0].length + start : 0
+
             // console.log(match)
             // console.log(decoratedtext)
 
@@ -124,18 +123,31 @@ class LinkSpan extends Component {
             // TODO - Support for multiple decorator generator entities found on block and their selection range
             if (match && decoratedtext === match[0]) {
 
-                // : Make New Selection from Regex
-                let regexSelection = new SelectionState({ anchorKey: blockKey, anchorOffset: start, focusKey: blockKey, focusOffset: end, })
+                // : Get Range of Full Match
+                let replaceSelection = new SelectionState({ anchorKey: blockKey, anchorOffset: match.index, focusKey: blockKey, focusOffset: match[0].length + match.index, })
+
+                // : Replace Selection with Title or Floating URL
+                contentState = Modifier.replaceText( contentState, replaceSelection, strategy === 'Generic' ? match[0] : match[1] )
+
+                // : Force Replaced Text into editorState History
+                editorState = EditorState.push(editorState, contentState, 'insert-characters');
+
+                // : Get Range of Full Match or Title Text
+                let start = match ? match.index : 0
+                let end = match ? match[1].length + start : 0
+                
+                // : Make New Selection for Entity
+                let regexSelection = new SelectionState({ anchorKey: blockKey, anchorOffset: match.index, focusKey: blockKey, focusOffset: match[1].length + match.index })
 
                 // : Create Entity in Content State
-                contentState = contentState.createEntity('LINK', 'MUTABLE', { url: decoratedtext });
+                contentState = contentState.createEntity('LINK', 'MUTABLE', { url: strategy === 'Generic' ? match[0] : match[2] });
                 let lastEntityKey = contentState.getLastCreatedEntityKey();
 
                 // : Modify contentState with Entity Data
                 contentState = Modifier.applyEntity(contentState, regexSelection, lastEntityKey);
 
                 // : Apply Entity to editorState
-                editorState = EditorState.push(editorState, contentState, 'undo');
+                editorState = EditorState.push(editorState, contentState, 'apply-entity');
 
                 // : Create Collapsed Selection at Entity End
                 let collapsedSelection = new SelectionState({ anchorKey: blockKey, anchorOffset: end, focusKey: blockKey, focusOffset: end, })
@@ -372,6 +384,7 @@ class LinkSpan extends Component {
 
 LinkSpan.propTypes = {
     store: PropTypes.object.isRequired,
+    strategy: PropTypes.string.isRequired,
 };
 
 export default compose(

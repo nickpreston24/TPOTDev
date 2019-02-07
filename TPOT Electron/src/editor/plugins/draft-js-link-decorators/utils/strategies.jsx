@@ -3,8 +3,9 @@ const HANDLE_REGEX = /\@[\w]+/g;
 const HASHTAG_REGEX = /\#[\w\u0590-\u05ff]+/g;
 const URL_REGEX = /(https?:\/\/|www)+([\da-z\.-]+)\.([a-z\.]{2,6})([/\w\.-]*)*\/?/g
 
-const MARKUP_REGEX = /\[?([a-zA-Z&\s\d-]+)?\]?(?:[\s\(]+?)?([(http(s)?):\/\/(www\.)?a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b[-a-zA-Z0-9@:%_\+.~#?&//=]*)/
-const MASTER_REGEX = /(\[[a-zA-Z\s\d-]+\])?(?:[\s\(]+?)?(?:url=\s*)?([(http(s)?):\/\/(www\.)?a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b[-a-zA-Z0-9@:%_\+.~#?&//=]*)(\][a-zA-Z\s\d-]+\[)?/
+// const MARKUP_REGEX_old = /\[?([a-zA-Z&\s\d-]+)?\]?(?:[\s\(]+?)?([(http(s)?):\/\/(www\.)?a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b[-a-zA-Z0-9@:%_\+.~#?&//=]*)/g
+const MARKUP_REGEX = /\[+([\w\s\d,&!?-]+)+\]+(?:[\s\(]+?)+([\w\s@#$%:=+~,._\/~#=-]{2,256})(?:[\S\)])+/g
+const MASTER_REGEX = /(\[[a-zA-Z\s\d-]+\])?(?:[\s\(]+?)?(?:url=\s*)?([(http(s)?):\/\/(www\.)?a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b[-a-zA-Z0-9@:%_\+.~#?&//=]*)(\][a-zA-Z\s\d-]+\[)?/g
 
 
 const isNullOrWhiteSpace = input => !input || !input.trim();
@@ -49,6 +50,10 @@ function generic(contentBlock, callback, contentState) {
     findWithRegex(URL_REGEX, contentBlock, callback);
 }
 
+function markup(contentBlock, callback, contentState) {
+    findWithRegex(MARKUP_REGEX, contentBlock, callback);
+}
+
 function findWithRegex(regex, contentBlock, callback, contentState, b, c, d) {
     // console.log(regex)
     // console.log(contentBlock)
@@ -75,4 +80,7 @@ export {
     entity,
     generic,
     URL_REGEX,
+    markup,
+    MARKUP_REGEX,
+    MASTER_REGEX,
 }
