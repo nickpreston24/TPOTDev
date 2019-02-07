@@ -5,8 +5,8 @@ const URL_REGEX = /(https?:\/\/|www)+([\da-z\.-]+)\.([a-z\.]{2,6})([/\w\.-]*)*\/
 
 // const MARKUP_REGEX_old = /\[?([a-zA-Z&\s\d-]+)?\]?(?:[\s\(]+?)?([(http(s)?):\/\/(www\.)?a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b[-a-zA-Z0-9@:%_\+.~#?&//=]*)/
 const MARKUP_REGEX = /\[+([\w\s\d,&!?-]+)+\]+(?:[\s\(]+?)+([\w\s@#$%:=+~,._\/~#=-]{2,256})(?:[\S\)])+/g
-const MASTER_REGEX = /(\[[a-zA-Z\s\d-]+\])?(?:[\s\(]+?)?(?:url=\s*)?([(http(s)?):\/\/(www\.)?a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b[-a-zA-Z0-9@:%_\+.~#?&//=]*)(\][a-zA-Z\s\d-]+\[)?/
-const SHORT_CODE_REGEX = /[\burl=\b\s][\s<]*([(http(s)?):\/\/(www\.)?a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b[-a-zA-Z0-9@:%_\+.~#?&//=]*)(?:\])([a-zA-Z\s\d&$-!]+)?(?:\[)/
+const MASTER_REGEX = /(\[[a-zA-Z\s\d-]+\])?(?:[\s\(]+?)?(?:url=\s*)?([(http(s)?):\/\/(www\.)?a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b[-a-zA-Z0-9@:%_\+.~#?&//=]*)(\][a-zA-Z\s\d-]+\[)?/g
+const SHORT_CODE_REGEX = /[\burl=\b\s][\s<]*([(http(s)?):\/\/(www\.)?a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b[-a-zA-Z0-9@:%_\+.~#?&//=]*)(?:\])([a-zA-Z\s\d&$-!]+)?(?:\[)/g
 
 const isNullOrWhiteSpace = input => !input || !input.trim();
 /**
