@@ -135,7 +135,7 @@ class LinkSpan extends Component {
 
                 // : Get Range of Full Match or Title Text
                 let start = match.index
-                let end = strategy === 'generic' ? decoratedtext.length + start : strategy === 'shortcode' ?  match[2].length + start :  match[1].length + start
+                let end = strategy === 'generic' ? decoratedtext.length + start : strategy === 'shortcode' ? match[2].length + start : match[1].length + start
 
                 // : Make New Selection for Entity
                 let regexSelection = new SelectionState({ anchorKey: blockKey, anchorOffset: start, focusKey: blockKey, focusOffset: end })
@@ -198,8 +198,8 @@ class LinkSpan extends Component {
     onEditorStateChange = (editorState) => {
 
         const { setItem, currentEditorState } = this.props.store
-        console.group('UPDATE')
-        console.error('editorStateChange')
+        // console.group('UPDATE')
+        // console.error('editorStateChange')
 
         // : Use editorState from OnChange
         let contentState = editorState.getCurrentContent()
@@ -227,7 +227,7 @@ class LinkSpan extends Component {
         // : User's Selection is inside an Entity Now!
         if (entityKeyAtSelectionStart || entityKeyAtSelectionEnd) {
 
-            console.log('Inside Entity', true)
+            // console.log('Inside Entity', true)
             // : Get and Check and Set Current Key and Entity
             let currentKey = !!entityKeyAtSelectionStart ? entityKeyAtSelectionStart : entityKeyAtSelectionEnd
             let currentEntity = contentState.getEntity(currentKey)
@@ -250,35 +250,21 @@ class LinkSpan extends Component {
             let captureEnd = end > blockText.length ? blockText.length : end
             let captureText = blockText.slice(captureStart, captureEnd)
 
-            // TODO: Force selection into entity range
+            // : Force selection into entity range
             let insertPoint = focusOffset > captureStart ? focusOffset : focusOffset < captureStart ? focusOffset : focusOffset > captureEnd ? focusOffset : focusOffset < captureEnd ? focusOffset : anchorOffset
 
-            // TODO - Absorb Text
-            console.log(blockText)
-            console.log(blockText.slice(start, end))
-            console.log(blockText.slice(captureStart, captureEnd))
-            console.log(blockText.charAt(captureStart), /[^\s\r\n]/g.test(blockText.charAt(captureStart)))
-            console.log(blockText.charAt(captureEnd), /[^\s\r\n]/g.test(blockText.charAt(captureEnd)))
+            // console.log(blockText)
+            // console.log(blockText.slice(start, end))
+            // console.log(blockText.slice(captureStart, captureEnd))
+            // console.log(blockText.charAt(captureStart), /[^\s\r\n]/g.test(blockText.charAt(captureStart)))
+            // console.log(blockText.charAt(captureEnd), /[^\s\r\n]/g.test(blockText.charAt(captureEnd)))
 
-
+            // : Are Adjacent Characters Valid?
             let validChar = new RegExp(/[^\s\r\n]/g)
             let startValid = validChar.test(blockText.charAt(captureStart))
             let endValid = validChar.test(blockText.charAt(captureEnd))
 
-            console.log(startValid, endValid)
-
             if (startValid || endValid) {
-
-                // : Determine Adjacent Selection
-                let absorbSelection = new SelectionState({
-                    anchorKey: focusKey, anchorOffset: startValid ? captureStart : start,
-                    focusKey: focusKey, focusOffset: startValid ? end : captureEnd + 1,
-                })
-
-                // : Determine Adjacent Text
-                let absorbText = startValid ? blockText.slice(captureStart, end) : blockText.slice(start, captureEnd + 1)
-
-                console.log(absorbText)
 
                 // : Store Existing Entity Data
                 let entityRanges = DraftUtils.getEntityRange(editorState, currentKey)
@@ -296,43 +282,31 @@ class LinkSpan extends Component {
                 // : Destroy Existing Entity
                 contentState = Modifier.applyEntity(contentState, existingSelection, null);
 
-                
-                console.log(entityData)
-                console.log(DraftUtils.getEntityRange(editorState, currentKey))
+                // : Determine Adjacent Selection
+                let absorbSelection = new SelectionState({
+                    anchorKey: focusKey, anchorOffset: startValid ? captureStart : start,
+                    focusKey: focusKey, focusOffset: startValid ? end : captureEnd + 1,
+                })
 
-                // : Get Existing Entity Range and Data
+                // : Determine Adjacent Text
+                let absorbText = startValid ? blockText.slice(captureStart, end) : blockText.slice(start, captureEnd + 1)
 
+                // console.log(absorbText)
+                // console.log(entityData)
+                // console.log(DraftUtils.getEntityRange(editorState, currentKey))
+
+                // : Create New Entity Replacement
                 contentState = contentState.createEntity('LINK', 'MUTABLE', { ...entityData });
+
+                // : Re-Update the Store's Current Entity Key
                 let lastEntityKey = contentState.getLastCreatedEntityKey();
-
-                contentState = Modifier.applyEntity(contentState, absorbSelection, lastEntityKey);
-
-                // let editorState = EditorState.push(currentEditorState, newContentState, 'apply-entity');
-
-                // : Delete Existing Entity
-
+                setItem('currentEntityKey', lastEntityKey)
 
                 // : Create New Entity in Content State
-                // contentState = contentState.createEntity('LINK', 'MUTABLE', { url: 'fix me' });
-                // let lastEntityKey = contentState.getLastCreatedEntityKey();
-
-                // : Modify contentState with Old Entity Data
-                // contentState = Modifier.applyEntity(contentState, absorbSelection, lastEntityKey);
+                contentState = Modifier.applyEntity(contentState, absorbSelection, lastEntityKey);
 
                 // : Apply Entity to editorState
                 editorState = EditorState.push(editorState, contentState, 'apply-entity');
-
-                // // : Get Range of Full Match
-                // let replaceSelection = new SelectionState({ 
-                //     anchorKey: blockKey, anchorOffset: match.index,
-                //      focusKey: blockKey, focusOffset: match[0].length + match.index, })
-
-                // // : Replace Selection with Title or Floating URL
-                // contentState = Modifier.replaceText(contentState, absorbSelection, absorbText)
-
-                // // : Force Replaced Text into editorState History
-                // editorState = EditorState.push(editorState, contentState, 'insert-characters');
-
 
             }
 
@@ -348,15 +322,6 @@ class LinkSpan extends Component {
             // TODO - Eventually only the URL decorator will need this protection. Existing Entities self-manage
             editorState = EditorState.forceSelection(editorState, insertSelection);
 
-
-
-            // TODO Does Text Around Entity Need Updated?
-
-            // TODO Find Text around Entity
-
-            // TODO Update State and Entity Data URL
-
-
         }
 
 
@@ -369,7 +334,7 @@ class LinkSpan extends Component {
         // // ! setItem('currentEntityKey', currentSelectionKey ? currentSelectionKey : randomKey)
 
         // : Return editorState to onChange (will update both currentEditorState and editorState)
-        console.groupEnd()
+        // console.groupEnd()
         return editorState
     }
 
@@ -399,6 +364,7 @@ class LinkSpan extends Component {
         // : evaluating render conditions based upon current state.
         let editing = false
         let warning = false
+        // console.log(currentEntityKey, entitykey)
         if (entitykey) {
             // console.log(entitykey)
             // console.log('Rendered Content: ', convertToRaw(geteditorstate().getCurrentContent()))
@@ -431,15 +397,12 @@ class LinkSpan extends Component {
 
                 // : Shift and Bump Selection around Ranges    
                 let selection = editorState.getSelection()
+                let anchorOffset = selection.getAnchorOffset()
                 let focusKey = selection.getFocusKey()
                 let focusOffset = selection.getFocusOffset()
 
                 // : Set Final Editing State for UI Feedback
                 editing = captureStart < focusOffset && focusOffset < captureEnd && focusKey === blockKey
-
-                // console.log(insertPoint)
-                // console.log(anchorOffset, focusOffset)
-                // console.log(captureStart, captureEnd)
 
             }
         } else {
