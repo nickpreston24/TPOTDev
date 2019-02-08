@@ -1,14 +1,15 @@
 import React from 'react'
-import * as strategies from './utils/strategies';
-import decorateComponentWithProps from 'decorate-component-with-props';
-import DecoratorStore from './utils/decorator'
-import { configure } from 'mobx'
 import { Provider } from 'mobx-react';
-import { RichUtils, EditorState, SelectionState, Entity, Modifier, convertToRaw } from 'draft-js';
+import DecoratorStore from './utils/decorator'
 import LinkSpan from './components/LinkSpan';
+import * as $ from './utils/strategies';
 
-export default (config = {}) => {
+const createLinkDecoratorsPlugin = () => {
+
+    const store = new DecoratorStore()
+
     const callbacks = {
+        // : Keep commented Callbacks for now
         // keyBindingFn: undefined,
         // handleKeyCommand: undefined,
         // onDownArrow: undefined,
@@ -19,75 +20,40 @@ export default (config = {}) => {
         onChange: undefined,
     };
 
-    const pluginProps = {
-        callbacks,
-        // store: store2,
-    };
-
-    const store = new DecoratorStore()
+    const createEntityComponent = (strategy, regex) => {
+        return (props) => {
+            return (
+                <Provider store={store} >
+                    <LinkSpan
+                        children={props.children}
+                        decoratedtext={props.decoratedText}
+                        entitykey={props.entityKey}
+                        offsetkey={props.offsetKey}
+                        geteditorstate={props.getEditorState}
+                        seteditorstate={props.setEditorState}
+                        callbacks={callbacks}
+                        strategy={strategy}
+                        regex={$[regex]}
+                    />
+                </Provider>
+            )
+        }
+    }
 
     return {
         decorators: [
             {
-                strategy: strategies.markup,
-                component: (props) => {
-                    return (
-                        <Provider store={store} >
-                            <LinkSpan
-                                children={props.children}
-                                decoratedtext={props.decoratedText}
-                                entitykey={props.entityKey}
-                                offsetkey={props.offsetKey}
-                                geteditorstate={props.getEditorState}
-                                seteditorstate={props.setEditorState}
-                                pluginprops={pluginProps}
-                                strategy='Markup'
-                                regex={strategies.MARKUP_REGEX}
-                            />
-                        </Provider>
-                    )
-                }
+                strategy: $.markup,
+                component: createEntityComponent('markup', 'MARKUP_REGEX')
             },
             {
-                strategy: strategies.generic,
-                component: (props) => {
-                    return (
-                        <Provider store={store} >
-                            <LinkSpan
-                                children={props.children}
-                                decoratedtext={props.decoratedText}
-                                entitykey={props.entityKey}
-                                offsetkey={props.offsetKey}
-                                geteditorstate={props.getEditorState}
-                                seteditorstate={props.setEditorState}
-                                pluginprops={pluginProps}
-                                strategy='Generic'
-                                regex={strategies.URL_REGEX}
-                            />
-                        </Provider>
-                    )
-                }
+                strategy: $.generic,
+                component: createEntityComponent('generic', 'GENERIC_REGEX')
             },
             {
-                strategy: strategies.entity,
-                component: (props) => {
-                    return (
-                        <Provider store={store} >
-                            <LinkSpan
-                                children={props.children}
-                                decoratedtext={props.decoratedText}
-                                entitykey={props.entityKey}
-                                offsetkey={props.offsetKey}
-                                geteditorstate={props.getEditorState}
-                                seteditorstate={props.setEditorState}
-                                pluginprops={pluginProps}
-                                strategy='Entity'
-                                regex={null}
-                            />
-                        </Provider>
-                    )
-                }
-            },
+                strategy: $.entity,
+                component: createEntityComponent('entity', null)
+            }
         ],
 
         initialize: ({ getEditorState, setEditorState }) => {
@@ -103,3 +69,5 @@ export default (config = {}) => {
         },
     };
 };
+
+export default createLinkDecoratorsPlugin

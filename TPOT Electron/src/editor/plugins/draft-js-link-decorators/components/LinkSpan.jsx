@@ -60,16 +60,16 @@ const styles = theme => ({
 class LinkSpan extends Component {
 
     componentWillMount() {
-        if (this.props.pluginprops) {
-            this.props.pluginprops.callbacks.onChange = this.onEditorStateChange;
+        if (this.props.callbacks) {
+            this.props.callbacks.onChange = this.onEditorStateChange;
             this.createEntityFromDecorator()
         }
     }
 
     componentWillUnmount() {
-        if (this.pluginprops) {
+        if (this.callbacks) {
             // : Needed?
-            this.props.pluginprops.callbacks.onChange = undefined;
+            this.props.callbacks.onChange = undefined;
         }
     }
 
@@ -127,20 +127,20 @@ class LinkSpan extends Component {
                 let replaceSelection = new SelectionState({ anchorKey: blockKey, anchorOffset: match.index, focusKey: blockKey, focusOffset: match[0].length + match.index, })
 
                 // : Replace Selection with Title or Floating URL
-                contentState = Modifier.replaceText( contentState, replaceSelection, strategy === 'Generic' ? decoratedtext : match[1] )
+                contentState = Modifier.replaceText( contentState, replaceSelection, strategy === 'generic' ? decoratedtext : match[1] )
 
                 // : Force Replaced Text into editorState History
                 editorState = EditorState.push(editorState, contentState, 'insert-characters');
 
                 // : Get Range of Full Match or Title Text
                 let start = match.index
-                let end = strategy === 'Generic' ? decoratedtext.length + start : match[1].length + start
+                let end = strategy === 'generic' ? decoratedtext.length + start : match[1].length + start
                 
                 // : Make New Selection for Entity
                 let regexSelection = new SelectionState({ anchorKey: blockKey, anchorOffset: start, focusKey: blockKey, focusOffset: end })
 
                 // : Create Entity in Content State
-                contentState = contentState.createEntity('LINK', 'MUTABLE', { url: strategy === 'Generic' ? decoratedtext : match[2] });
+                contentState = contentState.createEntity('LINK', 'MUTABLE', { url: strategy === 'generic' ? decoratedtext : match[2] });
                 let lastEntityKey = contentState.getLastCreatedEntityKey();
 
                 // : Modify contentState with Entity Data
