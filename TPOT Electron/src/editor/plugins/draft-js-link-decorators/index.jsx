@@ -47,6 +47,10 @@ const createLinkDecoratorsPlugin = () => {
                 component: createEntityComponent('markup', 'MARKUP_REGEX')
             },
             {
+                strategy: $.shortcode,
+                component: createEntityComponent('shortcode', 'SHORT_CODE_REGEX')
+            },
+            {
                 strategy: $.generic,
                 component: createEntityComponent('generic', 'GENERIC_REGEX')
             },

@@ -102,7 +102,8 @@ class LinkSpan extends Component {
         let focusKey = selection.getFocusKey()
 
         // : Get Block and Key from Decorator Regex, Get Content State
-        let blockKey = /([a-zA-z\d]+)/g.exec(offsetkey)[0]
+        let keyTrim = new RegExp(/([a-zA-z\d]+)/g)
+        let blockKey = keyTrim.exec(offsetkey)[0]
         let block = contentState.getBlockForKey(blockKey)
         if (!block) {
             block = contentState.getBlockForKey(focusKey)
@@ -127,20 +128,20 @@ class LinkSpan extends Component {
                 let replaceSelection = new SelectionState({ anchorKey: blockKey, anchorOffset: match.index, focusKey: blockKey, focusOffset: match[0].length + match.index, })
 
                 // : Replace Selection with Title or Floating URL
-                contentState = Modifier.replaceText( contentState, replaceSelection, strategy === 'generic' ? decoratedtext : match[1] )
+                contentState = Modifier.replaceText(contentState, replaceSelection, strategy === 'generic' ? decoratedtext : strategy === 'shortcode' ? match[2] : match[1])
 
                 // : Force Replaced Text into editorState History
                 editorState = EditorState.push(editorState, contentState, 'insert-characters');
 
                 // : Get Range of Full Match or Title Text
                 let start = match.index
-                let end = strategy === 'generic' ? decoratedtext.length + start : match[1].length + start
-                
+                let end = strategy === 'generic' ? decoratedtext.length + start : strategy === 'shortcode' ?  match[2].length + start :  match[1].length + start
+
                 // : Make New Selection for Entity
                 let regexSelection = new SelectionState({ anchorKey: blockKey, anchorOffset: start, focusKey: blockKey, focusOffset: end })
 
                 // : Create Entity in Content State
-                contentState = contentState.createEntity('LINK', 'MUTABLE', { url: strategy === 'generic' ? decoratedtext : match[2] });
+                contentState = contentState.createEntity('LINK', 'MUTABLE', { url: strategy === 'generic' ? decoratedtext : strategy === 'shortcode' ? match[1] : match[2] });
                 let lastEntityKey = contentState.getLastCreatedEntityKey();
 
                 // : Modify contentState with Entity Data
@@ -245,8 +246,8 @@ class LinkSpan extends Component {
             })()
 
             // : Capture string of entity range with characters before and after and add to entity
-            let captureStart = start === 0 ? 0 : start - 1
-            let captureEnd = end > blockText.length ? blockText.length : end + 1
+            let captureStart = start - 1
+            let captureEnd = end > blockText.length ? blockText.length : end
             let captureText = blockText.slice(captureStart, captureEnd)
 
             // TODO: Force selection into entity range
@@ -256,7 +257,84 @@ class LinkSpan extends Component {
             console.log(blockText)
             console.log(blockText.slice(start, end))
             console.log(blockText.slice(captureStart, captureEnd))
-            
+            console.log(blockText.charAt(captureStart), /[^\s\r\n]/g.test(blockText.charAt(captureStart)))
+            console.log(blockText.charAt(captureEnd), /[^\s\r\n]/g.test(blockText.charAt(captureEnd)))
+
+
+            let validChar = new RegExp(/[^\s\r\n]/g)
+            let startValid = validChar.test(blockText.charAt(captureStart))
+            let endValid = validChar.test(blockText.charAt(captureEnd))
+
+            console.log(startValid, endValid)
+
+            if (startValid || endValid) {
+
+                // : Determine Adjacent Selection
+                let absorbSelection = new SelectionState({
+                    anchorKey: focusKey, anchorOffset: startValid ? captureStart : start,
+                    focusKey: focusKey, focusOffset: startValid ? end : captureEnd + 1,
+                })
+
+                // : Determine Adjacent Text
+                let absorbText = startValid ? blockText.slice(captureStart, end) : blockText.slice(start, captureEnd + 1)
+
+                console.log(absorbText)
+
+                // : Store Existing Entity Data
+                let entityRanges = DraftUtils.getEntityRange(editorState, currentKey)
+                let entityInstance = contentState.getEntity(currentKey)
+                let entityData = entityInstance.getData()
+                let entityStart = entityRanges.start
+                let entityEnd = entityRanges.end
+
+                // : Select Existing Entity
+                let existingSelection = new SelectionState({
+                    anchorKey: focusKey, anchorOffset: entityStart,
+                    focusKey: focusKey, focusOffset: entityEnd,
+                })
+
+                // : Destroy Existing Entity
+                contentState = Modifier.applyEntity(contentState, existingSelection, null);
+
+                
+                console.log(entityData)
+                console.log(DraftUtils.getEntityRange(editorState, currentKey))
+
+                // : Get Existing Entity Range and Data
+
+                contentState = contentState.createEntity('LINK', 'MUTABLE', { ...entityData });
+                let lastEntityKey = contentState.getLastCreatedEntityKey();
+
+                contentState = Modifier.applyEntity(contentState, absorbSelection, lastEntityKey);
+
+                // let editorState = EditorState.push(currentEditorState, newContentState, 'apply-entity');
+
+                // : Delete Existing Entity
+
+
+                // : Create New Entity in Content State
+                // contentState = contentState.createEntity('LINK', 'MUTABLE', { url: 'fix me' });
+                // let lastEntityKey = contentState.getLastCreatedEntityKey();
+
+                // : Modify contentState with Old Entity Data
+                // contentState = Modifier.applyEntity(contentState, absorbSelection, lastEntityKey);
+
+                // : Apply Entity to editorState
+                editorState = EditorState.push(editorState, contentState, 'apply-entity');
+
+                // // : Get Range of Full Match
+                // let replaceSelection = new SelectionState({ 
+                //     anchorKey: blockKey, anchorOffset: match.index,
+                //      focusKey: blockKey, focusOffset: match[0].length + match.index, })
+
+                // // : Replace Selection with Title or Floating URL
+                // contentState = Modifier.replaceText(contentState, absorbSelection, absorbText)
+
+                // // : Force Replaced Text into editorState History
+                // editorState = EditorState.push(editorState, contentState, 'insert-characters');
+
+
+            }
 
             // TODO - Set text
 
