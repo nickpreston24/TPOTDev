@@ -9,6 +9,7 @@ import { inject, observer } from 'mobx-react';
 import classNames from 'classnames'
 import PropTypes from 'prop-types';
 import { toJS } from 'mobx';
+import { findEntityRangesWithRegex } from '../utils/strategies';
 
 const styles = theme => ({
     root: {
@@ -112,67 +113,49 @@ class LinkSpan extends Component {
         // : Component Mounted by Decorator
         if (regex) {
 
-            // : Find Decorated Text in Current Block
-            let text = block.getText();
-            let regx = new RegExp(regex)
-            let match = regx.exec(text)
+            // : In Each Block, Check for Multiple Matches to Regex Pattern
+            findEntityRangesWithRegex(regex, contentState.getBlockForKey(blockKey)).map(match => {
 
-            // console.log(match)
-            // console.log(decoratedtext)
+                // : If there is a Regex Match 
+                if (decoratedtext === match[0]) {
 
-            // : If there is a Regex Match 
-            // TODO - Support for multiple decorator generator entities found on block and their selection range
-            if (match && decoratedtext === match[0]) {
+                        // : Get Range of Full Match
+                        let replaceSelection = new SelectionState({ anchorKey: blockKey, anchorOffset: match.index, focusKey: blockKey, focusOffset: match[0].length + match.index, })
 
-                // : Get Range of Full Match
-                let replaceSelection = new SelectionState({ anchorKey: blockKey, anchorOffset: match.index, focusKey: blockKey, focusOffset: match[0].length + match.index, })
+                        // : Replace Selection with Title or Floating URL
+                        contentState = Modifier.replaceText(contentState, replaceSelection, strategy === 'generic' ? decoratedtext : strategy === 'shortcode' ? match[2] : match[1])
 
-                // : Replace Selection with Title or Floating URL
-                contentState = Modifier.replaceText(contentState, replaceSelection, strategy === 'generic' ? decoratedtext : strategy === 'shortcode' ? match[2] : match[1])
+                        // : Force Replaced Text into editorState History
+                        editorState = EditorState.push(editorState, contentState, 'insert-characters');
 
-                // : Force Replaced Text into editorState History
-                editorState = EditorState.push(editorState, contentState, 'insert-characters');
+                        // : Get Range of Full Match or Title Text
+                        let start = match.index
+                        let end = strategy === 'generic' ? decoratedtext.length + start : strategy === 'shortcode' ? match[2].length + start : match[1].length + start
 
-                // : Get Range of Full Match or Title Text
-                let start = match.index
-                let end = strategy === 'generic' ? decoratedtext.length + start : strategy === 'shortcode' ? match[2].length + start : match[1].length + start
+                        // : Make New Selection for Entity
+                        let regexSelection = new SelectionState({ anchorKey: blockKey, anchorOffset: start, focusKey: blockKey, focusOffset: end })
 
-                // : Make New Selection for Entity
-                let regexSelection = new SelectionState({ anchorKey: blockKey, anchorOffset: start, focusKey: blockKey, focusOffset: end })
+                        // : Create Entity in Content State
+                        contentState = contentState.createEntity('LINK', 'MUTABLE', { url: strategy === 'generic' ? decoratedtext : strategy === 'shortcode' ? match[1] : match[2] });
+                        let lastEntityKey = contentState.getLastCreatedEntityKey();
 
-                // : Create Entity in Content State
-                contentState = contentState.createEntity('LINK', 'MUTABLE', { url: strategy === 'generic' ? decoratedtext : strategy === 'shortcode' ? match[1] : match[2] });
-                let lastEntityKey = contentState.getLastCreatedEntityKey();
+                        // : Modify contentState with Entity Data
+                        contentState = Modifier.applyEntity(contentState, regexSelection, lastEntityKey);
 
-                // : Modify contentState with Entity Data
-                contentState = Modifier.applyEntity(contentState, regexSelection, lastEntityKey);
+                        // : Apply Entity to editorState
+                        editorState = EditorState.push(editorState, contentState, 'apply-entity');
 
-                // : Apply Entity to editorState
-                editorState = EditorState.push(editorState, contentState, 'apply-entity');
+                        // : Create Collapsed Selection at Entity End
+                        let collapsedSelection = new SelectionState({ anchorKey: blockKey, anchorOffset: end, focusKey: blockKey, focusOffset: end, })
 
-                // : Create Collapsed Selection at Entity End
-                let collapsedSelection = new SelectionState({ anchorKey: blockKey, anchorOffset: end, focusKey: blockKey, focusOffset: end, })
+                        // : Apply Selectlion to editorState
+                        editorState = EditorState.forceSelection(editorState, collapsedSelection)
 
-                // : Apply Selectlion to editorState
-                editorState = EditorState.forceSelection(editorState, collapsedSelection)
+                } 
 
-            } else {
-                // console.log('No Match')
-            }
+            })
 
-        } else {
-
-            // : Component Mounted by Existing Entity
-            if (entitykey) {
-                // console.log('Already an Entity')
-            } else {
-                // console.error('Unknown Decorator')
-            }
         }
-
-        // // console.log('Content After: ', convertToRaw(editorState.getCurrentContent()))
-
-        // setItem('currentEditorState', editorState) // need to set state for next cycle to see
 
         // : set editorState that onChange can see
         // console.groupEnd()
@@ -310,8 +293,6 @@ class LinkSpan extends Component {
 
             }
 
-            // TODO - Set text
-
             // : Create Collapsed Selection at insertPoint
             const insertSelection = new SelectionState({
                 anchorKey: focusKey, anchorOffset: insertPoint,
@@ -319,19 +300,9 @@ class LinkSpan extends Component {
             });
 
             // : Apply Selection to prevent breaking Entity title and URL
-            // TODO - Eventually only the URL decorator will need this protection. Existing Entities self-manage
             editorState = EditorState.forceSelection(editorState, insertSelection);
 
         }
-
-
-        // : Create New Editor State
-        let newEntityState = (() => {
-            return EditorState.push(editorState, editorState.getCurrentContent(), editorState.getLastChangeType())
-        })()
-
-        // : Set Selection Key or Randomize, Set Final EditorState
-        // // ! setItem('currentEntityKey', currentSelectionKey ? currentSelectionKey : randomKey)
 
         // : Return editorState to onChange (will update both currentEditorState and editorState)
         // console.groupEnd()
@@ -364,8 +335,8 @@ class LinkSpan extends Component {
         // : evaluating render conditions based upon current state.
         let editing = false
         let warning = false
-        // console.log(currentEntityKey, entitykey)
         if (entitykey) {
+            
             // console.log(entitykey)
             // console.log('Rendered Content: ', convertToRaw(geteditorstate().getCurrentContent()))
             // console.log('Rendered Content: ', convertToRaw(currentEditorState.getCurrentContent()))

@@ -51,7 +51,7 @@ export const findEntityRangesWithRegex = (regex, contentBlock) => {
     let matchArr, start
     while ((matchArr = regex.exec(TEXT)) !== null) {
         start = matchArr.index
-        results.push(start, start + matchArr[0].length)
+        results.push(matchArr)
     }
     return results
 }
