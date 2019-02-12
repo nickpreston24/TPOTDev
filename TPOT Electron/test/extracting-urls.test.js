@@ -1,6 +1,5 @@
 var assert = require('assert');
 var chai = require('chai');
-chai.use(require('chai-string'));
 var expect = require('expect');
 
 // import * as strategies from '../src/editor/plugins/draft-js-link-decorators/utils/strategies.jsx';
