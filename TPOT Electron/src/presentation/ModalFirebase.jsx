@@ -65,6 +65,7 @@ class SignIn extends React.Component {
     closeModal = e => {
 
         this.props.lettersStore.signOut()
+        this.props.closeModal()
         // if (e.target.innerHTML === "Login") {
         //     this.props.onUpdate(true);
         // } else {
@@ -79,8 +80,9 @@ class SignIn extends React.Component {
     onSubmit = (event) => {
         event.preventDefault();
         const { email, password, } = this.state;
-        const { signIn } = this.props.lettersStore
-        signIn(email, password)
+        const { signIn } = this.props.sessionStore
+        const { notify } = this.props.lettersStore
+        signIn(email, password, notify)
     }
 
     render() {
@@ -167,7 +169,7 @@ SignIn.propTypes = {
 };
 
 export default compose(
-    inject("lettersStore"),
+    inject("lettersStore", "sessionStore"),
     withStyles(styles),
     observer
 )(SignIn);

@@ -57,9 +57,9 @@ export async function convertFile(path) {
 
     // Convert Data
     let dataFile2Html = await convertFile2Html(path)
-    console.log(dataFile2Html)
+    // console.log(dataFile2Html)
     let dataMammoth = await convertMammoth(path)
-    console.log(dataMammoth)
+    // console.log(dataMammoth)
 
     // Bake Down CSS to File2Html Tag Data
     dataFile2Html = await bakeCssToInlineStyles(dataFile2Html.css, dataFile2Html.html)

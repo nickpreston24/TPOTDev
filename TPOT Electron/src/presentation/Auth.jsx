@@ -72,12 +72,12 @@ class Auth extends React.Component {
         event.preventDefault();
 
         auth.signOut()
-            .then(() => {
-                this.setState({
-                    authorized: false,
-                    anchorEl: null
-                });
-            })
+            // .then(() => {
+            //     this.setState({
+            //         authorized: false,
+            //         anchorEl: null
+            //     });
+            // })
     }
 
     openModal = () => {
@@ -93,6 +93,9 @@ class Auth extends React.Component {
         );
     };
 
+    closeModal = () => {
+        this.setState({ modalVisible: false })
+    }
     //   handleLogin = () => {
     //     this.setState({
     //       authorized: true
@@ -111,15 +114,16 @@ class Auth extends React.Component {
 
     render() {
         const { lettersStore: store, classes } = this.props;
+        const { sessionStore } = this.props
         const { anchorEl } = this.state
-        console.log(store.authUser)
+        console.log('STORE', sessionStore.authUser)
         // if (store.authUser === null && store.authUser !== 'exited') {
         //     store.signIn('bpfilmsinc@gmail.com', 'Mercuy18')
         // }
 
         return (
             <div className={classes.root}>
-                {store.authUser && (
+                {sessionStore.authUser && (
                     <div>
                         <Slide direction="left" in={true} timeout={{ enter: 700 }}>
                             <Button
@@ -130,7 +134,7 @@ class Auth extends React.Component {
                                 color="inherit"
                                 varient="contained"
                             >
-                                {store.authUser.email}
+                                {sessionStore.authUser.email}
                                 <Avatar />
                             </Button>
                         </Slide>
@@ -138,7 +142,7 @@ class Auth extends React.Component {
                             id="logout-menu"
                             anchorEl={anchorEl}
                             open={Boolean(anchorEl)}
-                            onClose={this.closeLogoutMenu}
+                            onClose={this.closeModal}
                             anchorOrigin={{ vertical: "top", horizontal: "right" }}
                             transformOrigin={{ vertical: "top", horizontal: "right" }}
                         >
@@ -164,7 +168,7 @@ class Auth extends React.Component {
                         </Menu>
                     </div>
                 )}
-                {!store.authUser && (
+                {!sessionStore.authUser && (
                     <Grow in={true} timeout={{ enter: 400 }}>
                         <Button color="inherit" onClick={this.openModal}>
                             Log In
@@ -175,7 +179,7 @@ class Auth extends React.Component {
                     <ModalFirebase
                         open={this.state.modalVisible}
                         onUpdate={this.updateModal}
-
+                        closeModal={this.closeModal}
                     />
                 )}
             </div>
@@ -188,7 +192,7 @@ Auth.propTypes = {
 };
 
 export default compose(
-    inject("lettersStore"),
+    inject("lettersStore", "sessionStore"),
     withStyles(styles),
     observer
 )(Auth);

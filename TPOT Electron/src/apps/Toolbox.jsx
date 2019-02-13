@@ -11,9 +11,6 @@ import Letters from './Letters';
 import { firebase, db } from '../firebase'
 import { wp } from '../wordpress'
 
-// const ipc = window.require('electron').ipcRenderer;
-// const isDev = require("electron-is-dev");
-
 // Electron
 // window.require('electron-react-devtools').install() // Works, but resets (IS IT SLOWING THINGS DOWN!!!!)
 // window.require('devtron').install() // Not Working ATM
@@ -90,33 +87,33 @@ class Toolbox extends React.Component {
     componentDidMount() {
 
         // Authenticate and get WP Credentials
-        firebase.auth.onAuthStateChanged(async (authUser) => {
-            // Set Authorized State
-            // console.log("AuthUser", authUser)
-            authUser
-                ? await this.setState({ authUser })
-                : await this.setState({ authUser: null, wordpressCredentials: null });
-            // Set Create User Profile from authUser Object Data
-            authUser && await db.addUser(
-                authUser.uid,
-                authUser.firstname,
-                authUser.lastname,
-                authUser.email,
-                authUser.provider,
-                authUser.displayName,
-            )
-            // Pull down Wordpress Credentials from Auth'd Database
-            // const wordpressCredentials = await db.wordpressCredentials
-            // wordpressCredentials
-            //     ? await this.setState({ wordpressCredentials })
-            //     : await this.setState({ wordpressCredentials: null });
-            // Use Wordpress Credentials to Create a Page
-            // wp.createPage(this.state.wordpressCredentials, {/*DraftState*/}, {
-            //     slug: 'wordpress-test-page-toolbox',
-            //     title: 'WP Toolbox Test Page',
-            //     excerpt: "This is a test page for wordpress, don't do anything with it!",
-            // })
-        })
+        // firebase.auth.onAuthStateChanged(async (authUser) => {
+        //     // Set Authorized State
+        //     // console.log("AuthUser", authUser)
+        //     authUser
+        //         ? await this.setState({ authUser })
+        //         : await this.setState({ authUser: null, wordpressCredentials: null });
+        //     // Set Create User Profile from authUser Object Data
+        //     authUser && await db.addUser(
+        //         authUser.uid,
+        //         authUser.firstname,
+        //         authUser.lastname,
+        //         authUser.email,
+        //         authUser.provider,
+        //         authUser.displayName,
+        //     )
+        //     // Pull down Wordpress Credentials from Auth'd Database
+        //     // const wordpressCredentials = await db.wordpressCredentials
+        //     // wordpressCredentials
+        //     //     ? await this.setState({ wordpressCredentials })
+        //     //     : await this.setState({ wordpressCredentials: null });
+        //     // Use Wordpress Credentials to Create a Page
+        //     // wp.createPage(this.state.wordpressCredentials, {/*DraftState*/}, {
+        //     //     slug: 'wordpress-test-page-toolbox',
+        //     //     title: 'WP Toolbox Test Page',
+        //     //     excerpt: "This is a test page for wordpress, don't do anything with it!",
+        //     // })
+        // })
     }
 
     render() {

@@ -28,22 +28,22 @@ class LettersStore {
         console.log(`Set key [${key}] : ${value}`)
     }
 
-    async signIn(email, password) {
-        // this.githubProjects = []
-        // this.state = "pending"
-        try {
-            const authUser = await auth.signIn(email, password, this.notify)
-            // const filteredProjects = somePreprocessing(projects)
-            // after await, modifying state again, needs an actions:
-            runInAction(() => {
-                this.authUser = authUser
-                // this.state = "done"
-                // this.githubProjects = filteredProjects
-            })
-        } catch (error) {
-            this.notify(error.message, { variant: 'error', autoHideDuration: 3000 })
-        }
-    }
+    // async signIn(email, password) {
+    //     // this.githubProjects = []
+    //     // this.state = "pending"
+    //     try {
+    //         const authUser = await auth.signIn(email, password, this.notify)
+    //         // const filteredProjects = somePreprocessing(projects)
+    //         // after await, modifying state again, needs an actions:
+    //         runInAction(() => {
+    //             this.authUser = authUser
+    //             // this.state = "done"
+    //             // this.githubProjects = filteredProjects
+    //         })
+    //     } catch (error) {
+    //         this.notify(error.message, { variant: 'error', autoHideDuration: 3000 })
+    //     }
+    // }
 
     // signIn(email, password) {
     //     this.authUser = 'cat'
