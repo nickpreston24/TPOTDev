@@ -1,5 +1,5 @@
 import { auth } from './firebase';
-import { observable, action, computed, decorate, autorun } from 'mobx'
+import { observable, action, computed, decorate, autorun, toJS } from 'mobx'
 const electron = window.require("electron");
 const remote = electron.remote;
 const app = remote.app;
@@ -19,26 +19,24 @@ export const signIn = action((email, password) => {
     return new Promise(action((resolve, reject) => {
         auth.signInWithEmailAndPassword(email, password)
             .then(action((authUser) => {
-                const contents = {
-                    authUser: authUser.user,
-                }
-                let fileContents = JSON.stringify(contents)
                 const fileName = path.join(app.getPath('userData'), 'Local Storage', 'auth.json')
-                fs.writeFile(fileName, fileContents, (err) => {
-                    // if (err) reject(err.toString())
+                fs.writeFile(fileName, JSON.stringify({
+                    authUser: authUser.user,
+                }), (err) => {
+                    if (err) reject({message: err.toString()})
                     console.log("Authorization Token Saved to Disk")
                 })
                 resolve(authUser.user)
             }))
             .catch(error => {
-                console.log(error)
-                reject(error.toString())
+                reject(error)
             })
     }))
 })
 
 // Sign out
 export const signOut = () => {
+    auth.signOut()
     const fileName = path.join(app.getPath('userData'), 'Local Storage', 'auth.json')
     fs.unlink(fileName, () => {
         console.log('Signed Out User')

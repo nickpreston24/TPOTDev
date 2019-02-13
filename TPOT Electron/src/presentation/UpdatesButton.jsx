@@ -109,6 +109,7 @@ class UpdatesButton extends React.Component {
         let setUpdateDownloadProgress = this.setUpdateDownloadProgress
         let setUpdateDownloadFinished = this.setUpdateDownloadFinished
         ipc.on('auto-update', function (e, msg) {
+            console.log(msg)
             if (msg.event === "update-available") {
                 setUpdateAvailable(msg)
             }

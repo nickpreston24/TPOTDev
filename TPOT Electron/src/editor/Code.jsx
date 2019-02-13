@@ -20,6 +20,7 @@ class Code extends Component {
 				lineProps={{ style: { border: '0px solid yellow' } }}
 				codeTagProps={{ style: { border: '0px solid red' } }}
 				customStyle={{
+					fontSize: 16,
 					overflow: 'hidden',
 					background: 'transparent',
 					textOverflow: 'ellipsis',

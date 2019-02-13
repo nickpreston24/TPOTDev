@@ -1,5 +1,5 @@
-import { observable, action, decorate } from 'mobx'
-import { db, auth } from '../firebase' 
+import { observable, action, decorate, runInAction } from 'mobx'
+import { db, auth } from '../firebase'
 import { wp } from '../wordpress'
 import { draft } from '../editor'
 import { EditorState } from "draft-js";
@@ -28,22 +28,48 @@ class LettersStore {
         console.log(`Set key [${key}] : ${value}`)
     }
 
-    signIn = async (email, password) => {
-        const getAuthUser = action(auth.signIn(email, password))
-        const authUser = await getAuthUser()
-        this.authUser = authUser
-        // this.wordpressCredentials = !!wpCreds ?
-        //     wpCreds :
-        //     null
-        console.log(this.authUser, authUser)
-    }
+    // async signIn(email, password) {
+    //     // this.githubProjects = []
+    //     // this.state = "pending"
+    //     try {
+    //         const authUser = await auth.signIn(email, password, this.notify)
+    //         // const filteredProjects = somePreprocessing(projects)
+    //         // after await, modifying state again, needs an actions:
+    //         runInAction(() => {
+    //             this.authUser = authUser
+    //             // this.state = "done"
+    //             // this.githubProjects = filteredProjects
+    //         })
+    //     } catch (error) {
+    //         this.notify(error.message, { variant: 'error', autoHideDuration: 3000 })
+    //     }
+    // }
+
+    // signIn(email, password) {
+    //     this.authUser = 'cat'
+    //     auth.signIn(email, password)
+    //         .then(
+    //             (authUser) => {
+    //                 // this.authUser = authUser
+    //                 console.log(this.authUser, authUser)
+    //             }
+    //         )
+    //     // const getAuthUser = action(auth.signIn(email, password))
+    //     // const authUser = await auth.signIn(email, password)
+    //     // console.log(authUser)
+    //     // this.authUser = authUser
+    //     // this.wordpressCredentials = !!wpCreds ?
+    //     //     wpCreds :
+    //     //     null
+    //     // console.log(this.authUser, authUser)
+    // }
 
     signOut = (email, password) => {
         // this.authUser = null
         auth.signOut(email, password)
     }
 
-    setEditorContent = async(string) => {
+    setEditorContent = async (string) => {
         this.editorContent = string
     }
 
@@ -58,7 +84,7 @@ class LettersStore {
     }
 
     setPublishData = (key, value) => {
-        this.publishData[key] = value 
+        this.publishData[key] = value
     }
 
     // saveSession = () => {
@@ -70,7 +96,7 @@ class LettersStore {
     // }
 
     notify = (message, config) => {
-        const data = JSON.stringify({message, config: {...config}})
+        const data = JSON.stringify({ message, config: { ...config } })
         this.notification = { data }
         console.log(`%c${message}`, `color: dodgerblue; font-size: 14px; border: 1px solid dodgerblue; background: #092b4c;`)
     }
@@ -121,7 +147,7 @@ export default decorate(
         clearEditor: action,
         notify: action,
         setKey: action,
-        signIn: action,
+        signIn: action.bound,
         signOut: action,
     })
 // Don't make store variables observable if you want to keep them private to this class

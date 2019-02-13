@@ -57,7 +57,9 @@ export async function convertFile(path) {
 
     // Convert Data
     let dataFile2Html = await convertFile2Html(path)
+    // console.log(dataFile2Html)
     let dataMammoth = await convertMammoth(path)
+    // console.log(dataMammoth)
 
     // Bake Down CSS to File2Html Tag Data
     dataFile2Html = await bakeCssToInlineStyles(dataFile2Html.css, dataFile2Html.html)
@@ -113,8 +115,11 @@ const convertMammoth = async (path) => {
     const data = await mammoth.convertToHtml({
         arrayBuffer: buffer
     }, mammothOptions)
+
+    // : Fix Carraige Returns
+    let sanitizedHTML = data.value.replace(/[\<]+[br]+[\s]?[\/]+[\>]+[\s]?[\<]+[br]+[\s]?[\/]+[\>]/g, '<p/><p>')
     // Return Promise Results
-    return data.value
+    return sanitizedHTML
 }
 
 const mammothOptions = {

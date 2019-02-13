@@ -34,7 +34,7 @@ app.on("window-all-closed", () => {
 
 app.on("activate", () => {
     if (toolboxWindow === null) {
-        createWindow(offset);
+        createWindow();
     }
 });
 
@@ -82,8 +82,8 @@ ipc.on("toolbox-initialized", (event, arg) => {
                     let progressObj = {
                         bytesPerSecond: '100kb',
                         percent: `${count * 10}`,
-                        transferred: `${count*512}`,
-                        total: `${count*512*10}`
+                        transferred: `${count * 512}`,
+                        total: `${count * 512 * 10}`
                     }
                     console.log(chalk.blue(progressObj));
                     sendUpdateStatusToToolbox('update-download-progress', `Download speed: ${progressObj.bytesPerSecond} - Downloaded ${progressObj.percent}% (${progressObj.transferred}/${progressObj.total})`, progressObj)
@@ -116,8 +116,11 @@ ipc.on("toolbox-initialized", (event, arg) => {
 //  AUTO UPDATES
 /////////////////////////////////////////////////////////////////////////
 
-autoUpdater.autoDownload = false
-autoUpdater.autoInstallOnAppQuit = false
+autoUpdater.autoDownload = true
+autoUpdater.autoInstallOnAppQuit = true
+allowPrerelease = true
+allowDowngrade = true
+
 autoUpdater.logger = log;
 autoUpdater.logger.transports.file.level = 'info';
 log.info('App starting...');
@@ -136,6 +139,9 @@ autoUpdater.on('update-not-available', (info) => {
 
 autoUpdater.on('update-downloaded', (info) => {
     sendUpdateStatusToToolbox('update-downloaded', `Update downloaded: ${info.version}`, info)
+    setImmediate(() => {
+        autoUpdater.quitAndInstall();
+      })
 })
 
 autoUpdater.on('error', (err) => {
@@ -148,7 +154,10 @@ autoUpdater.on('download-progress', (progressObj) => {
 
 ipc.on("update-confirm-download-and-restart", async (event, arg) => {
     await autoUpdater.downloadUpdate()
-    autoUpdater.quitAndInstall(); // Downloads and Quits after Finished
+    // setImmediate(() => {
+    //     autoUpdater.quitAndInstall();
+    //   })
+    // autoUpdater.quitAndInstall(true, true); // Downloads and Quits after Finished
 })
 
 ipc.on("update-confirm-download", (event, arg) => {
@@ -156,7 +165,7 @@ ipc.on("update-confirm-download", (event, arg) => {
 })
 
 ipc.on("update-confirm-restart", (event, arg) => {
-    autoUpdater.quitAndInstall(); //  If Update Downloaded, Refresh Install
+    autoUpdater.quitAndInstall(true, true); //  If Update Downloaded, Refresh Install
 })
 
 function sendUpdateStatusToToolbox(event, desc, data) {
@@ -205,7 +214,7 @@ function createWindow() {
         webPreferences: {
             webSecurity: true,
             allowRunningInsecureContent: true,
-            devTools: true
+            devTools: isDev ? true : true
         },
         // x: offset.x,
         // y: offset.y,
@@ -217,8 +226,8 @@ function createWindow() {
     toolboxWindow = new BrowserWindow(windowOptions);
     toolboxWindow.loadURL(
         isDev ?
-        "http://localhost:3000" :
-        `file://${path.join(__dirname, "../build/index.html")}`
+            "http://localhost:3000" :
+            `file://${path.join(__dirname, "../build/index.html")}`
     );
 
     toolboxWindow.setMenu(null)
@@ -226,24 +235,24 @@ function createWindow() {
     // if (true) { // flag to enable dev tools in production build
     //     isDev && toolboxWindow.webContents.openDevTools()
     // }
-    toolboxWindow.webContents.openDevTools()
+    isDev ? toolboxWindow.webContents.openDevTools() : toolboxWindow.webContents.openDevTools()
 
     // Install React Dev Tools
     if (false) {
         const { default: installExtension, REACT_DEVELOPER_TOOLS } = require('electron-devtools-installer');
         setTimeout(() => {
             installExtension(REACT_DEVELOPER_TOOLS).then((name) => {
-                    console.log(`Added Extension:  ${name}`);
-                })
+                console.log(`Added Extension:  ${name}`);
+            })
                 .catch((err) => {
                     console.log('An error occurred: ', err);
                 });
-        },15000) // Need to wait for bundle & Concurrently to finish
+        }, 15000) // Need to wait for bundle & Concurrently to finish
     }
 
 
     toolboxWindow.on("closed", () => (toolboxWindow = null));
-    
+
 
     ipc.on('asynchronous-message', (event, arg) => {
         console.log(arg) // prints "ping"

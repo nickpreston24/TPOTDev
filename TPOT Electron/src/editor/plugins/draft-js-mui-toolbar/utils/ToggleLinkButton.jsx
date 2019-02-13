@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import { RichUtils, EditorState } from 'draft-js';
+import { RichUtils, EditorState, convertToRaw } from 'draft-js';
 import { withStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import classNames from 'classnames';
-const smalltalk = require('smalltalk')
+// const smalltalk = require('smalltalk')
 
 const styles = theme => ({
     root: {
@@ -23,17 +23,13 @@ class ToggleLinkButton extends Component {
     createLink = (event) => {
         event.preventDefault();
 
-        console.log(this.props.getEditorRef())
-
-
-        // this.button.focus()
         this.props.getEditorRef().focus()
-        const editorState = this.props.getEditorState()
-        const contentState = editorState.getCurrentContent();
+        let editorState = this.props.getEditorState()
+        let contentState = editorState.getCurrentContent();
         const contentStateWithEntity = contentState.createEntity(
             'LINK',
             'MUTABLE',
-            { url: 'www.thepathoftruth.com/new.htm' }
+            { url: 'www.thepathoftruth.com/new.htm' },
         );
         const entityKey = contentStateWithEntity.getLastCreatedEntityKey();
         const newEditorState = EditorState.set(editorState, { currentContent: contentStateWithEntity });
@@ -44,34 +40,6 @@ class ToggleLinkButton extends Component {
                 entityKey
             ),
         );
-
-        if (false) {
-            smalltalk
-                .prompt('Add Link', 'ex: www.thepathoftruth.com')
-                .then((value) => {
-                    this.button.focus()
-                    this.props.getEditorRef().focus()
-                    const editorState = this.props.getEditorState()
-                    const contentState = editorState.getCurrentContent();
-                    const contentStateWithEntity = contentState.createEntity(
-                        'LINK',
-                        'MUTABLE',
-                        { url: value }
-                    );
-                    const entityKey = contentStateWithEntity.getLastCreatedEntityKey();
-                    const newEditorState = EditorState.set(editorState, { currentContent: contentStateWithEntity });
-                    this.props.setEditorState(
-                        RichUtils.toggleLink(
-                            newEditorState,
-                            newEditorState.getSelection(),
-                            entityKey
-                        ),
-                    );
-                })
-                .catch(() => {
-                    console.log('cancel');
-                });
-        }
     }
 
     preventBubblingUp = (event) => { event.preventDefault(); }
@@ -81,6 +49,7 @@ class ToggleLinkButton extends Component {
 
     render() {
         const { classes, name } = this.props;
+        // console.log(convertToRaw(this.props.getEditorState().getCurrentContent()))
         return (
             <div id={name} onMouseDown={this.preventBubblingUp} >
                 <Button
