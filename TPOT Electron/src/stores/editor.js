@@ -15,6 +15,7 @@ class EditorStore {
 
     }
 
+    editor = null
     originalState = 'Original'
     editorState = createEditorStateWithText('Hello from MobX!')
     codeState = 'Code'
@@ -34,11 +35,10 @@ class EditorStore {
         this.editorState = editorState
 
     setRef = node =>
-        this.editorNode = node
+        this.editor = node
 
-    focus = () => {
-        if (this.editor) this.editorNode.focus()
-    }
+    focus = () =>
+        this.editor ? this.editor.focus() : this.editor.blue()
 
     loadEditorFromDocx = html => {
         // let baseStyleMapClear = JSON.parse(JSON.stringify(Object.assign(toJS(baseStyleMap))))
@@ -112,6 +112,7 @@ class EditorStore {
 
 export default decorate(
     EditorStore, {
+        editor: observable,
         originalState: observable,
         editorState: observable,
         codeState: observable,

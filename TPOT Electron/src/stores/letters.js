@@ -16,6 +16,7 @@ class LettersStore {
     wordpressCredentials = {}
     editorContent = '<p>Hey there!</p>'
     publishModal = false
+    currentModal = ''
     publishData = {
         slug: '',
         title: '',
@@ -101,6 +102,10 @@ class LettersStore {
         console.log(`%c${message}`, `color: dodgerblue; font-size: 14px; border: 1px solid dodgerblue; background: #092b4c;`)
     }
 
+    setCurrentModal = (string) => {
+        this.currentModal = string
+    }
+
     togglePublishModal = () => {
         this.publishModal = !this.publishModal
     }
@@ -140,8 +145,10 @@ export default decorate(
         publishModal: observable,
         publishData: observable,
         editedState: observable,
+        currentModal: observable,
         setPublishData: action,
         togglePublishModal: action,
+        setCurrentModal: action,
         saveEditorState: action,
         setEditorState: action,
         clearEditor: action,

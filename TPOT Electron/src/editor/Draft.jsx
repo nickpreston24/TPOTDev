@@ -1,19 +1,17 @@
-import PropTypes from "prop-types";
 import React, { Component, Fragment } from "react";
+import { MuiToolbar, plugins } from "./plugins/plugins";
 import { inject, observer } from "mobx-react";
 import { compose } from "recompose";
-import { MuiToolbar, plugins } from "./plugins/plugins";
+import PropTypes from "prop-types";
 import Editor from "draft-js-plugins-editor";
 
 class Draft extends Component {
 
-	// onChange = editorState =>
-	// 	this.props.editorStore.onChange(editorState)
+	componentDidMount = () =>
+		this.props.editorStore.focus()
 
-	focus = event => {
-		event.preventDefault();
-		if (this.editor) { this.editor.focus(); }
-	};
+	handleRef = element =>
+		this.props.editorStore.setRef(element)
 
 	render() {
 		const store = { ...this.props.lettersStore, ...this.props.editorStore }
@@ -22,7 +20,7 @@ class Draft extends Component {
 			<Fragment>
 				<Editor
 					id={"DraftJS"}
-					ref={element => { this.editor = element }}
+					ref={this.handleRef}
 					placeholder="The editor is empty."
 					editorState={store.editorState}
 					onChange={editorState => this.props.editorStore.onChange(editorState)}

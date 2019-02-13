@@ -52,15 +52,15 @@ class Auth extends React.Component {
         };
     }
 
-    openLogoutMenu = event => {
-        this.setState({ anchorEl: event.currentTarget });
-    };
+    openLogoutMenu = event =>
+        this.props.lettersStore.setCurrentModal('Firebase Dropdown')
 
     closeLogoutMenu = () => {
         this.setState({ anchorEl: null });
     };
 
     handleLogout = () => {
+        // this.props.lettersStore.setCurrentModal('Firebase Modal')
         this.setState({
             authorized: false,
             anchorEl: null
@@ -72,15 +72,17 @@ class Auth extends React.Component {
         event.preventDefault();
 
         auth.signOut()
-            // .then(() => {
-            //     this.setState({
-            //         authorized: false,
-            //         anchorEl: null
-            //     });
-            // })
+        // .then(() => {
+        //     this.setState({
+        //         authorized: false,
+        //         anchorEl: null
+        //     });
+        // })
     }
 
     openModal = () => {
+
+        this.props.lettersStore.setCurrentModal('Firebase Modal')
         this.setState({ modalVisible: true });
         // this.handleLogin
     };
@@ -116,7 +118,12 @@ class Auth extends React.Component {
         const { lettersStore: store, classes } = this.props;
         const { sessionStore } = this.props
         const { anchorEl } = this.state
-        console.log('STORE', sessionStore.authUser)
+        const { setCurrentModal, currentModal } = this.props.lettersStore
+        // this.props.lettersStore.setCurrentModal('Firebase Modal')
+        // console.log('STORE', sessionStore.authUser)
+
+        const dropDownOpen = 'Firebase Dropdown' === currentModal
+        console.log(dropDownOpen)
 
         return (
             <div className={classes.root}>
@@ -138,7 +145,7 @@ class Auth extends React.Component {
                         <Menu
                             id="logout-menu"
                             anchorEl={anchorEl}
-                            open={Boolean(anchorEl)}
+                            open={true}
                             onClose={this.closeModal}
                             anchorOrigin={{ vertical: "top", horizontal: "right" }}
                             transformOrigin={{ vertical: "top", horizontal: "right" }}
@@ -172,13 +179,11 @@ class Auth extends React.Component {
                         </Button>
                     </Grow>
                 )}
-                {this.state.modalVisible && (
-                    <ModalFirebase
-                        open={this.state.modalVisible}
-                        onUpdate={this.updateModal}
-                        closeModal={this.closeModal}
-                    />
-                )}
+                <ModalFirebase
+                    // open={modalOpen}
+                    onUpdate={this.updateModal}
+                    closeModal={this.closeModal}
+                />
             </div>
         );
     }

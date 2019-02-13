@@ -63,6 +63,7 @@ class SignIn extends React.Component {
     };
 
     closeModal = e => {
+        this.props.lettersStore.setCurrentModal(null)
 
         // this.props.lettersStore.signOut()
         this.props.closeModal()
@@ -87,6 +88,7 @@ class SignIn extends React.Component {
 
     render() {
         const { classes } = this.props;
+        const { currentModal, setCurrentModal } = this.props.lettersStore
         const {
             email,
             password,
@@ -94,17 +96,15 @@ class SignIn extends React.Component {
             // submit
         } = this.state;
 
+        const open = "Firebase Modal" === currentModal
+        console.log('Modal', open)
+
         return (
             <Dialog
-                id="FIREBASE"
-                open={this.props.open}
-                // open={true}
+                id="Firebase Modal"
+                open={"Firebase Modal" === currentModal}
                 TransitionComponent={Transition}
-                keepMounted
-                onBackdropClick={this.closeModal}
-                onClose={this.handleClose}
-                aria-labelledby="alert-dialog-slide-title"
-                aria-describedby="alert-dialog-slide-description"
+                onBackdropClick={() => { setCurrentModal(null) }}
             >
                 {/* <DialogTitle id="alert-dialog-slide-title">Sign In</DialogTitle> */}
                 <DialogContent color="primary" className={classes.paper}>
@@ -165,7 +165,9 @@ class SignIn extends React.Component {
 }
 
 SignIn.propTypes = {
-    classes: PropTypes.object.isRequired
+    classes: PropTypes.object.isRequired,
+    sessionStore: PropTypes.object.isRequired,
+    lettersStore: PropTypes.object.isRequired,
 };
 
 export default compose(

@@ -36,11 +36,12 @@ class Editor extends React.Component {
 
 	render() {
 		const { editorStore: store, classes } = this.props;
+		const { focus } = this.props.editorStore
 		const { editMode } = store
 
 		return (
 			<div id="Editor" className={classes.root}>
-				<div id="Frame" className={classes.editorFrame}>
+				<div id="Frame" className={classes.editorFrame} onClick={()=> { focus() }}>
 					{editMode === "edited" && <Draft />}
 					{editMode === "original" && <Original />}
 					{editMode === "code" && <Code />}

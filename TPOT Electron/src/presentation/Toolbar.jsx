@@ -5,8 +5,7 @@ import HelpIcon from 'mdi-material-ui/HelpCircle';
 import PropTypes from 'prop-types';
 import React from 'react';
 import UpdatesButton from './UpdatesButton';
-import Auth from './Auth'
-
+import AuthButton from "./AuthButton";
 
 
 const electron = window.require('electron');
@@ -186,7 +185,7 @@ class DrawerMenuList extends React.Component {
                     <Badge color="primary" badgeContent={`2`} classes={{ root: classes.margin, badge: false ? classes.badgeVisible : classes.badgeInvisible }}>
                         <Button color="inherit" className={classes.button} onClick={this.getHelp}>{`Help`}<HelpIcon className={classes.rightIcon} /></Button>
                     </Badge>
-                    <Auth authorized={true} className={classes.authButton} />
+                    <AuthButton authorized={true} className={classes.authButton} />
                 </div>
 
                 {/* <Dialog
