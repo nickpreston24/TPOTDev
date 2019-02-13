@@ -15,6 +15,10 @@ class SessionStore {
 
     authUser = null
     sessionName = "Mobx is Awesome"
+    loginData = {
+        email: null,
+        password: null,
+    }
 
     constructor(rootStore) {
         this.rootStore = rootStore
@@ -34,11 +38,13 @@ class SessionStore {
         
     }
 
-    async signIn(email, password, notify) {
+    async signIn(notify, setCurrentModal) {
         try {
+            const {email, password} = this.loginData
             const authUser = await auth.signIn(email, password)
             runInAction(() => {
                 this.authUser = authUser
+                setCurrentModal(null)
             })
         } catch (error) {
             notify(error.message, { variant: 'error', autoHideDuration: 3000 })
@@ -53,13 +59,17 @@ class SessionStore {
         this.sessionName = Math.round(Math.random().toFixed(4) * 10000)
     }
 
+    setLoginData = (key, value) => 
+        this.loginData[key] = value
 }
 
 export default decorate(
     SessionStore, {
+        loginData: observable,
         authUser: observable,
         sessionName: observable,
         setAuthUser: action,
         setSessionName: action,
         signIn: action.bound,
+        setLoginData: action,
 })
