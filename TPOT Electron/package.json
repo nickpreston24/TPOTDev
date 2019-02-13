@@ -21,7 +21,7 @@
         "bundle": "yarn react-build",
         "package": "yarn electron-build",
         "build": "yarn bundle && yarn package",
-        "ship": "GH_TOKEN=6906d1604e32eb3443079079ba017abf4ad22ec7 yarn build -p always",
+        "ship": "GH_TOKEN= yarn build -p always",
         "start": "concurrently \"cross-env BROWSER=none yarn react-start\" \"wait-on http://localhost:3000 && electron .\""
     },
     "dependencies": {

@@ -79,9 +79,8 @@ class SignIn extends React.Component {
     onSubmit = (event) => {
         event.preventDefault();
         const { email, password, } = this.state;
-        // const { history, } = this.props;
-        console.log(email, password)
-        this.props.lettersStore.signIn(email, password)
+        const { signIn } = this.props.lettersStore
+        signIn(email, password)
     }
 
     render() {

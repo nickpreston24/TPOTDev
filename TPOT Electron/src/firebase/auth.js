@@ -1,5 +1,5 @@
 import { auth } from './firebase';
-import { observable, action, computed, decorate, autorun } from 'mobx'
+import { observable, action, computed, decorate, autorun, toJS } from 'mobx'
 const electron = window.require("electron");
 const remote = electron.remote;
 const app = remote.app;
@@ -31,8 +31,7 @@ export const signIn = action((email, password) => {
                 resolve(authUser.user)
             }))
             .catch(error => {
-                console.log(error)
-                reject(error.toString())
+                reject(error)
             })
     }))
 })
