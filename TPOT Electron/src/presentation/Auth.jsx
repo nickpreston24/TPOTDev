@@ -117,9 +117,6 @@ class Auth extends React.Component {
         const { sessionStore } = this.props
         const { anchorEl } = this.state
         console.log('STORE', sessionStore.authUser)
-        // if (store.authUser === null && store.authUser !== 'exited') {
-        //     store.signIn('bpfilmsinc@gmail.com', 'Mercuy18')
-        // }
 
         return (
             <div className={classes.root}>

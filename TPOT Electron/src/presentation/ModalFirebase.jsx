@@ -64,7 +64,7 @@ class SignIn extends React.Component {
 
     closeModal = e => {
 
-        this.props.lettersStore.signOut()
+        // this.props.lettersStore.signOut()
         this.props.closeModal()
         // if (e.target.innerHTML === "Login") {
         //     this.props.onUpdate(true);
