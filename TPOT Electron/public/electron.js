@@ -82,8 +82,8 @@ ipc.on("toolbox-initialized", (event, arg) => {
                     let progressObj = {
                         bytesPerSecond: '100kb',
                         percent: `${count * 10}`,
-                        transferred: `${count*512}`,
-                        total: `${count*512*10}`
+                        transferred: `${count * 512}`,
+                        total: `${count * 512 * 10}`
                     }
                     console.log(chalk.blue(progressObj));
                     sendUpdateStatusToToolbox('update-download-progress', `Download speed: ${progressObj.bytesPerSecond} - Downloaded ${progressObj.percent}% (${progressObj.transferred}/${progressObj.total})`, progressObj)
@@ -205,7 +205,7 @@ function createWindow() {
         webPreferences: {
             webSecurity: true,
             allowRunningInsecureContent: true,
-            devTools: true
+            devTools: isDev ? true : false
         },
         // x: offset.x,
         // y: offset.y,
@@ -217,8 +217,8 @@ function createWindow() {
     toolboxWindow = new BrowserWindow(windowOptions);
     toolboxWindow.loadURL(
         isDev ?
-        "http://localhost:3000" :
-        `file://${path.join(__dirname, "../build/index.html")}`
+            "http://localhost:3000" :
+            `file://${path.join(__dirname, "../build/index.html")}`
     );
 
     toolboxWindow.setMenu(null)
@@ -226,24 +226,24 @@ function createWindow() {
     // if (true) { // flag to enable dev tools in production build
     //     isDev && toolboxWindow.webContents.openDevTools()
     // }
-    toolboxWindow.webContents.openDevTools()
+    isDev ? toolboxWindow.webContents.openDevTools() : null
 
     // Install React Dev Tools
     if (false) {
         const { default: installExtension, REACT_DEVELOPER_TOOLS } = require('electron-devtools-installer');
         setTimeout(() => {
             installExtension(REACT_DEVELOPER_TOOLS).then((name) => {
-                    console.log(`Added Extension:  ${name}`);
-                })
+                console.log(`Added Extension:  ${name}`);
+            })
                 .catch((err) => {
                     console.log('An error occurred: ', err);
                 });
-        },15000) // Need to wait for bundle & Concurrently to finish
+        }, 15000) // Need to wait for bundle & Concurrently to finish
     }
 
 
     toolboxWindow.on("closed", () => (toolboxWindow = null));
-    
+
 
     ipc.on('asynchronous-message', (event, arg) => {
         console.log(arg) // prints "ping"
