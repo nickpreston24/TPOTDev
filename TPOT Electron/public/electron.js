@@ -34,7 +34,7 @@ app.on("window-all-closed", () => {
 
 app.on("activate", () => {
     if (toolboxWindow === null) {
-        createWindow(offset);
+        createWindow();
     }
 });
 

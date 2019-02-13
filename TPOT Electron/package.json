@@ -1,7 +1,7 @@
 {
     "name": "TPOT_Toolbox",
     "description": "A collection of utilities for ThePathofTruth members",
-    "version": "0.1.1",
+    "version": "0.1.2",
     "author": "Michael & Braden Preston",
     "license": "MIT",
     "private": true,
@@ -9,13 +9,14 @@
     "repository": "https://github.com/MikePreston17/TPOTDev",
     "main": "public/electron.js",
     "scripts": {
+        "analyze": "source-map-explorer build/static/js/main.*",
         "test": "mocha",
         "main": "electron .",
         "react-start": "react-scripts start",
         "react-build": "react-scripts build",
         "react-test": "react-scripts test --env=jsdom",
         "react-eject": "react-scripts eject",
-        "electron-build": "electron-builder",
+        "electron-build": "electron-builder --mac",
         "release": "yarn react-build && electron-builder --publish=always",
         "bundle": "yarn react-build",
         "package": "yarn electron-build",
@@ -24,9 +25,6 @@
         "start": "concurrently \"cross-env BROWSER=none yarn react-start\" \"wait-on http://localhost:3000 && electron .\""
     },
     "dependencies": {
-        "@fortawesome/fontawesome-svg-core": "^1.2.0-14",
-        "@fortawesome/free-solid-svg-icons": "^5.1.0-11",
-        "@fortawesome/react-fontawesome": "0.1.0-11",
         "@jimmycode/draft-js-soft-newline-plugin": "^0.5.1",
         "@material-ui/core": "^3.4.0",
         "@material-ui/icons": "^3.0.1",
@@ -72,15 +70,12 @@
         "file2html-ooxml": "0.2.2",
         "file2html-text": "0.2.0",
         "firebase": "^5.4.2",
-        "firebase-admin": "^6.0.0",
-        "firebaseui": "^3.4.0",
         "fs-extra": "^7.0.0",
         "googleapis": "^27.0.0",
         "html-beautify": "^1.0.4",
         "html-to-draftjs": "^1.4.0",
         "immutable": "^3.8.2",
         "jquery": "^3.3.1",
-        "last-draft-js-toolbar-plugin": "^1.2.0",
         "mammoth": "1.4.6",
         "mammoth-colors": "1.0.2",
         "mdi-material-ui": "^5.6.0",
@@ -130,6 +125,7 @@
         "productName": "TPOT Toolbox",
         "copyright": "Copyright © 2018 Michael & Braden Preston",
         "icon": "public/toolboxicon.ico",
+        "compression": "store",
         "files": [
             "**/*",
             "public/*ico"
@@ -166,7 +162,7 @@
             "installerHeader": "public/installerHeader.bmp",
             "installerHeaderIcon": "public/defaultIcon.ico",
             "installerSidebar": "public/installerSidebar.bmp",
-            "uninstallerSidebar": "public/uninstallerSidebar.bmp"
+            "uninstallerSidebar": "public/uninstallerSidebFar.bmp"
         },
         "mac": {
             "category": "public.app-category.education",
