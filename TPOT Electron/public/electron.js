@@ -205,7 +205,7 @@ function createWindow() {
         webPreferences: {
             webSecurity: true,
             allowRunningInsecureContent: true,
-            devTools: isDev ? true : false
+            devTools: isDev ? true : true
         },
         // x: offset.x,
         // y: offset.y,
@@ -226,7 +226,7 @@ function createWindow() {
     // if (true) { // flag to enable dev tools in production build
     //     isDev && toolboxWindow.webContents.openDevTools()
     // }
-    isDev ? toolboxWindow.webContents.openDevTools() : null
+    isDev ? toolboxWindow.webContents.openDevTools() : toolboxWindow.webContents.openDevTools()
 
     // Install React Dev Tools
     if (false) {
