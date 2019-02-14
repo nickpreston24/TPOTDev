@@ -1,31 +1,20 @@
 import { observable, action, decorate, runInAction } from 'mobx'
 import { db, auth, firebase } from '../firebase'
 
-/* Electron */
 const electron = window.require('electron')
 const remote = electron.remote
 const app = remote.app
-const dialog = remote.dialog
-
-/* Node */
 const fs = remote.require('fs')
 const path = remote.require('path')
 
 class SessionStore {
-
-    authUser = null
-    sessionName = "Mobx is Awesome"
-    loginData = {
-        email: null,
-        password: null,
-    }
 
     constructor(rootStore) {
         this.rootStore = rootStore
 
         // : Set Listeners
         firebase.auth.onAuthStateChanged((authUser) => {
-            console.log('authStateChanged', authUser)
+            // console.log('authStateChanged', authUser)
         })
 
         // : Load Initial Configuration from File
@@ -36,6 +25,13 @@ class SessionStore {
             }
         });
         
+    }
+
+    authUser = null
+    sessionName = "Mobx is Awesome"
+    loginData = {
+        email: null,
+        password: null,
     }
 
     async signIn(notify, setCurrentModal) {
@@ -51,12 +47,14 @@ class SessionStore {
         }
     }
 
-    setAuthUser = authUser => {
-        this.authUser = authUser
+    signOut = (setCurrentModal) => {
+        auth.signOut()
+        this.authUser = null
+        setCurrentModal(null)
     }
 
-    setSessionName = () => {
-        this.sessionName = Math.round(Math.random().toFixed(4) * 10000)
+    setAuthUser = authUser => {
+        this.authUser = authUser
     }
 
     setLoginData = (key, value) => 
@@ -69,7 +67,7 @@ export default decorate(
         authUser: observable,
         sessionName: observable,
         setAuthUser: action,
-        setSessionName: action,
         signIn: action.bound,
+        signOut: action,
         setLoginData: action,
 })

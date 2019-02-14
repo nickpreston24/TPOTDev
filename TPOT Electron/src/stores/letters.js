@@ -14,7 +14,7 @@ class LettersStore {
     editedState = EditorState.createEmpty()
     codeState = ''
     wordpressCredentials = {}
-    editorContent = '<p>Hey there!</p>'
+    editorContent = '<p>Why hello there!</p>'
     publishModal = false
     currentModal = ''
     publishData = {
@@ -27,47 +27,6 @@ class LettersStore {
     setKey = (key, value) => {
         this[key] = value
         console.log(`Set key [${key}] : ${value}`)
-    }
-
-    // async signIn(email, password) {
-    //     // this.githubProjects = []
-    //     // this.state = "pending"
-    //     try {
-    //         const authUser = await auth.signIn(email, password, this.notify)
-    //         // const filteredProjects = somePreprocessing(projects)
-    //         // after await, modifying state again, needs an actions:
-    //         runInAction(() => {
-    //             this.authUser = authUser
-    //             // this.state = "done"
-    //             // this.githubProjects = filteredProjects
-    //         })
-    //     } catch (error) {
-    //         this.notify(error.message, { variant: 'error', autoHideDuration: 3000 })
-    //     }
-    // }
-
-    // signIn(email, password) {
-    //     this.authUser = 'cat'
-    //     auth.signIn(email, password)
-    //         .then(
-    //             (authUser) => {
-    //                 // this.authUser = authUser
-    //                 console.log(this.authUser, authUser)
-    //             }
-    //         )
-    //     // const getAuthUser = action(auth.signIn(email, password))
-    //     // const authUser = await auth.signIn(email, password)
-    //     // console.log(authUser)
-    //     // this.authUser = authUser
-    //     // this.wordpressCredentials = !!wpCreds ?
-    //     //     wpCreds :
-    //     //     null
-    //     // console.log(this.authUser, authUser)
-    // }
-
-    signOut = (email, password) => {
-        // this.authUser = null
-        auth.signOut(email, password)
     }
 
     setEditorContent = async (string) => {

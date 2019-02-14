@@ -9,8 +9,6 @@ import classNames from 'classnames';
 import React, { Fragment } from 'react';
 import 'typeface-roboto';
 
-import Notifier from './Notifier';
-
 const drawerWidth = 250;
 
 const styles = theme => ({
@@ -148,7 +146,6 @@ class ShiftDrawer extends React.Component {
                     {this.props.currentApp && (
                         this.props.currentApp
                     )}
-                    <Notifier />
                 </React.Fragment>
             </Fragment>
         )

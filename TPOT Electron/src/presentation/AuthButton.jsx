@@ -1,9 +1,10 @@
-import React from "react";
+import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
-
-import Button from "@material-ui/core/Button";
+import { inject, observer } from "mobx-react";
+import { compose } from "recompose";
 import { Divider } from "@material-ui/core";
+import Button from "@material-ui/core/Button";
 import Slide from "@material-ui/core/Slide";
 import Grow from "@material-ui/core/Grow";
 import Avatar from "@material-ui/icons/AccountCircleRounded";
@@ -14,13 +15,6 @@ import ListItemText from "@material-ui/core/ListItemText";
 import AccountIcon from "@material-ui/icons/AccountBoxOutlined";
 import InfoIcon from "@material-ui/icons/InfoOutlined";
 import LogoutIcon from "@material-ui/icons/ExitToApp";
-import ModalFirebase from "../presentation/ModalFirebase";
-
-import { inject, observer } from "mobx-react";
-import { observable, action, computed, decorate, autorun } from 'mobx'
-import { compose } from "recompose";
-
-import { auth } from '../firebase';
 
 const styles = {
     root: {
@@ -31,124 +25,58 @@ const styles = {
         width: "auto",
         marginRight: 12
     },
-    login: {
-        // marginRight: +12,
-    },
-    button: {
-        "& span *": {
-            marginLeft: 16
-        }
-    }
 };
 
-class Auth extends React.Component {
-    constructor(props) {
-        super(props);
+class Auth extends Component {
 
-        this.state = {
-            anchorEl: null,
-            // username: null,
-            // modalVisible: false
-        };
+    state = {
+        anchorEl: null,
+    };
+
+    setRef = element => {
+        console.log(element)
+        this.setState({ anchorEl: element })
     }
-
-    openLogoutMenu = event =>
-        this.props.lettersStore.setCurrentModal('Firebase Dropdown')
-
-    closeLogoutMenu = () => {
-        this.setState({ anchorEl: null });
-    };
-
-    handleLogout = () => {
-        // this.props.lettersStore.setCurrentModal('Firebase Modal')
-        this.setState({
-            authorized: false,
-            anchorEl: null
-        });
-        this.props.lettersStore.setKey('authUser', 'exited')
-    };
-
-    handleLogout = (event) => {
-        event.preventDefault();
-
-        auth.signOut()
-        // .then(() => {
-        //     this.setState({
-        //         authorized: false,
-        //         anchorEl: null
-        //     });
-        // })
-    }
-
-    openModal = () => {
-
-        this.props.lettersStore.setCurrentModal('Firebase Modal')
-        this.setState({ modalVisible: true });
-        // this.handleLogin
-    };
-
-    updateModal = loggedin => {
-        this.setState(
-            loggedin
-                ? { authorized: true, modalVisible: false }
-                : { authorized: false, modalVisible: false }
-        );
-    };
-
-    closeModal = () => {
-        this.setState({ modalVisible: false })
-    }
-    //   handleLogin = () => {
-    //     this.setState({
-    //       authorized: true
-    //     });
-    //   };
-
-    auth = e => {
-        this.props.onUpdate(true); // update parent
-        // this.setState({menuToggled: booleanVariable}); // update self
-    };
-
-    deauth = e => {
-        this.props.onUpdate(true); // update parent
-        // this.setState({menuToggled: booleanVariable}); // update self
-    };
 
     render() {
-        const { lettersStore: store, classes } = this.props;
-        const { sessionStore } = this.props
+        const { classes } = this.props;
         const { anchorEl } = this.state
-        const { setCurrentModal, currentModal } = this.props.lettersStore
-        // this.props.lettersStore.setCurrentModal('Firebase Modal')
-        // console.log('STORE', sessionStore.authUser)
-
-        const dropDownOpen = 'Firebase Dropdown' === currentModal
-        console.log(dropDownOpen)
+        const { currentModal, setCurrentModal } = this.props.lettersStore
+        const { signOut, authUser } = this.props.sessionStore
 
         return (
-            <div className={classes.root}>
-                {sessionStore.authUser && (
+            <div
+                className={classes.root}
+                ref={this.setRef}
+            >
+                {authUser && (
                     <div>
                         <Slide direction="left" in={true} timeout={{ enter: 700 }}>
                             <Button
                                 className={classes.button}
                                 aria-owns={anchorEl ? "logout-menu" : null}
                                 aria-haspopup="true"
-                                onClick={this.openLogoutMenu}
+                                onClick={() => setCurrentModal('Firebase Dropdown')}
                                 color="inherit"
                                 varient="contained"
                             >
-                                {sessionStore.authUser.email}
+                                {authUser.email}
                                 <Avatar />
                             </Button>
                         </Slide>
                         <Menu
                             id="logout-menu"
                             anchorEl={anchorEl}
-                            open={true}
-                            onClose={this.closeModal}
-                            anchorOrigin={{ vertical: "top", horizontal: "right" }}
-                            transformOrigin={{ vertical: "top", horizontal: "right" }}
+                            open={'Firebase Dropdown' === currentModal}
+                            onClose={() => setCurrentModal(null)}
+                            anchorOrigin={{
+                                vertical: 'bottom',
+                                horizontal: 'center',
+                            }}
+                            transformOrigin={{
+                                vertical: 'top',
+                                horizontal: 'center',
+                            }}
                         >
                             <MenuItem className={classes.menuItem}>
                                 <ListItemIcon className={classes.icon}>
@@ -163,7 +91,7 @@ class Auth extends React.Component {
                                 <ListItemText classes={{ primary: classes.primary }} inset primary="Details" />
                             </MenuItem>
                             <Divider />
-                            <MenuItem className={classes.menuItem} onClick={this.handleLogout}  >
+                            <MenuItem className={classes.menuItem} onClick={() => signOut(setCurrentModal)}  >
                                 <ListItemIcon className={classes.icon}>
                                     <LogoutIcon />
                                 </ListItemIcon>
@@ -172,18 +100,14 @@ class Auth extends React.Component {
                         </Menu>
                     </div>
                 )}
-                {!sessionStore.authUser && (
+                {!authUser && (
                     <Grow in={true} timeout={{ enter: 400 }}>
-                        <Button color="inherit" onClick={this.openModal}>
+                        <Button color="inherit" onClick={() => setCurrentModal('Firebase Modal')}>
                             Log In
                         </Button>
                     </Grow>
                 )}
-                <ModalFirebase
-                    // open={modalOpen}
-                    onUpdate={this.updateModal}
-                    closeModal={this.closeModal}
-                />
+           
             </div>
         );
     }
