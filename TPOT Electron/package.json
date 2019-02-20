@@ -1,7 +1,7 @@
 {
     "name": "TPOT_Toolbox",
     "description": "A collection of utilities for ThePathofTruth members",
-    "version": "0.1.5",
+    "version": "0.1.6",
     "author": "Michael & Braden Preston",
     "license": "MIT",
     "private": true,
@@ -21,7 +21,7 @@
         "bundle": "yarn react-build",
         "package": "yarn electron-build",
         "build": "yarn bundle && yarn package",
-        "ship": "GH_TOKEN= yarn build -p always",
+        "ship": "yarn build -p always",
         "start": "concurrently \"cross-env BROWSER=none yarn react-start\" \"wait-on http://localhost:3000 && electron .\""
     },
     "dependencies": {
