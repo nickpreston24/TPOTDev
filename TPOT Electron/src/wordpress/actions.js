@@ -2,7 +2,7 @@ import {
     wp
 } from './wordpress'
 
-const getCatg = async() => {
+const getCategories = async() => {
     wp.categories().then((response) => {
         response.forEach(r => {
             console.log(r)
@@ -21,6 +21,7 @@ const createPage = (wordpressCredentials, pageConfig, notify) => {
     let options = {
         ...pageConfig,
         // slug: 'letters\/test\.htm',
+        // slug: '/letters/name-of-paper.htm',        
         status: 'pending',
         author: 3, // Victor Hafichuk
         categories: [496], // letters
@@ -43,5 +44,5 @@ const createPage = (wordpressCredentials, pageConfig, notify) => {
 
 export {
     createPage,
-    getCatg,
+    getCategories,
 }

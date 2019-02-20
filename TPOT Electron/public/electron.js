@@ -139,9 +139,6 @@ autoUpdater.on('update-not-available', (info) => {
 
 autoUpdater.on('update-downloaded', (info) => {
     sendUpdateStatusToToolbox('update-downloaded', `Update downloaded: ${info.version}`, info)
-    setImmediate(() => {
-        autoUpdater.quitAndInstall();
-      })
 })
 
 autoUpdater.on('error', (err) => {
@@ -154,10 +151,7 @@ autoUpdater.on('download-progress', (progressObj) => {
 
 ipc.on("update-confirm-download-and-restart", async (event, arg) => {
     await autoUpdater.downloadUpdate()
-    // setImmediate(() => {
-    //     autoUpdater.quitAndInstall();
-    //   })
-    // autoUpdater.quitAndInstall(true, true); // Downloads and Quits after Finished
+    autoUpdater.quitAndInstall(true, true); // Downloads and Quits after Finished
 })
 
 ipc.on("update-confirm-download", (event, arg) => {

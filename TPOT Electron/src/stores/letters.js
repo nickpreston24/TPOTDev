@@ -112,6 +112,7 @@ class LettersStore {
             : null
         if (!!this.wordpressCredentials) {
             const { slug, title, excerpt } = this.publishData
+            console.log('slug: ', slug)
             if (!slug) {
                 this.notify('Could not Publish! Please enter a slug', { variant: 'error', autoHideDuration: 3000 })
             }
