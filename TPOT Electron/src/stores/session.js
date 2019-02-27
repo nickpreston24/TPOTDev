@@ -18,13 +18,13 @@ class SessionStore {
         })
 
         // : Load Initial Configuration from File
-        fs.readFile(path.join(app.getPath('userData'), 'Local Storage', 'auth.json') , 'utf-8', (error, data) => {
+        fs.readFile(path.join(app.getPath('userData'), 'Local Storage', 'auth.json'), 'utf-8', (error, data) => {
             if (!!data) {
                 this.setAuthUser(JSON.parse(data).authUser)
                 console.log(JSON.parse(data))
             }
         });
-        
+
     }
 
     authUser = null
@@ -37,6 +37,8 @@ class SessionStore {
         email: '',
         password: '',
         confirmPassword: '',
+        code: '',
+        codeSent: false,
     }
 
     setKey = (key, value) => {
@@ -45,7 +47,7 @@ class SessionStore {
 
     async signIn(notify, setCurrentModal) {
         try {
-            const {email, password} = this.loginData
+            const { email, password } = this.loginData
             const authUser = await auth.signIn(email, password)
             runInAction(() => {
                 this.authUser = authUser
@@ -56,9 +58,21 @@ class SessionStore {
         }
     }
 
+    async requestReset(notify) {
+        try {
+            await auth.requestPasswordReset(this.loginData.email)
+                .then(() => {
+                    this.setKey('loginMode', 'login')
+                    notify(`Password Reset Request Sent to ${this.loginData.email}`, { variant: 'success', autoHideDuration: 3000 })
+                })
+        } catch (error) {
+            notify(error.message, { variant: 'error', autoHideDuration: 3000 })
+        }
+    }
+
     async register(notify, setCurrentModal) {
         try {
-            const {firstName, lastName, email, password} = this.loginData
+            const { firstName, lastName, email, password } = this.loginData
             if (!lastName) {
                 notify('Please enter a Last Name', { variant: 'error', autoHideDuration: 3000 })
             }
@@ -87,7 +101,7 @@ class SessionStore {
         this.authUser = authUser
     }
 
-    setLoginData = (key, value) => 
+    setLoginData = (key, value) =>
         this.loginData[key] = value
 }
 
@@ -101,6 +115,7 @@ export default decorate(
         setAuthUser: action,
         signIn: action.bound,
         register: action.bound,
+        requestReset: action.bound,
         signOut: action,
         setLoginData: action,
-})
+    })

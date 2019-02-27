@@ -6,13 +6,8 @@ import PropTypes from "prop-types";
 import Button from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
 import Slide from "@material-ui/core/Slide";
-import DialogActions from "@material-ui/core/DialogActions";
-import DialogContent from "@material-ui/core/DialogContent";
 import TextField from "@material-ui/core/TextField";
 import FireBaseLogo from "../media/firebase.png";
-import FirebaseAuth from 'react-firebaseui/FirebaseAuth'
-import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth'
-import { firebase, auth } from '../firebase';
 import { Typography, Grid } from "@material-ui/core";
 
 function Transition(props) {
@@ -33,12 +28,6 @@ const styles = theme => ({
         width: 267,
         height: 66,
         margin: theme.spacing.unit * 3
-        // display: "flex",
-        // marginTop: 32,
-        // marginBottom: 32,
-        // position: "relative",
-        // left: "50%",
-        // transform: "translateX(-50%)",
     },
     margin: {
         margin: theme.spacing.unit
@@ -48,15 +37,12 @@ const styles = theme => ({
     },
     confirm: {
         minWidth: 150,
-        background: '#509eef',
         margin: theme.spacing.unit * 3
     },
     textField: {
         marginTop: theme.spacing.unit * 2
-        // flexBasis: 200
     },
     link: {
-        // marginTop: theme.spacing.unit * 2,
         display: 'inline',
         color: '#509eef',
         '&:hover': {
@@ -71,7 +57,7 @@ class SignIn extends Component {
     render() {
         const { classes } = this.props;
         const { currentModal, setCurrentModal, notify } = this.props.lettersStore
-        const { signIn, register, setLoginData, loginData, loginMode, setKey } = this.props.sessionStore
+        const { signIn, register, requestReset, setLoginData, loginData, loginMode, setKey } = this.props.sessionStore
 
         return (
             <Dialog
@@ -85,8 +71,48 @@ class SignIn extends Component {
             >
                 <div color="secondary" className={classes.root}>
                     <img className={classes.logo} src={FireBaseLogo} alt="FirebaseLogo" />
-                    {(loginMode === 'login' || loginMode === 'signup') && (
+                    {loginData.code === '' &&
                         <Fragment>
+                            {loginMode === 'login' && (
+                                <Fragment>
+                                    <TextField
+                                        fullWidth
+                                        variant="outlined"
+                                        label="Email"
+                                        type="email"
+                                        autoComplete="email"
+                                        value={loginData.email}
+                                        className={classes.textField}
+                                        onChange={e => { setLoginData('email', e.target.value) }}
+                                    />
+                                    <TextField
+                                        fullWidth
+                                        variant="outlined"
+                                        label="Password"
+                                        type={'password'}
+                                        autoComplete="password"
+                                        value={loginData.password}
+                                        className={classes.textField}
+                                        onChange={e => { setLoginData('password', e.target.value) }}
+                                    />
+                                    <Button
+                                        fullWidth
+                                        color="primary"
+                                        variant="contained"
+                                        size="large"
+                                        type="submit"
+                                        className={classes.confirm}
+                                        onClick={() => signIn(notify, setCurrentModal)}
+                                    >
+                                        Login
+                                        </Button>
+                                    <Typography className={classes.link} variant="body2" onClick={() => setKey('loginMode', 'reset')}>Forgot Your Password?</Typography>
+                                    <Typography variant="body2">
+                                        {`Not a member yet?  `}
+                                        <Typography className={classes.link} variant="body2" onClick={() => setKey('loginMode', 'signup')}>Create an Account</Typography>
+                                    </Typography>
+                                </Fragment>
+                            )}
                             {loginMode === 'signup' && (
                                 <Fragment>
                                     <Grid container spacing={16}>
@@ -94,7 +120,7 @@ class SignIn extends Component {
                                             <TextField
                                                 fullWidth
                                                 variant="outlined"
-                                                label="Firstname"
+                                                label="First Name"
                                                 autoComplete="name"
                                                 value={loginData.firstName}
                                                 className={classes.textField}
@@ -105,7 +131,7 @@ class SignIn extends Component {
                                             <TextField
                                                 fullWidth
                                                 variant="outlined"
-                                                label="Lastname"
+                                                label="Last Name"
                                                 autoComplete="family-name"
                                                 value={loginData.lastName}
                                                 className={classes.textField}
@@ -113,67 +139,76 @@ class SignIn extends Component {
                                             />
                                         </Grid>
                                     </Grid>
+                                    <TextField
+                                        fullWidth
+                                        variant="outlined"
+                                        label="Email"
+                                        type="email"
+                                        autoComplete="email"
+                                        value={loginData.email}
+                                        className={classes.textField}
+                                        onChange={e => { setLoginData('email', e.target.value) }}
+                                    />
+                                    <TextField
+                                        fullWidth
+                                        variant="outlined"
+                                        label="Password"
+                                        type={'password'}
+                                        autoComplete="password"
+                                        value={loginData.password}
+                                        className={classes.textField}
+                                        onChange={e => { setLoginData('password', e.target.value) }}
+                                    />
+                                    <Button
+                                        fullWidth
+                                        color="primary"
+                                        variant="contained"
+                                        size="large"
+                                        type="submit"
+                                        className={classes.confirm}
+                                        onClick={() => register(notify, setCurrentModal)}
+                                    >
+                                        Register
+                                        </Button>
+                                    <Typography variant="body2">
+                                        {`Already Have an Account?  `}
+                                        <Typography className={classes.link} variant="body2" onClick={() => setKey('loginMode', 'login')}>Log In</Typography>
+                                    </Typography>
                                 </Fragment>
                             )}
-                            <TextField
-                                fullWidth
-                                variant="outlined"
-                                label="Email"
-                                type="email"
-                                autoComplete="email"
-                                value={loginData.email}
-                                className={classes.textField}
-                                onChange={e => { setLoginData('email', e.target.value) }}
-                            />
-                            <TextField
-                                fullWidth
-                                variant="outlined"
-                                label="Password"
-                                type={'password'}
-                                autoComplete="password"
-                                value={loginData.password}
-                                className={classes.textField}
-                                onChange={e => { setLoginData('password', e.target.value) }}
-                            />
-                        </Fragment>
-                    )}
-                    <Button
-                        fullWidth
-                        color="primary"
-                        variant="contained"
-                        size="large"
-                        type="submit"
-                        className={classes.confirm}
-                        onClick={() => {
-                            switch (loginMode) {
-                                case 'signup':
-                                    register(notify, setCurrentModal)
-                                    break;
-                                case 'login':
-                                    signIn(notify, setCurrentModal)
-                                    break;
-                                default:
-                                    signIn(notify, setCurrentModal)
-                            }
-                        }}
-                    >
-                        {loginMode === 'login' ? 'Login' : loginMode === 'signup' ? 'Sign Up' : 'Request'}
-                    </Button>
-                    {loginMode === 'login' && (
-                        <Fragment>
-                            <Typography className={classes.link} variant="body2">Forgot Your Password?</Typography>
-                            <Typography variant="body2">
-                                {`Not a member yet?  `}
-                                <Typography className={classes.link} variant="body2" onClick={() => setKey('loginMode', 'signup')}>Create an Account</Typography>
-                            </Typography>
-                        </Fragment>
-                    )}
-                    {loginMode === 'signup' && (
-                        <Typography variant="body2">
-                            {`Already Have an Account?  `}
-                            <Typography className={classes.link} variant="body2" onClick={() => setKey('loginMode', 'login')}>Log In</Typography>
-                        </Typography>
-                    )}
+                            {loginMode === 'reset' && (
+                                <Fragment>
+                                    <TextField
+                                        fullWidth
+                                        variant="outlined"
+                                        label="Email"
+                                        type="email"
+                                        autoComplete="email"
+                                        value={loginData.email}
+                                        className={classes.textField}
+                                        onChange={e => { setLoginData('email', e.target.value) }}
+                                    />
+                                    <Typography variant="body2" align="center" style={{ marginTop: 16 }} onClick={() => setKey('loginMode', 'reset')}>{`An email will be send to the email registered with your account. Clicking on the link will send you to a webpage where you can reset your password. Be sure to check your spam folder if you do not see the request!`}</Typography>
+                                    <Button
+                                        fullWidth
+                                        color="primary"
+                                        variant="outlined"
+                                        size="large"
+                                        type="submit"
+                                        className={classes.confirm}
+                                        onClick={() => {
+                                            requestReset(notify)
+                                        }}
+                                    >
+                                        Send Reset Code
+                                            </Button>
+                                    <Typography variant="body2">
+                                        {`Already Have an Account?  `}
+                                        <Typography className={classes.link} variant="body2" onClick={() => setKey('loginMode', 'login')}>Log In</Typography>
+                                    </Typography>
+                                </Fragment>
+                            )}
+                        </Fragment>}
                 </div>
             </Dialog>
         );

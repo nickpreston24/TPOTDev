@@ -19,6 +19,10 @@ export const createUser = (email, password) => {
     }))
 }
 
+// Request Password Reset
+export const requestPasswordReset = (email) =>
+    auth.sendPasswordResetEmail(email);
+
 // Delete User
 export const deleteUser = (email, password) =>
     auth.createUserWithEmailAndPassword(email, password);
