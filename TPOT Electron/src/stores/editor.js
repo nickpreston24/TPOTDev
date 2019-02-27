@@ -37,8 +37,16 @@ class EditorStore {
     setRef = node =>
         this.editor = node
 
-    focus = () =>
-        this.editor ? this.editor.focus() : this.editor.blue()
+    focus() {
+        console.log(this.editor)
+        if (this.editor !== null && this.editor.focus !== null) {
+            try {
+                this.editor.focus()
+            } catch (error) {
+                
+            }
+        }
+    }
 
     loadEditorFromDocx = html => {
         // let baseStyleMapClear = JSON.parse(JSON.stringify(Object.assign(toJS(baseStyleMap))))
@@ -48,6 +56,11 @@ class EditorStore {
         this.baseStyleMap = newBaseStyleMap
         this.editorState = EditorState.createWithContent(newContentState);
         this.codeState = draftContentToHtml(this.editorState, newContentState);
+        let that = this
+        setTimeout(function () {
+            that.focus()
+            console.log('lets do this')
+        }, 500);
     }
 
     saveSession = (notify) => {
@@ -125,7 +138,7 @@ export default decorate(
         modes: observable,
         onChange: action,
         setRef: action,
-        focus: action,
+        focus: action.bound,
         loadEditorFromDocx: action,
         saveSession: action,
         clearSession: action,

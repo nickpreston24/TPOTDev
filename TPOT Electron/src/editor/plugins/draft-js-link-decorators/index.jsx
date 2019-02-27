@@ -60,12 +60,27 @@ const createLinkDecoratorsPlugin = () => {
             }
         ],
 
-        initialize: ({ getEditorState, setEditorState }) => {
+        initialize: ({ getEditorState, setEditorState, getProps, ...rest }) => {
             store.setItem('currentEditorState', getEditorState())
+            store.setItem('getProps', getProps)
+            console.log(getProps)
+            const editor = store.getProps().editorRef
+            if (editor) {
+                // editor.focus()
+            }
+            store.getProps().editorFocus()
         },
         onChange: (editorState) => {
             let newEditorState = callbacks.onChange ? callbacks.onChange(editorState) : editorState
             store.setItem('currentEditorState', newEditorState)
+            
+            // const editor = store.getProps().editorRef
+            // console.log('GET', editor )
+            // if (editor) {
+            //     // editor.focus()
+            // }
+
+            
             return newEditorState;
         },
         handleBeforeInput: (chars, editorState) => {

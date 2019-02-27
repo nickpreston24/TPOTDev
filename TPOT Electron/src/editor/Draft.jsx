@@ -7,11 +7,56 @@ import Editor from "draft-js-plugins-editor";
 
 class Draft extends Component {
 
-	componentDidMount = () =>
-		this.props.editorStore.focus()
+	componentWillMount() {
+		console.log('will mount')
+	}
 
-	handleRef = element =>
+	componentDidMount = () => {
+		this.focus()
+		// this.props.editorStore.focus()
+		// console.log('toggleFocus')
+		console.log('mounted')
+	}	
+
+	componentWillUnmount() {
+		console.log('will UNMOUNT')
+		// this.props.editorStore.focus()
+		// console.log(this.props.editorStore.editor)
+	}
+
+	// handleFocus = () => {
+	// 	console.log('focus', this.props.editorStore.editor)
+	// 	this.props.editorStore.focus()
+	// }
+
+	// handleBlur() {
+	// 	console.log('blur')
+	// 	this.handleFocus()
+	// 	// if (this) {
+	// 	// 	if (this.props) {
+	// 	// 		if (this.props.editorStore) {
+	// 	// 			if (this.props.editorStore.focus) {
+	// 	// 				this.props.editorStore.focus()
+	// 	// 			}
+	// 	// 		}
+	// 	// 	}
+	// 	// }
+	// 	// try {
+	// 	// 	this.props.editorStore.focus()
+	// 	// } catch (error) {
+	// 	// 	console.error(error)
+	// 	// }
+	// }
+
+	focus() {
+		console.log('focus called')
+		this.editor.blur()
+	}
+
+	handleRef = element => {
 		this.props.editorStore.setRef(element)
+		this.editor = element
+	}
 
 	render() {
 		const store = { ...this.props.lettersStore, ...this.props.editorStore }
@@ -23,6 +68,8 @@ class Draft extends Component {
 					ref={this.handleRef}
 					placeholder="The editor is empty."
 					editorState={store.editorState}
+					// onFocus={()=>{console.log('focus')}}
+					// onBlur={this.handleBlur.bind(this)}
 					onChange={editorState => this.props.editorStore.onChange(editorState)}
 					handleKeyCommand={command => this.props.editorStore.handleKeyCommand(command, this.props.lettersStore)}
 					keyBindingFn={this.props.editorStore.myKeyBindingFn}
@@ -34,6 +81,8 @@ class Draft extends Component {
 					blockRendererFn={store.blockRenderer} // BLOCK ?/& ATOMIC PROPS=>COMP RENDERER
 					plugins={plugins}
 					spellCheck={true}
+					editorRef={this.props.editorStore.editor}
+					editorFocus={this.props.editorStore.focus}
 				/>
 				<MuiToolbar />
 			</Fragment>

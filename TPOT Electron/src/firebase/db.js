@@ -1,22 +1,24 @@
-import {
-    db
-} from './firebase';
+import { db } from './firebase';
 
-// User API
-export const addUser = (id, firstname, lastname, email, provider, displayname) => {
-    db.collection('users').doc(`${id}`).set({
-            firstname: !!firstname ? firstname : null,
-            lastname: !!lastname ? lastname : null,
-            email: !!email ? email : null,
-            provider: !!provider ? provider : null,
-            displayname: !!displayname ? displayname : null,
+// Create Profile
+export const createProfile = (firstName, lastName, userCredential) => {
+    return new Promise((resolve, reject) => {
+        const email = userCredential.user.email
+        const userID = userCredential.user.uid
+        const { creationTime, lastSignInTime } = userCredential.user.metadata
+        db.collection('users').doc(`${userID}`).set({
+            firstName,
+            lastName,
+            email,
+            userID,
+            creationTime,
+            lastSignInTime
+        }).then((docRef) => {
+            resolve(docRef)
+        }).catch((error) => {
+            reject(error)
         })
-        .then((docRef) => {
-            // console.log(docRef)
-        })
-        .catch((error) => {
-            console.error(error)
-        })
+    })
 }
 
 export const getUser = (id) => {
@@ -30,10 +32,14 @@ export const getUser = (id) => {
 export const wordpressCredentials = new Promise((resolve, reject) => {
     db.collection('public').doc('wp-credentials').get()
         .then((documentSnapshot) => {
-            const data = documentSnapshot.data()
-            data
-                ? resolve(data)
-                : reject("Document Snapshot is Null")
+            if (!!documentSnapshot) {
+                resolve(documentSnapshot.data())
+            } else {
+                resolve(null)
+            }
+        })
+        .catch(err => {
+            reject(err)
         })
 })
 // Other Entity APIs ...

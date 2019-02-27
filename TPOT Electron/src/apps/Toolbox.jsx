@@ -14,7 +14,7 @@ import Notifier from '../container/Notifier';
 import ModalFirebase from '../presentation/ModalFirebase'
 
 // Electron
-// window.require('electron-react-devtools').install() // Works, but resets (IS IT SLOWING THINGS DOWN!!!!)
+window.require('electron-react-devtools').install() // Works, but resets (IS IT SLOWING THINGS DOWN!!!!)
 // window.require('devtron').install() // Not Working ATM
 
 // Start Theming Service

@@ -29,6 +29,11 @@ const styles = {
 
 class Auth extends Component {
 
+    componentDidMount() {
+        console.log('auth mount')
+        this.props.editorStore.focus()
+    }
+
     state = {
         anchorEl: null,
     };
@@ -102,7 +107,12 @@ class Auth extends Component {
                 )}
                 {!authUser && (
                     <Grow in={true} timeout={{ enter: 400 }}>
-                        <Button color="inherit" onClick={() => setCurrentModal('Firebase Modal')}>
+                        <Button color="inherit" onClick={function() {
+                            // this.props.editorStore.editor.focus()
+                            // console.info(this.props.editorStore.editor)
+                            // console.log('clicked')
+                            setCurrentModal('Firebase Modal')
+                        }}>
                             Log In
                         </Button>
                     </Grow>
@@ -118,7 +128,7 @@ Auth.propTypes = {
 };
 
 export default compose(
-    inject("lettersStore", "sessionStore"),
+    inject("lettersStore", "sessionStore", "editorStore"),
     withStyles(styles),
     observer
 )(Auth);

@@ -28,6 +28,10 @@ class DecoratorStore {
         return this.state[key];
     }
 
+    getProps = null
+
+    editorRef = null
+    editorFocus = null
     currentEntityKey = 0
     currentEditorState = null
     insertPoint = null
@@ -53,6 +57,11 @@ export default decorate(
         unsubscribeFromItem: action,
         updateItem: action,
         getItem: observable,
+
+        getProps: observable,
+
+        editorFocus: observable,
+        editorRef: observable,
 
         currentEntityKey: observable,
         currentEditorState: observable,

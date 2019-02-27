@@ -7,8 +7,17 @@ const fs = remote.require("fs");
 const path = remote.require("path");
 
 // Create User
-export const createUser = (email, password) =>
-    auth.createUserWithEmailAndPassword(email, password);
+export const createUser = (email, password) => {
+    return new Promise(action((resolve, reject) => {
+        auth.createUserWithEmailAndPassword(email, password)
+            .then(action((userCredential) => {
+                resolve(userCredential)
+            }))
+            .catch(error => {
+                reject(error)
+            })
+    }))
+}
 
 // Delete User
 export const deleteUser = (email, password) =>
@@ -24,7 +33,6 @@ export const signIn = action((email, password) => {
                     authUser: authUser.user,
                 }), (err) => {
                     if (err) reject({message: err.toString()})
-                    // console.log("Authorization Token Saved to Disk")
                 })
                 resolve(authUser.user)
             }))

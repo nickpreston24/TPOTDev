@@ -16,7 +16,7 @@ class LettersStore {
     wordpressCredentials = {}
     editorContent = '<p>Why hello there!</p>'
     publishModal = false
-    currentModal = ''
+    currentModal = 'Firebase Modal'
     publishData = {
         slug: '',
         title: '',
@@ -26,7 +26,6 @@ class LettersStore {
 
     setKey = (key, value) => {
         this[key] = value
-        console.log(`Set key [${key}] : ${value}`)
     }
 
     setEditorContent = async (string) => {
@@ -70,10 +69,12 @@ class LettersStore {
     }
 
     publishToWordpress = async (html) => {
+        console.log('clicked')
         const wpCreds = await db.wordpressCredentials
         this.wordpressCredentials = !!wpCreds
             ? wpCreds
             : null
+        console.log(this.wordpressCredentials)
         if (!!this.wordpressCredentials) {
             const { slug, title, excerpt } = this.publishData
             if (!slug) {
