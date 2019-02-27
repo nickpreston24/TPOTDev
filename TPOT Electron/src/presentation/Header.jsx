@@ -22,7 +22,7 @@ const styles = theme => ({
     },
     contrastBar: {
         minHeight: 8,
-        background: theme.palette.primary.medium
+        background: theme.palette.primary.dark
     },
     menuButton: {
         marginLeft: -12,

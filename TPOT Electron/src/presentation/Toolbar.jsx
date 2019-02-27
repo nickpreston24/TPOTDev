@@ -14,7 +14,8 @@ const shell = electron.shell
 
 const styles = theme => ({
     root: {
-        color: theme.palette.secondary.textDark
+        color: theme.palette.secondary.textDark,
+        WebkitAppRegion: 'no-drag',
     },
     settings: {
         position: "absolute",
@@ -36,12 +37,14 @@ const styles = theme => ({
     toolbar: {
         background: theme.palette.secondary.light,
         maxHeight: 48,
-        paddingRight: 12
+        paddingRight: 12,
+        WebkitAppRegion: 'no-drag'
     },
     logBar: {
         color: "#a0da7c",
         width: "100%",
-        fontStyle: "italic"
+        fontStyle: "italic",
+        WebkitAppRegion: 'no-drag'
     },
     toolSet: {
         // minWidth: 600,

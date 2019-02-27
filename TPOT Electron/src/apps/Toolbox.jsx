@@ -1,7 +1,9 @@
-// React
+import React, { Component, Fragment } from 'react';
 import { createMuiTheme, MuiThemeProvider } from '@material-ui/core/styles';
-import React from 'react';
-import 'typeface-roboto';
+import { withStyles } from '@material-ui/core/styles'
+import { inject, observer } from 'mobx-react'
+import { compose } from 'recompose'
+import OSTitleBar from '../container/OSTitleBar'
 import AccountItems from '../presentation/AccountItems';
 import AppItems from '../presentation/AppItems';
 import SettingsItems from '../presentation/SettingsItems';
@@ -12,58 +14,22 @@ import { firebase, db } from '../firebase'
 import { wp } from '../wordpress'
 import Notifier from '../container/Notifier';
 import ModalFirebase from '../presentation/ModalFirebase'
+import 'typeface-roboto';
 
 // Electron
 window.require('electron-react-devtools').install() // Works, but resets (IS IT SLOWING THINGS DOWN!!!!)
 // window.require('devtron').install() // Not Working ATM
 
 // Start Theming Service
-const theme = createMuiTheme({
-    palette: {
-        primary: {
-            light: '#ff867c',
-            main: '#ef5350',
-            // dark: '#CC3333',
-            medium: '#d23140',
-            dark: '#b61827',
-            contrastText: '#fff',
-        },
-        // primary: {
-        //     light: '#df78ef',
-        //     main: '#ab47bc',
-        //     // dark: '#CC3333',
-        //     dark: '#790e8b',
-        //     contrastText: '#fff',
-        // },
-        secondary: {
-            light: '#484b5b',
-            main: '#343745',
-            dark: '#272934',
-            contrastText: '#fff',
-            textLight: '#FFFFFF',
-            textMain: '#A7AAB8',
-            textDark: '#C2C6D7',
-        },
-        type: 'light',
-        accent: "dodgerblue"
-    },
-    status: {
-        danger: 'orange',
-        warning: '#deb15b',
-        ready: '#98C379',
-    },
-    // overrides: {
-    //   MuiStepper: { // Name of the component ⚛️ / style sheet
-    //     root: { // Name of the rule
-    //       // color: "blue",
-    //     },
-    //   },
-    typography: {
-        useNextVariants: true,
-    },
-});
 
-class Toolbox extends React.Component {
+const styles = theme => ({
+    root: {
+        color: "red",
+        // css atrributes
+    },
+})
+
+class Toolbox extends Component {
 
     state = { // set default state for App (single source of truth)
         menuToggled: false,
@@ -120,9 +86,21 @@ class Toolbox extends React.Component {
 
     render() {
         const childProps = { authUser: this.state.authUser }
+        const { classes } = this.props
+        const { theme, setThemeData } = this.props.settingsStore
+
         return (
-                <div id="Toolbox">
-                    <MuiThemeProvider theme={theme}>
+            <div id="Toolbox" classname={classes.root}>
+                <MuiThemeProvider theme={theme}>
+                    <OSTitleBar />
+                    <div id="Dashboard">
+                        {/* <button onClick={() => setThemeData('primary', {
+                        light: '#ff867c',
+                        main: '#ef5350',
+                        medium: '#d23140',
+                        dark: '#b61827',
+                        contrastText: '#fff',
+                    })}>Change Color</button> */}
                         <ShiftDrawer
                             compact={this.state.compactDrawer}
                             accountItems={<AccountItems />}
@@ -134,11 +112,16 @@ class Toolbox extends React.Component {
                         />
                         <Notifier />
                         <ModalFirebase />
-                    </MuiThemeProvider>
-                </div>
+                    </div>
+                </MuiThemeProvider>
+            </div>
         )
     }
 }
 
-export default Toolbox
+export default compose(
+    withStyles(styles),
+    inject('settingsStore'),
+    observer
+)(Toolbox);
 

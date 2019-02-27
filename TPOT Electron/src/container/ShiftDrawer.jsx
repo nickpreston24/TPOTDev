@@ -29,7 +29,7 @@ const styles = theme => ({
         }),
     },
     drawerClose: {
-        overflow: 'hidden',
+        // overflow: 'hidden',
         transition: theme.transitions.create('width', {
             easing: theme.transitions.easing.sharp,
             duration: theme.transitions.duration.leavingScreen,
@@ -44,7 +44,8 @@ const styles = theme => ({
     toolbar: {
         background: theme.palette.secondary.light,
         maxHeight: 48,
-        paddingRight: 12
+        WebkitAppRegion: 'drag',
+        paddingRight: 12,
     },
     accounts: {
         width: "100%",
