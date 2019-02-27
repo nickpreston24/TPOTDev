@@ -60,9 +60,9 @@ const styles = theme => ({
 
 class LinkSpan extends Component {
 
-    componentWillMount() {
+    componentDidMount() {
         if (this.props.callbacks) {
-            this.props.callbacks.onChange = this.onEditorStateChange;
+            // this.props.callbacks.onChange = this.onEditorStateChange;
             this.createEntityFromDecorator()
         }
     }

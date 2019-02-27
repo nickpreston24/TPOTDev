@@ -38,7 +38,7 @@ class EditorStore {
         this.editor = node
 
     focus() {
-        console.log(this.editor)
+        // console.log(this.editor)
         if (this.editor !== null && this.editor.focus !== null) {
             try {
                 this.editor.focus()

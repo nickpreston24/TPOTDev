@@ -16,7 +16,7 @@ class LettersStore {
     wordpressCredentials = {}
     editorContent = '<p>Why hello there!</p>'
     publishModal = false
-    currentModal = 'Firebase Modal'
+    currentModal = ''
     publishData = {
         slug: '',
         title: '',
