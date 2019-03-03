@@ -15,6 +15,7 @@ class EditorStore {
 
     }
 
+    editor = null
     originalState = 'Original'
     editorState = createEditorStateWithText('Hello from MobX!')
     codeState = 'Code'
@@ -34,10 +35,17 @@ class EditorStore {
         this.editorState = editorState
 
     setRef = node =>
-        this.editorNode = node
+        this.editor = node
 
-    focus = () => {
-        if (this.editor) this.editorNode.focus()
+    focus() {
+        // console.log(this.editor)
+        if (this.editor !== null && this.editor.focus !== null) {
+            try {
+                this.editor.focus()
+            } catch (error) {
+                
+            }
+        }
     }
 
     loadEditorFromDocx = html => {
@@ -48,6 +56,11 @@ class EditorStore {
         this.baseStyleMap = newBaseStyleMap
         this.editorState = EditorState.createWithContent(newContentState);
         this.codeState = draftContentToHtml(this.editorState, newContentState);
+        let that = this
+        setTimeout(function () {
+            that.focus()
+            console.log('lets do this')
+        }, 500);
     }
 
     saveSession = (notify) => {
@@ -112,6 +125,7 @@ class EditorStore {
 
 export default decorate(
     EditorStore, {
+        editor: observable,
         originalState: observable,
         editorState: observable,
         codeState: observable,
@@ -124,7 +138,7 @@ export default decorate(
         modes: observable,
         onChange: action,
         setRef: action,
-        focus: action,
+        focus: action.bound,
         loadEditorFromDocx: action,
         saveSession: action,
         clearSession: action,

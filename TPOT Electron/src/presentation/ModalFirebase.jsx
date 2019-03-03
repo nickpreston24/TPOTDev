@@ -1,49 +1,33 @@
+import React, { Component, Fragment } from "react";
+import { withStyles } from "@material-ui/core/styles";
+import { inject, observer } from "mobx-react";
+import { compose } from "recompose";
+import PropTypes from "prop-types";
 import Button from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
-import DialogActions from "@material-ui/core/DialogActions";
-import DialogContent from "@material-ui/core/DialogContent";
-import DialogContentText from "@material-ui/core/DialogContentText";
 import Slide from "@material-ui/core/Slide";
-import { withStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
-import PropTypes from "prop-types";
-import React from "react";
-import { auth } from '../firebase';
 import FireBaseLogo from "../media/firebase.png";
-
-import { inject, observer } from "mobx-react";
-import { observable, action, computed, decorate, autorun } from 'mobx'
-import { compose } from "recompose";
-
-// const electron = window.require("electron");
-// const remote = electron.remote;
-// const app = remote.app;
-// const fs = remote.require("fs");
+import { Typography, Grid } from "@material-ui/core";
 
 function Transition(props) {
     return <Slide direction="up" {...props} />;
 }
 
-const byPropKey = (propertyName, value) => () => ({
-    [propertyName]: value,
-});
-
 const styles = theme => ({
     root: {
-        display: "flex",
-        flexWrap: "wrap"
-    },
-    paper: {
         width: 300,
-        height: 450
+        minHeight: 400,
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'flex-start',
+        alignItems: 'center',
+        padding: theme.spacing.unit * 3,
     },
     logo: {
-        marginTop: 32,
-        marginBottom: 32,
-        position: "relative",
-        left: "50%",
-        transform: "translateX(-50%)",
-        display: "block"
+        width: 267,
+        height: 66,
+        margin: theme.spacing.unit * 3
     },
     margin: {
         margin: theme.spacing.unit
@@ -51,121 +35,190 @@ const styles = theme => ({
     withoutLabel: {
         marginTop: theme.spacing.unit * 3
     },
+    confirm: {
+        minWidth: 150,
+        margin: theme.spacing.unit * 3
+    },
     textField: {
-        flexBasis: 200
+        marginTop: theme.spacing.unit * 2
+    },
+    link: {
+        display: 'inline',
+        color: '#509eef',
+        '&:hover': {
+            cursor: 'pointer',
+            textDecoration: 'underline',
+        }
     }
 });
 
-class SignIn extends React.Component {
-    state = {
-        email: '',
-        password: ''
-    };
-
-    closeModal = e => {
-
-        this.props.lettersStore.signOut()
-        this.props.closeModal()
-        // if (e.target.innerHTML === "Login") {
-        //     this.props.onUpdate(true);
-        // } else {
-        //     this.props.onUpdate(false);
-        // }
-    };
-
-    clickAwayModal = e => {
-        console.log(e.srcElement, e.target, e);
-    };
-
-    onSubmit = (event) => {
-        event.preventDefault();
-        const { email, password, } = this.state;
-        const { signIn } = this.props.sessionStore
-        const { notify } = this.props.lettersStore
-        signIn(email, password, notify)
-    }
+class SignIn extends Component {
 
     render() {
         const { classes } = this.props;
-        const {
-            email,
-            password,
-            // error,
-            // submit
-        } = this.state;
+        const { currentModal, setCurrentModal, notify } = this.props.lettersStore
+        const { signIn, register, requestReset, setLoginData, loginData, loginMode, setKey } = this.props.sessionStore
 
         return (
             <Dialog
-                id="FIREBASE"
-                open={this.props.open}
-                // open={true}
+                id="Firebase Modal"
+                open={"Firebase Modal" === currentModal}
                 TransitionComponent={Transition}
-                keepMounted
-                onBackdropClick={this.closeModal}
-                onClose={this.handleClose}
-                aria-labelledby="alert-dialog-slide-title"
-                aria-describedby="alert-dialog-slide-description"
+                onBackdropClick={() => {
+                    setCurrentModal(null)
+                    setKey('loginMode', 'login')
+                }}
             >
-                {/* <DialogTitle id="alert-dialog-slide-title">Sign In</DialogTitle> */}
-                <DialogContent color="primary" className={classes.paper}>
-                    {/* <Card className={classes.card}>
-            <CardMedia
-              className={classes.media}
-              image="../media/firebase.png"
-              title="Contemplative Reptile"
-            />
-          </Card> */}
+                <div color="secondary" className={classes.root}>
                     <img className={classes.logo} src={FireBaseLogo} alt="FirebaseLogo" />
-                    <form onSubmit={this.onSubmit}>
-                        <TextField
-                            className={classes.textField}
-                            // autoComplete="username"
-                            fullWidth
-                            label="Email"
-                            type="email"
-                            onChange={event => this.setState(byPropKey('email', event.target.value))}
-                            value={email}
-                            margin="normal"
-                            variant="outlined"
-                        />
-                        <TextField
-                            className={classes.textField}
-                            // autoComplete="password"
-                            fullWidth
-                            // id="outlined-adornment-password"
-                            // className={classNames(classes.margin, classes.textField)}
-                            variant="outlined"
-                            type={this.state.showPassword ? 'text' : 'password'}
-                            label="Password"
-                            value={password}
-                            // onChange={this.handleChange('password')}
-                            onChange={event => this.setState(byPropKey('password', event.target.value))}
-                        />
-                        {/* <Divider/> */}
-                    </form>
-                    <DialogContentText id="alert-dialog-slide-description">
-                        Let Google help apps determine location. This means sending
-                        anonymous location data to Google, even when no apps are running.
-          </DialogContentText>
-                </DialogContent>
-                <DialogActions>
-                    <Button onClick={this.closeModal} color="primary">
-                        Exit
-          </Button>
-                    <Button
-                        onClick={this.onSubmit}
-                        color="primary"
-                        type="submit">
-                        Login
-          </Button>
-                </DialogActions>
+                    {loginData.code === '' &&
+                        <Fragment>
+                            {loginMode === 'login' && (
+                                <Fragment>
+                                    <TextField
+                                        fullWidth
+                                        variant="outlined"
+                                        label="Email"
+                                        type="email"
+                                        autoComplete="email"
+                                        value={loginData.email}
+                                        className={classes.textField}
+                                        onChange={e => { setLoginData('email', e.target.value) }}
+                                    />
+                                    <TextField
+                                        fullWidth
+                                        variant="outlined"
+                                        label="Password"
+                                        type={'password'}
+                                        autoComplete="password"
+                                        value={loginData.password}
+                                        className={classes.textField}
+                                        onChange={e => { setLoginData('password', e.target.value) }}
+                                    />
+                                    <Button
+                                        fullWidth
+                                        color="primary"
+                                        variant="contained"
+                                        size="large"
+                                        type="submit"
+                                        className={classes.confirm}
+                                        onClick={() => signIn(notify, setCurrentModal)}
+                                    >
+                                        Login
+                                        </Button>
+                                    <Typography className={classes.link} variant="body2" onClick={() => setKey('loginMode', 'reset')}>Forgot Your Password?</Typography>
+                                    <Typography variant="body2">
+                                        {`Not a member yet?  `}
+                                        <Typography className={classes.link} variant="body2" onClick={() => setKey('loginMode', 'signup')}>Create an Account</Typography>
+                                    </Typography>
+                                </Fragment>
+                            )}
+                            {loginMode === 'signup' && (
+                                <Fragment>
+                                    <Grid container spacing={16}>
+                                        <Grid item item xs={6} >
+                                            <TextField
+                                                fullWidth
+                                                variant="outlined"
+                                                label="First Name"
+                                                autoComplete="name"
+                                                value={loginData.firstName}
+                                                className={classes.textField}
+                                                onChange={e => { setLoginData('firstName', e.target.value) }}
+                                            />
+                                        </Grid>
+                                        <Grid item item xs={6} >
+                                            <TextField
+                                                fullWidth
+                                                variant="outlined"
+                                                label="Last Name"
+                                                autoComplete="family-name"
+                                                value={loginData.lastName}
+                                                className={classes.textField}
+                                                onChange={e => { setLoginData('lastName', e.target.value) }}
+                                            />
+                                        </Grid>
+                                    </Grid>
+                                    <TextField
+                                        fullWidth
+                                        variant="outlined"
+                                        label="Email"
+                                        type="email"
+                                        autoComplete="email"
+                                        value={loginData.email}
+                                        className={classes.textField}
+                                        onChange={e => { setLoginData('email', e.target.value) }}
+                                    />
+                                    <TextField
+                                        fullWidth
+                                        variant="outlined"
+                                        label="Password"
+                                        type={'password'}
+                                        autoComplete="password"
+                                        value={loginData.password}
+                                        className={classes.textField}
+                                        onChange={e => { setLoginData('password', e.target.value) }}
+                                    />
+                                    <Button
+                                        fullWidth
+                                        color="primary"
+                                        variant="contained"
+                                        size="large"
+                                        type="submit"
+                                        className={classes.confirm}
+                                        onClick={() => register(notify, setCurrentModal)}
+                                    >
+                                        Register
+                                        </Button>
+                                    <Typography variant="body2">
+                                        {`Already Have an Account?  `}
+                                        <Typography className={classes.link} variant="body2" onClick={() => setKey('loginMode', 'login')}>Log In</Typography>
+                                    </Typography>
+                                </Fragment>
+                            )}
+                            {loginMode === 'reset' && (
+                                <Fragment>
+                                    <TextField
+                                        fullWidth
+                                        variant="outlined"
+                                        label="Email"
+                                        type="email"
+                                        autoComplete="email"
+                                        value={loginData.email}
+                                        className={classes.textField}
+                                        onChange={e => { setLoginData('email', e.target.value) }}
+                                    />
+                                    <Typography variant="body2" align="center" style={{ marginTop: 16 }} onClick={() => setKey('loginMode', 'reset')}>{`An email will be send to the email registered with your account. Clicking on the link will send you to a webpage where you can reset your password. Be sure to check your spam folder if you do not see the request!`}</Typography>
+                                    <Button
+                                        fullWidth
+                                        color="primary"
+                                        variant="outlined"
+                                        size="large"
+                                        type="submit"
+                                        className={classes.confirm}
+                                        onClick={() => {
+                                            requestReset(notify)
+                                        }}
+                                    >
+                                        Send Reset Code
+                                            </Button>
+                                    <Typography variant="body2">
+                                        {`Already Have an Account?  `}
+                                        <Typography className={classes.link} variant="body2" onClick={() => setKey('loginMode', 'login')}>Log In</Typography>
+                                    </Typography>
+                                </Fragment>
+                            )}
+                        </Fragment>}
+                </div>
             </Dialog>
         );
     }
 }
 
 SignIn.propTypes = {
-    classes: PropTypes.object.isRequired
+    classes: PropTypes.object.isRequired,
+    sessionStore: PropTypes.object.isRequired,
+    lettersStore: PropTypes.object.isRequired,
 };
 
 export default compose(

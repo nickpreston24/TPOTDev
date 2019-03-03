@@ -7,8 +7,21 @@ const fs = remote.require("fs");
 const path = remote.require("path");
 
 // Create User
-export const createUser = (email, password) =>
-    auth.createUserWithEmailAndPassword(email, password);
+export const createUser = (email, password) => {
+    return new Promise(action((resolve, reject) => {
+        auth.createUserWithEmailAndPassword(email, password)
+            .then(action((userCredential) => {
+                resolve(userCredential)
+            }))
+            .catch(error => {
+                reject(error)
+            })
+    }))
+}
+
+// Request Password Reset
+export const requestPasswordReset = (email) =>
+    auth.sendPasswordResetEmail(email);
 
 // Delete User
 export const deleteUser = (email, password) =>
@@ -24,7 +37,6 @@ export const signIn = action((email, password) => {
                     authUser: authUser.user,
                 }), (err) => {
                     if (err) reject({message: err.toString()})
-                    console.log("Authorization Token Saved to Disk")
                 })
                 resolve(authUser.user)
             }))
@@ -37,9 +49,8 @@ export const signIn = action((email, password) => {
 // Sign out
 export const signOut = () => {
     auth.signOut()
-    const fileName = path.join(app.getPath('userData'), 'Local Storage', 'auth.json')
-    fs.unlink(fileName, () => {
-        console.log('Signed Out User')
+    fs.unlink(path.join(app.getPath('userData'), 'Local Storage', 'auth.json'), () => {
+        // console.log('Signed Out User')
     })
 }
 

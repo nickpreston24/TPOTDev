@@ -10,9 +10,11 @@ import ShiftDrawer from '../container/ShiftDrawer';
 import Letters from './Letters';
 import { firebase, db } from '../firebase'
 import { wp } from '../wordpress'
+import Notifier from '../container/Notifier';
+import ModalFirebase from '../presentation/ModalFirebase'
 
 // Electron
-// window.require('electron-react-devtools').install() // Works, but resets (IS IT SLOWING THINGS DOWN!!!!)
+window.require('electron-react-devtools').install() // Works, but resets (IS IT SLOWING THINGS DOWN!!!!)
 // window.require('devtron').install() // Not Working ATM
 
 // Start Theming Service
@@ -121,7 +123,6 @@ class Toolbox extends React.Component {
         return (
                 <div id="Toolbox">
                     <MuiThemeProvider theme={theme}>
-                        
                         <ShiftDrawer
                             compact={this.state.compactDrawer}
                             accountItems={<AccountItems />}
@@ -131,6 +132,8 @@ class Toolbox extends React.Component {
                             toolbar={<Toolbar />}
                             currentApp={<Letters {...childProps} />}
                         />
+                        <Notifier />
+                        <ModalFirebase />
                     </MuiThemeProvider>
                 </div>
         )
