@@ -7,7 +7,8 @@ import { Divider } from "@material-ui/core";
 import Button from "@material-ui/core/Button";
 import Slide from "@material-ui/core/Slide";
 import Grow from "@material-ui/core/Grow";
-import Avatar from "@material-ui/icons/AccountCircleRounded";
+// import Avatar from "@material-ui/icons/AccountCircleRounded";
+import Avatar from '@material-ui/core/Avatar'
 import MenuItem from "@material-ui/core/MenuItem";
 import Menu from "@material-ui/core/Menu";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
@@ -15,15 +16,19 @@ import ListItemText from "@material-ui/core/ListItemText";
 import AccountIcon from "@material-ui/icons/AccountBoxOutlined";
 import InfoIcon from "@material-ui/icons/InfoOutlined";
 import LogoutIcon from "@material-ui/icons/ExitToApp";
+import AvatarImage from '../media/avatar.png'
 
 const styles = {
     root: {
-        position: "absolute",
-        right: 0,
-        top: "50%",
-        transform: "translateY(-50%)",
-        width: "auto",
-        marginRight: 12
+        // display: 'flex',
+        // flex: 1,
+        // float: 'right',
+        // position: "absolute",
+        // right: 0,
+        // top: "50%",
+        // transform: "translateY(-50%)",
+        // width: "auto",
+        // marginRight: 12
     },
 };
 
@@ -58,7 +63,7 @@ class Auth extends Component {
                     <div>
                         <Slide direction="left" in={true} timeout={{ enter: 700 }}>
                             <Button
-                                className={classes.button}
+                                // className={classes.button}
                                 aria-owns={anchorEl ? "logout-menu" : null}
                                 aria-haspopup="true"
                                 onClick={() => setCurrentModal('Firebase Dropdown')}
@@ -66,7 +71,7 @@ class Auth extends Component {
                                 varient="contained"
                             >
                                 {authUser.email}
-                                <Avatar />
+                                <Avatar src={AvatarImage} style={{paddingLeft: 10, maxHeight: 24, maxWidth: 24}}/>
                             </Button>
                         </Slide>
                         <Menu
@@ -107,7 +112,7 @@ class Auth extends Component {
                 )}
                 {!authUser && (
                     <Grow in={true} timeout={{ enter: 400 }}>
-                        <Button color="inherit" onClick={function() {
+                        <Button color="inherit" variant="outlined" onClick={function() {
                             // this.props.editorStore.editor.focus()
                             // console.info(this.props.editorStore.editor)
                             // console.log('clicked')

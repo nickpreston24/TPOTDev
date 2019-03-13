@@ -6,8 +6,10 @@ import { compose } from 'recompose'
 const styles = theme => ({
     root: {
         height: 21,
+        width: '100%',
         background: '#3e4552',
         borderBottom: '1px solid #282d35',
+        WebkitAppRegion: 'drag',
     },
     macButtons: {
         height: 'inherit',
@@ -25,16 +27,16 @@ const styles = theme => ({
         }
     },
     osxRed: {
-        border: '1px solid #d83638',
-        background: '#ff5d5b',
+        border: '1px solid #e33e41',
+        background: '#ff5c5c',
     },
     osxYellow: {
-        border: '1px solid #d59335',
-        background: '#ffbc4d',
+        border: '1px solid #e09e3e',
+        background: '#ffbd4c',
     },
     osxGreen: {
-        border: '1px solid #05a03a',
-        background: '#00c901',
+        border: '1px solid #14ae46',
+        background: '#00ca56',
     },
 })
 
@@ -44,7 +46,7 @@ class OSTitleBar extends Component {
         const { classes } = this.props
 
         return (
-            <div className={classes.root}>
+            <div id="OS Toolbar" className={classes.root}>
                 <MacButtons classes={classes} />
             </div>
         )

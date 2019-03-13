@@ -15,11 +15,11 @@ import Tab from '@material-ui/core/Tab';
 
 const styles = theme => ({
     tabsRoot: {
-        position: "absolute",
-        left: "50%",
-        top: 0,
-        transform: "translateX(-50%)",
-        width: '50%',
+        // position: "relative",
+        // left: "50%",
+        // top: 0,
+        // transform: "translateX(-50%)",
+        // width: '50%',
         // border: '1px solid lime'
         // '& div:nth-first-child(0)': {
         //     background: "yellow !important",
@@ -27,40 +27,70 @@ const styles = theme => ({
         // }
     },
     button: {
-        margin: 0,
-        padding: 0,
+        // margin: 0,
+        // padding: 0,
     },
     completed: {
-        display: 'inline-block',
+        // display: 'inline-block',
     },
 
     indicator: {
-        top: 46,
-        background: theme.palette.primary.contrastText,
+        top: 39,
+        height: 4,
+        borderRadius: '6px 6px 0px 0px',
+        background: 'rgba(255,255,255,.7)',
     },
     tabRoot: {
+        // border: '1px solid green',
+        boxSizing: 'border-box',
+        paddingLeft: 16,
+        paddingRight: 16,
+        paddingTop: 'unset',
+        minHeight: 44,
+        maxHeight: 44,
         // height: "40px !important",
-        minHeight: 48,
-        color: theme.palette.primary.dark,
+        // minHeight: 48,
+        color: 'rgba(255,255,255,.7)',
         // border: '1px solid magenta',
         '&[aria-selected="true"]': {
-            color: theme.palette.primary.contrastText,
+            // color: theme.palette.primary.contrastText,
         },
         '& span': {
-            marginLeft: "3vw",
-            display: "table",
+            // marginLeft: "3vw",
+            // display: "table",
         },
         '& span span, & span svg': {
-            textAlign: "center",
-            display: "table-cell",
-            verticalAlign: "middle",
+            // textAlign: "center",
+            // display: "table-cell",
+            // verticalAlign: "middle",
         },
         '& span span': {
-            fontSize: 14,
+            // fontSize: 14,
         },
     },
-    selected: {
-        color: "lime",
+    tabWrapper: {
+        // color: 'red',
+        display: 'flex',
+        flexFlow: 'row nowrap',
+        justifyContents: 'center',
+        alignItems: 'center',
+        fontSize: 14,
+        '& *': {
+            display: 'flex'
+        }
+    },
+    tabLabel: {
+        margin: 0,
+        padding: 0,
+        marginLeft: 8,
+        width: 'auto',
+    },
+    // labelIcon: {
+    //     fontSize: 14,
+    // },
+    tabSelected: {
+        color: 'rgba(255,255,255,1)'
+        // color: "lime",
     }
 
 });
@@ -121,7 +151,10 @@ class EditMode extends Component {
 
         return (
             <Tabs
-                classes={{ root: classes.tabsRoot, indicator: classes.indicator }}
+                classes={{ 
+                    root: classes.tabsRoot, 
+                    indicator: classes.indicator 
+                }}
                 value={store.editModeKey}
                 onChange={(e, tab)=> store.setEditMode(e, tab)}
                 fullWidth
@@ -130,7 +163,13 @@ class EditMode extends Component {
             >
                 {this.tabs.map((tab) => {
                     return (
-                        <Tab classes={{ root: classes.tabRoot, selected: classes.selected }} icon={tab.icon} label={tab.name} key={Math.random(tab.name)} />
+                        <Tab classes={{ 
+                            root: classes.tabRoot, 
+                            wrapper: classes.tabWrapper, 
+                            labelContainer: classes.tabLabel, 
+                            labelIcon: classes.labelIcon,
+                            selected: classes.tabSelected 
+                        }} icon={tab.icon} label={tab.name} key={Math.random(tab.name)} />
                     );
                 })}
             </Tabs>

@@ -35,9 +35,12 @@ const createToolboxWindow = () => {
     // : Create Toolbox Window
     TOOLBOX_WINDOW = new BrowserWindow({
         title: 'Toolbox',
+        backgroundColor: '#f4f3ef',
         frame: false,
         center: true,
-        height: 700,
+        minHeight: 650,
+        minWidth: 1200,
+        height: 650,
         width: 1200,
         webPreferences: {
             webSecurity: true,
@@ -65,9 +68,9 @@ const createToolboxWindow = () => {
     }
 
     // : Other
-    isDev ? TOOLBOX_WINDOW.webContents.openDevTools() : null
+    // isDev ? TOOLBOX_WINDOW.webContents.openDevTools() : null
     TOOLBOX_WINDOW.setMenu(null)
-    TOOLBOX_WINDOW.maximize()
+    // TOOLBOX_WINDOW.maximize()
     TOOLBOX_WINDOW.on("closed", () => (TOOLBOX_WINDOW = null));
 
 }
@@ -135,7 +138,7 @@ ipc.on("update-confirm-restart", (event, arg) => {
 
 const sendUpdateStatusToToolbox = (event, desc, data) => {
     log.info(desc ? desc : "auto-update uknown event triggered");
-    toolboxWindow.webContents.send('auto-update', msg = {
+    TOOLBOX_WINDOW.webContents.send('auto-update', msg = {
         event: event ? event : 'update-unknown',
         desc: desc ? event : 'Unknown Update...',
         data: data ? data : null
@@ -143,7 +146,7 @@ const sendUpdateStatusToToolbox = (event, desc, data) => {
 }
 
 
-let doOnce = true
+let doOnce = false
 
 ipc.on("toolbox-initialized", (event, arg) => {
     console.log(chalk.bgGreen.black('Toolbox render process loaded...'))

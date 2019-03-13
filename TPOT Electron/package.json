@@ -9,7 +9,7 @@
     "repository": "https://github.com/MikePreston17/TPOTDev",
     "main": "public/electron.js",
     "scripts": {
-        "analyze": "source-map-explorer build/static/js/main.*",
+        "analyze": "source-map-explorer 'build/static/js/*.js'",
         "test": "mocha",
         "main": "electron .",
         "react-start": "react-scripts start",
@@ -25,6 +25,10 @@
         "start": "concurrently \"cross-env BROWSER=none yarn react-start\" \"wait-on http://localhost:3000 && electron .\""
     },
     "dependencies": {
+        "@fortawesome/fontawesome-svg-core": "^1.2.15",
+        "@fortawesome/free-regular-svg-icons": "^5.7.2",
+        "@fortawesome/free-solid-svg-icons": "^5.7.2",
+        "@fortawesome/react-fontawesome": "^0.1.4",
         "@jimmycode/draft-js-soft-newline-plugin": "^0.5.1",
         "@material-ui/core": "^3.4.0",
         "@material-ui/icons": "^3.0.1",
@@ -70,6 +74,7 @@
         "file2html-ooxml": "0.2.2",
         "file2html-text": "0.2.0",
         "firebase": "^5.4.2",
+        "font-awesome": "^4.7.0",
         "fs-extra": "^7.0.0",
         "googleapis": "^27.0.0",
         "html-beautify": "^1.0.4",
@@ -92,6 +97,8 @@
         "react-frame-component": "^4.0.1",
         "react-html-parser": "^2.0.2",
         "react-json-pretty": "^1.7.9",
+        "react-loadable": "^5.5.0",
+        "react-router-dom": "^4.3.1",
         "react-syntax-highlighter": "^10.1.1",
         "smalltalk": "^3.2.1",
         "snake-case": "^2.1.0",
@@ -111,6 +118,7 @@
         "mocha": "^5.2.0",
         "prettier": "^1.4.4",
         "react-scripts": "1.1.4",
+        "source-map-explorer": "^1.7.0",
         "wait-on": "3.2.0"
     },
     "babel": {

@@ -5,6 +5,11 @@ body {
     line-height: 30.6px;
 }
 
+img { 
+    /* max-width: 100%; */
+    /* max-height: 70%; */
+}
+
 .DraftEditor-root h1 {
     /* font-size: 60px; */
     font-size: 40px;

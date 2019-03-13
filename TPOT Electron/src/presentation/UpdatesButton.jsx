@@ -34,14 +34,15 @@ console.log(`%cApp Version : ${app.getVersion()}`, "color: #56C3E8;")
 const styles = theme => ({
     root: {
         // Keep in mind this is respective to parent
-        display: "inline-block",
-        float: "right",
+        // display: "inline-block",
+        display: 'flex'
+        // float: "right",
     },
     rootWide: {
 
     },
     button: {
-        color: theme.palette.secondary.textDark
+        color: 'rgba(255,255,255,.7)'
     },
     badgeIcon: {
         marginLeft: 10
@@ -62,10 +63,13 @@ const styles = theme => ({
         width: 100,
         height: 12,
         borderRadius: 20,
-        background: theme.palette.secondary.dark
+        background: theme.palette.primary.dark,
     },
     progressBar: {
-        background: theme.palette.accent,
+        margin: 3,
+        maxWidth: 94,
+        borderRadius: 20,
+        background: theme.palette.primary.main,
     },
     green: { background: theme.status.ready },
     yellow: { background: theme.status.warning },
@@ -237,7 +241,7 @@ class UpdatesButton extends React.Component {
                 <Badge badgeContent={badge.icon} onClick={this.openUpdateModal} classes={{ root: classes.badgeRoot, badge: classNames(classes.badgeSpan, classes[badge.class]) }} >
                     <Button className={classNames(classes.button)}>
                         {!this.state.updateDownloading ? 
-                            "Updates"
+                            ""
                             : <LinearProgress variant="determinate" value={this.state.updateDownloadProgress.percent} classes={{ root: classes.progressRoot, bar: classes.progressBar, bar1Indeterminate: classes.progressBar1Indeterminate, bar2Indeterminate: classes.progressBar2Indeterminate }} />
                         }
                         <UpdateIcon className={classes.badgeIcon} />

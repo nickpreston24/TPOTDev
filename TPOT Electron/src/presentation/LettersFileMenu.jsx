@@ -9,7 +9,7 @@ import Save from '@material-ui/icons/Save';
 import SendIcon from '@material-ui/icons/Send';
 import PropTypes from 'prop-types';
 import React from 'react';
-import 'typeface-roboto';
+
 import ModalLoad from '../presentation/ModalLoad';
 
 import { inject, observer } from 'mobx-react'

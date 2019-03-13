@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import BlockStyleButton from '../utils/BlockStyleButton';
-import Icon from 'mdi-material-ui/FormatListNumbers'
+import Icon from 'mdi-material-ui/FormatListNumbered'
 
 export default class OrderedListButton extends Component {
     render() {

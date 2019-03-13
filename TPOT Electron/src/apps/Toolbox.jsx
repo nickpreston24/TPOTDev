@@ -1,127 +1,74 @@
 import React, { Component, Fragment } from 'react';
-import { createMuiTheme, MuiThemeProvider } from '@material-ui/core/styles';
+import { BrowserRouter, Route, Link, Switch, Redirect, withRouter } from 'react-router-dom'
+import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
+import { Loading } from '../presentation/Loading'
+import Loadable from "react-loadable";
 import { withStyles } from '@material-ui/core/styles'
 import { inject, observer } from 'mobx-react'
-import { compose } from 'recompose'
-import OSTitleBar from '../container/OSTitleBar'
-import AccountItems from '../presentation/AccountItems';
-import AppItems from '../presentation/AppItems';
-import SettingsItems from '../presentation/SettingsItems';
-import Toolbar from '../presentation/Toolbar';
-import ShiftDrawer from '../container/ShiftDrawer';
-import Letters from './Letters';
-import { firebase, db } from '../firebase'
-import { wp } from '../wordpress'
-import Notifier from '../container/Notifier';
-import ModalFirebase from '../presentation/ModalFirebase'
 import 'typeface-roboto';
 
-// Electron
+const Dashboard = Loadable({ loader: () => import('../container/Dashboard'), loading: Loading });
+// import Dashboard from '../container/Dashboard'
+
 window.require('electron-react-devtools').install() // Works, but resets (IS IT SLOWING THINGS DOWN!!!!)
 // window.require('devtron').install() // Not Working ATM
 
-// Start Theming Service
-
 const styles = theme => ({
     root: {
-        color: "red",
-        // css atrributes
+        background: theme.palette.background.default,
+        justifyContent: 'flex-start',
+        flexFlow: 'column nowrap',
+        display: 'flex',
+        height: '100vh',
+        width: '100vw',
     },
 })
 
-class Toolbox extends Component {
+export const Toolbox =
+    inject('settingsStore')(
+            observer(
+                ({ settingsStore }) => {
+                    const { theme } = settingsStore
+                    return (
+                        <BrowserRouter>
+                            <MuiThemeProvider theme={theme}>
+                                <RoutedApp />
+                            </MuiThemeProvider>
+                        </BrowserRouter>
+                    )
 
-    state = { // set default state for App (single source of truth)
-        menuToggled: false,
-        currentApp: <Letters />,
-        compactDrawer: true,
-        autoUpdateModal: false,
-        updateVersion: "",
-        authUser: null,
-        wordpressCredentials: null,
-    }
+                }
+            )
+    )
 
-    onUpdateHeader = async (headerState) => {
-        await this.setState({
-            menuToggled: headerState.menuToggled,
-            editMode: headerState.editMode
-        })
-    }
+const RoutedApp =
+withStyles(styles)(
+    withRouter(
+        ({ location, classes }) => {
+            return (
+                <div id="Toolbox" className={classes.root}>
+                    <ul style={{
+                        position: 'fixed', bottom: 0, left: 0, zIndex: 9999, padding: 10, borderRadius: 4, boxShadow: '0px 1px 5px 0px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 3px 1px -2px rgba(0, 0, 0, 0.12)', listStylePosition: "inside", background: 'lightgrey', paddingTop: 0, paddingBottom: 0, fontSize: 12,
+                    }}>
+                        {window.location.pathname}
+                    </ul>
+                    <ul style={{
+                        position: 'fixed', bottom: 0, zIndex: 9999, right: 20, padding: 10, borderRadius: 4, boxShadow: '0px 1px 5px 0px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 3px 1px -2px rgba(0, 0, 0, 0.12)', listStylePosition: "inside", background: 'lightgrey', paddingTop: 0, paddingBottom: 0, fontSize: 12,
+                    }}>
+                        <li><Link to="/">Home</Link></li>
+                        <li><Link to="/splash">Splash</Link></li>
+                        <li><Link to="/letters">Letters</Link></li>
+                        <li><Link to="/login">Log In</Link></li>
+                    </ul>
+                    <Switch location={location}>
+                        <Route exact path="/" component={Dashboard} />
+                        {/* <Route path="/splash" render={() => <h1>Splash Loading...</h1>} /> */}
+                        <Route render={() => <Fragment><h1>404</h1><h4>Page not found.</h4></Fragment>} />
+                    </Switch>
+                </div>
+            )
+        }
+    )
+)
 
-    closeAutoUpdateModal = () => {
-        this.setState({ autoUpdateModal: false })
-    }
-
-    componentDidMount() {
-
-        // Authenticate and get WP Credentials
-        // firebase.auth.onAuthStateChanged(async (authUser) => {
-        //     // Set Authorized State
-        //     // console.log("AuthUser", authUser)
-        //     authUser
-        //         ? await this.setState({ authUser })
-        //         : await this.setState({ authUser: null, wordpressCredentials: null });
-        //     // Set Create User Profile from authUser Object Data
-        //     authUser && await db.addUser(
-        //         authUser.uid,
-        //         authUser.firstname,
-        //         authUser.lastname,
-        //         authUser.email,
-        //         authUser.provider,
-        //         authUser.displayName,
-        //     )
-        //     // Pull down Wordpress Credentials from Auth'd Database
-        //     // const wordpressCredentials = await db.wordpressCredentials
-        //     // wordpressCredentials
-        //     //     ? await this.setState({ wordpressCredentials })
-        //     //     : await this.setState({ wordpressCredentials: null });
-        //     // Use Wordpress Credentials to Create a Page
-        //     // wp.createPage(this.state.wordpressCredentials, {/*DraftState*/}, {
-        //     //     slug: 'wordpress-test-page-toolbox',
-        //     //     title: 'WP Toolbox Test Page',
-        //     //     excerpt: "This is a test page for wordpress, don't do anything with it!",
-        //     // })
-        // })
-    }
-
-    render() {
-        const childProps = { authUser: this.state.authUser }
-        const { classes } = this.props
-        const { theme, setThemeData } = this.props.settingsStore
-
-        return (
-            <div id="Toolbox" classname={classes.root}>
-                <MuiThemeProvider theme={theme}>
-                    <OSTitleBar />
-                    <div id="Dashboard">
-                        {/* <button onClick={() => setThemeData('primary', {
-                        light: '#ff867c',
-                        main: '#ef5350',
-                        medium: '#d23140',
-                        dark: '#b61827',
-                        contrastText: '#fff',
-                    })}>Change Color</button> */}
-                        <ShiftDrawer
-                            compact={this.state.compactDrawer}
-                            accountItems={<AccountItems />}
-                            appItems={<AppItems />}
-                            settingsItems={<SettingsItems />}
-                            settingsPage={''}
-                            toolbar={<Toolbar />}
-                            currentApp={<Letters {...childProps} />}
-                        />
-                        <Notifier />
-                        <ModalFirebase />
-                    </div>
-                </MuiThemeProvider>
-            </div>
-        )
-    }
-}
-
-export default compose(
-    withStyles(styles),
-    inject('settingsStore'),
-    observer
-)(Toolbox);
 
