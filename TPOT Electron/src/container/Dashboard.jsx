@@ -1,29 +1,10 @@
-import PropTypes from "prop-types";
-import React, { Component, Fragment } from 'react';
 import { withStyles } from '@material-ui/core/styles';
-import classNames from 'classnames';
-import Drawer from '@material-ui/core/Drawer';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
-// import Toolbar from "@material-ui/core/Toolbar";
-import PlusIcon from '@material-ui/icons/Add';
+import React, { Component } from 'react';
 import Letters from '../apps/Letters';
-import { firebase, db } from '../firebase'
-import { wp } from '../wordpress'
 import Notifier from '../container/Notifier';
-import ModalFirebase from '../presentation/ModalFirebase'
-
-import { compose } from 'recompose'
-import OSTitleBar from '../container/OSTitleBar'
-import AccountItems from '../presentation/AccountItems';
-import AppItems from '../presentation/AppItems';
-import SettingsItems from '../presentation/SettingsItems';
 import Header from '../presentation/Header';
-import { BrowserRouter, Route, Link, Switch, Redirect, withRouter } from 'react-router-dom'
-import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
-import Sidebar from './Sidebar'
-import { SidebarBadge } from "./SidebarBadge";
+import Sidebar from './Sidebar';
+
 
 const styles = theme => ({
     root: {

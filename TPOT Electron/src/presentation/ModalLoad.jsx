@@ -136,7 +136,7 @@ class ModalLoad extends React.Component {
 
         return (
             <Dialog
-                classes={{ root: classes.root, paper: classes.paper }} open={this.props.open} onClose={this.handleClose} onBackdropClick={this.handleClose} >
+                classes={{ root: classes.root, paper: classes.paper }} open={false} onClose={this.handleClose} onBackdropClick={this.handleClose} >
                 <Grid container className={classes.demo} spacing={0} justify="space-evenly" alignItems="center"   >
                     {cards.map(card => {
                         return (

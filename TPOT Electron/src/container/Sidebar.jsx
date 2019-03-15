@@ -1,27 +1,23 @@
-import PropTypes from "prop-types";
-import React, { Component, Fragment } from 'react'
-import { withStyles } from '@material-ui/core/styles';
-import { inject, observer } from 'mobx-react'
-import { compose } from 'recompose'
-import { Button, SvgIcon } from "@material-ui/core";
-import classNames from 'classnames'
-import ToolboxIcon from '../media/tpot_icon.png'
-import ToolboxIconWide from '../media/toolbox_banner.png'
-
+import { faEnvelopeOpen, faHdd, faPaperPlane, faSave, faTrashAlt } from '@fortawesome/free-regular-svg-icons';
+import { faGlasses, faSlidersH } from '@fortawesome/free-solid-svg-icons';
 // import { ContentSaveOutline, FolderOpen } from 'mdi-material-ui'
-
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faCoffee, faSlidersH, faLaptop, faTv, faGlasses, } from '@fortawesome/free-solid-svg-icons'
-import { faFolderOpen, faPaperPlane, faEnvelope, faEdit, faSave, faWindowRestore, faHdd, faPlusSquare, faFileAlt, faTrashAlt, faEnvelopeOpen } from '@fortawesome/free-regular-svg-icons'
-import OSTitleBar from "./OSTitleBar";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { Button } from "@material-ui/core";
+import { withStyles } from '@material-ui/core/styles';
+import classNames from 'classnames';
+import { inject, observer } from 'mobx-react';
+import PropTypes from "prop-types";
+import React, { Fragment } from 'react';
+import { compose } from 'recompose';
 import { SidebarBadge } from "./SidebarBadge";
+
 
 const styles = theme => ({
     root: {
         // background: '#28303d',
         background: theme.palette.background.paper,
         minWidth: 120,
-        maxWidth: 120,
+        maxWidth: 180,
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'flex-start',
@@ -49,7 +45,6 @@ const styles = theme => ({
     navButton: {
         boxSizing: 'border-box',
         width: '100%',
-        padding: 0,
         display: 'flex',
         flexFlow: 'row nowrap',
         justifyContent: 'flex-start',
@@ -57,7 +52,7 @@ const styles = theme => ({
         fontSize: 14,
         fontWeight: 400,
         padding: '15px 30px',
-        color: theme.palette.text.secondary,
+        // color: theme.palette.text.primary,
         // '&:hover': { color: theme.palette.primary.main, '&:hover *': { color: theme.palette.primary.main }},
         '&:hover.amber': { color: '#f9843f', '&:hover .amber': { color: '#f9843f' } },
         '&:hover.rose': { color: '#f52266', '&:hover .rose': { color: '#f52266' } },
@@ -70,9 +65,9 @@ const styles = theme => ({
     nabButtonLabel: {
         '& svg': {
             color: theme.palette.text.primary,
-            minHeight: 30,
-            minWidth: 30,
-            marginRight: 15,
+            minHeight: 28,
+            minWidth: 28,
+            marginRight: 22,
         },
     }
 })
@@ -123,8 +118,8 @@ const appsSidebarButtonsConfig = [
 ]
 
 const Sidebar = observer((props) => {
-    const { classes, variant, color } = props
-    const { sidebarVariant, toggleSidebarVariant } = props.settingsStore
+    const { classes } = props
+    const { sidebarVariant } = props.settingsStore
     return (
         <div id="Sidebar" className={classNames(classes.root, sidebarVariant && classes[sidebarVariant])}>
             {/* <OSTitleBar /> */}
@@ -137,8 +132,8 @@ const Sidebar = observer((props) => {
 
 const AppButtons = observer(({ config, classes, variant }) => (
     <Fragment>
-                {config.map((data) => (
-            <NavButton {...{ classes, data, variant }}></NavButton>
+                {config.map((data, index) => (
+            <NavButton key={index} {...{ classes, data, variant }}></NavButton>
         ))}
     </Fragment>
 ))
@@ -151,7 +146,7 @@ export const NavButton = observer(({ data, classes, variant }) => (
         classes={{ label: classes.nabButtonLabel }}
     >
         {/* {data.icon && <data.icon />} */}
-        <FontAwesomeIcon icon={data.icon} size="1g" className={data.color} />
+        <FontAwesomeIcon icon={data.icon} size="lg" className={data.color} />
         {variant === 'expanded' && <span>{data.primaryText}{classes.navButton.color}</span>}
     </Button>
     // </div>

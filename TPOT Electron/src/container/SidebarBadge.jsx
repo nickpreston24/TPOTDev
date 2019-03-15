@@ -1,9 +1,9 @@
 import { withStyles } from '@material-ui/core/styles';
-import React, { Component } from 'react';
-import ToolboxIcon from '../media/tpot_icon.png'
-import ToolboxIconWide from '../media/toolbox_banner.png'
-import { inject, observer } from 'mobx-react';
-import classNames from 'classnames'
+import classNames from 'classnames';
+import { inject } from 'mobx-react';
+import React from 'react';
+import ToolboxIconWide from '../media/toolbox_banner.png';
+import ToolboxIcon from '../media/tpot_icon.png';
 
 const styles = theme => ({
     root: {

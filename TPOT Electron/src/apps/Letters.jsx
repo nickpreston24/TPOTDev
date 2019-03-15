@@ -1,8 +1,7 @@
 // React
-import React, { Component } from 'react'
-import Header from '../presentation/OldToolbar'
-import Editor from '../editor/Editor'
+import React, { Component } from 'react';
 import PublishScreenContainer from '../container/PublishScreenContainer';
+import Editor from '../editor/Editor';
 
 class Letters extends Component {
 
@@ -22,7 +21,6 @@ class Letters extends Component {
     }
 
     render() {
-        const childProps = { authUser: this.props.authUser }
         return (
             <div className="Letters" style={{flexGrow: 1}}>
                 {/* <Header color="primary" onUpdate={this.onUpdateHeader} {...childProps} /> */}

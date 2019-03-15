@@ -18,8 +18,10 @@ import InfoIcon from "@material-ui/icons/InfoOutlined";
 import LogoutIcon from "@material-ui/icons/ExitToApp";
 import AvatarImage from '../media/avatar.png'
 
-const styles = {
+const styles = theme => ({
     root: {
+        color: `${theme.palette.primary.dark} !important`,
+        borderRadius: 58,
         // display: 'flex',
         // flex: 1,
         // float: 'right',
@@ -30,7 +32,7 @@ const styles = {
         // width: "auto",
         // marginRight: 12
     },
-};
+})
 
 class Auth extends Component {
 
@@ -67,7 +69,6 @@ class Auth extends Component {
                                 aria-owns={anchorEl ? "logout-menu" : null}
                                 aria-haspopup="true"
                                 onClick={() => setCurrentModal('Firebase Dropdown')}
-                                color="inherit"
                                 varient="contained"
                             >
                                 {authUser.email}

@@ -1,10 +1,9 @@
-import React, { Component } from 'react';
 import { withStyles } from '@material-ui/core/styles';
-import { compose } from "recompose";
-import { inject, observer } from "mobx-react";
-import { toJS } from 'mobx';
 import classNames from 'classnames';
-import ButtonPlus from './ButtonPlus'
+import { inject, observer } from "mobx-react";
+import React, { Component } from 'react';
+import { compose } from "recompose";
+import ButtonPlus from './ButtonPlus';
 
 const MuiStyles = theme => ({
     root: {

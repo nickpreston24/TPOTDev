@@ -460,6 +460,7 @@ if (true) {
     const configDir = './src/config';
     const file = 'MasterSample.docx';
     convertFile(path.join(applicationPath, configDir, file))
+    console.log('CONVERT???')
     // setTimeout(()=>{
     //     convertFile(path.join(applicationPath, configDir, file))
     // }, 500)

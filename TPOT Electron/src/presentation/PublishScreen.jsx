@@ -1,10 +1,9 @@
-import React, { Fragment } from 'react'
-import { observer, inject } from 'mobx-react'
-import { compose } from 'recompose'
-import classNames from 'classnames';
-import { withStyles } from '@material-ui/core/styles'
-import Icon from 'mdi-material-ui/CloudUploadOutline'
-import { Button, TextField, Grid, Paper, Typography, Dialog } from '@material-ui/core';
+import { Button, Dialog, Grid, TextField, Typography } from '@material-ui/core';
+import { withStyles } from '@material-ui/core/styles';
+import Icon from 'mdi-material-ui/CloudUploadOutline';
+import { observer } from 'mobx-react';
+import React, { Fragment } from 'react';
+import { compose } from 'recompose';
 
 const styles = theme => ({
     root: {

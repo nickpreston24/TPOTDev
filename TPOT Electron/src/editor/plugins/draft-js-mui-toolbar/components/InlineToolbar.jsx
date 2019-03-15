@@ -23,8 +23,6 @@ const styles = theme => ({
         // visibility: "hidden",
         // transform: 'scale(0)',
         transition: 'transform 0.15s cubic-bezier(.3,1.2,.2,1)',
-        background: theme.palette.secondary.light,
-        background: '#444861',
         background: '#373940',
         boxShadow: "0px 1px 5px 0px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 3px 1px -2px rgba(0, 0, 0, 0.12)",
         borderRadius: 20,
@@ -53,9 +51,9 @@ class MuiToolbar extends Component {
         // console.log(store.inlineOffset)
         // let style = {visibility: 'visible'}
         // !!store.inlineOffset
-        const style = {
-            ...store.inlineOffset
-        }
+        // const style = {
+        //     ...store.inlineOffset
+        // }
         // console.log(style)
 
         return (

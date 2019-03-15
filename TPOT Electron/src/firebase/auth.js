@@ -1,5 +1,5 @@
+import { action } from 'mobx';
 import { auth } from './firebase';
-import { observable, action, computed, decorate, autorun, toJS } from 'mobx'
 const electron = window.require("electron");
 const remote = electron.remote;
 const app = remote.app;

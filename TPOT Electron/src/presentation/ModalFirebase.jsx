@@ -116,7 +116,7 @@ class SignIn extends Component {
                             {loginMode === 'signup' && (
                                 <Fragment>
                                     <Grid container spacing={16}>
-                                        <Grid item item xs={6} >
+                                        <Grid item xs={6} >
                                             <TextField
                                                 fullWidth
                                                 variant="outlined"
@@ -127,7 +127,7 @@ class SignIn extends Component {
                                                 onChange={e => { setLoginData('firstName', e.target.value) }}
                                             />
                                         </Grid>
-                                        <Grid item item xs={6} >
+                                        <Grid item xs={6} >
                                             <TextField
                                                 fullWidth
                                                 variant="outlined"

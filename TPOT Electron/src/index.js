@@ -12,7 +12,7 @@ const store = new MobxStore()
 
 // Initialization of Toolbox Application
 ReactDOM.render(
-    <Provider { ...store }>
+    <Provider store={store} {...store}>
         <Toolbox />
     </Provider>
     , document.getElementById("root"));

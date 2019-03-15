@@ -1,8 +1,8 @@
-import React, { Component } from 'react';
-import { RichUtils, EditorState, convertToRaw } from 'draft-js';
-import { withStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
+import { withStyles } from '@material-ui/core/styles';
 import classNames from 'classnames';
+import { EditorState, RichUtils } from 'draft-js';
+import React, { Component } from 'react';
 // const smalltalk = require('smalltalk')
 
 const styles = theme => ({

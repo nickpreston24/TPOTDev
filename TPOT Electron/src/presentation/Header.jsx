@@ -1,15 +1,11 @@
-import Badge from '@material-ui/core/Badge';
-import Button from "@material-ui/core/Button";
+import { faBell, faCaretSquareDown, faFlag, faUser } from '@fortawesome/free-regular-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { Button, Grid } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
-import HelpIcon from 'mdi-material-ui/HelpCircle';
-import PropTypes from 'prop-types';
-import React, { Component, Fragment } from 'react';
-import UpdatesButton from './UpdatesButton';
-import AuthButton from "./AuthButton";
-import EditMode from "./EditMode";
-import FileMenu from "./LettersFileMenu"
 import { observer } from 'mobx-react';
-import { Grid } from '@material-ui/core';
+import PropTypes from 'prop-types';
+import React, { Component } from 'react';
+import { RoutedBreadCrumbs } from '../container/Breadcrumbs';
 
 
 const electron = window.require('electron');
@@ -22,6 +18,8 @@ const styles = theme => ({
         // background: `linear-gradient(135deg, ${'#2089fe'} 30%, ${'#7453b9'} 100%)`,
         // background: `linear-gradient(135deg, ${theme.palette.primary.main} 30%, ${theme.palette.primary.main} 100%)`,
         WebkitAppRegion: 'no-drag',
+        display: 'flex',
+        alignItems: 'stretch',
         // minHeight: 96,
         // maxHeight: 96,
         minHeight: 75,
@@ -29,6 +27,20 @@ const styles = theme => ({
         overflow: 'hidden',
         boxSizing: 'border-box',
         borderBottom: `1px solid ${theme.palette.text.disabled}`,
+    },
+    margin: {
+        margin: theme.spacing.unit,
+    },
+    headerbutton: {
+        fontWeight: `400 !important`,
+        color: 'red',
+        '&*': {
+            borderRadius: 24,
+        }
+    },
+    extendedIcon: {
+        // fontSize: 16,
+        marginRight: theme.spacing.unit * 3,
     },
     headerRow: {
         // border: `1px solid ${theme.palette.primary.dark}`,
@@ -119,10 +131,6 @@ const styles = theme => ({
         width: 0,
         opacity: 0,
         transition: "all 1s ease-in-out 0s",
-    },
-    margin: {
-        display: 'flex'
-        // float: "right",
     },
     downloadSvg: {
         fontSize: 14,
@@ -223,118 +231,70 @@ class Header extends Component {
 
     render() {
         const { classes } = this.props;
-        // KEEP
-        // const visible = true
-        // const progressString = this.state.updateDownloadProgress != null ? `Downloading Update: ${this.state.updateDownloadProgress.percent}% (${this.state.updateDownloadProgress.transferred}/${this.state.updateDownloadProgress.total}) - Download speed: ${this.state.updateDownloadProgress.bytesPerSecond}` : `Unknown Progress`
-
-        const childProps = {
-            classes
-        }
         return (
             <div id="Header" className={classes.root}>
-                <Grid container direction="row" justify="flex-start" alignItems="center" style={{flexWrap: 'nowrap'}} >
-                    <Grid item container direction="row" justify="flex-start" alignItems="center" style={{flexGrow: 2}} >
-                        <Button>Document Name</Button>
+                <Grid container direction="row" justify="flex-start" alignItems="center" style={{ flexWrap: 'nowrap' }} >
+                    <Grid item container direction="row" justify="flex-start" alignItems="center" style={{ flexShrink: 2 }} >
+                        <RoutedBreadCrumbs />
                     </Grid>
-                    <Grid item container direction="row" justify="flex-end" alignItems="center" style={{flexShrink: 2}} >
-                        <Button>{`|`}</Button>
-                        <Button>{`[]`}</Button>
-                        <Button>{`O`}</Button>
+                    <Grid item container direction="row" justify="flex-end" alignItems="center" style={{ flexWrap: 'nowrap', flexGrow: 2 }} >
+                        <HeaderButton {...{ classes, icon: faUser, label: 'Sign In' }} />
+                        {/* <HeaderButton {...{ classes, icon: faBell, label: "Notifications" }} /> */}
+                        <HeaderButton {...{ classes, icon: faFlag, label: 'Help' }} />
+                        <HeaderButton {...{ classes, icon: faCaretSquareDown }} />
                     </Grid>
                 </Grid>
-
-                {/* <HeaderRow id="Primary" {...childProps}>
-                    <AppSwitcher classes={classes}>
-                        <FileMenu />
-                    </AppSwitcher>
-                    <ProfileToolsa classes={classes}>
-                        <UpdatesButton />
-                        <Badge color="primary" badgeContent={`2`} classes={{ root: classes.margin, badge: false ? classes.badgeVisible : classes.badgeInvisible }}>
-                            <Button color="inherit" className={classes.button} onClick={this.getHelp}>{``}<HelpIcon className={classes.rightIcon} /></Button>
-                        </Badge>
-                        <AuthButton />
-                    </ProfileTools>
-                </HeaderRow> */}
-                {/* <HeaderRow id="Secondary" {...childProps} /> */}
-                {/* <HeaderRow id="Tertiary" {...childProps}>
-                    <RowGroup align='left' classes={classes}>
-                        {'Document Name'}
-                    </RowGroup>
-                    <RowGroup align='center' classes={classes}>
-                        <Button variant='outlined'>{'Preview'}</Button>
-                    </RowGroup>
-                    <RowGroup align='right' classes={classes}>
-                        <EditMode />
-                    </RowGroup>
-                </HeaderRow>> */}
-
-                {/* <EditMode /> */}
-                {/* <Button id="Welcome" color="inherit" className={classes.button}>{`Welcome, ${"Victor H."}`}<AccountCircle className={classes.rightIcon} /></Button> */}
-
-
-                {/* <Badge color="primary" badgeContent={`5`} classes={{ root: classes.margin, badge: false ? classes.badgeVisible : classes.badgeInvisible }}>
-                <Button color="inherit" className={classes.button}>{`Chat`}<ChatIcon className={classes.rightIcon} /></Button>
-            </Badge> */}
-
-
-                {/* <Dialog
-            open={this.state.autoUpdateModal}
-            onClose={this.closeUpdateModal}
-        >
-            <DialogTitle id="responsive-dialog-title">{"TPOT Cloud Updates"}</DialogTitle>
-            <DialogContent>
-                <DialogContentText>{`There is a new update available for download: Toolbox ${!isDev ? this.state.updateVersion : "[dev]"}`}
-                </DialogContentText>
-            </DialogContent>
-            <DialogActions>
-                <Button onClick={this.handleUpdateConfirmDownloadAndRestart} id='Update All' color="primary">{`Update & Restart`}</Button>
-                <Button onClick={this.handleUpdateConfirmDownload} id='Update Download' color="primary" autoFocus>{`Download`}</Button>
-                <Button onClick={this.handleUpdateConfirmRestart} id='Update Restart' color="primary" autoFocus>{`Restart`}</Button>
-            </DialogActions>
-        </Dialog> */}
-
             </div>
         );
     }
 }
 
-const HeaderRow = observer(({ classes, children }) => {
+export const HeaderButton = observer(({ classes, children, icon, label }) => {
     return (
-        <div className={classes.headerRow}>
-            {children}
-        </div>
+        <Button classes={{root: classes.headerButton}} >
+            <FontAwesomeIcon className={classes.extendedIcon} icon={icon} size="lg" />
+            {label && label}
+        </Button>
     )
 })
 
-const RowGroup = observer(({ classes, children, align }) => {
-    return (
-        <div
-            className={classes.rowGroup}
-            style={{ justifyContent: align === 'left' ? 'flex-start' : align === 'right' ? 'flex-end' : 'center' }}
-        >
-            {children && [children].map((child, index) => (
-                [child]
-                // <Grid item key={index} >{child}</Grid>
-            ))}
-        </div>
-    )
-})
+// const HeaderRow = observer(({ classes, children }) => {
+//     return (
+//         <div className={classes.headerRow}>
+//             {children}
+//         </div>
+//     )
+// })
 
-const AppSwitcher = observer(({ classes, children }) => {
-    return (
-        <RowGroup align='left' classes={classes}>
-            {children}
-        </RowGroup>
-    )
-})
+// const RowGroup = observer(({ classes, children, align }) => {
+//     return (
+//         <div
+//             className={classes.rowGroup}
+//             style={{ justifyContent: align === 'left' ? 'flex-start' : align === 'right' ? 'flex-end' : 'center' }}
+//         >
+//             {children && [children].map((child, index) => (
+//                 [child]
+//                 // <Grid item key={index} >{child}</Grid>
+//             ))}
+//         </div>
+//     )
+// })
 
-const ProfileTools = observer(({ classes, children }) => {
-    return (
-        <RowGroup align='right' classes={classes}>
-            {children}
-        </RowGroup>
-    )
-})
+// const AppSwitcher = observer(({ classes, children }) => {
+//     return (
+//         <RowGroup align='left' classes={classes}>
+//             {children}
+//         </RowGroup>
+//     )
+// })
+
+// const ProfileTools = observer(({ classes, children }) => {
+//     return (
+//         <RowGroup align='right' classes={classes}>
+//             {children}
+//         </RowGroup>
+//     )
+// })
 
 Header.propTypes = {
     classes: PropTypes.object.isRequired,

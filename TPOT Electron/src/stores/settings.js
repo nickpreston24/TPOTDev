@@ -4,6 +4,10 @@ import { db, auth, firebase } from '../firebase'
 
 class SettingsStore {
 
+    constructor(rootStore) {
+        this.rootStore = rootStore
+    }
+
     themeData = {
         palette: {
             common: {
@@ -45,7 +49,7 @@ class SettingsStore {
                 contrastText: "#fff"
             },
             text: {
-                primary: "rgba(154, 154, 154, 1)",
+                primary: "rgb(119, 119, 119)",
                 secondary: "rgb(102, 97, 91)",
                 disabled: "rgb(221, 221, 221)",
                 hint: "rgba(0, 0, 0, 0.38)"

@@ -1,8 +1,7 @@
-import { observable, action, decorate, runInAction } from 'mobx'
-import { db, auth } from '../firebase'
-import { wp } from '../wordpress'
-import { draft } from '../editor'
 import { EditorState } from "draft-js";
+import { action, decorate, observable } from 'mobx';
+import { db } from '../firebase';
+import { wp } from '../wordpress';
 
 class LettersStore {
     constructor(rootStore) {

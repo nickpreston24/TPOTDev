@@ -1,21 +1,21 @@
+import { Collapse } from '@material-ui/core';
+import IconButton from '@material-ui/core/IconButton';
+import { withStyles } from '@material-ui/core/styles';
+import PlusIcon from 'mdi-material-ui/Plus';
+import CloseIcon from 'mdi-material-ui/WindowClose';
+import { action, decorate, observable } from 'mobx';
+import { inject, observer } from 'mobx-react';
 import PropTypes from 'prop-types';
 import React, { Component, Fragment } from "react";
-import { withStyles } from '@material-ui/core/styles';
-import { inject, observer } from 'mobx-react';
 import { compose } from 'recompose';
 import AlignCenterButton from './AlignCenterButton';
 import AlignLeftButton from './AlignLeftButton';
 import AlignRightButton from './AlignRightButton';
-import OrderedListButton from './OrderedListButton'
-import UnorderedListButton from './UnorderedListButton'
-import CheckListButton from './CheckListButton'
+import BoldButton from './BoldButton';
+import CheckListButton from './CheckListButton';
+import OrderedListButton from './OrderedListButton';
 import PageBreakButton from './PageBreakButton';
-import BoldButton from './BoldButton'
-import { Collapse, Button } from '@material-ui/core';
-import { decorate, observable, action, toJS } from 'mobx';
-import IconButton from '@material-ui/core/IconButton';
-import PlusIcon from 'mdi-material-ui/Plus'
-import CloseIcon from 'mdi-material-ui/WindowClose'
+import UnorderedListButton from './UnorderedListButton';
 
 const styles = theme => ({
     root: {
@@ -49,7 +49,6 @@ const styles = theme => ({
         borderRadius: 20,
         padding: '1px',
         '& *': {
-            color: 'dodgerblue',
             color: 'white',
             fontSize: 20,
         }
@@ -192,11 +191,11 @@ class CollapseSide extends Component {
 
     handleMouseHover = () => {
         if(this.hover) {
-            let collapse = setTimeout(action(() => { 
-                if(this.hover) {
-                    this.hover = false
-                }
-            }), 0);
+            // let collapse = setTimeout(action(() => { 
+            //     if(this.hover) {
+            //         this.hover = false
+            //     }
+            // }), 0);
         } else {
             this.hover = true
         }

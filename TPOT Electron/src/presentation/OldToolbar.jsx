@@ -1,14 +1,13 @@
-import React from "react";
-import PropTypes from "prop-types";
-import { withStyles } from "@material-ui/core/styles";
-
+import { IconButton } from "@material-ui/core";
 import AppBar from "@material-ui/core/AppBar";
+import { withStyles } from "@material-ui/core/styles";
 import Toolbar from "@material-ui/core/Toolbar";
 import MenuIcon from "@material-ui/icons/Menu";
-import { IconButton } from "@material-ui/core";
-import FileMenu from "./LettersFileMenu"
+import PropTypes from "prop-types";
+import React from "react";
 import EditMode from "./EditMode";
-import AuthButton from "./AuthButton";
+import FileMenu from "./LettersFileMenu";
+
 
 const styles = theme => ({
     root: {
