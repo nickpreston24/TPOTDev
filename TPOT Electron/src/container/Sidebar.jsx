@@ -83,7 +83,7 @@ const appsSidebarButtonsConfig = [
         primaryText: 'Load',
         secondaryText: 'Open DocX from Source',
         icon: faHdd,
-        color: 'amber'
+        color: 'rose'
     },
     {
         primaryText: 'Drafts',
@@ -107,7 +107,7 @@ const appsSidebarButtonsConfig = [
         primaryText: 'Clear',
         secondaryText: 'Create a Fresh Post',
         icon: faTrashAlt,
-        color: 'rose'
+        color: 'amber'
     },
     {
         primaryText: 'Settings',
