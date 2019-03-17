@@ -50,13 +50,25 @@ const styles = theme => ({
 })
 
 // Main Class
-const PublishScreen = observer(({ classes, store, editorCode }) => (
-    <main id="PublishScreen">
-        <Dialog open={store.publishModal} onBackdropClick={e => { store.togglePublishModal() }} disablePortal={true} scroll={'body'} classes={{ root: classes.root, container: classes.backdrop, paper: classes.paper }} >
-            <PublishForm classes={classes} store={store} editorCode={editorCode} />
-        </Dialog>
-    </main>
-))
+const PublishScreen = observer(({ classes, store, editorCode, container, ...rest }) => {
+    console.log(container)
+    return (
+        <main id="PublishScreen">
+            <Dialog open={true} 
+            container={container}
+            // disablePortal
+            closeAfterTransition
+            onBackdropClick={e => {
+                const { history, match } = rest
+                if (!!history.push) {
+                    history.push(match.url)
+                }
+            }} scroll={'body'} classes={{ root: classes.root, container: classes.backdrop, paper: classes.paper }} >
+                <PublishForm classes={classes} store={store} editorCode={editorCode} />
+            </Dialog>
+        </main>
+    )
+})
 
 const PublishForm = ({ classes, store, editorCode }) => (
     <Fragment>

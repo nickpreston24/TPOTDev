@@ -32,7 +32,7 @@ const routes = [
 		{
 			primaryText: 'Letters',
 			secondaryText: 'Convert Emails to Web Pages',
-			to: '/letters/about-clean-meats.docx/publish',
+			to: '/letters/about-clean-meats/publish',
 			icon: null,
 			action: () => { },
 		},
@@ -46,8 +46,8 @@ const routes = [
 	],
 	[
 		{
-			primaryText: 'about-clean-meats.docx',
-			to: '/letters/about-clean-meats.docx',
+			primaryText: 'about-clean-meats',
+			to: '/letters/about-clean-meats',
 			icon: null,
 			action: () => { },
 		},
@@ -56,37 +56,37 @@ const routes = [
 		{
 			primaryText: 'Save',
 			icon: null,
-			to: '/letters/about-clean-meats.docx/save',
+			to: '/letters/about-clean-meats/save',
 			action: () => { },
 		},
 		{
 			primaryText: 'Load',
 			icon: null,
-			to: '/letters/about-clean-meats.docx/load',
+			to: '/letters/about-clean-meats/load',
 			action: () => { },
 		},
 		{
 			primaryText: 'Drafts',
 			icon: null,
-			to: '/letters/about-clean-meats.docx/drafts',
+			to: '/letters/about-clean-meats/drafts',
 			action: () => { },
 		},
 		{
 			primaryText: 'Publish',
 			icon: null,
-			to: '/letters/about-clean-meats.docx/publish',
+			to: '/letters/about-clean-meats/publish',
 			action: () => { },
 		},
 		{
 			primaryText: 'Preview',
 			icon: null,
-			to: '/letters/about-clean-meats.docx/preview',
+			to: '/letters/about-clean-meats/preview',
 			action: () => { },
 		},
 		{
 			primaryText: 'Clear',
 			icon: null,
-			to: '/letters/about-clean-meats.docx/clear',
+			to: '/letters/about-clean-meats/clear',
 			action: () => { },
 		},
 
@@ -157,7 +157,7 @@ export class RoutedBreadCrumbs extends Component {
 		// console.log(paths.first, paths.last)
 		if (paths.first === paths.last) {
 			this.burgerActive = !this.burgerActive
-			console.log('toggle')
+			// console.log('toggle')
 		}
 		// (paths.first && paths.last) && this.toggleBurger()
 		// this.menuOpen = !this.menuOpen
@@ -166,11 +166,11 @@ export class RoutedBreadCrumbs extends Component {
 	}
 
 	@action handleClose = () => {
-		console.log('close')
+		// console.log('close')
 		// this.menuOpen = false
 		this.anchorEl = null
 		this.burgerActive = false
-		console.log(this.anchorEl)
+		// console.log(this.anchorEl)
 	}
 
 	render() {
@@ -179,7 +179,7 @@ export class RoutedBreadCrumbs extends Component {
 		let app = capitalize(match.params.app || 'Dashboard')
 		let action = capitalize(match.params.action || 'Publish')
 		const pathnames = location.pathname.split('/').filter(x => x)
-		console.log(location, match)
+		// console.log(location, match)
 		return (
 			<Fragment>
 				<Breadcrumbs
@@ -194,7 +194,7 @@ export class RoutedBreadCrumbs extends Component {
 						const last = index === pathnames.length - 1;
 						// console.log(first, to, last, label)
 
-						console.log(routes, index)
+						// console.log(routes, index)
 
 						return (
 							<Link

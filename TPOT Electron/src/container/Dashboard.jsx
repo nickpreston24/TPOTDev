@@ -4,6 +4,7 @@ import Letters from '../apps/Letters';
 import Notifier from '../container/Notifier';
 import Header from '../presentation/Header';
 import Sidebar from './Sidebar';
+import { CurrentApp } from './CurrentApp';
 
 
 const styles = theme => ({
@@ -15,21 +16,21 @@ const styles = theme => ({
         display: 'flex',
         flexGrow: 1,
     },
-    content: {
-        justifyContent: 'flex-start',
-        flexFlow: 'column nowrap',
-        boxSizing: 'border-box',
-        overflow: 'hidden',
-        display: 'flex',
-        flexGrow: 1,
-    },
-    currentApp: {
-        // border: '4px solid red !important',
-        boxSizing: 'border-box',
-        overflow: 'hidden',
-        display: 'flex',
-        flexGrow: 1,
-    },
+    // content: {
+    //     justifyContent: 'flex-start',
+    //     flexFlow: 'column nowrap',
+    //     boxSizing: 'border-box',
+    //     overflow: 'hidden',
+    //     display: 'flex',
+    //     flexGrow: 1,
+    // },
+    // currentApp: {
+    //     // border: '4px solid red !important',
+    //     boxSizing: 'border-box',
+    //     overflow: 'hidden',
+    //     display: 'flex',
+    //     flexGrow: 1,
+    // },
     // root: {
     //     display: 'flex',
     //     flexDirection: 'column',
@@ -61,20 +62,19 @@ class Dashboard extends Component {
     }
 
     render() {
-        const { classes } = this.props;
-        // const visible = true
-
+        const { classes, ...rest } = this.props;
         return (
             <div className={classes.root}>
-                <Sidebar variant={'compact'} />
-                <div id="Content" className={classes.content}>
+                <Sidebar {...rest} />
+                <CurrentApp {...rest} />
+                {/* <div id="Content" className={classes.content}> */}
                     {/* <Toolbar id="Header" style={{maxHeight: '10px !important', overflow: 'hidden'}} /> */}
-                    <Header id="Header" style={{ background: '#3e4552 !important' }} />
+                    {/* <Header id="Header" style={{ background: '#3e4552 !important' }} />
                     <div id="Current App" className={classes.currentApp}>
                         <Letters />
                         <Notifier />
                     </div>
-                </div>
+                </div> */}
                 {/* <button onClick={() => setThemeData('primary', {
                     light: '#ff867c',
                     main: '#ef5350',

@@ -11,9 +11,9 @@ class MobxStore {
     constructor() {
         // this.rootStore = this
         this.settingsStore = new SettingsStore(this)
-        this.sessionStore = new SessionStore(this)
         this.lettersStore = new LettersStore(this)
         this.editorStore = new EditorStore(this)
+        this.sessionStore = new SessionStore(this)
     }
 }
 

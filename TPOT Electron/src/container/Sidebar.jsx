@@ -76,6 +76,8 @@ const appsSidebarButtonsConfig = [
     {
         primaryText: 'Save',
         secondaryText: 'Save File to Disk',
+        store: 'editorStore',
+        action: 'saveSession',
         icon: faSave,
         color: 'teal'
     },
@@ -94,6 +96,8 @@ const appsSidebarButtonsConfig = [
     {
         primaryText: 'Publish',
         secondaryText: 'Publish Page to TPOT',
+        store: 'lettersStore',
+        action: 'togglePublishModal',
         icon: faPaperPlane,
         color: 'mint'
     },
@@ -132,25 +136,38 @@ const Sidebar = observer((props) => {
 
 const AppButtons = observer(({ config, classes, variant }) => (
     <Fragment>
-                {config.map((data, index) => (
+        {config.map((data, index) => (
             <NavButton key={index} {...{ classes, data, variant }}></NavButton>
         ))}
     </Fragment>
 ))
 
-export const NavButton = observer(({ data, classes, variant }) => (
-    // <div id={`NavButton-${data.primaryText}`} className={classNames(classes.navButton, data.color)}>
-    <Button
-        id={`NavButton-${data.primaryText}`}
-        className={classNames(classes.navButton, data.color)}
-        classes={{ label: classes.nabButtonLabel }}
-    >
-        {/* {data.icon && <data.icon />} */}
-        <FontAwesomeIcon icon={data.icon} size="lg" className={data.color} />
-        {variant === 'expanded' && <span>{data.primaryText}{classes.navButton.color}</span>}
-    </Button>
-    // </div>
-))
+export const NavButton = compose(
+    inject('store'),
+    withStyles(styles),
+    observer
+)(({ store, data, classes, variant }) => {
+    console.log(store)
+    return (
+        // <div id={`NavButton-${data.primaryText}`} className={classNames(classes.navButton, data.color)}>
+        <Button
+            id={`NavButton-${data.primaryText}`}
+            className={classNames(classes.navButton, data.color)}
+            classes={{ label: classes.nabButtonLabel }}
+            onClick={(data.store && data.action) ? store[data.store][data.action] : null}
+        >
+            {/* {data.icon && <data.icon />} */}
+            <FontAwesomeIcon icon={data.icon} size="lg" className={data.color} />
+            {variant === 'expanded' && <span>{data.primaryText}{classes.navButton.color}</span>}
+        </Button>
+        // </div>
+    )
+})
+
+
+// export const NavButton = observer(({ data, classes, variant }) => (
+
+// ))
 
 Sidebar.propTypes = {
     variant: PropTypes.string.isRequired,

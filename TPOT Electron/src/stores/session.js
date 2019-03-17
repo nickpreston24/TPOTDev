@@ -11,6 +11,7 @@ class SessionStore {
 
     constructor(rootStore) {
         this.rootStore = rootStore
+        this.notify = rootStore.lettersStore.notify
 
         // : Set Listeners
         firebase.auth.onAuthStateChanged((authUser) => {
@@ -46,6 +47,7 @@ class SessionStore {
     }
 
     async signIn(notify, setCurrentModal) {
+        console.log('sign in')
         try {
             const { email, password } = this.loginData
             const authUser = await auth.signIn(email, password)
@@ -54,7 +56,7 @@ class SessionStore {
                 setCurrentModal(null)
             })
         } catch (error) {
-            notify(error.message, { variant: 'error', autoHideDuration: 3000 })
+            this.notify(error.message, { variant: 'error', autoHideDuration: 3000 })
         }
     }
 
@@ -113,7 +115,7 @@ export default decorate(
         sessionName: observable,
         setKey: action,
         setAuthUser: action,
-        signIn: action.bound,
+        signIn: action,
         register: action.bound,
         requestReset: action.bound,
         signOut: action,

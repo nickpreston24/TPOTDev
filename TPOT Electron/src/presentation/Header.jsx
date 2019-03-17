@@ -2,7 +2,7 @@ import { faBell, faCaretSquareDown, faFlag, faUser } from '@fortawesome/free-reg
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Button, Grid } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
-import { observer } from 'mobx-react';
+import { observer, inject } from 'mobx-react';
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { RoutedBreadCrumbs } from '../container/Breadcrumbs';
@@ -138,7 +138,7 @@ const styles = theme => ({
     }
 });
 
-
+@inject('sessionStore')
 class Header extends Component {
     // constructor(props) {
     //     super(props);
@@ -230,7 +230,8 @@ class Header extends Component {
     }
 
     render() {
-        const { classes } = this.props;
+        const { classes, sessionStore } = this.props;
+        console.log(sessionStore)
         return (
             <div id="Header" className={classes.root}>
                 <Grid container direction="row" justify="flex-start" alignItems="center" style={{ flexWrap: 'nowrap' }} >
@@ -238,10 +239,10 @@ class Header extends Component {
                         <RoutedBreadCrumbs />
                     </Grid>
                     <Grid item container direction="row" justify="flex-end" alignItems="center" style={{ flexWrap: 'nowrap', flexGrow: 2 }} >
-                        <HeaderButton {...{ classes, icon: faUser, label: 'Sign In' }} />
+                        <HeaderButton {...{ classes, icon: faUser, sessionStore, label: 'Sign In' }} />
                         {/* <HeaderButton {...{ classes, icon: faBell, label: "Notifications" }} /> */}
-                        <HeaderButton {...{ classes, icon: faFlag, label: 'Help' }} />
-                        <HeaderButton {...{ classes, icon: faCaretSquareDown }} />
+                        <HeaderButton {...{ classes, icon: faFlag, sessionStore, label: 'Help' }} />
+                        <HeaderButton {...{ classes, icon: faCaretSquareDown, sessionStore }} />
                     </Grid>
                 </Grid>
             </div>
@@ -249,9 +250,9 @@ class Header extends Component {
     }
 }
 
-export const HeaderButton = observer(({ classes, children, icon, label }) => {
+export const HeaderButton = observer(({ classes, children, icon, label, sessionStore }) => {
     return (
-        <Button classes={{root: classes.headerButton}} >
+        <Button classes={{root: classes.headerButton}} onClick={() => sessionStore.signIn()} >
             <FontAwesomeIcon className={classes.extendedIcon} icon={icon} size="lg" />
             {label && label}
         </Button>

@@ -8,12 +8,15 @@ class EditorStore {
 
     constructor(rootStore) {
         this.rootStore = rootStore
+        this.notify = this.rootStore.lettersStore.notify
 
         window.addEventListener("message", msg => {
             if (msg.data.event === "draftjs-editor-reload") this.loadEditorFromDocx(msg.data.html)
         });
 
     }
+
+    // @observable notify = this.rootStore.lettersStore.notify
 
     editor = null
     originalState = 'Original'
@@ -63,8 +66,8 @@ class EditorStore {
         }, 500);
     }
 
-    saveSession = (notify) => {
-        draft.saveSession(this.originalState, this.editorState, this.codeState, this.baseStyleMap, notify)
+    saveSession = async () => {
+        draft.saveSession(this.originalState, this.editorState, this.codeState, this.baseStyleMap, this.notify)
     }
 
     clearSession = (notify) => {
@@ -81,7 +84,7 @@ class EditorStore {
     handleKeyCommand = (command, store) => {
         const notify = store.notify
         if (command === 'save') {
-            this.saveSession(notify)
+            this.saveSession(this.notify)
             return 'handled';
         }
         if (command === 'open') {
@@ -90,7 +93,7 @@ class EditorStore {
             return 'handled';
         }
         if (command === 'publish') {
-            store.togglePublishModal()
+            this.rootStore.lettersStore.togglePublishModal()
             return 'handled';
         }
         return 'not-handled';

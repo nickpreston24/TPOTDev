@@ -15,19 +15,22 @@ import { convertFile } from "../utilities/converter";
 // import * as Loaders from '../modules/docxLoaders/Loaders.ts'
 // import { Loaders } from '../modules/docxLoaders/Loaders.ts'
 import DiskFileLoader from "../utilities/docxLoaders_js/DiskFileLoader";
+import { inject, observer } from 'mobx-react'
+import { observable, action } from 'mobx'
+
 
 
 
 
 const styles = theme => ({
     root: {
-        paddingTop: 64,
-        display: "flex",
-        flexWrap: "wrap"
+        // paddingTop: 64,
+        // display: "flex",
+        // flexWrap: "wrap"
     },
     paper: {
-        maxWidth: 800,
-        width: 600
+        // maxWidth: 800,
+        // width: 600
         // height: ,
     },
     icon: {
@@ -63,6 +66,8 @@ const styles = theme => ({
     }
 });
 
+// @inject('store')
+@observer
 class ModalLoad extends React.Component {
     constructor(props) {
         super(props);
@@ -73,9 +78,18 @@ class ModalLoad extends React.Component {
         };
     }
 
-    handleClose = () => {
-        this.setState({ open: false });
-        this.props.onUpdate(false);
+    @observable open = true
+
+
+    @action handleClose = () => {
+        console.log('close')
+        this.open = false
+        const { history, match } = this.props
+        if (!!history.push) {
+            history.push(match.url)
+        }
+        // this.setState({ open: false });
+        // this.props.onUpdate(false);
     };
 
     handleSelection = type => {
@@ -102,7 +116,10 @@ class ModalLoad extends React.Component {
     };
 
     render() {
-        const { classes } = this.props;
+        const { classes, store } = this.props;
+        // const {  } = lettersStore
+
+        console.log(this.open)
 
         const cards = [
             {
@@ -136,8 +153,18 @@ class ModalLoad extends React.Component {
 
         return (
             <Dialog
-                classes={{ root: classes.root, paper: classes.paper }} open={false} onClose={this.handleClose} onBackdropClick={this.handleClose} >
-                <Grid container className={classes.demo} spacing={0} justify="space-evenly" alignItems="center"   >
+                classes={{ root: classes.root, paper: classes.paper }}
+                open={true}
+                onClose={this.handleClose}
+                onBackdropClick={this.handleClose}
+                disablePortal
+                BackdropComponent={BackdropComponent}
+                // fullScreen
+                // container={this.props.container}
+                // disablePortal
+                // maxWidth={false}
+            >   
+                {/* <Grid container className={classes.demo} spacing={0} justify="space-evenly" alignItems="center"   > */}
                     {cards.map(card => {
                         return (
                             <Grid key={card.name.toLocaleLowerCase()} item className={classes.grid} onClick={card.enabled ? card.handler : null} >
@@ -148,12 +175,15 @@ class ModalLoad extends React.Component {
                             </Grid>
                         );
                     })}
-                </Grid>
+                {/* </Grid> */}
                 <DialogContentText align="center" className={classes.textbox}> {this.state.description} </DialogContentText>
             </Dialog>
         );
     }
 }
+
+const BackdropComponent = () => 
+    <div style={{height: 300, width: 300, background: 'red', zIndex: -1}}/>
 
 ModalLoad.propTypes = {
     classes: PropTypes.object.isRequired

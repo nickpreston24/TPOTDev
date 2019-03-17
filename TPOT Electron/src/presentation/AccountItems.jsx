@@ -114,7 +114,7 @@ class DrawerMenuList extends React.Component {
                         </ListItem>
                     );
                 })}
-                <ModalLoad open={this.state.loadModalOpen} onUpdate={this.updateLoadModal} />
+                {/* <ModalLoad open={this.state.loadModalOpen} onUpdate={this.updateLoadModal} /> */}
                 <ModalSettings open={this.state.settingsModalOpen} onUpdate={this.updateSettingsModal} value={1} />
             </div>
         );
