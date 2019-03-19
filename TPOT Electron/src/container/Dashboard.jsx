@@ -68,8 +68,8 @@ class Dashboard extends Component {
                 <Sidebar {...rest} />
                 <CurrentApp {...rest} />
                 {/* <div id="Content" className={classes.content}> */}
-                    {/* <Toolbar id="Header" style={{maxHeight: '10px !important', overflow: 'hidden'}} /> */}
-                    {/* <Header id="Header" style={{ background: '#3e4552 !important' }} />
+                {/* <Toolbar id="Header" style={{maxHeight: '10px !important', overflow: 'hidden'}} /> */}
+                {/* <Header id="Header" style={{ background: '#3e4552 !important' }} />
                     <div id="Current App" className={classes.currentApp}>
                         <Letters />
                         <Notifier />

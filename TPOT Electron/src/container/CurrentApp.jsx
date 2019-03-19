@@ -8,6 +8,8 @@ import { Loading } from '../presentation/Loading';
 import Loadable from "react-loadable";
 import Header from '../presentation/Header';
 import Notifier from '../container/Notifier';
+import { TransitionGroup, CSSTransition } from 'react-transition-group';
+import { Screen } from './Screen';
 
 const Letters = Loadable({ loader: () => import('../apps/Letters'), loading: Loading, });
 // Letters.preload()
@@ -22,12 +24,21 @@ const styles = theme => ({
         flexGrow: 1,
     },
     currentApp: {
-        // border: '4px solid orange !important',
-        boxSizing: 'border-box',
-        overflowY: 'scroll',
-        flex: 1,
-        // display: 'flex',
-        // flexGrow: 1,
+        // border: '4px solid lime !important',
+        // boxSizing: 'border-box',
+        overflow: 'hidden',
+        background: 'grey',
+        overflowY: 'hidden',
+        // position: 'relative',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center',
+        display: 'flex',
+        flexGrow: 1,
+        '& > div': {
+            background: theme.palette.background.default,
+        }
     },
 })
 
@@ -37,9 +48,9 @@ const styles = theme => ({
 export class CurrentApp extends Component {
 
     @observable apps = {
-        welcome: () => <h1>Getting Started</h1>,
-        letters: Letters,
-        settings: () => <h1>Settings</h1>
+        default: () => 'Welcome',
+        letters: () => <Letters />,
+        settings: () => 'Settings'
     }
 
     @action switchApp = () =>
@@ -52,20 +63,40 @@ export class CurrentApp extends Component {
         return (
             <div id="Content" className={classes.root}>
                 <Header id="Header" style={{ background: '#3e4552 !important' }} />
-                {/* <Toolbar id="Header" style={{maxHeight: '10px !important', overflow: 'hidden'}} /> */}
                 <div id="Current App" className={classes.currentApp}>
-                    {/* <div id="Modal"
-                        style={{
-                            height: 'calc(100% - 75px)',
-                            width: 'calc(100% - 260px)',
-                            pointerEvents: 'none',
-                            position: 'absolute',
-                            zIndex: 1,
-                            // border: '2px solid blue'
-                        }}
-                    ><Loading /></div> */}
-                    <Switch location={location}>
-                        {/* <Route exact path={`${match.path}`} render={apps.welcome} /> */}
+                    <Route path={`${match.path}:app`} children={
+                        ({ location, match }) => {
+                            const appRoute = match ? match.params.app : null
+                            const App = appRoute ? apps[appRoute] : apps[Object.keys(apps)[0]]// console.log(App)
+                            console.log(appRoute)
+                            return (
+                                <TransitionGroup>
+                                    <CSSTransition key={location.key} classNames="message" timeout={1500}>
+                                        <div> {/* react-transition-group issue: 208 fix */}
+                                            <Switch location={location}>
+                                                <Route path={`/`} render={() => <Screen><App {...{ location, match }} /></Screen>} />
+                                            </Switch>
+                                        </div>
+                                    </CSSTransition>
+                                </TransitionGroup>
+                            )
+                        }
+                    } />
+
+                    {/* <Route path={`${match.path}`} render={
+                        ({ match }) => (
+                            <Route path={`${match.path}:app`} children={
+                                ({ location, match }) => {
+                                    const appRoute = match ? match.params.app : null
+                                    const App = appRoute ? apps[appRoute] : apps.welcome // console.log(App)
+                                    console.log(appRoute)
+                                    return <App {...{ location, match }} />
+                                }
+                            } />
+                        )
+                    } /> */}
+
+                    {/* <Switch location={location}>
                         <Route path={`${match.path}`} render={
                             ({ match }) => (
                                 <Route path={`${match.path}:app`} children={
@@ -78,50 +109,23 @@ export class CurrentApp extends Component {
                                 } />
                             )
                         } />
-                        {/* <Route path={`/:app`} children={
-                            ({ location, match }) => {
-                                const appRoute = match.params.app
-                                const App = appRoute ? apps[appRoute] : apps.welcome // console.log(App)
-                                console.log(appRoute)
-                                return <App {...{location, match}}/>
-                            }
-                        } /> */}
-                        {/* Good */}
-                        {/* <Route exact path={`${match.path}`} render={apps.welcome} />
-                        <Route path={`${match.path}:app`} render={
-                            ({ match }) => {
-                                return (
-                                    <Fragment>
-                                        <h1>{match.params.app}</h1>
-                                        <Route path={`${match.path}/:command`} render={
-                                            ({ match }) => {
-                                                return (
-                                                    <h1>{match.params.command}</h1>
-                                                )
-                                            }
-                                        } />
-                                    </Fragment>
-                                )
-                            }
-                        } /> */}
-                    </Switch>
+                    </Switch> */}
                     <Notifier />
                 </div>
-                {/* <ul style={{
-                    position: 'fixed', bottom: 0, left: 0, zIndex: 9999, padding: 10, borderRadius: 4, boxShadow: '0px 1px 5px 0px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 3px 1px -2px rgba(0, 0, 0, 0.12)', listStylePosition: "inside", background: 'lightgrey', paddingTop: 0, paddingBottom: 0, fontSize: 12,
-                }}>
-                    {window.location.pathname}
-                </ul>
-                <ul style={{
-                    position: 'fixed', bottom: 0, zIndex: 9999, right: 20, padding: 10, borderRadius: 4, boxShadow: '0px 1px 5px 0px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 3px 1px -2px rgba(0, 0, 0, 0.12)', listStylePosition: "inside", background: 'lightgrey', paddingTop: 0, paddingBottom: 0, fontSize: 12,
-                }}>
-                    <li><Link to="/">/</Link></li>
-                    <li><Link to="/letters">/Letters</Link></li>
-                    <li><Link to="/letters/about-clean-meats.docx">/Letters/docx</Link></li>
-                    <li><Link to="/Letters/about-clean-meats.docx/publish">/Letters/docx/Publish</Link></li>
-                    <button onClick={switchApp}>{`${currentApp}`}</button>
-                </ul> */}
             </div>
         )
     }
 }
+
+
+// <TransitionGroup>
+// <CSSTransition key={location.key} classNames="message" timeout={1000}>
+//     <div> {/* react-transition-group issue: 208 fix */}
+//         <Switch location={location}>
+//             <Route exact path={`${match.path}letters`} component={apps.letters} />
+//             <Route exact path={`${match.path}settings`} component={apps.settings} />
+//             {/* <Route exact path="/state-b" component={B} /> */}
+//         </Switch>
+//     </div>
+// </CSSTransition>
+// </TransitionGroup>

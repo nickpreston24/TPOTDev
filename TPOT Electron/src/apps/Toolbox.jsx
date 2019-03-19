@@ -72,6 +72,7 @@ class RoutedApp extends Component {
                 }}>
                     <li><Link to="/">/</Link></li>
                     <li><Link to="/letters">/Letters</Link></li>
+                    <li><Link to="/settings">/Settings</Link></li>
                     <li><Link to="/letters/about-clean-meats">/Letters/docx</Link></li>
                     <li><Link to="/letters/about-clean-meats/publish">/Letters/docx/Publish</Link></li>
                     <li><Link to="/letters/about-clean-meats/load">/Letters/docx/Load</Link></li>

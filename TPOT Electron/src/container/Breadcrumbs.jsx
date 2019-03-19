@@ -32,7 +32,8 @@ const routes = [
 		{
 			primaryText: 'Letters',
 			secondaryText: 'Convert Emails to Web Pages',
-			to: '/letters/about-clean-meats/publish',
+			to: '/letters',
+			// to: '/letters/about-clean-meats/publish',
 			icon: null,
 			action: () => { },
 		},
@@ -197,14 +198,14 @@ export class RoutedBreadCrumbs extends Component {
 						// console.log(routes, index)
 
 						return (
-							<Link
-								onClick={(e) => handleClick(e, { first, to, last, label, index })}
-								to={to}
-								key={index}
-								style={{ textDecoration: 'none' }}
-							>
+							// <Link
+							// 	onClick={(e) => handleClick(e, { first, to, last, label, index })}
+							// 	to={to}
+							// 	key={index}
+							// 	style={{ textDecoration: 'none' }}
+							// >
 								<Chip
-									// onClick={toggleMenu}
+									onClick={(e) => handleClick(e, { first, to, last, label, index })}
 									className={classNames(classes.chip, (last && !first) && 'active')}
 									label={
 										<Fragment>
@@ -231,7 +232,7 @@ export class RoutedBreadCrumbs extends Component {
 									deleteIcon={<FontAwesomeIcon icon={faCaretDown} style={{ margin: 5 }} size="lg" />}
 									onDelete={() => { console.log('menu') }}
 								/>
-							</Link>
+							// </Link>
 						)
 					})}
 

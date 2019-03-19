@@ -40,11 +40,11 @@ class Letters extends Component {
         return (
             <div className="Letters" style={{ flexGrow: 1 }} ref={this.setContainer}>
                 <Editor />
-                <Route path={`${match.path}/:command`} render={
+                <Route path={`/letters/:command`} render={
                     ({ location, match, history }) => {
                         return (
                             <Fragment>
-                                <RoutedModal path="/load" />
+                                {/* <RoutedModal path="/load" /> */}
                                 <Switch location={location} >
                                     {/* <Route path={`${match.path}/load`} render={() => <ModalLoad {...{ match, history, container }} />} /> */}
                                     <Route path={`${match.path}/publish`} render={() => <PublishScreenContainer {...{ match, history, container }} />} />

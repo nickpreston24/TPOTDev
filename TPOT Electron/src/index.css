@@ -11,3 +11,113 @@ body {
 hr {
     border: 2px solid #e2e2e2
 }
+
+@keyframes caroselEnter{
+  /* 0%  {
+      transform: translateY(0px) scale(1);
+      }
+  40% {
+      transform: translateY(calc(50vh - 140px))scale(0.5) ;
+      }
+  55% {
+      transform: translateY(calc(50vh - 140px))scale(0.5) ;
+      }
+  100%{
+      transform: translateY(calc(100vh - 70px)) scale(0.5);
+      } */
+}
+
+/* @keyframes caroselExit{
+  0%  {
+      transform-origin: 0px 0px;
+      transform: translate(-50%, -50%);
+      transform: scale(1);
+      }
+  100%{
+      transform-origin: 0px 0px;
+      transform: translate(-50%, -50%);
+      transform: scale(0.8);
+      }
+} */
+
+@keyframes flipScaleDown {
+  0% {
+    opacity: 1;
+    transform: perspective(4500px) scale(1) rotateX(0);
+  }
+  30% {
+    opacity: 1;
+    transform: perspective(4500px) scale(0.8) rotateX(0) rotateY(0) rotateZ(0);
+  }
+  49% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+    transform: perspective(4500px) scale(0.8) rotateX(90deg) rotate(45deg) rotateZ(45deg);
+  }
+  70% {
+    opacity: 0;
+    transform: perspective(4500px) scale(0.8) rotateX(90deg) rotateY(45deg) rotateZ(45deg);
+  }
+  100% {
+    opacity: 0;
+    transform: perspective(4500px) scale(1) rotateX(180deg) rotateY(45deg) rotateZ(45deg);
+  }
+}
+
+/* @keyframes flipScaleDown {
+  0% {
+    transform: scale(1) perspective(1500px);
+  }
+  50% {
+    transform: scale(0.5) translateX(calc(calc(50vw + 130px) * 1 )) rotateY(15deg);
+  }
+  100% {
+    transform: scale(0.5) translateX(calc(calc(50vw + 130px) * 2 )) rotateY(0deg);
+  }
+} */
+
+
+.message-enter {
+  /* transform-origin: 200px 400px !important; */
+  z-index: -1;
+  /* background: rgb(83, 219, 179) !important; */
+  /* opacity: 1; */
+  /* transform: translateX(100%); */
+  /* transform: scale(0.9) translateX(50%); */
+  box-shadow: 0px 0px 0px black;
+}
+.message-enter-active {
+
+  z-index: -1;
+  /* opacity: 1; */
+  /* transform: translateX(0%); */
+  animation: flipScaleDown 1.5s cubic-bezier(0.215, 0.610, 0.355, 1.000) backwards reverse;
+  box-shadow: rgba(0, 0, 0, 0.12) 0px 3px 1px -2px;
+  /* animation: flipScaleDown 1s cubic-bezier(0.215, 0.610, 0.355, 1.000) both; */
+  /* animation: flipScaleDown 1s cubic-bezier(0.215, 0.610, 0.355, 1.000) reverse; */
+  /* transform: scale(1) translateX(0%); */
+  /* transition: all 1s ease-in-out; */
+}
+.message-exit {
+  /* transform-origin: 0px 0px !important; */
+  z-index: 1;
+  /* box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75) !important; */
+  /* background: rgb(132, 114, 231) !important; */
+  /* opacity: 1; */
+  /* transform: translateX(0%); */
+  
+  /* transform: scale(1) translateX(0%); */
+}
+.message-exit-active {
+
+  z-index: 1;
+  /* animation: caroselExit 1s normal ease-in-out ; */
+  /* box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75) !important; */
+  animation: flipScaleDown 1.5s cubic-bezier(0.215, 0.610, 0.355, 1.000) forwards normal;
+  /* opacity: 0; */
+  /* transform: translateX(-100%); */
+  /* transform: scale(0.9) translateX(50%); */
+  /* transition: all 1s ease-in-out; */
+}
