@@ -27,7 +27,7 @@ const styles = theme => ({
         // border: '4px solid lime !important',
         // boxSizing: 'border-box',
         overflow: 'hidden',
-        background: 'grey',
+        // background: `#e0ddd1`,
         overflowY: 'hidden',
         // position: 'relative',
         display: 'flex',
@@ -36,9 +36,6 @@ const styles = theme => ({
         alignItems: 'center',
         display: 'flex',
         flexGrow: 1,
-        '& > div': {
-            background: theme.palette.background.default,
-        }
     },
 })
 
@@ -71,7 +68,7 @@ export class CurrentApp extends Component {
                             console.log(appRoute)
                             return (
                                 <TransitionGroup>
-                                    <CSSTransition key={location.key} classNames="message" timeout={1500}>
+                                    <CSSTransition key={location.key} classNames="carousel" timeout={1500}>
                                         <div> {/* react-transition-group issue: 208 fix */}
                                             <Switch location={location}>
                                                 <Route path={`/`} render={() => <Screen><App {...{ location, match }} /></Screen>} />

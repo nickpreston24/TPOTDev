@@ -7,9 +7,11 @@ const styles = theme => ({
         // border: `1px solid orangered`,
         boxSizing: 'border-box',
         position: 'absolute',
+        zIndex: 0,
         // top: 'calc(50vh + 35px)',
         // left: 'calc(50vh + 260px)',
         transform: 'translate(-50%, -50%)',
+        background: `${theme.palette.background.default}`,
         // transformOrigin: '',
         // flex: 1
         // height: '100%',
