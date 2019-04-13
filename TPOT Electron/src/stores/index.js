@@ -17,3 +17,9 @@ class MobxStore {
 // const mobxStore = new MobxStore()
 
 export default MobxStore
+
+export {
+    SessionStore,
+    LettersStore,
+    EditorStore
+}
