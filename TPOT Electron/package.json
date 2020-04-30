@@ -75,7 +75,7 @@
         "html-beautify": "^1.0.4",
         "html-to-draftjs": "^1.4.0",
         "immutable": "^4.0.0-rc.12",
-        "jquery": "^3.4.1",
+        "jquery": "^3.5.0",
         "mammoth": "1.4.8",
         "mammoth-colors": "1.0.2",
         "mdi-material-ui": "^6.0.0",
