@@ -3,11 +3,11 @@
         "start": "start.js"
     },
     "devDependencies": {
-        "browserify": "^16.2.2",
-        "files": "^0.8.2",
+        "browserify": "^16.5.0",
+        "files": "^1.0.0",
         "fs": "0.0.1-security",
-        "gulp": "^3.9.1",
+        "gulp": "^4.0.2",
         "vinyl-source-stream": "^2.0.0",
-        "watchify": "^3.11.0"
+        "watchify": "^3.11.1"
     }
 }

@@ -11,6 +11,7 @@ AutoFac.Demo/
 WordpressTests/
 TPOTSync/
 TPOT Electron/node_modules/
+**/*/node_modules/
 
 # User-specific files
 *.suo
