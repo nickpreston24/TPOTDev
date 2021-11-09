@@ -97,7 +97,7 @@
         "snake-case": "^2.1.0",
         "to-virtual-dom": "^1.0.0",
         "typeface-roboto": "0.0.54",
-        "underscore": "^1.9.1",
+        "underscore": "^1.12.1",
         "update-electron-app": "^1.4.2",
         "wordpress": "^1.4.1",
         "wpapi": "^1.2.1"
