@@ -105,7 +105,7 @@
     "devDependencies": {
         "babel-preset-mobx": "^2.0.0",
         "concurrently": "4.1.0",
-        "electron": "^11.5.0",
+        "electron": "^15.5.5",
         "electron-builder": "^20.43.0",
         "electron-devtools-installer": "^2.2.4",
         "mocha": "^6.1.4",
